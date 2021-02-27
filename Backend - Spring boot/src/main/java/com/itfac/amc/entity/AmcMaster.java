@@ -4,13 +4,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Generated;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +21,6 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.itfac.amc.util.Auditable;
 
 import lombok.Data;
@@ -33,6 +30,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "amc_master")
+
 public class AmcMaster extends Auditable{
 
 	@Id
@@ -49,7 +47,7 @@ public class AmcMaster extends Auditable{
 	private String frequency;
 
 	@Column(name = "exchage_rate", precision = 5, scale = 2, nullable = false)
-	private BigDecimal exchageRate;
+	private BigDecimal exchangeRate;
 
 	@Column(name = "total_value", columnDefinition = "decimal(10,2) default 0.0")
 	private BigDecimal totalValue = new BigDecimal(0.0);
@@ -63,26 +61,17 @@ public class AmcMaster extends Auditable{
 	@Column(name = "inv_desc", length = 200)
 	private String invDesc;
 
-
 	@Column(name = "saved_ip", length = 20)
 	private String savedIp;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "amc_no", nullable = true, foreignKey = @ForeignKey(name = "amc_serial_fk1"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private List<AmcSerial> amcSerials;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_id", nullable = false, foreignKey = @ForeignKey(name = "amc_master_fk1"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Client client;
 
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "currency_id", nullable = false, foreignKey = @ForeignKey(name = "amc_master_fk2"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Currency currency;
-
-	@OneToOne(mappedBy = "amcMaster")
-	private AmcProduct amcProduct;
 
 }

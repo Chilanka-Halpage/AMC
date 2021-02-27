@@ -39,7 +39,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/amcMaster/**").authenticated()
 			.antMatchers("/client/**").authenticated()
 			.anyRequest().permitAll()
 			.and()

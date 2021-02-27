@@ -2,7 +2,9 @@ package com.itfac.amc.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -72,8 +75,12 @@ public class AmcSerial {
 	@Column(name = "mtc_amount_for_given_frequency_item_lkr", nullable = false)
 	private BigDecimal mtcAmtforfrequencyPerItemLkr;
 	
-
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk1"))
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private AmcMaster amcMaster;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "amc_product_id", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk2"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AmcProduct amcProduct;
@@ -92,6 +99,5 @@ public class AmcSerial {
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk5"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Category category;
-	
 
 }

@@ -29,7 +29,7 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return user.getUserId();
+		return user.getUname();
 	}
 
 	@Override
@@ -50,6 +50,10 @@ public class MyUserDetails implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return user.isActive();
+	}
+	
+	public String getUserId() {
+		return user.getUserId();
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,10 +19,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.itfac.amc.util.Auditable;
-
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -59,7 +55,7 @@ public class AmcProduct{
 	@Column(name = "total_value_lkr", columnDefinition = "decimal(10,2) default 0.0")
 	private BigDecimal totalValueLkr = new BigDecimal(0.0);
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne()
 	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "amc_product_fk1"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AmcMaster amcMaster;

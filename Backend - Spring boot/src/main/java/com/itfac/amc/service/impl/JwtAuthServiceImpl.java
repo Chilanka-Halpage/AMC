@@ -1,16 +1,15 @@
 package com.itfac.amc.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.itfac.amc.jwt.AuthenticationRequest;
 import com.itfac.amc.jwt.AuthenticationResponse;
 import com.itfac.amc.jwt.JwtUtil;
+import com.itfac.amc.security.MyUserDetails;
 import com.itfac.amc.security.MyUserDetailsService;
 import com.itfac.amc.service.JwtAuthService;
 
@@ -25,12 +24,16 @@ public class JwtAuthServiceImpl implements JwtAuthService {
 
 	@Override
 	public ResponseEntity<?> createAuthenticationToken(AuthenticationRequest authenticationRequest) throws Exception {
-		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUserId(),
 				authenticationRequest.getPassword()));
 
-		UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+		MyUserDetails userDetails = (MyUserDetails) userDetailsService
+				.loadUserByUsername(authenticationRequest.getUserId());
 		String jwt = jwtUtil.generateToken(userDetails);
-		return ResponseEntity.ok(new AuthenticationResponse(jwt));
+		String userId = userDetails.getUserId();
+		String username = userDetails.getUsername();
+		String role = userDetails.getAuthorities().stream().map(r -> r.getAuthority()).findFirst().orElse("NULL");
+		return ResponseEntity.ok(new AuthenticationResponse(userId, username, jwt, role));
 	}
 
 }

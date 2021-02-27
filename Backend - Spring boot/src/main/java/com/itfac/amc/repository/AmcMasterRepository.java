@@ -23,7 +23,6 @@ public interface AmcMasterRepository extends JpaRepository<AmcMaster, String> {
 	@Query(value = "SELECT last_no FROM amc_number where amc_year = :year ORDER BY an_id DESC LIMIT 1", nativeQuery = true)
 	String getAmcLastNo(@Param("year") String currentYear);
 
-	
 	@Modifying(clearAutomatically = true, flushAutomatically = true)
 	@Query(value = "INSERT INTO amc_number (amc_year, last_no) VALUES (:amcYear, :lastNo)", nativeQuery = true)
 	void setAmcNo(@Param("amcYear") String amcYear, @Param("lastNo") int lastNo);

@@ -1,12 +1,11 @@
 package com.itfac.amc.service.impl;
 
-import java.math.BigDecimal;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.entity.AmcMaster;
 import com.itfac.amc.entity.AmcSerial;
 import com.itfac.amc.repository.AmcMasterRepository;
@@ -24,23 +23,31 @@ public class AmcSerialServiceImpl implements AmcSerialService{
 
 	@Override
 	@Transactional
-	public AmcSerial addAmcSerial(AmcSerial amcSerial, String amcNo) {
-		int lastSerialNo = amcSerialRepository.getAmcLastSerialNo(amcNo) + 1;
+	public void addAmcSerialByAmcNo(AmcSerial amcSerial, String amcNo) {
+		amcMasterRepository.findById(amcNo).map(amcMaster -> {
+			amcSerial.setAmcMaster(amcMaster);
+			amcSerial.getAmcProduct().setAmcMaster(amcMaster);
+			return amcMaster;
+		}).orElseThrow(() -> new ResourceNotFoundException("Amc not found for AmcNo: " + amcNo));
+		String receivedLastSerialNo = amcSerialRepository.getAmcLastSerialNo(amcNo);
+		int lastSerialNo = 0;
+		if(receivedLastSerialNo != null) {
+			lastSerialNo = (Integer.parseInt(receivedLastSerialNo)) + 1;
+		}
+		else {
+			lastSerialNo += 1; 
+		}
 		String amcSerialNo = amcNo + lastSerialNo;
 		amcSerial.setAmcSerialNo(amcSerialNo);
-		
-		AmcMaster amcMaster = amcMasterRepository.findById(amcNo).get();
-		BigDecimal totalValueLkrSerial = amcSerial.getMtcAmtPerAnnumLkr();
+		/*BigDecimal totalValueLkrSerial = amcSerial.getMtcAmtPerAnnumLkr();
 		BigDecimal totalValueLkrMaster = amcMaster.getTotalValueLkr();
 		if(!(totalValueLkrMaster.equals(totalValueLkrSerial))) {
 			amcMaster.setTotalValueLkr(totalValueLkrSerial);
 			amcMaster.setTotalValue(amcSerial.getMtcAmtPerAnnum());
 			amcMasterRepository.save(amcMaster);
-		}
-		
+		}*/
 		amcSerialRepository.setAmcSerialNo(amcNo, lastSerialNo);
 		amcSerialRepository.save(amcSerial);
-		return amcSerial;
 	}
 
 }
