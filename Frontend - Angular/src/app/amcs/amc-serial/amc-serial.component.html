@@ -1,0 +1,188 @@
+<div class="container-md mb-4">
+
+    <div class="jumbotron mb-3">
+        <h3>Add New AMC</h3>
+        <p>Add new AMC maintenance details</p>
+    </div>
+    <br />
+    <div class="card">
+
+        <div class="card-header">
+            <h5>Maintenance details form for new AMC</h5>
+            <p class="mb-1">Fill out the details to add new AMC</p>
+        </div>
+
+        <div class="card-body">
+
+            <form [formGroup]="amcSerialForm">
+                <div formGroupName="amcMaster">
+                    <h6>AMC Details</h6>
+                    <mat-divider class="mat-divider"></mat-divider>
+                    <br />
+                    <div class="row px-0">
+                        <mat-form-field appearance="outline" class="col">
+                            <mat-label>AMC Number</mat-label>
+                            <input type="text" matInput formControlName="amcNo">
+                        </mat-form-field>
+                    </div>
+                    <div class="row px-0">
+                        <mat-form-field appearance="outline" class="col-4">
+                            <mat-label>Frequency</mat-label>
+                            <input type="text" matInput formControlName="frequency">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-12 p-0">
+                            <mat-label>Currency</mat-label>
+                            <input type="text" matInput formControlName="currency">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="col-4">
+                            <mat-label>Exchange Rate</mat-label>
+                            <input id="exchangeRate" (keyup)="calculate($event)" type="text" matInput
+                                formControlName="exchangeRate" placeholder="EX: 180.00">
+                            <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div formGroupName="clientDepartment">
+                    <h6>Department Details</h6>
+                    <mat-divider class="mat-divider"></mat-divider>
+                    <br />
+                    <div class="row px-0">
+                        <mat-form-field appearance="outline" class="col">
+                            <mat-label>Department Name</mat-label>
+                            <input type="text" matInput formControlName="departmentName">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <br />
+                <h6>Maintenace Details</h6>
+                <mat-divider class="mat-divider"></mat-divider>
+                <br />
+                <div class="row px-0">
+                    <mat-form-field appearance="outline" class="col-4">
+                        <mat-label>Maintenance Start Date</mat-label>
+                        <input matInput formControlName="mtcStartDate;" [matDatepicker]="mtc_start_date" />
+                        <mat-datepicker-toggle matSuffix [for]="mtc_start_date"></mat-datepicker-toggle>
+                        <mat-datepicker #mtc_start_date></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="col-4">
+                        <mat-label>Maintenance End Date</mat-label>
+                        <input matInput formControlName="mtcEndDate" [matDatepicker]="mtc_end_date" />
+                        <mat-datepicker-toggle matSuffix [for]="mtc_end_date"></mat-datepicker-toggle>
+                        <mat-datepicker #mtc_end_date></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="col-4">
+                        <mat-label>Maintenance Renewal Date</mat-label>
+                        <input matInput formControlName="renewalDate" [matDatepicker]="renewal_date" />
+                        <mat-datepicker-toggle matSuffix [for]="renewal_date"></mat-datepicker-toggle>
+                        <mat-datepicker #renewal_date></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="row px-0">
+                    <div formGroupName="category" class="col-6">
+                        <mat-form-field appearance="outline" class="col-6">
+                            <mat-label>Category</mat-label>
+                            <mat-select formControlName="categoryId">
+                                <mat-option *ngFor="let category of categoryList" [value]="category.categoryId">
+                                    {{category.categoryName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Maintenance Quantity</mat-label>
+                        <input id="totalValue" (keyup)="calculate($event)" type="number" matInput
+                            formControlName="mtcQty" placeholder="Total Value of the AMC">
+                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div class="row px-0">
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Maintenance Amount Per Product</mat-label>
+                        <input type="text" matInput formControlName="mtcAmtPerProduct"
+                            placeholder="Total value in Lankan Rupees">
+                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Maintenance Amount Per Product Lkr</mat-label>
+                        <input type="text" matInput formControlName="mtcAmtPerProductLkr"
+                            placeholder="Total value in Lankan Rupees">
+                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div class="row px-0">
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Maintenance Amount Per Annum</mat-label>
+                        <input type="text" matInput formControlName="mtcAmtPerAnnum"
+                            placeholder="Total value in Lankan Rupees">
+                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Maintenance Amount Per Annum Lkr</mat-label>
+                        <input type="text" matInput formControlName="mtcAmtPerAnnumLkr"
+                            placeholder="Total value in Lankan Rupees">
+                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div class="row px-0">
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Maintenance Amount Per Frequency</mat-label>
+                        <input type="text" matInput formControlName="mtcAmtforfrequency"
+                            placeholder="Total value in Lankan Rupees">
+                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Maintenance Amount Per Frequency Lkr</mat-label>
+                        <input type="text" matInput formControlName="mtcAmtforfrequencyLkr"
+                            placeholder="Total value in Lankan Rupees">
+                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div class="row px-0">
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Maintenance Amount Per Product Per Frequency</mat-label>
+                        <input type="text" matInput formControlName="mtcAmtforfrequencyperItem"
+                            placeholder="Total value in Lankan Rupees">
+                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Maintenance Amount Per Product Per Frequency Lkr</mat-label>
+                        <input type="text" matInput formControlName="mtcAmtforfrequencyperItemLkr"
+                            placeholder="Total value in Lankan Rupees">
+                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div class="row px-0">
+                    <mat-form-field class="full-width">
+                        <mat-label>Remark</mat-label>
+                        <textarea matInput formControlName="remark" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                            cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="row px-0s">
+                    <mat-checkbox formControlName="active" class="col-md-4">Active Amc Serial
+                    </mat-checkbox>
+                </div>
+
+                <div class="d-flex flex-row-reverse my-0">
+                    <button type="submit" (click)="submitForm()" mat-raised-button color="primary" class="ml-1">
+                        <span *ngIf="amcSerialProgress" class="spinner-border spinner-border-sm mr-1"></span>
+                        Next
+                    </button>
+                    <button (click)="resetForm()" type="button" mat-raised-button color="warn" mat-button
+                        class="mr-1">Reset Form</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
