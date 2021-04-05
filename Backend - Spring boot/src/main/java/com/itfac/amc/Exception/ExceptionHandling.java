@@ -31,4 +31,11 @@ public class ExceptionHandling{
 		});
 		return errors;
 	}
+	
+//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//	@ExceptionHandler(RuntimeException.class)
+//	public String runtimeExceptionHandler(Exception ex) {
+//		System.out.println("hshgsgvgsvgd");
+//		return ex.getMessage();
+//	}
 }

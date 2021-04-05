@@ -16,13 +16,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-
 public class Client extends Auditable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "client_id")
-	private int clietnID;
+	private int clientId;
 	
 	@NotEmpty(message = "Client name cannot be empty")
 	@Size(max = 100, message = "Client name must be maximum 100 characters")
@@ -46,5 +45,5 @@ public class Client extends Auditable{
 	private String address;
 	
 	@Column(name = "saved_ip", length = 20)
-	private String savedIp;
+	private String lastModifiedIp;
 }

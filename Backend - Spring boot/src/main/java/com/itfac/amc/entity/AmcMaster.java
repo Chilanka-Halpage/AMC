@@ -2,9 +2,7 @@ package com.itfac.amc.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,8 +10,6 @@ import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,6 +17,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.itfac.amc.util.Auditable;
 
 import lombok.Data;
@@ -67,6 +64,7 @@ public class AmcMaster extends Auditable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_id", nullable = false, foreignKey = @ForeignKey(name = "amc_master_fk1"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
 	private Client client;
 
 	@ManyToOne(fetch = FetchType.LAZY)

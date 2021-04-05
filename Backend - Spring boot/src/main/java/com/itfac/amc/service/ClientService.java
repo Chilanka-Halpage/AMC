@@ -12,16 +12,23 @@ import com.itfac.amc.entity.Client;
 
 public interface ClientService {
 
-	Client addClient(HttpServletRequest httpServletRequest, Client client) throws Exception;
+//	Client addClient(HttpServletRequest httpServletRequest, Client client) throws Exception;
 
-	List<ClientDto> getClientByName(String clientName);
+//	List<ClientDto> getClientByName(String clientName);
 
 	Client updateClient(HttpServletRequest httpServletRequest, Client client);
 
 	Page<Client> getAllClients(Pageable pageable);
-
-	Client getClientByid(int clientId);
-
-	boolean isAClient(String clientName);
+	
+	/**
+	 * Return a client object, if client exists in the database in terms of given
+	 * client id. If not, throw ResourceNotFound exception
+	 */
+	Client getClientById(int clientId);
+	
+	/**
+	 * Return boolean value true only if client exists in terms of given name, otherwise false.
+	*/
+	boolean doesClientExists(String clientName);
 
 }

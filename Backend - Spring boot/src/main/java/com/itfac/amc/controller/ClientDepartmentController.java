@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.itfac.amc.entity.ClientDepartment;
 import com.itfac.amc.service.ClientDepartmentService;
 
@@ -45,6 +41,14 @@ public class ClientDepartmentController {
 
 	}
 
+	@GetMapping("exists/{clientId}/{deptName}")
+	public ResponseEntity<Boolean> existsDept(@PathVariable("clientId") int clientId,
+			@PathVariable("deptName") String deptName) {
+		System.out.println(clientId + deptName);
+		boolean result = clientDepartmentService.doesDeptExists(clientId, deptName);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
 	@PostMapping("clients/{clientId}/department")
 	public ResponseEntity<String> saveDepartmentByClientId(@PathVariable(value = "clientId") int clientId,
 			@Valid @RequestBody ClientDepartment clientDepartment, HttpServletRequest httpServletRequest) {
@@ -60,14 +64,10 @@ public class ClientDepartmentController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@PutMapping("edit")
-	public ResponseEntity<String> updateDepartment(HttpServletRequest httpServletRequest,
-			@Valid @RequestBody ClientDepartment dept) {
-		ClientDepartment modifiedClient = this.clientDepartmentService.updateDepartment(httpServletRequest, dept);
-		if (modifiedClient != null) {
-			return ResponseEntity.status(HttpStatus.OK).body("Modified Succefully");
-		}
-		return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Modification Failed");
-
+	@PutMapping("edit/{clientId}/{deptId}")
+	public ResponseEntity<String> updateDepartmentByClientId(HttpServletRequest httpServletRequest,
+			 @RequestBody ClientDepartment dept, @PathVariable("clientId") int clientId, @PathVariable("deptId") int deptId) {
+		this.clientDepartmentService.updateDepartment(httpServletRequest, dept, clientId, deptId);
+		return ResponseEntity.status(HttpStatus.OK).body("Modified Succesfully!");
 	}
 }

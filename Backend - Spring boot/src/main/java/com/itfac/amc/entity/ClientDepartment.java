@@ -1,6 +1,5 @@
 package com.itfac.amc.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -45,7 +44,7 @@ public class ClientDepartment extends Auditable {
 	private String departmentName;
 
 	@Column(name = "active")
-	private boolean isActive;
+	private boolean active;
 	
 	@Email(message = "Email must be valid")
 	@Size(max = 60, message = "Email must be maximum 60 characters")
@@ -66,7 +65,7 @@ public class ClientDepartment extends Auditable {
 	private String address = "Matara";
 
 	@Column(name = "saved_ip", length = 20)
-	private String savedIp;
+	private String lastModifiedIp;
 	
 	@Valid
 	@ManyToOne(fetch = FetchType.LAZY)
