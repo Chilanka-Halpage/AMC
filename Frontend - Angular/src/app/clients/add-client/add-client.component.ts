@@ -1,9 +1,11 @@
-import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { delay, first, map, switchMap, timeout, take, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Component, ElementRef, OnInit, Pipe } from '@angular/core';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { ClientService } from 'src/app/shared/client.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { SharedAmcService } from 'src/app/shared/shared-amc.service';
-import { delay } from 'rxjs/operators';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { of, Observable } from 'rxjs';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-add-client',
@@ -11,114 +13,157 @@ import { delay } from 'rxjs/operators';
   styleUrls: ['./add-client.component.css']
 })
 export class AddClientComponent implements OnInit {
-  clientForm: FormGroup;
-  registerStudentProgress = false;
-  cid: number;
-  clientExistance = false;
-  formVisibility = {
-    heading: 'New Client',
-    description: 'Create new client and department details',
-    topBtnVisible: true,
-    departmentDetailsVisible: true,
-    clientDetailsVisible: true,
-    btnLabel: 'Create'
-  };
+  private clientId: number;
+  private data: any; // holds data for editing data whent editing request comes
+  private clientForm$: Observable<any>;
+  public clientForm: FormGroup;
+  public type: any; // this variable defines request type to this component. this component is used to create new client and department and to edit client and department data as well 
+  public clientSavingProgress = false;
+  public isDesabled = false;
+  public heading = 'Create Client';
+  public description = 'New client and department details';
+
 
   constructor(
     private formBuilder: FormBuilder,
     private clientService: ClientService,
-    private sharedService: SharedAmcService,
     private elementRef: ElementRef,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private notificationService: NotificationService,
+    private locaton: Location
   ) { }
 
   ngOnInit(): void {
+    //calling for creating a reactive form
+    this.createForm();
+    //Obtain data via url for updating of client and department details and for creating new departmetn for existing client
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['data']) {
+        let value = JSON.parse(params['data']);
+        this.data = value.data;
+        this.type = value.type;
+        this.clientId = value.cid;
+        //set values to form fields for editing acootding to requset. Request can be either editing client or department data or creating new department 
+        this.setForm(this.type);
+      }
+    });
+  }
+
+  //crating reactive form
+  private createForm() {
     this.clientForm = this.formBuilder.group({
       client: this.formBuilder.group({
-        clietnID: [''],
-        clientName: ['', [Validators.required]],
+        clientId: [''],
+        clientName: ['', [Validators.required], [this.clientExistsValidator()], blur],
         contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
         contactPerson: ['', [Validators.required]],
         address: ['', [Validators.required]],
-        active: false
+        active: [true]
       }),
-      departmentName: ['', Validators.required],
+      deptId: [''],
+      departmentName: ['', Validators.required, [this.deptExistsValidator()], blur],
       email: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
       contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
       contactPerson: ['', [Validators.required]],
-      isActive: false
+      active: [true]
     });
-    this.setForm();
   }
-  checkClient(): void {
-    if (this.clientForm.get('client').get('clientName').status == 'VALID') {
-      this.clientService.isAClient(this.clientForm.value.client.clientName).subscribe(value => {
-        console.log(value);
-        this.clientExistance = value;
-      })
+  //check wheter the client going to be saved is existing or not by calling to backend
+  private clientExistsValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!this.type) {
+        return of(control.value).pipe(
+          delay(500),
+          switchMap((clientName: string) => this.clientService.doesClientExists(clientName)),
+          map(response => {
+            this.isDesabled = response;
+            return response ? { clientExists: true } : null
+          })
+        )
+      }
+      return of(null);
+    };
+  }
+
+  //check wheter the department going to be saved is existing or not releveant to the client by calling to backend
+  private deptExistsValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (this.type === '%DC4%') {
+        return of(control.value).pipe(
+          delay(500),
+          switchMap((deptName: string) => this.clientService.doesDeptExists(deptName, this.clientId).pipe(
+            map(response => {
+              this.isDesabled = response;
+              return response ? { deptExists: true } : null
+            })
+          ))
+        )
+      }
+      return of(null);
     }
   }
 
-  setForm(): void {
-    this.activatedRoute.url.subscribe(url => {
-      if (url[1].path.includes('edit')) {
-        this.updateClientData();
-      }
-      else if (url[1].path.includes('dept') && url[2].path.includes('edit')) {
-        this.updateDepartmentData();
-      }
-      else if (url[2].path.includes('dept') && url[3].path.includes('new')) {
-        this.formVisibility.btnLabel = 'Submit';
-        this.formVisibility.heading = 'New Department';
-        this.formVisibility.description = 'Create new Department for a client';
-        this.activatedRoute.paramMap.subscribe(params => {
-          this.cid = +params.get('cid');
-          this.createNewDept(this.cid);
-        });
-      }
-      else { }
-    });
-  }
-
-  updateClientData(): void {
-    this.sharedService.dataChange.subscribe(value => {
-      console.log(value);
-      this.changeFormVisibility('Update Client', 'Edit client details', false, false, true, 'Update');
-      this.clientForm.patchValue({
-        client: {
-          clietnID: value.clietnID,
-          clientName: value.clientName,
-          contactNo: value.contactNo,
-          contactPerson: value.contactPerson,
-          address: value.address,
-          active: (value.active == 'Active') ? true : false
-        }
+  //According to request type, data is set to the form fields
+  private setForm(type: any): void {
+    if (type === '%CE2%') { // request type -> client edit
+      this.heading = 'Edit Client';
+      this.description = 'Client details modification';
+      this.loadClientData();
+    }
+    else if (type === '%DE3%') { // request type -> department edit
+      this.heading = 'Edit Department';
+      this.description = 'Department details modification';
+      this.loadDeptData();
+    }
+    else if (type === '%DC4%') { // request type -> new department creation for existing client
+      this.heading = 'Create Department';
+      this.description = 'New Department details';
+      this.activatedRoute.paramMap.subscribe(params => {
+        this.clientId = +params.get('cid');
+        this.loadClientDataForNewDept(this.clientId);
       });
+      this.checkStatus();
+    } else {
+      this.checkStatus();
+    }
+  }
+
+  // when client edit requset comes, set client data to form fields
+  loadClientData(): void {
+    this.clientForm.patchValue({
+      client: {
+        clientId: this.data.clientId,
+        clientName: this.data.clientName,
+        contactNo: this.data.contactNo,
+        contactPerson: this.data.contactPerson,
+        address: this.data.address,
+        active: (this.data.active == 'Active') ? true : false
+      }
     });
   }
 
-  updateDepartmentData(): void {
-    this.sharedService.dataChange.subscribe(value => {
-      this.changeFormVisibility('Update Department', 'Edit department details', false, true, false, 'Update');
-      this.clientForm.patchValue({
-        deptId: value.deptId,
-        departmentName: value.departmentName,
-        email: value.email,
-        contactNo: value.contactNo,
-        contactPerson: value.contactPerson,
-        isActive: (value.isActive == 'Active') ? true : false
-      });
+  // when department edit requset comes, set department data to form fields
+  loadDeptData(): void {
+    this.clientForm.patchValue({
+      deptId: this.data.deptId,
+      departmentName: this.data.departmentName,
+      email: this.data.email,
+      contactNo: this.data.contactNo,
+      contactPerson: this.data.contactPerson,
+      active: (this.data.isActive == 'Active') ? true : false
     });
+    this.clientForm.controls['client'].setErrors(null);
   }
 
-  createNewDept(cid: number): void {
+  // when department creation requset for existing client comes, set existing client data to form fields
+  loadClientDataForNewDept(cid: number): void {
     this.clientForm.get('client').disable();
     this.clientService.getClientByClientId(cid).subscribe(response => {
       console.log(response);
       this.clientForm.patchValue({
         client: {
-          clietnID: response.clietnID,
+          clietnID: response.clientId,
           clientName: response.clientName,
           contactNo: response.contactNo,
           contactPerson: response.contactPerson,
@@ -126,94 +171,138 @@ export class AddClientComponent implements OnInit {
           active: (response.active == 'Active') ? true : false
         }
       });
-    }, error => {
-      console.log(error);
+    }, () => {
+      let message = 'Cannot proceed the request. Try again'
+      this.notificationService.showNoitfication(message, 'OK', 'error', null);
     });
   }
 
-  changeFormVisibility(heading, description, topBtnVisible, departmentDetailsVisible, clientDetailsVisible, btnLabel): void {
-    this.formVisibility.heading = heading,
-      this.formVisibility.description = description,
-      this.formVisibility.topBtnVisible = topBtnVisible,
-      this.formVisibility.departmentDetailsVisible = departmentDetailsVisible,
-      this.formVisibility.clientDetailsVisible = clientDetailsVisible,
-      this.formVisibility.btnLabel = btnLabel;
-  }
-
-  submitForm(): void {
-    this.registerStudentProgress = true;
-    if (this.formVisibility.clientDetailsVisible && this.formVisibility.departmentDetailsVisible) {
-      if (this.clientForm.valid) {
-        if (this.formVisibility.btnLabel === 'Create') {
-          this.clientService.saveClientAndDepartment(this.clientForm.value).subscribe(
-            response => {
-              console.log(response);
-              this.clientService.success(response);
-            },
-            error => {
-              this.clientService.warn(error);
+  //send new client and depatment data by calling to the backend
+  createClient(): void {
+    if (this.clientForm.valid) {
+      this.clientSavingProgress = true;
+      this.clientService.saveClientAndDepartment(this.clientForm.value).subscribe(
+        response => {
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              data: JSON.stringify({
+                cid: response.clientId,
+                cname: response.clientName,
+                did: response.deptId,
+                dname: response.deptName,
+                type: "%c1%"
+              })
             }
-          ).add(() => this.registerStudentProgress = false);
-        } else if (this.formVisibility.btnLabel === 'Submit') {
-          this.clientService.saveDepartmentByClientId(this.cid, this.clientForm.value).subscribe(
-            response => {
-              console.log(response);
-              this.clientService.success(response);
-            },
-            error => {
-              this.clientService.warn(error);
-            }
-          ).add(() => this.registerStudentProgress = false);
+          };
+          this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/amcMaster/new'], navigationExtras) });
+        },
+        (error) => {
+          let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+          this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
-      }
-      else {
-        this.registerStudentProgress = false;
-        this.scrollToFirstInvalidControl();
-      }
-    }
-    else if (this.formVisibility.clientDetailsVisible) {
-      if (this.clientForm.controls.client.status === 'VALID') {
-        this.clientService.updateClient(this.clientForm.value.client).subscribe(
-          response => {
-            console.log(response);
-            this.clientService.success(response);
-          },
-          error => {
-            this.clientService.warn(error);
-          }
-        ).add(() => this.registerStudentProgress = false);
-      }
-      else {
-        this.registerStudentProgress = false;
-        this.scrollToFirstInvalidControl();
-      }
+      ).add(() => this.clientSavingProgress = false);
+    } else {
+      this.scrollToFirstInvalidControl();
     }
   }
 
+  //send new depatment data for existing client by calling to the backend
+  createDept() {
+    if (this.clientForm.valid) {
+      this.clientSavingProgress = true;
+      this.clientService.saveDepartmentByClientId(this.clientId, this.clientForm.value).subscribe(
+        response => {
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.locaton.back() });
+        },
+        () => {
+          let message = 'Cannot proceed the request. Try again'
+          this.notificationService.showNoitfication(message, 'OK', 'error', null);
+        }
+      ).add(() => this.clientSavingProgress = false);
+    } else {
+      this.scrollToFirstInvalidControl();
+    }
+  }
+
+  //send edited client data to the backend for saving changes
+  updateClient() {
+    if (this.clientForm.get('client').valid) {
+      this.clientSavingProgress = true;
+      this.clientService.updateClient(this.clientForm.value.client).subscribe(
+        response => {
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.navigateToClientList() });
+        },
+        () => {
+          let message = 'Cannot proceed the request. Try again'
+          this.notificationService.showNoitfication(message, 'OK', 'error', null);
+        }
+      ).add(() => this.clientSavingProgress = false);
+    } else {
+      this.scrollToFirstInvalidControl();
+    }
+
+  }
+
+  //send edited department data to the backend for saving changes
+  updateDept() {
+    this.clientForm.controls['client'].setErrors(null);
+    if (true) {
+      this.clientSavingProgress = true;
+      this.clientService.updateDepartment(this.clientForm.value, this.clientId, this.clientForm.value.deptId).subscribe(
+        response => {
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.locaton.back() });
+        },
+        () => {
+          let message = 'Cannot proceed the request. Try again'
+          this.notificationService.showNoitfication(message, 'OK', 'error', null);
+        }
+      ).add(() => this.clientSavingProgress = false);
+    } else {
+      this.scrollToFirstInvalidControl();
+    }
+  }
+
+  //change form controllers status to new status, when asyn validator is used.
+  private checkStatus(): void {
+    this.clientForm$ = this.clientForm.statusChanges;
+    this.clientForm$.subscribe(response => {
+      if (response === 'PENDING') {
+        setTimeout(() => {
+          console.log("gg");
+          this.clientForm.updateValueAndValidity();
+        }, 2000);
+      }
+    })
+  }
+
+  //reset form when it clickes on reset button in the form
   resetForm(): void {
     this.clientForm.reset();
-    this.clientExistance = false;
+    this.isDesabled = false;
     this.elementRef.nativeElement.querySelector('#client-name').scrollIntoView();
   }
 
+  //scrroll the form to first invalid form ,when it clicks on save button, if any invalid form is there
   scrollToFirstInvalidControl(): void {
     const firstInvalidControl: HTMLElement = this.elementRef.nativeElement.querySelector('form .ng-invalid');
     firstInvalidControl.scrollIntoView({ behavior: 'smooth' });
   }
 
+  //whent it clicks on existing client button, call to this method to navigate
   navigateToClientList(): void {
     this.router.navigateByUrl('client-list');
   }
 
-  get clientName(): AbstractControl {
-    return this.clientForm.get('client').get('clientName');
-  }
+  //below code lines for getting form controllers for validating
 
+  get clientName(): AbstractControl {
+    return this.clientForm.get('client.clientName');
+  }
   get clientContactNo(): AbstractControl {
-    return this.clientForm.get('client').get('contactNo');
+    return this.clientForm.get('client.contactNo');
   }
   get clientContactPerson(): AbstractControl {
-    return this.clientForm.get('client').get('contactPerson');
+    return this.clientForm.get('client.contactPerson');
   }
   get clientAddress(): AbstractControl {
     return this.clientForm.get('client').get('address');

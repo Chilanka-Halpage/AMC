@@ -5,7 +5,7 @@ export class ClientDepartment {
     isActive;
     email: string;;
     contactNo: string;;
-    contactPerson: string;;
+    contactPerson: string;
     address?: string;
     savedIp?: string;
     savedBy?: string;

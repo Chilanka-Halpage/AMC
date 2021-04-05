@@ -1,25 +1,19 @@
-<div class="container-md mb-4 background-color">
+<div class="container-md mb-4">
 
     <div class="jumbotron mb-1">
-    <h3>{{formVisibility.heading}}</h3>
-    <p>{{formVisibility.description}}</p>
+        <h3 class="h2">{{heading}}</h3>
+        <p>{{description}}</p>
     </div>
-    <div *ngIf="formVisibility.topBtnVisible" class="d-flex flex-row-reverse my-0">
+    <div *ngIf="!type" class="d-flex flex-row-reverse my-0">
         <button type="button" (click)="navigateToClientList()" mat-raised-button class="btn btn-primary">
             Existing Client
         </button>
     </div>
     <br />
     <div class="card">
-
-        <div class="card-header">
-            <h5>Client details form for the AMC</h5>
-        </div>
-
-        <div class="card-body">
-
+        <div class="card-body background-color">
             <form [formGroup]="clientForm">
-                <div formGroupName="client" *ngIf="formVisibility.clientDetailsVisible">
+                <div formGroupName="client" *ngIf="type !='%DE3%'">
                     <h6>Client Details</h6>
                     <mat-divider class="mat-divider"></mat-divider>
                     <br />
@@ -27,27 +21,24 @@
                     <div class="row px-0">
                         <mat-form-field class="col" appearance="outline" id="client-name">
                             <mat-label>Client Name</mat-label>
-                            <input type="text" (blur)="checkClient()" matInput formControlName="clientName"
-                                placeholder="client name">
-                            <mat-error class="alert alert-danger w-10" *ngIf="clientName.touched && clientName.errors?.required">This field is required
+                            <input type="text" matInput formControlName="clientName" placeholder="client name">
+                            <mat-error *ngIf="clientName.errors?.clientExists">Client already exists </mat-error>
+                            <mat-error *ngIf="clientName.touched && clientName.errors?.required">This field is required
                             </mat-error>
                         </mat-form-field>
                     </div>
-                     <div class="alert alert-danger" *ngIf="clientExistance">Client already exists </div>
 
                     <h6>Client Contact Details</h6>
                     <mat-divider class="mat-divider"></mat-divider>
                     <br />
 
                     <div class="row px-0">
-
                         <mat-form-field appearance="outline" class="col pr-2">
                             <mat-label>Contact Person</mat-label>
                             <input type="text" matInput formControlName="contactPerson"
                                 placeholder="contact person name">
-                            <mat-error *ngIf="clientContactPerson.touched && clientContactPerson.errors?.required">This
-                                field is
-                                required</mat-error>
+                            <mat-error *ngIf="clientContactPerson.touched && clientContactPerson.errors?.required">
+                                This field is required</mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="col pl-2">
@@ -81,7 +72,7 @@
 
                 <br />
 
-                <div *ngIf="formVisibility.departmentDetailsVisible">
+                <div *ngIf="type !='%CE2%'">
                     <h6>Department Details</h6>
                     <mat-divider class="mat-divider"></mat-divider>
                     <br />
@@ -89,6 +80,7 @@
                         <mat-form-field class="col" appearance="outline" id="departmen-name">
                             <mat-label>Department Name</mat-label>
                             <input type="text" matInput formControlName="departmentName" placeholder="department name">
+                            <mat-error *ngIf="departmentName.errors?.deptExists">Department already exists </mat-error>
                             <mat-error *ngIf="departmentName.touched && departmentName.errors?.required">This field is
                                 required
                             </mat-error>
@@ -139,7 +131,7 @@
                     </div>
 
                     <div class="row px-0s">
-                        <mat-checkbox formControlName="isActive" class="col-md-4">Active Department
+                        <mat-checkbox formControlName="active" class="col-md-4">Active Department
                         </mat-checkbox>
                     </div>
                 </div>
@@ -147,22 +139,27 @@
                 <div>
 
                     <div class="d-flex flex-row-reverse my-0">
-                        <button (click)="submitForm()" [disabled]="clientExistance" type="submit" mat-raised-button
+                        <button *ngIf="!type" (click)="createClient()" [disabled]="isDesabled" type="submit"
+                            mat-raised-button color="primary" class="ml-1">
+                            <span *ngIf="clientSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+                            Save New Client
+                        </button>
+                        <button *ngIf="type==='%CE2%' || type==='%DE3%'"
+                            (click)="(type==='%CE2%')? updateClient(): updateDept()" type="submit" mat-raised-button
                             color="primary" class="ml-1">
-                            <span *ngIf="registerStudentProgress" class="spinner-border spinner-border-sm mr-1"></span>
-                            {{formVisibility.btnLabel}}
+                            <span *ngIf="clientSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+                            Save Changes
+                        </button>
+                        <button *ngIf="type==='%DC4%'" (click)="createDept()" [disabled]="isDesabled" type="submit"
+                            mat-raised-button color="primary" class="ml-1">
+                            <span *ngIf="clientSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+                            Save New Department
                         </button>
                         <button (click)="resetForm()" type="button" mat-raised-button color="warn" mat-button
                             class="mr-1">Reset Form</button>
                     </div>
-
                 </div>
-
-
             </form>
-
         </div>
-
     </div>
-
 </div>

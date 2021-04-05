@@ -1,13 +1,13 @@
 export class Client {
-    clietnID: string;
+    clientId: number;
     clientName: string;
-    active;
+    active: boolean | string;
     contactNo: string;
     contactPerson: string;
     address: string;
-    savedIp?: string;
-    savedBy?: string;
-    savedOn?: Date;
+    savedIp: string;
+    savedBy: string;
+    savedOn: Date;
     lastModifiedBy?: Date;
     lastModifiedOn?: Date;
 }

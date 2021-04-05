@@ -1,6 +1,6 @@
 import { AmcMasterService } from './shared/amc-master.service';
 import { ClientService } from './shared/client.service';
-import { SharedAmcService } from './shared/shared-amc.service';
+import { NotificationService } from './shared/notification.service';
 import { AddClientComponent } from './clients/add-client/add-client.component';
 import { MaterialModule } from './material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,6 +15,11 @@ import { DepartmentListComponent } from './clients/department-list/department-li
 import { CreateAmcMasterComponent } from './amcs/create-amc-master/create-amc-master.component';
 import { AmcSerialComponent } from './amcs/amc-serial/amc-serial.component';
 import { TableFiterPipe } from './clients/table-fiter.pipe';
+import { AmcMasterListComponent } from './amcs/amc-master-list/amc-master-list.component';
+import { AmcSerialListComponent } from './amcs/amc-serial-list/amc-serial-list.component';
+import { AmcFullDataComponent } from './amcs/amc-full-data/amc-full-data.component';
+import { AmcRenewEditComponent } from './amcs/amc-renew-edit/amc-renew-edit.component';
+import { NotifierComponent } from './notifier/notifier.component';
 
 
 
@@ -26,7 +31,12 @@ import { TableFiterPipe } from './clients/table-fiter.pipe';
     DepartmentListComponent,
     CreateAmcMasterComponent,
     AmcSerialComponent,
-    TableFiterPipe
+    TableFiterPipe,
+    AmcMasterListComponent,
+    AmcSerialListComponent,
+    AmcFullDataComponent,
+    AmcRenewEditComponent,
+    NotifierComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +49,7 @@ import { TableFiterPipe } from './clients/table-fiter.pipe';
   providers: [
     ClientService,
     AmcMasterService,
-    SharedAmcService
+    NotificationService
   ],
   bootstrap: [AppComponent],
   entryComponents:[AddClientComponent],

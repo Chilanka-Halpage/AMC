@@ -1,0 +1,201 @@
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+        {{errorMessage}}
+    </div>
+</div>
+<div *ngIf="!isLoadingResults && !isRateLimitReached" class="container-xl background-color">
+    <div class="col-6 pt-2 pb-0 my-0 ">
+        <h3 class="mar-h1 text-primary"><i>AMC Full Data - {{ clientName }}  <br/> Department {{ data.department_name }}</i></h3>
+    </div>
+    <div class="row"></div>
+    <div class="d-flex flex-row-reverse col-6 my-0 pr-2">
+        <button (click)="onSelect()" type="button" mat-raised-button class="btn btn-success">
+            <mat-icon>add</mat-icon> Renew AMC
+        </button>
+    </div>
+    <div class="d-flex flex-row-reverse col-6 my-0 pr-2">
+        <button (click)="onEditGeneral()" type="button" mat-raised-button class="btn btn-success">
+            <mat-icon>add</mat-icon> Edit AMC General Data
+        </button>
+    </div>
+    <div class="row no-gutters">
+        <div class="col-md-6 no-gutters amc-grid">
+                <h6 class="ml-2">AMC General Details</h6>
+                <mat-divider class="mat-divider"></mat-divider>
+                <br />
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Amc No</mat-label>
+                    <mat-label class="col-6">{{ data.amc_no }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Status</mat-label>
+                    <mat-label class="col-6">{{ (data.amc_active)? "Active" : "Inactive" }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Start Date</mat-label>
+                    <mat-label class="col-6">{{ data.start_date }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Categpry</mat-label>
+                    <mat-label class="col-6">{{ data.category_name }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Frequency</mat-label>
+                    <mat-label class="col-6">{{ data.frequency }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Currency</mat-label>
+                    <mat-label class="col-6">{{ data.currency_name }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Exchange Rate</mat-label>
+                    <mat-label class="col-6">{{ data.exchage_rate }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Total Value</mat-label>
+                    <mat-label class="col-6">{{ data.total_value }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Total Value (LKR)</mat-label>
+                    <mat-label class="col-6">{{ data.total_value_lkr}}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Saved By</mat-label>
+                    <mat-label class="col-6">{{ data.saved_by }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Saved On</mat-label>
+                    <mat-label class="col-6">{{ data.saved_on | date: 'short' }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Last Modified By</mat-label>
+                    <mat-label class="col-6">{{ data.last_modified_by }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Last Modified On</mat-label>
+                    <mat-label class="col-6">{{ data.last_modified_on | date: 'short' }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Last Modified IP</mat-label>
+                    <mat-label class="col-6">{{ data.saved_ip }}</mat-label>
+                </div>
+                <div class="row px-0 mt-2 m-0">
+                    <mat-label class="col-4">Remark</mat-label>
+                    <textarea disabled rows=3 class="col-8 background-color">{{ data.amc_remark }}</textarea>
+                </div>
+                <div class="row px-0 mt-2 m-0">
+                    <mat-label class="col-4">Invoice Description</mat-label>
+                    <textarea disabled rows=3 class="col-8 background-color">{{ data.inv_desc }}</textarea>
+                </div>
+        </div>
+        <div class="col-md-6 no-gutters amc-grid">
+                <h6 class="ml-2">AMC Maintenance Details</h6>
+                <mat-divider class="mat-divider"></mat-divider>
+                <br />
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Start Date</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_start_date }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc End Date</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_end_date}}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Renewal Date</mat-label>
+                    <mat-label class="col-3">{{ data.renewal }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Quantity</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_qty }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Amount For Given Annum</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_amount_for_given_annum }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Amount For Given Annum (LKR)</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_amount_for_given_annum_lkr }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Amount Per Product</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_amount_per_product }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Amount Per Product (LKR)</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_amount_per_product_lkr }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Amount For Given Frequency</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_amount_for_given_frequency }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Amount For Given Frequency (LKR)</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_amount_for_given_frequency_lkr }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Amount For Given Frequency Per Item</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_amount_for_given_frequency_item}}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-9">Mtc Amount For Given Frequency Per Item (LKR)</mat-label>
+                    <mat-label class="col-3">{{ data.mtc_amount_for_given_frequency_item_lkr }}</mat-label>
+                </div>
+                <div class="row px-0 mt-2 m-0">
+                    <mat-label class="col-4">Remark</mat-label>
+                    <textarea disabled rows=3 class="col-8 background-color">{{ data.remark }}</textarea>
+                </div>
+        </div>
+
+    </div>
+    <div class="row no-gutters">
+        <div class="col-md-6 no-gutters amc-grid">
+                <h6 class="ml-2">AMC Product Details</h6>
+                <mat-divider class="mat-divider"></mat-divider>
+                <br />
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Product Name</mat-label>
+                    <mat-label class="col-6">{{ data.product_name }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Life Start Date</mat-label>
+                    <mat-label class="col-6">{{ data.life_start_date }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Life End Date</mat-label>
+                    <mat-label class="col-6">{{ data.life_end_date }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Price</mat-label>
+                    <mat-label class="col-6">{{ data.price }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Quantity</mat-label>
+                    <mat-label class="col-6">{{ data.quantity }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Sales Revenue</mat-label>
+                    <mat-label class="col-6">{{ data.sales_revenue }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-6">Sales Revenue (LKR)</mat-label>
+                    <mat-label class="col-6">{{ data.sales_revenue_lkr }}</mat-label>
+                </div>
+                <div class="row px-0 m-0">
+                    <mat-label class="col-4">Product Description</mat-label>
+                    <textarea disabled rows=3 class="col-8 background-color">{{ data.product_description}}</textarea>
+                </div>
+        </div>
+        <div class="col-md-6 no-gutters">
+            <h6 class="ml-2">Scanned Copy of Contract</h6>
+            <mat-divider class="mat-divider"></mat-divider>
+            <br />
+            <div *ngIf="data.contract_url;else elseBlock" class="d-flex justify-content-center">
+                <button type="button" (click)="redirect()" mat-raised-button color="warn" mat-button>View File</button>
+            </div>
+            <ng-template #elseBlock>
+                <mat-label class="d-flex justify-content-center">Not Available</mat-label>
+            </ng-template>
+        </div>
+    </div>
+</div>

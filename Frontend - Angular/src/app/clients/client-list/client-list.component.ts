@@ -1,40 +1,39 @@
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Client } from './../../Model/client.model';
 import { ClientService } from './../../shared/client.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { SharedAmcService } from 'src/app/shared/shared-amc.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { startWith, switchMap, map, catchError } from 'rxjs/operators';
-import { ClientDepartment } from 'src/app/Model/client-department';
 
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css']
 })
-export class ClientListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = [
+export class ClientListComponent implements AfterViewInit {
+  public displayedColumns: string[] = [
     'clientName',
     'active',
     'contactNo',
     'contactPerson',
     'address',
-    'savedIp',
     'savedBy',
     'savedOn',
     'lastModifiedBy',
     'lastModifiedOn',
+    'lastModifiedIp',
     'action'
   ];
-  dataSource: Client[];
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  pagesize = 20;
-  filterValue: string;
+  public dataSource: Client[];
+  public resultsLength = 0;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+  public pagesize = 20;
+  public filterValue: string;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -42,30 +41,25 @@ export class ClientListComponent implements OnInit, AfterViewInit {
   constructor(
     private clientService: ClientService,
     private router: Router,
-    private sharedService: SharedAmcService
+    private sharedService: NotificationService
   ) { }
 
-  ngOnInit(): void {
-    //this.loadClientList();
-    //this.setTableData();
-  }
   ngAfterViewInit(): void {
-    this.loadingDeptData();
-
+    this.loadingClientData();
   }
 
   applyFilter(event: Event) {
     this.filterValue = (event.target as HTMLInputElement).value;
   }
 
-  loadingDeptData(): void {
+  loadingClientData(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
-          return this.loadDeptData(
+          return this.getClientData(
             this.sort.active, this.sort.direction, this.paginator.pageIndex);
         }),
         map(data => {
@@ -83,20 +77,11 @@ export class ClientListComponent implements OnInit, AfterViewInit {
           return observableOf([]);
         })
       ).subscribe(response => {
-        let deptData: Client[] = response;
-        deptData.map(data => {
-          if (data.active == true) {
-            data.active = "Active";
-          }
-          else {
-            data.active = "Inactive"
-          }
-        })
-        this.dataSource = deptData;
+        this.dataSource = response;
       });
   }
 
-  loadDeptData(sort: string, order: string, page: number): Observable<any> {
+  getClientData(sort: string, order: string, page: number): Observable<any> {
     return this.clientService.getAllClients(page, this.pagesize, sort, order);
   }
 
@@ -104,16 +89,39 @@ export class ClientListComponent implements OnInit, AfterViewInit {
     this.router.navigateByUrl('client/new');
   }
 
-  onSelect(row: Client): void {
-    this.sharedService.data = row.clientName;
-    this.router.navigate(['dept-list', row.clietnID]);
+  onSelectDept(row: Client): void {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "data": JSON.stringify({
+          "id": row.clientId,
+          "name": row.clientName
+        })
+      }
+    };
+    this.router.navigate(['dept-list'], navigationExtras);
+  }
 
+  onSelectAmc(row: Client): void {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "data": JSON.stringify({
+          "id": row.clientId,
+          "name": row.clientName
+        })
+      }
+    };
+    this.router.navigate([`clients/${row.clientId}/amc-list`], navigationExtras);
   }
 
   onEdit(row: any): void {
-    console.log(row);
-    this.sharedService.changeData(row);
-    this.router.navigateByUrl('client/edit');
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        data: JSON.stringify({
+          type: "%CE2%",
+          data: row
+        })
+      }
+    };
+    this.router.navigate(['/client/edit/'], navigationExtras);
   }
-
 }

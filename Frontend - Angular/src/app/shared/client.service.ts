@@ -32,10 +32,7 @@ export class ClientService {
   }
 
   saveClientAndDepartment(obj): Observable<any> {
-    return this.http.post(`${this.baseURL}clientDept/departments/client`, obj, {
-      responseType: 'text' as 'json'
-    }
-    );
+    return this.http.post(`${this.baseURL}clientDept/departments/client`, obj);
   }
   saveDepartmentByClientId(cid: number, dept): Observable<any> {
     return this.http.post(`${this.baseURL}clientDept/clients/${cid}/department`, dept, {
@@ -48,22 +45,26 @@ export class ClientService {
     return this.http.get(`${this.baseURL}clientDept/clients/${cid}/departments`);
   }
 
-  updateClient(client): Observable<any> {
+  updateClient(client: any): Observable<any> {
     return this.http.put(`${this.baseURL}client/edit`, client, {
       responseType: 'text' as 'json'
     }
     );
   }
 
-  updateDepartment(dept): Observable<any> {
-    return this.http.put(`${this.baseURL}clientDept/edit`, dept, {
+  updateDepartment(dept: any, clientId: number, deptId: number): Observable<any> {
+    return this.http.put(`${this.baseURL}clientDept/edit/${clientId}/${deptId}`, dept, {
       responseType: 'text' as 'json'
     }
     );
   }
 
-  isAClient(name: string): Observable<any> {
-    return this.http.get(`${this.baseURL}client/exists/${name}`);
+  doesClientExists(name: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseURL}client/exists/${name}`);
+  }
+
+  doesDeptExists(name: string, clientId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseURL}clientDept/exists/${clientId}/${name}`);
   }
 
   success(msg) {

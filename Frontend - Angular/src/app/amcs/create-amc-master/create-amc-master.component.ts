@@ -1,12 +1,13 @@
+import { HttpClient } from '@angular/common/http';
+import { element } from 'protractor';
 import { AmcMasterService } from './../../shared/amc-master.service';
 import { Frequency } from './../../Model/frequency';
 import { Currency } from './../../Model/currency.model';
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild, Pipe } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
-import { SharedAmcService } from 'src/app/shared/shared-amc.service';
 import { ClientService } from 'src/app/shared/client.service';
 
 @Component({
@@ -16,77 +17,129 @@ import { ClientService } from 'src/app/shared/client.service';
 })
 export class CreateAmcMasterComponent implements OnInit {
 
-  currencyList: Currency[] = [
-    { currencyId: 1, currencyName: 'LKR' },
-    { currencyId: 2, currencyName: 'USD' },
-  ];
-  frequencyList: Frequency[] = [
-    { frequencyId: 1, frequencyName: '3 Months' },
-    { frequencyId: 2, frequencyName: '6 Months' },
-  ];
+  currencyList: Currency[];
+  frequencyList: Frequency[];
 
   amcMasterForm: FormGroup;
   amcMasterProgress = false;
+  isCreate = true;
+  isLoadingResults = true;
+  isRateLimitReached = false;
+  errorMessage = "Unknown Error"
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   private clientId: number;
+  private clientName: string;
+  private deptName: any;
+  private deptId: any;
+  private amcNo: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private clientService: ClientService,
     private amcMasterservice: AmcMasterService,
-    private sharedService: SharedAmcService,
     private elementRef: ElementRef,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private ngZone: NgZone,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      let value = JSON.parse(params["data"]);
+      this.clientId = value.cid
+      this.clientName = value.cname;
+      this.deptId = value.did;
+      this.deptName = value.dname;
+      this.amcNo = value.amcNo;
+      this.isCreate = (value.type === "%c1%") ? true : false;
+    });
+    this.createForm();
+    this.calculate();
+    this.loadSelectionData();
+    if (!this.isCreate) this.loadData();
+  }
+
+  private createForm(): void {
     this.amcMasterForm = this.formBuilder.group({
       client: this.formBuilder.group({
-        clientName: [{ value: '', disabled: true }]
+        clientName: [{ value: this.clientName, disabled: true }]
       }),
       startDate: [''],
-      frequency: ['1'],
+      frequency: [''],
       exchangeRate: [''],
       totalValue: [''],
       totalValueLkr: [''],
       remark: [''],
       invDesc: [''],
-      isActive: ['true'],
+      active: ['true'],
       currency: this.formBuilder.group({
-        currencyId: ['1'],
+        currencyId: [],
       })
     });
-
-    this.sharedService.dataChange.subscribe(value => {
-      this.clientId = value.clietnID;
-      this.amcMasterForm.patchValue({
-        client: {
-          //clientId: value.clietnID,
-          clientName: value.clientName
-        }
-      });
-    })
-
   }
 
-  calculate(event: any): void {
-    console.log(event);
-    const value1 = event.srcElement.value;
-    let value2 = 0;
-    if (event.srcElement.id == 'exchangeRate') {
-      value2 = this.amcMasterForm.get('totalValue').value;
-    }
+  private loadSelectionData() {
+    let currencListLoad = false, frequencyListLoad = false;
+    this.http.get<Currency[]>('http://localhost:8080/Currency/findAllCurrency').subscribe(response => {
+      this.currencyList = response;
+      this.isLoadingResults = ((currencListLoad = true) && frequencyListLoad) ? false : true;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
+    });
+    this.http.get<Frequency[]>('http://localhost:8080/frequency/findAllFrequency').subscribe(response => {
+      this.frequencyList = response;
+      this.isLoadingResults = ((frequencyListLoad = true) && currencListLoad) ? false : true;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
+    });
+  }
 
-    else if (event.srcElement.id == 'totalValue') {
-      value2 = this.amcMasterForm.get('exchangeRate').value;
-    }
+  calculate(): void {
+    this.amcMasterservice.calculateAmcValueByExRate(this.amcMasterForm);
+  }
 
-    let totalValueLKr = 0;
-    totalValueLKr = value1 * value2;
-    this.amcMasterForm.patchValue({ totalValueLkr: totalValueLKr })
+  loadData() {
+    this.amcMasterservice.getAmcData(this.amcNo).subscribe(response => {
+      let frequencyId: number;
+      this.frequencyList.map(element => {
+        if (element.frequencyName === response.frequency) frequencyId = element.frequencyId;
+      })
+      this.amcMasterForm.patchValue({
+        startDate: response.startDate,
+        frequency: 1,
+        exchangeRate: response.exchangeRate,
+        totalValue: response.totalValue,
+        totalValueLkr: response.totalValueLkr,
+        remark: response.remark,
+        invDesc: response.invDesc,
+        active: response.active,
+        currency: {
+          currencyId: 1
+        }
+      })
+      this.isRateLimitReached = false;
+    }, error => {
+      console.log(error);
+      this.errorMessage = error.error.message;
 
+      this.isRateLimitReached = true;
+    }).add(() => this.isLoadingResults = false);
+  }
+
+  saveChanges() {
+    console.log("jdhdjbc")
+    this.amcMasterservice.updateAmcMaster(this.amcMasterForm.value, this.amcNo).subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.log("eroorrr")
+      console.log(error);
+    });
   }
 
   triggerResize(): void {
@@ -96,13 +149,21 @@ export class CreateAmcMasterComponent implements OnInit {
   }
 
   submitForm(): void {
-    console.log(this.amcMasterForm.value);
     this.amcMasterProgress = true;
     if (this.amcMasterForm.valid) {
       this.amcMasterservice.saveAmcMaster(this.amcMasterForm.value, this.clientId).subscribe(
         response => {
           console.log(response);
-          this.clientService.success(response);
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              "data": JSON.stringify({
+                "amcNo": response.amcNo,
+                "did": this.deptId,
+                "dname": this.deptName
+              })
+            }
+          };
+          this.router.navigate(['/amc-serial/new'], navigationExtras);
         },
         error => {
           console.error(error);
@@ -114,7 +175,7 @@ export class CreateAmcMasterComponent implements OnInit {
       this.scrollToFirstInvalidControl();
     }
   }
-  ;
+
   resetForm(): void {
     this.amcMasterForm.reset();
     this.elementRef.nativeElement.querySelector('#course-name').scrollIntoView();
