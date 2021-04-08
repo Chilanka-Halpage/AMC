@@ -1,0 +1,90 @@
+<div class="container-fluid div1">
+  <h2 class="div3">Edit Profile</h2>
+  <div class="conntainer-fluid div2">
+    <div class="container div3">
+
+      <!-- image -->
+      <form>
+        <div
+          style="border-style: solid; border-radius: 2px;border-color: black; background-image: url(../../assets/backgroundimage.jpg);" class="img-size1">
+          <img src="{{imageSrc}}" class="img-size2">
+        </div>
+        <br>
+        <input type="file" (change)="onSelectFile($event)">
+        <br>
+        <br>
+        <button type="button" (click)="performUpload()">Submit your image</button>
+      </form>
+      <div *ngIf="imageSrc">
+      </div>
+      <br>
+
+      <!-- Contact Details -->
+      <form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()">
+        <mat-label class="mat-title">Contact Details</mat-label>
+        <br>
+        <mat-divider></mat-divider>
+        <div class="row px-0 mt-4">
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Enter Contact Number</mat-label>
+            <input matInput placeholder="Name" formControlName="contactNo" required>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-6">
+            <mat-label>Enter your email</mat-label>
+            <input matInput placeholder="abc@gmail.com" formControlName="email" required>
+          </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+        <br>
+        <button class="btn btn-primary mr-2" type="submit">Submit</button>
+        <button class="btn btn-danger" type="reset">Reset</button>
+      </form>
+      <!-- edit password -->
+      <br>
+      <mat-label class="mat-title">Change Password</mat-label>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" hideToggle>
+          <mat-expansion-panel-header >
+            <mat-panel-title class="mt-2">
+              It's a good idea to use a strong password that you're not using elsewhere
+            </mat-panel-title>
+            <mat-panel-description>
+              <button mat-stroked-button color="primary" class="">{{panelOpenState ? 'Close' : 'Edit'}}</button>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+            <div class="conntainer-fluid div2">
+              <div class="container div3">
+                <div class="col-4 d-flex justify-content-center">
+                <form [formGroup]="form" (ngSubmit)="SubmitPassword()">
+                     
+                  <div class="form-group">
+                      <label for="password">New Password</label>
+                      <input formControlName="password" id="password" type="password" class="form-control" >
+                      <mat-error *ngIf="f.password.touched && f.password.invalid">
+                          <mat-error *ngIf="f.password.errors.required">Password is required.</mat-error>
+                      </mat-error>
+                  </div>
+                  <div class="form-group">
+                      <label for="confirm_password">Confirm Password</label>
+                      <input formControlName="confirm_password" id="confirm_password" type="password" class="form-control" >
+                      <mat-error *ngIf="f.confirm_password.touched && f.confirm_password.invalid">
+                          <mat-error *ngIf="f.confirm_password.errors.required">Password is required.</mat-error>
+                          <mat-error *ngIf="f.confirm_password.errors.confirmedValidator">Password and Confirm Password must be match.</mat-error>
+                      </mat-error>
+                  </div>
+                  <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Submit</button>
+              </form>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</div>
+<footer class="page-footer font-small blue pt-4" style="background-color: rgb(107, 107, 255);">
+  <div class="footer-copyright text-center py-3">Epic Lanka</div>
+</footer>

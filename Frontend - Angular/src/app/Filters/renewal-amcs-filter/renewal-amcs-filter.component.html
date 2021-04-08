@@ -1,0 +1,21 @@
+<div style="background-color: rgb(255, 255, 255);">
+    <div class="container" class="class1">
+        <div>
+            <h2>Renewal AMCs Details Report</h2>
+            <form action="" [formGroup]="RenewalAmcsFilter" (ngSubmit)="onSubmit()">
+                <mat-selection-list #shoes [multiple]="false" formControlName="num">
+                  <mat-divider></mat-divider>
+                    <mat-list-option [value]="1">within one month</mat-list-option>
+                    <mat-divider></mat-divider>
+                    <mat-list-option [value]="2" >within two month</mat-list-option>
+                    <mat-divider></mat-divider>
+                    <mat-list-option [value]="3" >within three month</mat-list-option>
+                  </mat-selection-list>
+                  <br>
+                  <p>
+                    Option selected: {{shoes.selectedOptions.selected[0]?.value}}
+                  </p>
+                <button type="submit" mat-raised-button color="primary" mat-dialog-close>Generate Report</button>
+            </form>
+        </div>
+    </div>

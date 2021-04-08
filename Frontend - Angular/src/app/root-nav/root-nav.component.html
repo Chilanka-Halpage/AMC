@@ -1,0 +1,89 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === true"
+      [opened]="_authentication.logout">
+    <mat-toolbar><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="['home']"><mat-icon>home</mat-icon><span class="button-text">Home</span></a>     
+      <a mat-list-item [matMenuTriggerFor]="payment">
+        <mat-icon >payment</mat-icon><span class="button-text">Payment</span>
+         <mat-menu #payment="matMenu">
+            <button mat-menu-item [routerLink]="['createReceipt']">Payment</button>
+            <button mat-menu-item [routerLink]="['invoicelist']" >Proforma Invoice</button>
+            <button mat-menu-item [routerLink]="['dueinvoice']" >Due Invoice</button>
+            <button mat-menu-item [routerLink]="['taxlist']">Tax</button>
+            <button mat-menu-item [routerLink]="['currencylist']">Currency</button>
+            <button mat-menu-item [routerLink]="['paymentHlist']">Payment History</button>
+            <button mat-menu-item [routerLink]="['duepayment']">Due Payment</button>
+         </mat-menu>
+      </a>  
+      <a mat-list-item [matMenuTriggerFor]="Reports">
+        <mat-icon>article</mat-icon> <span class="button-text">Reports</span>
+           <mat-menu #Reports="matMenu">
+            <button mat-menu-item [routerLink]="['']" (click)="AllAMCDetailsFilter()">All AMC</button>
+            <button mat-menu-item [routerLink]="['']" (click)="ClientsDetailsFilter()">All client details</button>
+            <button mat-menu-item [routerLink]="['']" (click)="RenewalAmcsFilter()">Renewal AMCs</button>
+            <button mat-menu-item [routerLink]="['']" (click)="RenewedAmcsFilter()">Renewed AMCs</button>
+            <button mat-menu-item [routerLink]="['']" (click)="ExpiredAmcsFilter()">Expired AMCs</button>
+            <button mat-menu-item [routerLink]="['']" (click)="PaymentReportFilter()">Payment Reports</button>
+            <button mat-menu-item [routerLink]="['']">Quater Wise revenue</button>
+            <button mat-menu-item [routerLink]="['']" (click)="FullDetailsFilter()">Full Details Report</button>
+           </mat-menu>
+      </a> 
+      <a mat-list-item [matMenuTriggerFor]="AMC">
+        <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
+          <mat-menu #AMC="matMenu">
+            <button mat-menu-item [routerLink]="['client/new']">Create New AMC </button>
+            <button mat-menu-item [routerLink]="['client-list']">AMC Renew</button>
+            <button mat-menu-item [routerLink]="['list']">Category</button>
+            <button mat-menu-item [routerLink]="['frequency']">Frequency</button>
+          </mat-menu>
+      </a>          
+      <a mat-list-item [matMenuTriggerFor]="Products">
+        <mat-icon>store</mat-icon><span class="button-text">Products</span>
+         <mat-menu #Products="matMenu">
+           <button mat-menu-item [routerLink]="['productlist']">Products</button>
+           <button mat-menu-item [routerLink]="['']">New Products</button>
+         </mat-menu>
+      </a> 
+      <a mat-list-item [matMenuTriggerFor]="client">
+        <mat-icon>supervisor_account</mat-icon><span class="button-text">Users</span>
+          <mat-menu #client="matMenu">
+            <button mat-menu-item [routerLink]="['user']">New User</button>
+            <button mat-menu-item [routerLink]="['client-list']">Clients</button>
+            <button mat-menu-item [routerLink]="['client/new']">New client</button>
+          </mat-menu>
+      </a> 
+      <a mat-list-item [routerLink]="['']"><mat-icon>settings</mat-icon><span class="button-text">Setting</span>
+      </a>      
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="bg-primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"     
+        *ngIf="_authentication.loggedIn()" >
+        <mat-icon aria-label="Side nav toggle icon" style="-webkit-text-fill-color:rgb(255, 255, 255)"  >menu</mat-icon>
+      </button>
+      <span class="text-white">Annual Maintenance Contract</span>   
+      <span class="example-spacer"></span>
+      <button  mat-button  *ngIf="!_authentication.loggedIn()" (click)="gotolog()">
+        <span>Login</span>
+      </button> 
+      <
+      <button  mat-button [matMenuTriggerFor]="profile" *ngIf="_authentication.loggedIn()">
+       <span class="button-text">name</span>
+      </button>      
+         <mat-menu #profile="matMenu">
+            <button mat-menu-item [routerLink]="['profile/:userId']" >Profile</button>
+            <button mat-menu-item (click) ="logout()">Log Out</button> 
+         </mat-menu>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

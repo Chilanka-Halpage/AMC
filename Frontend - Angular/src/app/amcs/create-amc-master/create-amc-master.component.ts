@@ -1,3 +1,4 @@
+import { NotificationService } from './../../shared/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { element } from 'protractor';
 import { AmcMasterService } from './../../shared/amc-master.service';
@@ -9,6 +10,7 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
 import { ClientService } from 'src/app/shared/client.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-amc-master',
@@ -17,32 +19,33 @@ import { ClientService } from 'src/app/shared/client.service';
 })
 export class CreateAmcMasterComponent implements OnInit {
 
-  currencyList: Currency[];
-  frequencyList: Frequency[];
-
-  amcMasterForm: FormGroup;
-  amcMasterProgress = false;
-  isCreate = true;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  errorMessage = "Unknown Error"
-  @ViewChild('autosize') autosize: CdkTextareaAutosize;
-
   private clientId: number;
   private clientName: string;
-  private deptName: any;
-  private deptId: any;
-  private amcNo: any;
+  private deptName: string;
+  private deptId: number;
+  private amcNo: string;
+  public currencyList: Currency[];
+  public frequencyList: Frequency[];
+  public amcMasterForm: FormGroup;
+  public amcMasterProgress = false;
+  public isCreate = true;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+  public heading = 'Create New AMC';
+  public description = 'AMC general details';
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
   constructor(
     private formBuilder: FormBuilder,
-    private clientService: ClientService,
     private amcMasterservice: AmcMasterService,
+    private notificationService: NotificationService,
     private elementRef: ElementRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private ngZone: NgZone,
-    private http: HttpClient
+    private http: HttpClient,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -53,12 +56,12 @@ export class CreateAmcMasterComponent implements OnInit {
       this.deptId = value.did;
       this.deptName = value.dname;
       this.amcNo = value.amcNo;
-      this.isCreate = (value.type === "%c1%") ? true : false;
+      this.isCreate = (value.type === "%c1%") ? true : false; //type define whether the request is for creating new AMC or editing. %c1% -> creating new AMC
     });
     this.createForm();
-    this.calculate();
-    this.loadSelectionData();
-    if (!this.isCreate) this.loadData();
+    this.calculate(); 
+    this.loadSelectionData(); 
+    if (!this.isCreate) this.loadData(); // when a edit rquest comes, get AMC data to the form fields 
   }
 
   private createForm(): void {
@@ -80,9 +83,10 @@ export class CreateAmcMasterComponent implements OnInit {
     });
   }
 
+  //Get frequency and currency data from backend
   private loadSelectionData() {
     let currencListLoad = false, frequencyListLoad = false;
-    this.http.get<Currency[]>('http://localhost:8080/Currency/findAllCurrency').subscribe(response => {
+    this.amcMasterservice.getCurrency().subscribe(response => {
       this.currencyList = response;
       this.isLoadingResults = ((currencListLoad = true) && frequencyListLoad) ? false : true;
     }, error => {
@@ -90,7 +94,7 @@ export class CreateAmcMasterComponent implements OnInit {
       this.isRateLimitReached = true;
       this.errorMessage = error;
     });
-    this.http.get<Frequency[]>('http://localhost:8080/frequency/findAllFrequency').subscribe(response => {
+    this.amcMasterservice.getFrequency().subscribe(response => {
       this.frequencyList = response;
       this.isLoadingResults = ((frequencyListLoad = true) && currencListLoad) ? false : true;
     }, error => {
@@ -100,19 +104,19 @@ export class CreateAmcMasterComponent implements OnInit {
     });
   }
 
+  //Calculate Value in Lkr, as value in given currency and exchange rate chnages
   calculate(): void {
     this.amcMasterservice.calculateAmcValueByExRate(this.amcMasterForm);
   }
 
+  // Get AMC data and set to the form fields
   loadData() {
+    this.heading = 'Edit AMC'
+    this.description = 'AMC general details Modification'
     this.amcMasterservice.getAmcData(this.amcNo).subscribe(response => {
-      let frequencyId: number;
-      this.frequencyList.map(element => {
-        if (element.frequencyName === response.frequency) frequencyId = element.frequencyId;
-      })
       this.amcMasterForm.patchValue({
         startDate: response.startDate,
-        frequency: 1,
+        frequency: response.frequency,
         exchangeRate: response.exchangeRate,
         totalValue: response.totalValue,
         totalValueLkr: response.totalValueLkr,
@@ -120,7 +124,7 @@ export class CreateAmcMasterComponent implements OnInit {
         invDesc: response.invDesc,
         active: response.active,
         currency: {
-          currencyId: 1
+          currencyId: response.currency.currencyId
         }
       })
       this.isRateLimitReached = false;
@@ -132,22 +136,20 @@ export class CreateAmcMasterComponent implements OnInit {
     }).add(() => this.isLoadingResults = false);
   }
 
+  // Edited data send to the backend
   saveChanges() {
-    console.log("jdhdjbc")
+    this.amcMasterProgress = true;
     this.amcMasterservice.updateAmcMaster(this.amcMasterForm.value, this.amcNo).subscribe(response => {
       console.log(response);
+      this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.location.back() });
     }, error => {
-      console.log("eroorrr")
       console.log(error);
-    });
+      let message = 'Cannot proceed the request. Try again'
+      this.notificationService.showNoitfication(message, 'OK', 'error', null);
+    }).add(() => this.amcMasterProgress = false);;
   }
 
-  triggerResize(): void {
-    // Wait for changes to be applied, then trigger textarea resize.
-    this.ngZone.onStable.pipe(take(1))
-      .subscribe(() => this.autosize.resizeToFitContent(true));
-  }
-
+  //Send data to backend to create a new AMC
   submitForm(): void {
     this.amcMasterProgress = true;
     if (this.amcMasterForm.valid) {
@@ -156,18 +158,19 @@ export class CreateAmcMasterComponent implements OnInit {
           console.log(response);
           let navigationExtras: NavigationExtras = {
             queryParams: {
-              "data": JSON.stringify({
-                "amcNo": response.amcNo,
-                "did": this.deptId,
-                "dname": this.deptName
+              data: JSON.stringify({
+                amcNo: response,
+                cname: this.clientName,
+                did: this.deptId,
+                dname: this.deptName
               })
             }
           };
           this.router.navigate(['/amc-serial/new'], navigationExtras);
         },
         error => {
-          console.error(error);
-          this.clientService.warn('Submission Failed');
+          let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+          this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.amcMasterProgress = false);
     } else {
@@ -176,18 +179,23 @@ export class CreateAmcMasterComponent implements OnInit {
     }
   }
 
+  triggerResize(): void {
+    // Wait for changes to be applied, then trigger textarea resize.
+    this.ngZone.onStable.pipe(take(1))
+      .subscribe(() => this.autosize.resizeToFitContent(true));
+  }
+
+  //reset form when it clickes on reset button in the form
   resetForm(): void {
     this.amcMasterForm.reset();
     this.elementRef.nativeElement.querySelector('#course-name').scrollIntoView();
   }
 
+  //scrroll the form to first invalid form ,when it clicks on save button, if any invalid form is there
   scrollToFirstInvalidControl(): void {
     const firstInvalidControl: HTMLElement = this.elementRef.nativeElement.querySelector('form .ng-invalid');
     firstInvalidControl.scrollIntoView({ behavior: 'smooth' });
   }
 
-  navigateToClientList(): void {
-    this.router.navigateByUrl('clientView');
-  }
 
 }

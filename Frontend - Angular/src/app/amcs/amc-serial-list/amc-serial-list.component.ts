@@ -51,20 +51,12 @@ export class AmcSerialListComponent implements OnInit {
   private loadAmcSerialList(deptId: number) {
     this.isLoadingResults = true;
     this.amcService.getAmcSerilaList(deptId).subscribe(response => {
-      console.log(response);
-      response.map(data => {
-        if (data.active == true) {
-          data.active = 'Active';
-        }
-        else {
-          data.active = 'Inactive';
-        }
-      });
       this.isLoadingResults = false;
       this.isRateLimitReached = false;
       this.dataSource = new MatTableDataSource(response);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      this.resultsLength = this.dataSource.data.length;
     }, error => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;

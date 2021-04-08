@@ -24,11 +24,11 @@ export class AmcFullDataComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
-      if (value.type === "%M1%") {
+      if (value.type === "%M1%") { //type defines the whether the data are loaded useing either Amc No. or Amc Serial No. %M1%-> using Amc No
         this.clientName = value.cname;
         this.loadDataByAmcNo(value.amcno);
       }
-      else if (value.type === "%S2%") {
+      else if (value.type === "%S2%") { //%S2% -> using serial No
         this.clientName = value.cname;
         this.loadDataByAmcSerialNo(value.serial);
       }
@@ -36,6 +36,7 @@ export class AmcFullDataComponent implements OnInit {
     });
   }
 
+  //Get amc  full data from amc no
   loadDataByAmcNo(amcNo: string): void {
     this.isLoadingResults = true;
     this.amcService.getAmcFullDataByAmcNo(amcNo).subscribe(response => {
@@ -49,6 +50,7 @@ export class AmcFullDataComponent implements OnInit {
     })
   }
 
+  //get amc full data from serial no
   loadDataByAmcSerialNo(amcSerialNo: string): void {
     this.isLoadingResults = true;
     this.amcService.getAmcFullDataByAmSerialcNo(amcSerialNo).subscribe(response => {
@@ -62,11 +64,10 @@ export class AmcFullDataComponent implements OnInit {
     })
   }
 
+  //Download scanned copy of amc
   redirect(): void {
     this.amcService.getAmcScannedCopy(this.data.contract_url).subscribe(response => {
-      console.log(response);
       let url = URL.createObjectURL(response);
-      console.log(url);
       window.open(url, '_blank');
       URL.revokeObjectURL(url);
     },
@@ -75,6 +76,7 @@ export class AmcFullDataComponent implements OnInit {
     });
   }
 
+  //renew amc
   onSelect(): void {
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -87,6 +89,7 @@ export class AmcFullDataComponent implements OnInit {
     this.router.navigate([`clients/amc-list/${this.data.amc_serial_no}/renew`], navigationExtras);
   }
 
+  //Edit amc general data
   onEditGeneral(): void {
     let navigationExtras: NavigationExtras = {
       queryParams: {

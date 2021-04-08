@@ -55,6 +55,7 @@ export class AmcMasterListComponent implements OnInit {
       this.dataSource = new MatTableDataSource(response);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      this.resultsLength = this.dataSource.data.length;
     }, error => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;

@@ -31,7 +31,7 @@ export class AmcData {
     inv_desc: string;
     saved_by: string;
     saved_on: Date;
-    saved_ip: string;
+    last_modified_ip: string;
     last_modified_by: string;
     last_modified_on: Date;
     amc_product_id: number;

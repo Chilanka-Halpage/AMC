@@ -7,16 +7,11 @@
 <div *ngIf="!isLoadingResults && !isRateLimitReached" class="container-md mb-4">
 
     <div class="jumbotron mb-3">
-        <h3 class="h2">Add New AMC</h3>
-        <p>Add new AMC general details</p>
+        <h3 class="h2"> {{heading}} </h3>
+        <p> {{description}} </p>
     </div>
     <br />
     <div class="card">
-
-        <div class="card-header">
-            <h5>General details form for new AMC</h5>
-            <p class="mb-1">Fill out the details to add new AMC</p>
-        </div>
 
         <div class="card-body background-color">
 
@@ -46,8 +41,8 @@
                     <mat-form-field appearance="outline" class="col-4">
                         <mat-label>Frequency</mat-label>
                         <mat-select formControlName="frequency">
-                            <mat-option *ngFor="let frequency of frequencyList" [value]="frequency.frequencyName">
-                                {{frequency.frequencyName}}
+                            <mat-option *ngFor="let frequency of frequencyList" [value]="frequency.frequency">
+                                {{frequency.frequency}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

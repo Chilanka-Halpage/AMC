@@ -20,11 +20,11 @@ export class DepartmentListComponent implements OnInit {
     'email',
     'contactNo',
     'contactPerson',
-    'savedIp',
     'savedBy',
     'savedOn',
     'lastModifiedBy',
     'lastModifiedOn',
+    'lastModifiedIp',
     'action'
   ];
   clientId: number;
@@ -60,10 +60,10 @@ export class DepartmentListComponent implements OnInit {
     this.isLoadingResults = true;
     this.clientService.getDepartmentsByClientId(cid).subscribe(response => {
       this.isLoadingResults = false;
-      this.isRateLimitReached = false;
       this.dataSource = new MatTableDataSource(response);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      this.resultsLength = this.dataSource.data.length;
     }, error => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;

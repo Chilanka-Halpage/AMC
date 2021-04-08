@@ -1,0 +1,62 @@
+<div class="container">
+    <mat-card>
+        <mat-card-content>
+            <div class="header">
+        <h2>User Edit Form</h2>
+            </div>
+            <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+              <strong>Success!</strong> User data edit successfully !..
+              <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        <form (ngSubmit)="onUpdate()" name="addForm" [formGroup]="addForm">
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>UserId</mat-label>
+            <input matInput required formControlName="userId" disabled>
+          </mat-form-field>
+          <br> 
+          
+        
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>User Name</mat-label>
+            <input matInput required formControlName="uname">
+          </mat-form-field>
+          <br>
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Enter your password</mat-label>
+            <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" required>
+             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button> 
+          </mat-form-field>
+          <br>
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Role</mat-label>
+            <input matInput required formControlName="role">
+          </mat-form-field>
+          <br>
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Active</mat-label>
+            <input matInput required formControlName="active">
+          </mat-form-field>
+          
+    <div class="email-input">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Enter your email</mat-label>
+          <input matInput placeholder="pat@example.com" formControlName="email" matInput required>
+          
+        </mat-form-field>
+      </div>
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>phone Number</mat-label>
+        <input matInput required formControlName="contactNo">
+      </mat-form-field><br>
+      
+    <button type="submit" mat-flat-button color="primary">Submit</button>
+        </form>
+        </mat-card-content>
+    </mat-card>
+    </div>
+    
+    

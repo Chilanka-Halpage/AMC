@@ -1,5 +1,5 @@
 export class Frequency {
     frequencyId: number;
-    frequencyName: string;
-    active?: boolean;
+    frequency: string;
+    active: boolean;
 }

@@ -62,6 +62,10 @@
                             <mat-error *ngIf="clientAddress.touched && clientAddress.errors?.required">This field
                                 is required
                             </mat-error>
+                            <mat-error
+                                *ngIf="clientAddress.touched && !clientAddress.errors?.required && clientAddress.errors?.pattern">
+                                Invalid input
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="row px-0">

@@ -1,12 +1,12 @@
+import { NotificationService } from './../../shared/notification.service';
 import { Category } from './../../Model/category';
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Currency } from 'src/app/Model/currency.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { AmcMasterService } from 'src/app/shared/amc-master.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { ClientService } from 'src/app/shared/client.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -18,10 +18,11 @@ export class AmcSerialComponent implements OnInit {
 
   categoryList = [];
   productList = [];
-  
+
   amcSerialForm: FormGroup;
   amcSerialProgress = false;
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
+  private clientName: string;
   private deptId: number;
   private deptName: string;
   private amcNo: string;
@@ -37,13 +38,15 @@ export class AmcSerialComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private ngZone: NgZone,
-    private http: HttpClient
+    private http: HttpClient,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       const value = JSON.parse(params["data"]);
       this.amcNo = value.amcNo;
+      this.clientName = value.cname;
       this.deptId = value.did;
       this.deptName = value.dname;
     });
@@ -104,9 +107,10 @@ export class AmcSerialComponent implements OnInit {
     });
   }
 
+  //Get product and category data from backend
   private loadSelectionData() {
     let productListLoad = false, categoryListLoad = false;
-    this.http.get<any>('http://localhost:8080/Product/findAllProduct').subscribe(response => {
+    this.amcMasterservice.getProduct().subscribe(response => {
       this.productList = response;
       this.isLoadingResults = ((productListLoad = true) && categoryListLoad) ? false : true;
     }, error => {
@@ -114,8 +118,7 @@ export class AmcSerialComponent implements OnInit {
       this.isRateLimitReached = true;
       this.errorMessage = error;
     });
-    this.http.get<any>('http://localhost:8080/category/findAllCategory').subscribe(response => {
-      console.log(response);
+    this.amcMasterservice.getCategory().subscribe(response => {
       this.categoryList = response;
       this.isLoadingResults = ((categoryListLoad = true) && productListLoad) ? false : true;
     }, error => {
@@ -125,6 +128,7 @@ export class AmcSerialComponent implements OnInit {
     });
   }
 
+  //Get and Set amc general data to the serial form field
   private loadData(): void {
     this.amcMasterservice.getAmcData(this.amcNo).subscribe(data => {
       this.amcSerialForm.patchValue({
@@ -151,10 +155,12 @@ export class AmcSerialComponent implements OnInit {
     })
   }
 
+  //Calculate Value in Lkr acording to gurrency and exchange rate
   calculateLkr(event: any): void {
-   this.amcMasterservice.calculateMtcAmountInLkr(event, this.amcSerialForm);
+    this.amcMasterservice.calculateMtcAmountInLkr(event, this.amcSerialForm);
   }
 
+  //calclulate totla value of amc product details
   private calculateTotal(): void {
     this.amcMasterservice.calculateTotalByPriceAndQuantity(this.amcSerialForm);
   }
@@ -166,7 +172,6 @@ export class AmcSerialComponent implements OnInit {
   }
 
   submitForm(): void {
-    console.log(this.amcSerialForm.value);
     this.amcSerialProgress = true;
     if (this.amcSerialForm.valid) {
       const amcNo = this.amcSerialForm.get('amcMaster.amcNo').value;
@@ -176,10 +181,20 @@ export class AmcSerialComponent implements OnInit {
       formData.append("file", this.amcFile);
       this.amcMasterservice.saveAmcSerial(formData, amcNo).subscribe(
         response => {
-          console.log(response);
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              "data": JSON.stringify({
+                "cname": this.clientName,
+                "did": this.deptId,
+                "dname": this.deptName
+              })
+            }
+          };
+          this.router.navigate([`/clients/depts/${this.deptId}/amc-list`], navigationExtras);
         },
         error => {
-          console.error(error);
+          let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+          this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.amcSerialProgress = false);
     } else {
@@ -188,15 +203,18 @@ export class AmcSerialComponent implements OnInit {
     }
   }
 
+  //set selected file to amcFile variable;
   onFileChanged(event: any) {
     this.amcFile = event.target.files[0];
   }
 
+  //reset form when it clickes on reset button in the form
   resetForm(): void {
     this.amcSerialForm.reset();
     this.elementRef.nativeElement.querySelector('#course-name').scrollIntoView();
   }
 
+  //scrroll the form to first invalid form ,when it clicks on save button, if any invalid form is there
   scrollToFirstInvalidControl(): void {
     const firstInvalidControl: HTMLElement = this.elementRef.nativeElement.querySelector('form .ng-invalid');
     firstInvalidControl.scrollIntoView({ behavior: 'smooth' });

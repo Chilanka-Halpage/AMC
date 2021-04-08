@@ -1,8 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { AmcMasterService } from 'src/app/shared/amc-master.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AmcData } from 'src/app/Model/amc-data.model';
+import { Frequency } from 'src/app/Model/frequency';
 
 @Component({
   selector: 'app-amc-renew-edit',
@@ -11,7 +13,7 @@ import { AmcData } from 'src/app/Model/amc-data.model';
 })
 export class AmcRenewEditComponent implements OnInit {
 
-  
+  frequencyList: Frequency[];
   private isDesabled = true;
   private amcFile: File;
   amcFullDataForm: FormGroup;
@@ -26,13 +28,15 @@ export class AmcRenewEditComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private amcService: AmcMasterService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
       this.clientName = value.cname;
+      this.loadSelectionData();
       this.loadData(value.serial);
     });
   }
@@ -101,6 +105,17 @@ export class AmcRenewEditComponent implements OnInit {
       this.errorMessage = error.error.message;
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
+    });
+  }
+
+  private loadSelectionData() {
+    this.amcService.getFrequency().subscribe(response => {
+      this.frequencyList = response;
+      this.isLoadingResults = false;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
     });
   }
 

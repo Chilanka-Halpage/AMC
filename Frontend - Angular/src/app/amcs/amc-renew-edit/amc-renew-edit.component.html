@@ -46,10 +46,15 @@
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Frequency</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
-                        <input type="text" matInput formControlName="frequency">
+                        <mat-select formControlName="frequency" [value]="data.frequency">
+                            <mat-option *ngFor="let frequency of frequencyList" [value]="frequency.frequency">
+                                {{frequency.frequency}}
+                            </mat-option>
+                        </mat-select>
                         <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
                         </mat-error> -->
                     </mat-form-field>
+                       
                 </div>
 
                 <div class="row px-0 m-0">

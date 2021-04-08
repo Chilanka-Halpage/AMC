@@ -40,8 +40,7 @@ export class ClientListComponent implements AfterViewInit {
 
   constructor(
     private clientService: ClientService,
-    private router: Router,
-    private sharedService: NotificationService
+    private router: Router
   ) { }
 
   ngAfterViewInit(): void {
@@ -52,6 +51,7 @@ export class ClientListComponent implements AfterViewInit {
     this.filterValue = (event.target as HTMLInputElement).value;
   }
 
+  //load and set data to the table
   loadingClientData(): void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page)
@@ -63,7 +63,7 @@ export class ClientListComponent implements AfterViewInit {
             this.sort.active, this.sort.direction, this.paginator.pageIndex);
         }),
         map(data => {
-          // Flip flag to show that loading has finished.
+          // slet flag to show that loading has finished.
           this.isLoadingResults = false;
           this.isRateLimitReached = false;
           this.resultsLength = data.totalElements;
@@ -72,7 +72,7 @@ export class ClientListComponent implements AfterViewInit {
         }),
         catchError(() => {
           this.isLoadingResults = false;
-          // Catch if the GitHub API has reached its rate limit. Return empty data.
+          // set flag to identify that errors ocuured
           this.isRateLimitReached = true;
           return observableOf([]);
         })
@@ -81,14 +81,17 @@ export class ClientListComponent implements AfterViewInit {
       });
   }
 
+  //Load client data as a page from backend
   getClientData(sort: string, order: string, page: number): Observable<any> {
     return this.clientService.getAllClients(page, this.pagesize, sort, order);
   }
 
+  //Redirect to form of creating new client
   onCreate(): void {
     this.router.navigateByUrl('client/new');
   }
 
+  //Selecting departments of the client
   onSelectDept(row: Client): void {
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -101,6 +104,7 @@ export class ClientListComponent implements AfterViewInit {
     this.router.navigate(['dept-list'], navigationExtras);
   }
 
+  //Selecting of AMCs of the client
   onSelectAmc(row: Client): void {
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -113,6 +117,7 @@ export class ClientListComponent implements AfterViewInit {
     this.router.navigate([`clients/${row.clientId}/amc-list`], navigationExtras);
   }
 
+  //Edit client data
   onEdit(row: any): void {
     let navigationExtras: NavigationExtras = {
       queryParams: {

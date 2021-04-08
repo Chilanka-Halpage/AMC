@@ -138,7 +138,7 @@ export class AddClientComponent implements OnInit {
         contactNo: this.data.contactNo,
         contactPerson: this.data.contactPerson,
         address: this.data.address,
-        active: (this.data.active == 'Active') ? true : false
+        active: this.data.active
       }
     });
   }
@@ -151,7 +151,7 @@ export class AddClientComponent implements OnInit {
       email: this.data.email,
       contactNo: this.data.contactNo,
       contactPerson: this.data.contactPerson,
-      active: (this.data.isActive == 'Active') ? true : false
+      active: this.data.active
     });
     this.clientForm.controls['client'].setErrors(null);
   }
@@ -160,7 +160,6 @@ export class AddClientComponent implements OnInit {
   loadClientDataForNewDept(cid: number): void {
     this.clientForm.get('client').disable();
     this.clientService.getClientByClientId(cid).subscribe(response => {
-      console.log(response);
       this.clientForm.patchValue({
         client: {
           clietnID: response.clientId,
@@ -168,7 +167,7 @@ export class AddClientComponent implements OnInit {
           contactNo: response.contactNo,
           contactPerson: response.contactPerson,
           address: response.address,
-          active: (response.active == 'Active') ? true : false
+          active: response.active
         }
       });
     }, () => {
@@ -214,8 +213,8 @@ export class AddClientComponent implements OnInit {
         response => {
           this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.locaton.back() });
         },
-        () => {
-          let message = 'Cannot proceed the request. Try again'
+        (error) => {
+          let message = (error.status === 400)? 'Client not available to save department' : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
@@ -232,8 +231,8 @@ export class AddClientComponent implements OnInit {
         response => {
           this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.navigateToClientList() });
         },
-        () => {
-          let message = 'Cannot proceed the request. Try again'
+        (error) => {
+          let message = (error.status === 400)? 'Client not available to update' : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
@@ -252,8 +251,8 @@ export class AddClientComponent implements OnInit {
         response => {
           this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.locaton.back() });
         },
-        () => {
-          let message = 'Cannot proceed the request. Try again'
+        (error) => {
+          let message = (error.status === 400)? 'Department not available to update' : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
