@@ -1,0 +1,12 @@
+.amc-grid div :first-child {
+    color: black;
+}
+
+.amc-grid div :last-child {
+    color: dimgray;
+}
+.amc-grid {
+    margin-bottom: 30px;
+}
+
+

@@ -1,0 +1,33 @@
+<div class="container-fluid div1">
+  <h2 class="div3">Profile</h2>
+  <div class="conntainer-fluid div2">
+    <div class="container div3">
+      <div class="container" id="div1">
+        <br><br>
+        <div class="container">
+          <img src="{{imageSrc}}" alt="image" class="middle rounded-circle img-thumbnail img"><br><br>
+        </div>
+        <mat-grid-list cols="2" rowHeight="150px">
+          <mat-grid-tile>
+            <div>
+              <mat-label> <b>Name:</b></mat-label><br>
+              <mat-label> <b>User Id:</b></mat-label><br>
+              <mat-label> <b>Contact Number:</b></mat-label><br>
+              <mat-label> <b>Email:</b></mat-label>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div>
+              <mat-label>{{users.uname}}</mat-label><br>
+              <mat-label>{{users.userId}}</mat-label><br>
+              <mat-label>{{users.contactNo}}</mat-label><br>
+              <mat-label>{{users.email}}</mat-label>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <br>
+        <button (click)="editprofile(users.userId)" class="btn btn-primary">Edit Profile</button>
+      </div>
+    </div>
+  </div>
+</div>

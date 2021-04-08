@@ -1,0 +1,26 @@
+<div class="container">
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>userId</th>
+            <th>uname</th>
+            <th>role</th>
+            <th>active</th>
+            <th>email</th>
+            <th>contactNo</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor ="let users of users">
+            <td>{{users.userId}}</td>
+            <td>{{users.uname}}</td>
+            <td>{{users.role}}</td>
+            <td>{{users.active}}</td>
+            <td>{{users.email}}</td>
+            <td>{{users.contactNo}}</td>
+            <td><button (click)="profile(users.userId)">Profile</button></td>
+        </tr>
+    </tbody>
+</table>
+</div>

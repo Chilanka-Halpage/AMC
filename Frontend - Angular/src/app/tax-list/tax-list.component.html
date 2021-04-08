@@ -1,0 +1,66 @@
+
+<div class="w-100 px-3">
+    <h2>Tax List</h2>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="d-flex flex-row-reverse clo-6 my-0 pr-2">
+ 
+    <button  mat-raised-button class="btn btn-success" (click)="gotocreatetax()"> 
+      <mat-icon class="icon">add</mat-icon>New Tax</button>
+    </div>
+    <mat-form-field class="Filter">
+      <mat-label>Filter By Tax Name</mat-label>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex.t20" #input>
+    </mat-form-field>
+    <table mat-table class="mat-elevation-z8, table table-striped table-hover" matSort [dataSource]="taxes">
+      <ng-container matColumnDef="taxName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-middle">Tax Name</th>
+        <td mat-cell *matCellDef="let element" class="align-middle">{{element.taxName}}</td>
+      </ng-container>     
+      <ng-container matColumnDef="shortName" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-middle">Tax Short Name</th>
+        <td mat-cell *matCellDef="let element" class="align-middle">{{element.shortName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="taxRate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-middle">Tax Rate</th>
+        <td mat-cell *matCellDef="let element" class="align-middle">{{element.taxRate}}</td>
+      </ng-container>
+      <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Status</th>
+        <td mat-cell *matCellDef="let element" class="align-middle">{{element.active}}</td>
+      </ng-container>
+      <ng-container matColumnDef="savedOn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-middle">Create Date</th>
+        <td mat-cell *matCellDef="let element" class="align-middle">{{element.savedOn}}</td>
+      </ng-container>
+      <ng-container matColumnDef="savedIp">
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Saved Ip</th>
+        <td mat-cell *matCellDef="let element" class="align-middle">{{element.savedIp}}</td>
+      </ng-container> 
+      <ng-container matColumnDef="Status">
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Status</th>
+        <td mat-cell *matCellDef="let element" class="align-middle">{{element.Status}}</td>
+      </ng-container> 
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Action</th>
+        <td mat-cell *matCellDef="let element" class="align-middle">
+          <button mat-icon-button color="warn" aria-label="Example icon button with a delete icon" (click)="deleteTax(element.taxId)">
+            <mat-icon>delete</mat-icon>
+          </button> </td>    
+      </ng-container> 
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Update</th>
+        <td mat-cell *matCellDef="let element" class="align-middle">
+          <button mat-icon-button color="warn" aria-label="Example icon button with a update icon" (click)="updatetax(element.taxId)">
+            <mat-icon>select_all</mat-icon>
+          </button> </td>    
+      </ng-container> 
+      <tr mat-header-row class="p-3 mb-2 bg-primary text-white"  *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>  
+     <mat-paginator class="text-primary"  [length]="100"
+     [pageSize]="10"[pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+     </mat-paginator> 
+  </div>
+      
+        
+      

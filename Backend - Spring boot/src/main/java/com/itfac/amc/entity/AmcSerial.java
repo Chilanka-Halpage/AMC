@@ -17,9 +17,13 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "amc_serial")
 public class AmcSerial {
@@ -32,6 +36,12 @@ public class AmcSerial {
 
 	@Column(length = 100, nullable = false)
 	private String remark;
+	
+	@Column(nullable = false)
+	private String frequency;
+	
+	@Column(name = "contract_url")
+	private String contractUrl;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "mtc_start_date", nullable = false)
@@ -58,7 +68,7 @@ public class AmcSerial {
 	private BigDecimal mtcAmtforfrequency;
 
 	@Column(name = "mtc_amount_for_given_frequency_item", nullable = false)
-	private BigDecimal mtcAmtforfrequencyperItem;
+	private BigDecimal mtcAmtforfrequencyPerItem;
 
 	@Column(name = "mtc_amount_per_product_lkr", nullable = false)
 	private BigDecimal mtcAmtPerProductLkr;
@@ -72,7 +82,11 @@ public class AmcSerial {
 	@Column(name = "mtc_amount_for_given_frequency_item_lkr", nullable = false)
 	private BigDecimal mtcAmtforfrequencyPerItemLkr;
 	
-
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk1"))
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private AmcMaster amcMaster;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_product_id", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk2"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -92,6 +106,5 @@ public class AmcSerial {
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk5"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Category category;
-	
 
 }

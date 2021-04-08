@@ -1,0 +1,169 @@
+<div class="container-md mb-4">
+
+    <div class="jumbotron mb-1">
+        <h3 class="h2">{{heading}}</h3>
+        <p>{{description}}</p>
+    </div>
+    <div *ngIf="!type" class="d-flex flex-row-reverse my-0">
+        <button type="button" (click)="navigateToClientList()" mat-raised-button class="btn btn-primary">
+            Existing Client
+        </button>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-body background-color">
+            <form [formGroup]="clientForm">
+                <div formGroupName="client" *ngIf="type !='%DE3%'">
+                    <h6>Client Details</h6>
+                    <mat-divider class="mat-divider"></mat-divider>
+                    <br />
+
+                    <div class="row px-0">
+                        <mat-form-field class="col" appearance="outline" id="client-name">
+                            <mat-label>Client Name</mat-label>
+                            <input type="text" matInput formControlName="clientName" placeholder="client name">
+                            <mat-error *ngIf="clientName.errors?.clientExists">Client already exists </mat-error>
+                            <mat-error *ngIf="clientName.touched && clientName.errors?.required">This field is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <h6>Client Contact Details</h6>
+                    <mat-divider class="mat-divider"></mat-divider>
+                    <br />
+
+                    <div class="row px-0">
+                        <mat-form-field appearance="outline" class="col pr-2">
+                            <mat-label>Contact Person</mat-label>
+                            <input type="text" matInput formControlName="contactPerson"
+                                placeholder="contact person name">
+                            <mat-error *ngIf="clientContactPerson.touched && clientContactPerson.errors?.required">
+                                This field is required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="col pl-2">
+                            <mat-label>Contact Number</mat-label>
+                            <input type="text" matInput formControlName="contactNo" placeholder="contact person number">
+                            <mat-error *ngIf="clientContactNo.touched && clientContactNo.errors?.required">This field is
+                                required
+                            </mat-error>
+                            <mat-error
+                                *ngIf="clientContactNo.touched && !clientContactNo.errors?.required && clientContactNo.errors?.pattern">
+                                Invalid input
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="row px-0">
+                        <mat-form-field class="col" appearance="outline">
+                            <mat-label>Client Address</mat-label>
+                            <input type="text" matInput formControlName="address"
+                                placeholder="Ex: No.15, Galle Face, Colombo Rd, Colombo">
+                            <mat-error *ngIf="clientAddress.touched && clientAddress.errors?.required">This field
+                                is required
+                            </mat-error>
+                            <mat-error
+                                *ngIf="clientAddress.touched && !clientAddress.errors?.required && clientAddress.errors?.pattern">
+                                Invalid input
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="row px-0">
+                        <mat-checkbox formControlName="active" class="col-md-4">Active Client</mat-checkbox>
+                    </div>
+                </div>
+
+
+                <br />
+
+                <div *ngIf="type !='%CE2%'">
+                    <h6>Department Details</h6>
+                    <mat-divider class="mat-divider"></mat-divider>
+                    <br />
+                    <div class="row px-0">
+                        <mat-form-field class="col" appearance="outline" id="departmen-name">
+                            <mat-label>Department Name</mat-label>
+                            <input type="text" matInput formControlName="departmentName" placeholder="department name">
+                            <mat-error *ngIf="departmentName.errors?.deptExists">Department already exists </mat-error>
+                            <mat-error *ngIf="departmentName.touched && departmentName.errors?.required">This field is
+                                required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <h6>Department Contact Details</h6>
+                    <mat-divider class="mat-divider"></mat-divider>
+                    <br />
+
+                    <div class="row px-0">
+
+                        <mat-form-field appearance="outline" class="col pr-2">
+                            <mat-label>Contact Person</mat-label>
+                            <input type="text" matInput formControlName="contactPerson"
+                                placeholder="contact person name">
+                            <mat-error
+                                *ngIf="departmentContactPerson.touched && departmentContactPerson.errors?.required">This
+                                field is required
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="col pl-2">
+                            <mat-label>Contact Number</mat-label>
+                            <input type="text" matInput formControlName="contactNo" placeholder="contact person number">
+                            <mat-error *ngIf="departmentContactNo.touched && departmentContactNo.errors?.required">This
+                                field is required</mat-error>
+                            <mat-error
+                                *ngIf="departmentContactNo.touched && !departmentContactNo.errors?.required && departmentContactNo.errors?.pattern">
+                                Invalid
+                                input</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div class="row px-0">
+                        <mat-form-field appearance="outline" class="col">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email" placeholder="Ex. pat@example.com">
+                            <mat-error *ngIf="departmentEmail.touched && departmentEmail.errors?.required">This field is
+                                required
+                            </mat-error>
+                            <mat-error
+                                *ngIf="departmentEmail.touched && !departmentEmail.errors?.required && departmentEmail.errors?.pattern">
+                                Invalid
+                                Email Address
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row px-0s">
+                        <mat-checkbox formControlName="active" class="col-md-4">Active Department
+                        </mat-checkbox>
+                    </div>
+                </div>
+
+                <div>
+
+                    <div class="d-flex flex-row-reverse my-0">
+                        <button *ngIf="!type" (click)="createClient()" [disabled]="isDesabled" type="submit"
+                            mat-raised-button color="primary" class="ml-1">
+                            <span *ngIf="clientSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+                            Save New Client
+                        </button>
+                        <button *ngIf="type==='%CE2%' || type==='%DE3%'"
+                            (click)="(type==='%CE2%')? updateClient(): updateDept()" type="submit" mat-raised-button
+                            color="primary" class="ml-1">
+                            <span *ngIf="clientSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+                            Save Changes
+                        </button>
+                        <button *ngIf="type==='%DC4%'" (click)="createDept()" [disabled]="isDesabled" type="submit"
+                            mat-raised-button color="primary" class="ml-1">
+                            <span *ngIf="clientSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+                            Save New Department
+                        </button>
+                        <button (click)="resetForm()" type="button" mat-raised-button color="warn" mat-button
+                            class="mr-1">Reset Form</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

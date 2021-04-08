@@ -1,0 +1,29 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .example-container .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+  
+  .mat-card{
+      max-width: 600px;
+      margin: 2em auto;
+      text-align: center;
+      max-height: 800px;
+
+  }
+  .header{
+      text-align: center;
+  }
+  .full-width{
+      width: 80%;
+  }
+  .email-input{
+      padding-top: 10px;
+  }
+  .atLink{
+      float: left;
+  }

@@ -20,10 +20,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.itfac.amc.util.Auditable;
-
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -36,7 +33,7 @@ public class AmcProduct{
 	private int amcProdNo;
 	
 	@Column(name = "product_description", length = 100, nullable = false)
-	private String prodDes;
+	private String productDescription;
 	
 	@Column(name = "life_start_date")
 	@Temporal(TemporalType.DATE)
@@ -51,7 +48,7 @@ public class AmcProduct{
 	private int quantity;
 	
 	@Column(name = "exchage_rate", precision = 5, scale = 2, nullable = false)
-	private BigDecimal exchageRate;
+	private BigDecimal exchangeRate;
 	
 	@Column(name = "total_value", columnDefinition = "decimal(10,2) default 0.0")
 	private BigDecimal totalValue = new BigDecimal(0.0);
@@ -64,7 +61,7 @@ public class AmcProduct{
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AmcMaster amcMaster;
 	
-	@ManyToOne()
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "amc_product_fk2"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Product product;

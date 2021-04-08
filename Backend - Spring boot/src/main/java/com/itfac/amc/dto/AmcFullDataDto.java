@@ -1,0 +1,52 @@
+package com.itfac.amc.dto;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public interface AmcFullDataDto {
+	String getAmc_no();
+	String getAmc_serial_no();
+	boolean getActive();
+	boolean getAmc_active();
+	int getClient_dept_id();
+	String getDepartment_name();
+	int getCurrency_id();
+	String getCurrency_name();
+	int getCategory_id();
+	String getCategory_name();
+	Date getStart_date();
+	Date getMtc_start_date();
+	Date getMtc_end_date();
+	Date getRenewal();
+	String getFrequency();
+	BigDecimal getExchage_rate();
+	BigDecimal getTotal_value();
+	BigDecimal getTotal_value_lkr();
+	BigDecimal getMtc_amount_for_given_annum();
+	BigDecimal getMtc_amount_for_given_annum_lkr();
+	BigDecimal getMtc_amount_per_product();
+	BigDecimal getMtc_amount_per_product_lkr();
+	BigDecimal getMtc_amount_for_given_frequency();
+	BigDecimal getMtc_amount_for_given_frequency_lkr();
+	BigDecimal getMtc_amount_for_given_frequency_item();
+	BigDecimal getMtc_amount_for_given_frequency_item_lkr();
+	int getMtc_qty();
+	String getRemark();
+	String getAmc_remark();
+	String getInv_desc();
+	String getSaved_by();
+	Date getSaved_on();
+	String getLast_modified_ip();
+	int getAmc_product_id();
+	String getProduct_name();
+	String getLast_modified_by();
+	Date getLast_modified_on();
+	Date getLife_start_date();
+	Date getLife_end_date();
+	BigDecimal getPrice();
+	int getQuantity();
+	BigDecimal getSales_revenue();
+	BigDecimal getSales_revenue_lkr();
+	String getProduct_description();
+	String getContract_url();
+}

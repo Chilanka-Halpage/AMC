@@ -1,0 +1,71 @@
+  <div class="container-md mb-4">   
+    <div class="jumbotron mb-3">
+        <h3>Edit AMC Due Invoice</h3>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-header">
+            <h5>General details form for new AMC Due Invoice</h5>
+            <p class="mb-1">Fill out the details </p>
+        </div>
+        <div class="container pt-3">
+            <form [formGroup]="adddueinvoiceForm" (ngSubmit)="onSubmit()">
+              <div class="row px-0">
+                <mat-form-field appearance="outline" class="col-6">
+                  <mat-label>Due Date</mat-label>
+                  <input matInput formControlName="dueDate" [matDatepicker]="start_date" />
+                  <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+                  <mat-datepicker #start_date></mat-datepicker>
+              </mat-form-field>
+              </div>
+              <mat-divider class="mat-divider"></mat-divider>
+              <br>           
+              <div class="row px-0">
+                <mat-form-field appearance="outline" class="col-6">
+                <mat-label>
+                  invoiceAmt:  </mat-label>
+                  <input type="text" matInput formControlName="invoiceAmt"> 
+               </mat-form-field>           
+                <mat-form-field appearance="outline" class="col pl-2">
+                   <mat-label>
+                    invoiceBalance:</mat-label>
+                    <input type="number" matInput formControlName="invoiceBalance">     
+                </mat-form-field>  
+               </div> 
+               <div class="row px-0">
+                 <div formGroupName="amcMaster">
+                <mat-form-field appearance="outline" class="col-12">
+                  <mat-label>
+                    AMC number:  </mat-label>
+                    <input type="text" matInput formControlName="amcNo" > 
+                 </mat-form-field> 
+                </div>  
+                <div formGroupName="amcSerial">       
+                  <mat-form-field appearance="outline" class="col pl-2">
+                     <mat-label>
+                      amc_serialno:</mat-label>
+                      <input type="number" matInput formControlName="amcSerialNo" >     
+                  </mat-form-field> 
+                </div>  
+                <div formGroupName="product">
+                  <mat-form-field appearance="outline" class="col pl-3">
+                    <mat-label>
+                      product_id:  </mat-label>
+                      <input type="text" matInput formControlName="productId" > 
+                   </mat-form-field> 
+                </div>
+                <div formGroupName="currency">
+                   <mat-form-field appearance="outline" class="col pl-3">
+                    <mat-label>
+                      currency_id:  </mat-label>
+                      <input type="text" matInput formControlName="currencyId" > 
+                   </mat-form-field> 
+                  </div>
+              </div>
+               <div class="d-flex flex-row-reverse my-0">
+                <button class="btn btn-success mb-3" type="submit">submit</button>
+               </div>
+              </form>
+            </div>
+        </div>
+<div>  
