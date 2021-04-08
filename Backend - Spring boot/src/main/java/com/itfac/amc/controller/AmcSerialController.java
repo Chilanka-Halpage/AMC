@@ -46,14 +46,6 @@ public class AmcSerialController {
 		return ResponseEntity.status(HttpStatus.OK).body("Successfully Saved");
 	}
 
-//	@PostMapping("renew")
-//	public ResponseEntity<String> renewAmc(HttpServletRequest request, @RequestParam("data") Map<String, String> data,
-//			@RequestParam("file") MultipartFile file)
-//			throws JsonMappingException, JsonProcessingException, ParseException {
-//		amcSerialService.renewAmc(request, data, file);
-//		return ResponseEntity.status(HttpStatus.OK).body(("Successfully Saved!"));
-//	}
-
 	@PostMapping("renew/{amcNo}")
 	public ResponseEntity<String> renewAmc(HttpServletRequest request, @RequestParam("data") String data,
 			@RequestParam("file") MultipartFile file, @PathVariable(value = "amcNo") String amcNo) throws JsonMappingException, JsonProcessingException {
@@ -83,7 +75,6 @@ public class AmcSerialController {
 	@GetMapping("/download/{fileName}")
 	ResponseEntity<Resource> downLoadSingleFile(@PathVariable String fileName, HttpServletRequest request) {
 		Resource resource = fileStorageService.downloadFile(fileName);
-//        MediaType contentType = MediaType.APPLICATION_PDF;
 		String mimeType;
 		try {
 			mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
@@ -92,7 +83,6 @@ public class AmcSerialController {
 		}
 		mimeType = mimeType == null ? MediaType.APPLICATION_OCTET_STREAM_VALUE : mimeType;
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName="+resource.getFilename())
 				.header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
 
 	}

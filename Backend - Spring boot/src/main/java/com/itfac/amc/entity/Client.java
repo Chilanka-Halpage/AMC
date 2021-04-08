@@ -44,6 +44,6 @@ public class Client extends Auditable{
 	@Column(nullable = false)
 	private String address;
 	
-	@Column(name = "saved_ip", length = 20)
+	@Column(name = "last_modified_ip", length = 20)
 	private String lastModifiedIp;
 }

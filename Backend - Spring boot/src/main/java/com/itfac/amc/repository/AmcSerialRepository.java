@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
-import com.itfac.amc.entity.AmcMaster;
 import com.itfac.amc.entity.AmcSerial;
 import com.itfac.amc.reportData.AllAmcs;
 import com.itfac.amc.reportData.GetAllAmcs;

@@ -20,9 +20,6 @@ public interface AmcMasterRepository extends JpaRepository<AmcMaster, String> {
 
 	List<AmcMasterDto> findByClientClientId(int clientId);
 
-	@Query(value = "SELECT * FROM get_all_amcs", nativeQuery = true)
-	List<Object> getAllAmcs();
-
 	@Query(value = "SELECT * FROM amc_master where client_id = :cId", nativeQuery = true)
 	List<AmcMaster> getAmcByClients(@Param("cId") String cId);
 

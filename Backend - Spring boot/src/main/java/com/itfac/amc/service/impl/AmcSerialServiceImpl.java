@@ -51,11 +51,16 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 			AmcProduct amcProduct = amcSerial.getAmcProduct();
 			amcProduct.setAmcMaster(amcMaster);
 			amcProductRepository.save(amcProduct);
+			
+			//calculate AMC serial no.
 			String receivedLastSerialNo = amcSerialRepository.getAmcLastSerialNo(amcNo);
-			int lastSerialNo = 0;
-			lastSerialNo = (receivedLastSerialNo != null) ? (Integer.parseInt(receivedLastSerialNo)) + 1 : 1;
+			int lastSerialNo = (receivedLastSerialNo != null) ? (Integer.parseInt(receivedLastSerialNo)) + 1 : 1;
 			String amcSerialNo = amcNo + lastSerialNo;
+			
+			//update amc_number_serial table by inserting last_serial_no
 			amcSerialRepository.setAmcSerialNo(amcNo, lastSerialNo);
+			
+			//save scanned copy of contract and get URL
 			String contractUrl = fileStorageService.storeFile(file, amcSerialNo);
 			amcSerial.setAmcSerialNo(amcSerialNo);
 			amcSerial.setContractUrl(contractUrl);
@@ -88,53 +93,11 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 		return amcFullData;
 	}
 
-//	@Override
-//	@Transactional
-//	public void renewAmc(HttpServletRequest request, Map<String, String> data, MultipartFile file)
-//			throws JsonMappingException, JsonProcessingException, ParseException {
-//		
-//		  String amcNo = data.get("amcNo"); int amcProdNo =
-//		  Integer.parseInt(data.get("amcProductNo")); BigDecimal exchangeRate = new
-//		  BigDecimal(data.get("exchangeRate")); BigDecimal amcTotalValue = new
-//		  BigDecimal(data.get("totalValue")); BigDecimal amcTotalValueLkr = new
-//		 BigDecimal(data.get("totalValueLkr")); Date lifeEndDate = new
-//		  SimpleDateFormat("yyyy-MM-dd").parse(data.get("lifeEndDate"));
-//		 
-//
-//		
-//		  AmcMaster amcMaster = amcMasterRepository.findById(amcNo) .orElseThrow(() ->
-//		  new ResourceNotFoundException("Record for AMC No " + amcNo + " Not Found"));
-//		 AmcProduct amcProduct = amcProductRepository.findById(amcProdNo)
-//		  .orElseThrow(() -> new
-//		  ResourceNotFoundException("Record for AMC Product Not Found")); AmcSerial
-//		  amcSerial = new ObjectMapper().readValue(data.get("amcSerial"),
-//		 AmcSerial.class);
-//		  
-//		 amcMaster.setFrequency(amcSerial.getFrequency());
-//		 amcMaster.setExchangeRate(exchangeRate);
-//		 amcMaster.setTotalValue(amcTotalValue);
-//		  amcMaster.setTotalValueLkr(amcTotalValueLkr); // Save updated AMC master in
-//		  DB amcMasterRepository.save(amcMaster);
-//		  
-//		  amcProduct.setLifeEndDate(lifeEndDate); // save updated AMC product in DB
-//		  amcProductRepository.save(amcProduct);
-//		  
-//		  amcSerial.setAmcMaster(amcMaster); String receivedLastSerialNo =
-//		  amcSerialRepository.getAmcLastSerialNo(amcNo); int lastSerialNo = 0;
-//		  lastSerialNo = (receivedLastSerialNo != null) ?
-//		  (Integer.parseInt(receivedLastSerialNo)) + 1 : 1; String amcSerialNo = amcNo
-//		  + lastSerialNo; amcSerialRepository.setAmcSerialNo(amcNo, lastSerialNo); //
-//		  String contractUrl = fileStorageService.storeFile(file, amcSerialNo);
-//		  amcSerial.setAmcSerialNo(amcSerialNo); //
-//		amcSerial.setContractUrl(contractUrl); amcSerialRepository.save(amcSerial);
-//		 
-//	}
 	@Override
 	@Transactional
 	public void renewAmc(HttpServletRequest request, String data, MultipartFile file, String amcNo) throws JsonMappingException, JsonProcessingException {
 		String ipAddress = request.getRemoteAddr();
 		AmcSerial amcSerial = new ObjectMapper().readValue(data, AmcSerial.class);
-		System.out.println(amcSerial);
 		int amcProdNo = amcSerial.getAmcProduct().getAmcProdNo();
 		String frequency = amcSerial.getFrequency();
 		BigDecimal exchangeRate = amcSerial.getAmcMaster().getExchangeRate();
@@ -151,7 +114,7 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 		amcMaster.setExchangeRate(exchangeRate);
 		amcMaster.setTotalValue(amcTotalValue);
 		amcMaster.setTotalValueLkr(amcTotalValueLkr);
-		amcMaster.setSavedIp(ipAddress);
+		amcMaster.setLastModifiedIp(ipAddress);
 		// Save updated AMC master inDB
 		amcMasterRepository.save(amcMaster);
 

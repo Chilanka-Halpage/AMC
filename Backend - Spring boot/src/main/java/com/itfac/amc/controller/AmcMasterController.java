@@ -1,7 +1,6 @@
 package com.itfac.amc.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,29 +27,30 @@ public class AmcMasterController {
 
 	@Autowired
 	AmcMasterService amcService;
-	
+
 	@RequestMapping("add/{clientId}")
-	public ResponseEntity<Map<String, String>> addNewAmc(@RequestBody AmcMaster amcMaster, @PathVariable("clientId") int clientId, HttpServletRequest httpServletRequest) {
-		Map<String, String> result = amcService.addNewAmcByClientId(httpServletRequest, amcMaster, clientId);
+	public ResponseEntity<String> addNewAmc(@RequestBody AmcMaster amcMaster, @PathVariable("clientId") int clientId,
+			HttpServletRequest httpServletRequest) {
+		String result = amcService.addNewAmcByClientId(httpServletRequest, amcMaster, clientId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
-	
+
 	@GetMapping("get/amcs/{amcNo}")
-	public ResponseEntity<AmcMasterSubData> getAmcSubData(@PathVariable("amcNo") String amcNo){
+	public ResponseEntity<AmcMasterSubData> getAmcSubData(@PathVariable("amcNo") String amcNo) {
 		AmcMasterSubData result = amcService.getAmcSubData(amcNo);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
-	
+
 	@GetMapping("get/clients/{clientId}")
-	public ResponseEntity<List<AmcMasterDto>> getAmcByClient(@PathVariable("clientId") int clientId){
+	public ResponseEntity<List<AmcMasterDto>> getAmcByClient(@PathVariable("clientId") int clientId) {
 		List<AmcMasterDto> result = amcService.getAmcByClient(clientId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
-	
+
 	@PutMapping("edit/{amcNo}")
-	public ResponseEntity<String> getAmcByClient(@RequestBody AmcMaster amcMaster, @PathVariable String amcNo){
+	public ResponseEntity<String> getAmcByClient(@RequestBody AmcMaster amcMaster, @PathVariable String amcNo) {
 		amcService.updateAmcMaster(amcMaster, amcNo);
 		return ResponseEntity.status(HttpStatus.OK).body("Updated Successfully");
 	}
-	
+
 }

@@ -17,7 +17,7 @@ public class ExceptionHandling{
 
 	@ExceptionHandler(BadCredentialsException.class)
 	public ResponseEntity<Object> myExceptionHandler(Exception ex) {
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -32,10 +32,9 @@ public class ExceptionHandling{
 		return errors;
 	}
 	
-//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//	@ExceptionHandler(RuntimeException.class)
-//	public String runtimeExceptionHandler(Exception ex) {
-//		System.out.println("hshgsgvgsvgd");
-//		return ex.getMessage();
-//	}
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(RuntimeException.class)
+	public String runtimeExceptionHandler(Exception ex) {
+		return ex.getMessage();
+	}
 }

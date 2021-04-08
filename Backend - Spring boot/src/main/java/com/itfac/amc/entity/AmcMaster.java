@@ -58,8 +58,8 @@ public class AmcMaster extends Auditable{
 	@Column(name = "inv_desc", length = 200)
 	private String invDesc;
 
-	@Column(name = "saved_ip", length = 20)
-	private String savedIp;
+	@Column(name = "last_modified_ip", length = 20)
+	private String lastModifiedIp;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_id", nullable = false, foreignKey = @ForeignKey(name = "amc_master_fk1"))

@@ -27,48 +27,32 @@ public class ClientController {
 	@Autowired
 	ClientService clientService;
 
-//	@GetMapping("client/{name}")
-//	public ResponseEntity<List<ClientDto>> getClientByName(@PathVariable("name") String clientName) {
-//		List<ClientDto> clients = clientService.getClientByName(clientName);
-//		if (clients != null) {
-//			return ResponseEntity.ok(clients);
-//		}
-//		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No client with name " + clientName)
-//				.body(clients);
-//	}
-
+	//Return Client object for given ID 
 	@GetMapping("{id}")
 	public ResponseEntity<Client> getClientById(@PathVariable("id") int clientId) {
 		Client client = clientService.getClientById(clientId);
 		return ResponseEntity.status(HttpStatus.OK).body(client);
 	}
 
+	//Return a page of Clients 
 	@GetMapping("allclients")
 	public Page<Client> getAllClients(Pageable pageable) {
 		return clientService.getAllClients(pageable);
 	}
 
+	//Return boolean value according to availability of the client entity for given name
 	@GetMapping("exists/{name}")
 	public ResponseEntity<Boolean> existsClient(@PathVariable("name") String clientName) {
 		boolean result = clientService.doesClientExists(clientName);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-//	@PostMapping("add")
-//	public ResponseEntity<Client> addClient(HttpServletRequest httpServletRequest, @RequestBody Client client)
-//			throws Exception {
-//		Client newClient = clientService.addClient(httpServletRequest, client);
-//		return ResponseEntity.ok(newClient);
-//	}
-
+	//Modify Client Object 
 	@PutMapping("edit")
 	public ResponseEntity<String> updateClient(HttpServletRequest httpServletRequest,
 			@Valid @RequestBody Client client) {
-		Client modifiedClient = this.clientService.updateClient(httpServletRequest, client);
-		if (modifiedClient != null) {
-			return ResponseEntity.status(HttpStatus.OK).body("Modified Succefully");
-		}
-		return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Modification Failed");
+		this.clientService.updateClient(httpServletRequest, client);
+		return ResponseEntity.status(HttpStatus.OK).body("Modified Succefully");
 	}
 
 }

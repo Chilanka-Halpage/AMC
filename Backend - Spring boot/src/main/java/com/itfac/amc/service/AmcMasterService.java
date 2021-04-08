@@ -1,6 +1,5 @@
 package com.itfac.amc.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,13 +11,38 @@ import com.itfac.amc.entity.AmcMaster;
 
 public interface AmcMasterService {
 
-	HashMap<String, String> addNewAmcByClientId(HttpServletRequest httpServletRequest, AmcMaster amc, int clientId)
+	/**
+	 * Save new AMC Master entity for given client Id and return AMC No as string. Unless an entity is available for given client id throw an exception 
+	 * 
+	 * @param httpServletRequest
+	 * @param amc
+	 * @param clientId
+	 * @return AMC No
+	 * @throws ResourceNotFoundException
+	 */
+	String addNewAmcByClientId(HttpServletRequest httpServletRequest, AmcMaster amc, int clientId)
 			throws ResourceNotFoundException;
 
+	/**
+	 * Return portion of the AmcMaster entity for given amcNo. If not found an entity for given AMC no throw ResourceNotFoundException
+	 * @param amcNo
+	 * @return 
+	 */
 	AmcMasterSubData getAmcSubData(String amcNo);
 
+	/**
+	 * Return AmcMaterDto for given client Id. If not found throw ResourceNotFoundException
+	 * 
+	 * @param clientId
+	 * @return
+	 */
 	List<AmcMasterDto> getAmcByClient(int clientId);
 
+	/**
+	 * Modify AMC master entity for given amcNo.If not found an entity for given AMC no throw ResourceNotFoundException
+	 * @param amcMaster
+	 * @param amcNo
+	 */
 	void updateAmcMaster(AmcMaster amcMaster, String amcNo);
 
 }

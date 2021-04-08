@@ -40,11 +40,12 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 	public void addDepartmentByClientId(int clientId, ClientDepartment department,
 			HttpServletRequest httpServletRequest) {
 		String ipAddress = httpServletRequest.getRemoteAddr();
+		Client client = clientRepository.findById(clientId)
+				.orElseThrow(() -> new ResourceNotFoundException("ClientId " + clientId + " not found"));
+		
 		department.setLastModifiedIp(ipAddress);
-		clientRepository.findById(clientId).map(client -> {
-			department.setClient(client);
-			return clientDepartmentRepository.save(department);
-		}).orElseThrow(() -> new ResourceNotFoundException("ClientId " + clientId + " not found"));
+		department.setClient(client);
+		clientDepartmentRepository.save(department);
 	}
 
 	@Override
@@ -82,28 +83,11 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 			department.setClient(client);
 			department.setLastModifiedIp(ipAddress);
 			department.setDeptId(deptId);
-			try {
-				clientDepartmentRepository.save(department);
-			} catch (RuntimeException ex) {
-				throw ex;
-			}
+			clientDepartmentRepository.save(department);
 		} else {
 			throw new ResourceNotFoundException("No matching records for department Id: " + deptId);
 		}
 
-	}
-
-	@Override
-	public Map<String, Object> getClientAndDeptByDeptId(int deptId) {
-		ClientDepartment deptDetails = clientDepartmentRepository.findById(deptId).map(dept -> {
-			dept.setClient(dept.getClient());
-			return dept;
-		}).orElseThrow(() -> new ResourceNotFoundException("Client Id: " + deptId + " not found"));
-
-		Map<String, Object> deptData = new HashMap<>();
-		// deptData.put("dept", deptDetails);
-		deptData.put("client", clientRepository.findById(deptDetails.getClient().getClientId()));
-		return deptData;
 	}
 
 	@Override

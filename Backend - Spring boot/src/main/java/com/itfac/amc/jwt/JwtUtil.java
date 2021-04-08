@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.itfac.amc.security.MyUserDetails;
@@ -16,7 +16,18 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class JwtUtil {
-	private String SECRET_KEY = "epic_lanka_amc";
+	private String SECRET_KEY;
+	private int EXPIRATION_TIME;
+
+	@Value("${jwt.secret-key}")
+	public void setSecretKey(String secretKey) {
+		SECRET_KEY = secretKey;
+	}
+
+	@Value("${jwt.expiration-time}")
+	public void setExpirationTime(int expirationTime) {
+		EXPIRATION_TIME = expirationTime;
+	}
 
     public String extractUserId(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -46,7 +57,7 @@ public class JwtUtil {
     private String createToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 

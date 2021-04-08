@@ -34,13 +34,6 @@ public class ClientDepartmentController {
 		return clientDepartmentService.getDepartmentsByClientId(id);
 	}
 
-	@GetMapping("client/{deptId}")
-	public ResponseEntity<Map<String, Object>> getClientAndDepartmentByDeptId(@PathVariable(value = "deptId") int id) {
-		Map<String, Object> clientAndDept = clientDepartmentService.getClientAndDeptByDeptId(id);
-		return ResponseEntity.status(HttpStatus.OK).body(clientAndDept);
-
-	}
-
 	@GetMapping("exists/{clientId}/{deptName}")
 	public ResponseEntity<Boolean> existsDept(@PathVariable("clientId") int clientId,
 			@PathVariable("deptName") String deptName) {

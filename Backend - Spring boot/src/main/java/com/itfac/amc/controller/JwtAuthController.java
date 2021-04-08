@@ -16,6 +16,7 @@ public class JwtAuthController {
 
 	@Autowired
 	JwtAuthService jwtAuthService;
+	
 	@RequestMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
 			throws Exception {

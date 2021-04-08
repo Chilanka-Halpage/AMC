@@ -36,7 +36,7 @@ public interface AmcFullDataDto {
 	String getInv_desc();
 	String getSaved_by();
 	Date getSaved_on();
-	String getSaved_ip();
+	String getLast_modified_ip();
 	int getAmc_product_id();
 	String getProduct_name();
 	String getLast_modified_by();
