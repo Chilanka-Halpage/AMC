@@ -8,4 +8,5 @@ import com.itfac.amc.entity.ProformaInvoiceTaxDetails;
 @Repository
 public interface ProformaInvoiceTaxDetailsRepository extends JpaRepository<ProformaInvoiceTaxDetails, Integer>{
 
+
 }

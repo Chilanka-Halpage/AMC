@@ -13,11 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -30,7 +30,8 @@ public class AmcDueInvoice {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column(name = "due_date", nullable = false)
+	@Column(name = "due_date", nullable = false )
+	@Temporal(TemporalType.DATE)
 	private Date dueDate;
 	
 	@Column(name = "invoice_amount", nullable = false)
@@ -44,13 +45,12 @@ public class AmcDueInvoice {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "amc_due_fk1"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
 	private AmcMaster amcMaster;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_serialno", nullable = false, foreignKey = @ForeignKey(name = "amc_due_fk2"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
+
 	private AmcSerial amcSerial;
 	
 	@ManyToOne()
@@ -62,5 +62,8 @@ public class AmcDueInvoice {
 	@JoinColumn(name = "currency_id", nullable = false, foreignKey = @ForeignKey(name = "amc_due_fk4"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Currency currency;
+
+
+	
 
 }

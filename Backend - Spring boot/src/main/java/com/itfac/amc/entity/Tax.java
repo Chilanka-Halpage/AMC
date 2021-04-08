@@ -1,19 +1,19 @@
 package com.itfac.amc.entity;
 
 import java.math.BigDecimal;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import com.itfac.amc.util.Auditable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
-public class Tax {
+@EqualsAndHashCode(callSuper = false)
+public class Tax extends Auditable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,12 +30,6 @@ public class Tax {
 	private BigDecimal taxRate;
 	
 	private boolean active;
-	
-	@Column(name = "saved_by", length = 15)
-	private String savedBy;
-	
-	@Column(name = "saved_on")
-	private Date savedOn;
 	
 	@Column(name = "saved_ip", length = 20)
 	private String savedIp;

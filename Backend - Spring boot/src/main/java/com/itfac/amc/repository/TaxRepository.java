@@ -8,4 +8,5 @@ import com.itfac.amc.entity.Tax;
 @Repository
 public interface TaxRepository extends JpaRepository<Tax, Integer> {
 
+	
 }

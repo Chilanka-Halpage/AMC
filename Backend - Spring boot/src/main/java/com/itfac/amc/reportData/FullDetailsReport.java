@@ -14,6 +14,6 @@ public interface FullDetailsReport {
 	public Date getmtc_end_date();
 	public String getfrequency();
 	public BigDecimal getmtc_amt_for_frequency();
-	public BigDecimal gettotal_value();
+	public BigDecimal gettotal_value_lkr();
 	public boolean getactive();
 }

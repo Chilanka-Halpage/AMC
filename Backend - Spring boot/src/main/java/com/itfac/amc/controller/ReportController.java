@@ -2,40 +2,45 @@ package com.itfac.amc.controller;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.reportData.AllAmcs;
-import com.itfac.amc.reportData.AllClientDetails;
+import com.itfac.amc.reportData.ClientAmc;
 import com.itfac.amc.reportData.ClientDetails;
+import com.itfac.amc.reportData.ClientPaymentsDetails;
+import com.itfac.amc.reportData.ExpiredAmc;
+import com.itfac.amc.reportData.FullDetailsReport;
+import com.itfac.amc.reportData.GetClientAmc;
+import com.itfac.amc.reportData.GetInvoice;
+import com.itfac.amc.reportData.PaymentReport;
+import com.itfac.amc.reportData.RenewalAmcs;
+import com.itfac.amc.reportData.RenewedAmcs;
 import com.itfac.amc.service.ReportService;
 
 import net.sf.jasperreports.engine.JRException;
 
+@CrossOrigin(origins = "*")
 @RestController
-@CrossOrigin("*")
 public class ReportController {
 
 	@Autowired
 	private ReportService reportService;
 
-	// client details report -only one client
-	@GetMapping("report/Clientdetails/{client_name}")
-	public List<ClientDetails> getClientDetailsByName(@PathVariable String client_name) {
-		return reportService.getClientDetailsByName(client_name);
-	}
-
 	// All client details report between two dates
-	@GetMapping("report/AllClients/{Date1},{Date2}")
-	public List<AllClientDetails> getAllClientDetailsBetweenDates(@PathVariable Date Date1, @PathVariable Date Date2) {
-		return reportService.getAllClientDetailsBetweenDates(Date1, Date2);
+	@GetMapping("/AllClients/{Date1}/{Date2}")
+	public List<ClientDetails> getAllClientDetailsBetweenDates(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
+		return reportService.getAllClientDetails(Date1, Date2);
 	}
 
 	// All AMC details report
@@ -47,4 +52,77 @@ public class ReportController {
 		return reportService.getAllAmc(Date1, Date2);
 	}
 
+	// Renewed AMCs
+	@GetMapping("/RenewedAmcs/{Date1}/{Date2}")
+	public List<RenewedAmcs> getRenewedAmcs(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2)
+			throws FileNotFoundException, JRException {
+		return reportService.getRenewedAmcs(Date1, Date2);
+	}
+
+	// Renewal AMCs
+	@GetMapping("/RenewalAmcs/{Date1}/{Date2}")
+	public List<RenewalAmcs> getRenewalAmcs(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2)
+			throws FileNotFoundException, JRException {
+		return reportService.getRenewalAmcs(Date1, Date2);
+	}
+
+	// Expired AMCs
+	@GetMapping("/ExpiredAmcs/{Date1}/{Date2}")
+	public List<ExpiredAmc> getExpiredAmcs(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2)
+			throws FileNotFoundException, JRException {
+		return reportService.getExpiredAmcs(Date1, Date2);
+	}
+
+	// Full details report
+	@GetMapping("/FullDeatils/{Date1}/{Date2}")
+	public List<FullDetailsReport> getFullDetails(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2)
+			throws FileNotFoundException, JRException {
+		return reportService.getFullDetails(Date1, Date2);
+	}
+
+	// Payments Reports
+	@GetMapping("/PaymentReport/{Date1}/{Date2}")
+	public List<PaymentReport> paymentReport(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2)
+			throws FileNotFoundException, JRException {
+		return reportService.paymentReport(Date1, Date2);
+	}
+
+	// Client AMC Report
+	@GetMapping("/ClientAmc/{cId}")
+	public List<ClientAmc> clientAmcReport(@PathVariable("cId") String cId) throws FileNotFoundException, JRException {
+		return reportService.clientAmcReport(cId);
+	}
+
+	// Payment report for client
+	@GetMapping("/ClientPaymentsReport/{cId}")
+	public List<ClientPaymentsDetails> ClientPaymentsReport(@PathVariable("cId") String cId)
+			throws FileNotFoundException, JRException {
+		return reportService.ClientPaymentsReport(cId);
+	}
+
+	// client amc details mobile-----------------------------------
+	@GetMapping("getamcreport/{amcNo}")
+	ResponseEntity<List<GetClientAmc>> getclientAmc(@PathVariable("amcNo") String amcNo) throws Exception {
+		List<GetClientAmc> ClientAmc = reportService.getclientAmc(amcNo);
+		return ResponseEntity.status(HttpStatus.OK).body(ClientAmc);
+
+	}
+
+	// client invoice mobile-----------------------------------
+	@GetMapping("getinvoicereport/{amcno}")
+	ResponseEntity<List<GetInvoice>> getInvoice(@PathVariable("amcno") String id) throws Exception {
+		List<GetInvoice> invoice = reportService.getInvoiceById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(invoice);
+
+	}
 }

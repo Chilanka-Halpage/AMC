@@ -24,39 +24,44 @@ import com.itfac.amc.service.ProductService;
 @RequestMapping("Product/")
 @CrossOrigin("*")
 public class ProductController {
-	
+
 	@Autowired
 	ProductService productservice;
-	
+
 	@GetMapping("findAllProduct")
-	public List<Product> getallProduct(){
+	public List<Product> getallProduct() {
 		return productservice.findAllProduct();
 	}
-	
-	@GetMapping("findProduct/{id}")
-	ResponseEntity<Optional<Product>> getProductById(@PathVariable("id") int productId){
+
+	@GetMapping("findAllProduct/{id}")
+	ResponseEntity<Optional<Product>> getProductById(@PathVariable("id") int productId) {
 		Optional<Product> productById = productservice.ProductFindById(productId);
-		if(productById!=null) {
-			return ResponseEntity.ok(productById);	
-			}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No category with entered id " + productId).body(productById);
+		if (productById != null) {
+			return ResponseEntity.ok(productById);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No category with entered id " + productId)
+				.body(productById);
 	}
-	
-	@RequestMapping(method = RequestMethod.DELETE,value="deleteProduct/{id}")
+
+	@RequestMapping(method = RequestMethod.DELETE, value = "deleteProduct/{id}")
 	public void deleteProduct(@PathVariable("id") int productId) {
 		productservice.deleteProduct(productId);
 	}
-	
-	@PostMapping("findAllProduct")//AddProduct
+
+	@PostMapping("AddProduct") // AddProduct
 	public Product addProduct(@Validated @RequestBody Product product) {
 		return productservice.addProduct(product);
-		
+
 	}
-	
-	@PutMapping("findAllProduct/{id}")
-	public  Product updateProduct(@Validated @RequestBody Product product) {
+
+	@PutMapping("updateProduct/{id}")
+	public Product updateProduct(@Validated @RequestBody Product product) {
 		return productservice.updateProduct(product);
 	}
-	
+
+	@GetMapping("findActiveProduct")
+	public Product getActiveProduct() {
+		return productservice.getActiveProduct();
+	}
 
 }

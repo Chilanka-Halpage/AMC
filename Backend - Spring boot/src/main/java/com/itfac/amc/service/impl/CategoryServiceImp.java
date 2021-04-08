@@ -43,4 +43,9 @@ public class CategoryServiceImp implements CategoryService {
 		return categoryrepo.save(category);
 	}
 
+	@Override
+	public Category getActiveCategory() {
+		return categoryrepo.getActiveCategory();
+	}
+
 }

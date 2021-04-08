@@ -6,13 +6,14 @@ import java.util.Date;
 public interface RenewalAmcs {
 
 	public String getamc_no();
-	public String getclietn_iD();
+	public String getamc_serial_no(); 
+	public Date getrenewal();
+	public String getclient_id();
 	public String getclient_name();
-	public String getcontact_no();
-	public Date getmtc_end_date();
 	public String getcategory_name();
 	public String getfrequency();
-	public String getcurrency_name();
-	public BigDecimal getinvoice_amt();
-	public BigDecimal gettotal_value();
+	public String getcurrency_name(); 
+	public BigDecimal getinvoice_amount(); 
+	public BigDecimal gettotal_value_lkr();
+	public int getmtc_qty();
 }

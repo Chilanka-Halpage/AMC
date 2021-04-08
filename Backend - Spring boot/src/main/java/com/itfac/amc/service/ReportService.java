@@ -1,53 +1,45 @@
 package com.itfac.amc.service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.itfac.amc.reportData.AllAmcs;
-import com.itfac.amc.reportData.AllClientDetails;
+import com.itfac.amc.reportData.ClientAmc;
 import com.itfac.amc.reportData.ClientDetails;
-import com.itfac.amc.reportData.GetAllAmcs;
-import com.itfac.amc.repository.AmcMasterRepository;
-import com.itfac.amc.repository.AmcSerialRepository;
-import com.itfac.amc.repository.ClientRepository;
+import com.itfac.amc.reportData.ClientPaymentsDetails;
+import com.itfac.amc.reportData.ExpiredAmc;
+import com.itfac.amc.reportData.FullDetailsReport;
+import com.itfac.amc.reportData.GetClientAmc;
+import com.itfac.amc.reportData.GetInvoice;
+import com.itfac.amc.reportData.PaymentReport;
+import com.itfac.amc.reportData.RenewalAmcs;
+import com.itfac.amc.reportData.RenewedAmcs;
+import com.itfac.amc.reportData.viewLoginDetails;
 
-@Service
-public class ReportService {
+public interface ReportService {
 
-	@Autowired
-	AmcSerialRepository amcSerialRepository;
+	public List<ClientDetails> getAllClientDetails(LocalDate date1, LocalDate date2);
 
-	@Autowired
-	AmcMasterRepository amcMasterRepository;
+	public List<AllAmcs> getAllAmc(LocalDate Date1, LocalDate Date2);
 
-	@Autowired
-	ClientRepository clientRepository;
+	public List<RenewedAmcs> getRenewedAmcs(LocalDate Date1, LocalDate Date2);
 
-	// get All AMCs details report
-	public List<GetAllAmcs> getAllAmcsBetweenDates(Date Date1, Date Date2) {
-		return amcSerialRepository.getAllAmcsBetweenDates(Date1, Date2);
-	}
+	public List<ExpiredAmc> getExpiredAmcs(LocalDate Date1, LocalDate Date2);
 
-	// client details report -only one client
-	public List<ClientDetails> getClientDetailsByName(String client_name) {
-		return clientRepository.getClientDetailsByName(client_name);
-	}
+	public List<RenewalAmcs> getRenewalAmcs(LocalDate Date1, LocalDate Date2);
 
-	// All client details report between two dates
-	public List<AllClientDetails> getAllClientDetailsBetweenDates(Date Date1, Date Date2) {
-		return clientRepository.getAllClientDetailsBetweenDates(Date1, Date2);
-	}
+	public List<FullDetailsReport> getFullDetails(LocalDate Date1, LocalDate Date2);
 
-	public List<AllAmcs> getAllAmc(LocalDate Date1, LocalDate Date2) {
-		return amcSerialRepository.getAllAmc(Date1, Date2);
-	}
+	public List<ClientAmc> clientAmcReport(String cId);
 
-	public List<AllAmcs> getAllAmcByNo(String amc_no) {
-		return amcSerialRepository.getAllAmcByNo(amc_no);
-	}
+	public List<PaymentReport> paymentReport(LocalDate Date1, LocalDate Date2);
+
+	public List<ClientPaymentsDetails> ClientPaymentsReport(String cId);
+
+	public List<viewLoginDetails> loginDetails();
+
+	List<GetClientAmc> getclientAmc(String amc_no) throws Exception;
+
+	List<GetInvoice> getInvoiceById(String amc_no) throws Exception;
 
 }

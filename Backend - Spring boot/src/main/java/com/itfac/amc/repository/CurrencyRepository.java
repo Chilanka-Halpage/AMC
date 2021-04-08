@@ -8,4 +8,6 @@ import com.itfac.amc.entity.Currency;
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Integer> {
 
+	
+	
 }

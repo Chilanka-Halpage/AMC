@@ -35,4 +35,19 @@ public class FrequencyServiceImp implements FrequencyService {
 
 	}
 
+	@Override
+	public Frequency addFrequency(Frequency frequency) {
+		return frequencyrepo.save(frequency);
+	}
+
+	@Override
+	public Frequency updateFrequency(Frequency frequency) {
+		return frequencyrepo.save(frequency);
+	}
+
+	@Override
+	public Frequency getActiveFrequency() {
+		return frequencyrepo.getActiveFrequency();
+	}
+
 }

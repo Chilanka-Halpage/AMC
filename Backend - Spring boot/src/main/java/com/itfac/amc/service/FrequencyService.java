@@ -13,4 +13,10 @@ public interface FrequencyService {
 
 	Optional<Frequency> getFrequencyById(int id);
 
+	Frequency addFrequency(Frequency frequency);
+
+	Frequency updateFrequency(Frequency frequency);
+
+	Frequency getActiveFrequency();
+
 }

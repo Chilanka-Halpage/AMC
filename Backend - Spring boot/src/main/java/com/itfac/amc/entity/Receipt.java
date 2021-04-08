@@ -2,7 +2,6 @@ package com.itfac.amc.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,17 +12,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.itfac.amc.util.Auditable;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
-public class Receipt {
+public class Receipt extends Auditable {
 
 	@Id
 	@Column(name = "rec_no", length = 10)
@@ -58,13 +57,7 @@ public class Receipt {
 
 	@Column(name = "balance_lkr", columnDefinition = "decimal(10,2) default 0.0")
 	private BigDecimal balanceLkr = new BigDecimal(0.0);
-	
-	@Column(name = "saved_by", length = 15)
-	private String savedBy;
-	
-	@Column(name = "saved_on")
-	private Date savedOn;
-	
+		
 	@Column(name = "saved_ip", length = 20)
 	private String savedIp;
 	
@@ -77,13 +70,11 @@ public class Receipt {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "receipt_fk1"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
 	private AmcMaster amcMaster;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_dept_id", nullable = false, foreignKey = @ForeignKey(name = "receipt_fk2"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
+	@OnDelete(action = OnDeleteAction.CASCADE)	
 	private ClientDepartment clientDepartment;
 	
 	@ManyToOne()
@@ -99,6 +90,5 @@ public class Receipt {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pi_no", nullable = false, foreignKey = @ForeignKey(name = "receipt_fk5"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
 	private ProformaInvoice invoice;
 }

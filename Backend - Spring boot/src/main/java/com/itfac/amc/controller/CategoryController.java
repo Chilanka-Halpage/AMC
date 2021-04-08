@@ -21,7 +21,7 @@ import com.itfac.amc.entity.Category;
 import com.itfac.amc.service.CategoryService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("category/")
 public class CategoryController {
 
@@ -29,14 +29,17 @@ public class CategoryController {
 	CategoryService categoryservice;
 
 	@GetMapping("findAllCategory")
+
 	public List<Category> getallctegory() {
 		return categoryservice.getAllCategory();
 
 	}
 
-	@GetMapping("findAllCategory/{id}") // findCategory
+	@GetMapping("findAllCategory/{id}")
+
 	ResponseEntity<Optional<Category>> getCategoryById(@PathVariable("id") int categoryId) {
 		Optional<Category> categoryByIdd = categoryservice.getCategoryById(categoryId);
+
 		if (categoryByIdd != null) {
 			return ResponseEntity.ok(categoryByIdd);
 		}
@@ -44,21 +47,32 @@ public class CategoryController {
 				.body(categoryByIdd);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "findAllCategory/{id}")
+	@RequestMapping(method = RequestMethod.DELETE, value = "deleteCategory/{id}")
+
 	public void deleteCategory(@PathVariable("id") int categoryId) {
 		categoryservice.deleteCategory(categoryId);
 	}
 
-	@PostMapping("findAllCategory") // AddCategory
+	@PostMapping("AddCategory")
+
 	public Category AddCategory(@Validated @RequestBody Category category) {
 		return categoryservice.AddCategory(category);
 
 	}
 
-	@PutMapping("findAllCategory/{id}") // UpdateCategory
+	@PutMapping("UpdateCategory/{id}") // UpdateCategory
 
-	public Category updateCategory(@Validated @RequestBody Category category) {
+	public Category updateCategory(@PathVariable("id") int categoryId, @Validated @RequestBody Category category) {
+
+		category.setCategoryId(categoryId);
 		return categoryservice.updateCategory(category);
+	}
+
+	@GetMapping("findActiveCategoy")
+
+	public Category getActiveCategory() {
+		return categoryservice.getActiveCategory();
+
 	}
 
 }

@@ -53,4 +53,11 @@ public class AmcMasterController {
 		return ResponseEntity.status(HttpStatus.OK).body("Updated Successfully");
 	}
 
+	@GetMapping("allamcno/{idname}")
+	ResponseEntity<List<String>> getAllAmcNo(@PathVariable("idname") String id) throws Exception {
+		List<String> allAmc = amcService.getAllAmcNo(id);
+		return ResponseEntity.status(HttpStatus.OK).body(allAmc);
+
+	}
+
 }

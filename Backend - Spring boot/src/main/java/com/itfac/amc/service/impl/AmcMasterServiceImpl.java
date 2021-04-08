@@ -32,31 +32,32 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 
 	@Override
 	@Transactional
-	public String addNewAmcByClientId(HttpServletRequest httpServletRequest, AmcMaster amc,
-			int clientId) throws ResourceNotFoundException {
+	public String addNewAmcByClientId(HttpServletRequest httpServletRequest, AmcMaster amc, int clientId)
+			throws ResourceNotFoundException {
 
 		Client client = clientRepository.findById(clientId)
 				.orElseThrow(() -> new ResourceNotFoundException("Client Id: " + clientId + " not found"));
 		String ipAddress = httpServletRequest.getRemoteAddr();
-		
-		//calculate amcNo
+
+		// calculate amcNo
 		String currentYear = String.valueOf(Year.now().getValue());
 		String receivedLastNo = amcMasterRepository.getAmcLastNo(currentYear);
-		int lastNo = (receivedLastNo != null)? (Integer.parseInt(receivedLastNo)) + 1 : 1; 
+		int lastNo = (receivedLastNo != null) ? (Integer.parseInt(receivedLastNo)) + 1 : 1;
 		String amcNo = currentYear + lastNo;
-		
+
 		amc.setClient(client);
 		amc.setAmcNo(amcNo);
 		amc.setLastModifiedIp(ipAddress);
-		
-		//update amc_number table by inserting new last_no
+
+		// update amc_number table by inserting new last_no
 		amcMasterRepository.setAmcNo(currentYear, lastNo);
 		AmcMaster returnedAmc = amcMasterRepository.save(amc);
 
-		if (returnedAmc != null) return returnedAmc.getAmcNo();
-		
+		if (returnedAmc != null)
+			return returnedAmc.getAmcNo();
+
 		throw new ResourceCreationFailedException("Cannot save data in the system");
-		
+
 	}
 
 	@Override
@@ -90,6 +91,13 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 		amc.setFrequency(amcMaster.getFrequency());
 
 		amcMasterRepository.save(amc);
+	}
+
+	@Override
+	public List<String> getAllAmcNo(String amc_no) throws Exception {
+		List<String> allAmc = amcMasterRepository.getAllAmcNo(amc_no);
+		return allAmc;
+
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.itfac.amc.dto.AmcMasterDto;
 import com.itfac.amc.dto.AmcMasterSubData;
 import com.itfac.amc.entity.AmcMaster;
+import com.itfac.amc.reportData.GetClientAmc;
 
 @Repository
 public interface AmcMasterRepository extends JpaRepository<AmcMaster, String> {
@@ -33,5 +34,13 @@ public interface AmcMasterRepository extends JpaRepository<AmcMaster, String> {
 	@Modifying(clearAutomatically = true, flushAutomatically = true)
 	@Query(value = "INSERT INTO amc_number_serial (amc_no, last_serial) VALUES (:amcNo,1)", nativeQuery = true)
 	void setAmcSerialNo(@Param("amcNo") String amcNo);
+
+	//getClientAmc--------------------------------------------
+	@Query(value = "select * from get_client_amc where amc_no= :amcNo", nativeQuery = true)
+	List<GetClientAmc> getClientAmcById(@Param("amcNo") String amc_no);
+
+	// get all amc no ---------------------------------------------
+	@Query(value = "select am.amc_no from amc_master am, client c, user u where am.client_id = c.client_id and c.user_id = u.user_id and u.user_id = :user_id", nativeQuery = true)
+	List<String> getAllAmcNo(@Param("user_id") String user_id);
 
 }

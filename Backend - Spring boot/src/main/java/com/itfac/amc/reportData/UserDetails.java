@@ -1,5 +1,7 @@
 package com.itfac.amc.reportData;
 
+
+
 public interface UserDetails {
 	public String getuser_id();
 	public String getuname();
