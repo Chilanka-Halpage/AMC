@@ -54,5 +54,11 @@ public class ClientController {
 		this.clientService.updateClient(httpServletRequest, client);
 		return ResponseEntity.status(HttpStatus.OK).body("Modified Succefully");
 	}
+	
+	@GetMapping("activeclient")
+	public String countclients() {
+		return clientService.countclients();
+	   
+	}
 
 }

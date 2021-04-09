@@ -54,7 +54,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "test");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, "H:\\Software project\\Angular\\my-app\\src\\assets\\AllAmcJr.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, "F:\\test\\my-app\\src\\assets\\AllAmcJr.pdf");
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 	//renewal amcs report
@@ -69,7 +69,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, "H:\\Software project\\Angular\\my-app\\src\\assets\\renewalAmcs.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, "F:\\test\\my-app\\src\\assets\\renewalAmcs.pdf");
 		
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -85,7 +85,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, "H:\\Software project\\Angular\\my-app\\src\\assets\\renewedAmcs.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, "F:\\test\\my-app\\src\\assets\\renewedAmcs.pdf");
 		
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -102,7 +102,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, "H:\\Software project\\Angular\\my-app\\src\\assets\\ExpiredAmcs.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, "F:\\test\\my-app\\src\\assets\\ExpiredAmcs.pdf");
 		
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -119,7 +119,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, "H:\\Software project\\Angular\\my-app\\src\\assets\\FullDetails.pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, "F:\\test\\my-app\\src\\assets\\FullDetails.pdf");
 
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -136,7 +136,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,"H:\\Software project\\Angular\\my-app\\src\\assets\\ClientDetails.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,"F:\\test\\my-app\\src\\assets\\ClientDetails.pdf");
 		
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -151,7 +151,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,"H:\\Software project\\Angular\\my-app\\src\\assets\\PaymentReport.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,"F:\\test\\my-app\\src\\assets\\PaymentReport.pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 	
@@ -165,7 +165,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,"H:\\Software project\\Angular\\my-app\\src\\assets\\ClientAmc.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,"F:\\test\\my-app\\src\\assets\\ClientAmc.pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 	
@@ -178,7 +178,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,"H:\\Software project\\Angular\\my-app\\src\\assets\\PaymentReport.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,"F:\\test\\my-app\\src\\assets\\PaymentReport.pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 	

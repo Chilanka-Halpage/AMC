@@ -18,4 +18,6 @@ public interface Currencyservice {
 
 	Currency addCurrency(HttpServletRequest httpServletRequest, Currency currency);
 
+	List<Currency> getActivecurrencies();
+	
 }

@@ -42,5 +42,7 @@ public interface ClientService {
 	 * @return boolean value 
 	 */
 	boolean doesClientExists(String clientName);
+	
+	String countclients();
 
 }

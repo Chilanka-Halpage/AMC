@@ -42,5 +42,7 @@ public interface AmcMasterRepository extends JpaRepository<AmcMaster, String> {
 	// get all amc no ---------------------------------------------
 	@Query(value = "select am.amc_no from amc_master am, client c, user u where am.client_id = c.client_id and c.user_id = u.user_id and u.user_id = :user_id", nativeQuery = true)
 	List<String> getAllAmcNo(@Param("user_id") String user_id);
-
+    
+	@Query(value = "select count(*) from amc_master where active = true", nativeQuery = true)
+	String countActiveAmc();
 }

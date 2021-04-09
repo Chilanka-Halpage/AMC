@@ -18,4 +18,6 @@ public interface TaxService {
 	Optional<Tax> getTaxById(int id);
 
 	Tax updateTax(HttpServletRequest httpServletRequest, Tax tax);
+	
+	List<Tax> getActiveTax();
 }
