@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormGroup,FormControl,FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { TaxService } from '../tax.service';
 import { Router } from '@angular/router';
 import { Tax } from './../tax';
@@ -21,8 +21,8 @@ export class TaxFComponent implements OnInit {
   taxId: number;
 
   addtaxForm = this.fb.group({
-    taxName: ['',[Validators.required]],
-    shortName: ['',[Validators.required]],
+    taxName: ['', [Validators.required]],
+    shortName: ['', [Validators.required]],
     taxRate: ['', [Validators.required, Validators.max(999)]],
     taxId: [''],
     savedOn: [''],
@@ -33,17 +33,17 @@ export class TaxFComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  saveTax(){
-    this.taxService.createTax(this.tax).subscribe(data =>{
+  saveTax() {
+    this.taxService.createTax(this.tax).subscribe(data => {
       console.log(data);
-    this.goToTaxList();  
-   },
-      error => console.log(error));    
+      this.goToTaxList();
+    },
+      error => console.log(error));
   }
-  goToTaxList(){
-      this.router.navigate(['/taxlist']);
+  goToTaxList() {
+    this.router.navigate(['/taxlist']);
   }
-  onSubmit(){
+  onSubmit() {
     console.log(this.addtaxForm.value);
     this.saveTax();
   }

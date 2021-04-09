@@ -33,7 +33,7 @@ export class AuthenticationService {
     }
   }
 
-   get role(): string | null {
+  get role(): string | null {
     const user = this.user();
     if (user) {
       return user.role;
@@ -41,6 +41,15 @@ export class AuthenticationService {
       return null;
     }
   } 
+
+  get name(): string | null {
+    const user = this.user();
+    if (user) {
+      return user.username;
+    } else {
+      return null;
+    }
+  }
 
   loggedIn(): boolean {
     return !!localStorage.getItem('currentUser');
@@ -59,16 +68,13 @@ export class AuthenticationService {
     }
   }
 
- /*  get token(): string | null {
-    try {
-      const user = localStorage.getItem('currentUser');
-      if (user) {
-        return JSON.parse(user).token;
-      } else {
-        return null;
-      }
-    } catch (Exception) {
+  get userId(): string | null{
+    const user = this.user();
+    if (user) {
+      return user.userId;
+    } else {
       return null;
-    } 
-  }*/
+    }
+  }
+ 
 }

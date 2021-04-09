@@ -1,18 +1,38 @@
-.dashboard-card{
-    height: 100px;
+
+
+.example-card {
+    height: 350px;
+    width: 90%;
+    border-radius: 10px;
+    background: rgb(232, 244, 248);
+  }
+  .example-card:hover{
+    box-shadow: 1px 1px 6px  rgba(0,0,0,0.8);
+  }
+  /* .example-graph{
+    height: 750px;
+    width: 700px;
+    border-radius: 10px;
+    background: rgb(215, 238, 245);
+  } */
+  .example-graph:hover{
+    box-shadow: 1px 1px 6px  rgba(0,0,0,0.8);
+  }
+  .dashboard-card{
+    height: 120px;
     width: 80%;
-}
-.mat-h1{
+  }
+  .mat-h1{
    margin: 20px;
-}
-.value{
+  }
+  .value{
     color: red;
-}
-.revanue{
+  }
+  .revanue{
     width: 500px;
     margin: 30px;
-}
-.dashboard-card:hover{
-    box-shadow: 2px 2px 4px 1px rgba(0,0,0,0.8);
+  }
+  .dashboard-card:hover{
+    box-shadow: 1px 1px 6px  rgba(0,0,0,0.8);
   }
   

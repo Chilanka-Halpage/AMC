@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { Tax } from '../tax';
 
 @Component({
   selector: 'app-due-payment',
@@ -14,7 +15,6 @@ import { MatPaginator } from '@angular/material/paginator';
 export class DuePaymentComponent implements OnInit {
 
   duePayments: MatTableDataSource<any>
-  
 
   constructor(
     public duePaymentService: DuePaymentService,

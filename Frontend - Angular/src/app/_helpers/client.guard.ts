@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, Router} from '@angular/router';
-
 import {AuthenticationService} from '../_helpers/authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class AuthenticationGuard implements CanActivate {
+export class ClientGuard implements CanActivate {
 
   constructor(
     private authentication: AuthenticationService,
@@ -15,11 +14,12 @@ export class AuthenticationGuard implements CanActivate {
   ) {}
 
   canActivate() {
-    if (this.authentication.loggedIn()) {    
-       return true;     
+    console.log(this.authentication.role);
+        if (this.authentication.role !== 'ROLE_client') {    
+        return true;     
     } else {
-      this.router.navigate(['/login']);
-      return false;
+        this.authentication.logoutUser;
+        return false;
     }
   }
 }
