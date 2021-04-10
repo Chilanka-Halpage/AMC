@@ -1,0 +1,17 @@
+<div>
+    <div class="jumbotron mb-3">
+        <h3 class="h2"> AMC History </h3>
+        <p> </p>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-body background-color">
+            <div *ngFor="let log of list">
+                <div>{{ log.userId }} </div>
+                 <div> {{ log.dateTime | date: 'short' }} </div>
+                updated {{ log.fieldName }} from {{ log.oldValue }} to {{ log.newValue }}
+                <mat-divider class="mat-divider"></mat-divider>
+            </div>
+        </div>
+    </div>
+</div>

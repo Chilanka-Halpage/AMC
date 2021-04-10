@@ -1,3 +1,4 @@
+import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-view.component';
 import { SattlementComponent } from './sattlement/sattlement.component';
 import { CreateReceiptComponent } from './create-receipt/create-receipt.component';
 import { EditDueinvoiceComponent } from './edit-dueinvoice/edit-dueinvoice.component';
@@ -117,6 +118,7 @@ const routes: Routes = [
   { path: 'clients/amc-list/:no/full', component: AmcFullDataComponent},
   { path: 'clients/amc-list/:no/renew', component: AmcRenewEditComponent},
   {path:'userList',component: UserlistComponent},
+  {path:'amcHistory/view',component: AmcHistoryViewComponent},
   ];
 
 
