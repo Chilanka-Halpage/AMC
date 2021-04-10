@@ -1,6 +1,4 @@
 import { MessageComponent } from './message/message.component';
-
-//---------
 import { AmcMasterService } from './shared/amc-master.service';
 import { ClientService } from './shared/client.service';
 import { SharedAmcService } from './shared/shared-amc.service';
@@ -8,7 +6,6 @@ import { AddClientComponent } from './clients/add-client/add-client.component';
 import { MaterialModule } from './material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -24,13 +21,16 @@ import { HomeComponent } from './home/home.component';
 import { ProformaInvoiceComponent } from './proforma-invoice/proforma-invoice.component';
 import { SettingComponent } from './setting/setting.component';
 import { ReportsComponent } from './reports/reports.component';
-import { DashComponent } from './dash/dash.component';
 import { ListcategoryComponent } from './listcategory/listcategory.component'
 import { CategoryserviceService } from './categoryservice.service';
+<<<<<<< HEAD
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //--------------
 
+=======
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+>>>>>>> 9b55b5fb6ab72eee7a033ed5d6b860a3d34db332
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ReportComponent } from './report/report.component';
@@ -42,8 +42,8 @@ import { AllClientsDetailsFilterComponent } from './Filters/all-clients-details-
 import { AllClientsDetailsReportComponent } from './Reports/all-clients-details-report/all-clients-details-report.component';
 import { UsersFilterComponent } from './Filters/users-filter/users-filter.component';
 import { AllAmcsService } from './data/all-amcs/all-amcs.service';
-//-------------------------
 import { AuthenticationGuard } from './_helpers/authentication.guard';
+import { ClientGuard } from './_helpers/client.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { TokenInterceptor } from './_helpers/token.interceptor';
@@ -90,8 +90,14 @@ import { AmcSerialListComponent } from './amcs/amc-serial-list/amc-serial-list.c
 import { AmcFullDataComponent } from './amcs/amc-full-data/amc-full-data.component';
 import { AmcRenewEditComponent } from './amcs/amc-renew-edit/amc-renew-edit.component';
 import { NotifierComponent } from './notifier/notifier.component';
+<<<<<<< HEAD
 import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-view.component';
 
+=======
+import { RevalueComponent } from './revalue/revalue.component';
+import { SalesComponent } from './sales/sales.component';
+import { AMCStatusComponent } from './amcstatus/amcstatus.component';
+>>>>>>> 9b55b5fb6ab72eee7a033ed5d6b860a3d34db332
 
 @NgModule({
   declarations: [
@@ -101,7 +107,6 @@ import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-vie
     ProformaInvoiceComponent,
     SettingComponent,
     ReportsComponent,
-    DashComponent,
     AppComponent,
     AddClientComponent,
     ClientListComponent,
@@ -168,7 +173,13 @@ import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-vie
     AmcFullDataComponent,
     AmcRenewEditComponent,
     NotifierComponent,
+<<<<<<< HEAD
     AmcHistoryViewComponent
+=======
+    RevalueComponent,
+    SalesComponent,
+    AMCStatusComponent,
+>>>>>>> 9b55b5fb6ab72eee7a033ed5d6b860a3d34db332
   ],
   imports: [
     BrowserModule,
@@ -201,6 +212,7 @@ import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-vie
     ProductserviceService,
     NotificationService,
     AuthenticationGuard,
+    ClientGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

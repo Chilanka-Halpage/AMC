@@ -41,18 +41,19 @@ export class LoginComponent implements OnInit {
     this.error = '';
     if (this.loginForm.valid) {
       this.http.post<any>('http://localhost:8080/authenticate', this.loginForm.value).subscribe(
-        response => {
-            
+        response => {            
             const currentUser = {
               token: response.jwt,
-              role: response.role
+              role: response.role,
+              username: response.username,
+              userId: response.userId
             }
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
              if (response.role == "ROLE_admin") {
-              this.router.navigate(['/home']);
+              this.router.navigate(['/adminhome']);
               console.log(response)
              } else {
-               this.router.navigate(['/dashboard']);
+               this.router.navigate(['/clienthome']);
              }
         }, error => {
           this.error = error;

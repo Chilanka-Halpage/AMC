@@ -40,4 +40,9 @@ public class CurrencyserviseIml implements Currencyservice{
 		return currencyRepository.save(currency);
 	}
 
+	@Override
+	public List<Currency> getActivecurrencies() {
+		return currencyRepository.getActivecurrencies();
+	}
+
 }

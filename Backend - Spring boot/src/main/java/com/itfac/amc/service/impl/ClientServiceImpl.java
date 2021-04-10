@@ -47,4 +47,9 @@ public class ClientServiceImpl implements ClientService {
 		return clientRepository.existsByClientName(clientName);
 	}
 
+	@Override
+	public String countclients() {
+		return clientRepository.countclients();
+	}
+
 }

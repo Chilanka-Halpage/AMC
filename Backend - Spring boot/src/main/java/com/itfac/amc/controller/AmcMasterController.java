@@ -59,5 +59,11 @@ public class AmcMasterController {
 		return ResponseEntity.status(HttpStatus.OK).body(allAmc);
 
 	}
+	
+	@GetMapping("ActiveAmcCount")
+	public String countActiveAmc() {
+		return amcService.countActiveAmc();
+	
+	}
 
 }

@@ -51,8 +51,12 @@ public class CurrencyController {
 	ResponseEntity<Currency> addCurrency(HttpServletRequest httpServletRequest, @RequestBody Currency currency) throws Exception{
 		Currency newCurrency = currencyservice.addCurrency(httpServletRequest, currency);
 		System.out.println(currency);
-		return ResponseEntity.ok(newCurrency);
-		
+		return ResponseEntity.ok(newCurrency);	
+	}
+	
+	@GetMapping("/findactivecurrencies")
+	public List<Currency> getActivecurrencies() {
+		return currencyservice.getActivecurrencies();
 	}
 	
 }

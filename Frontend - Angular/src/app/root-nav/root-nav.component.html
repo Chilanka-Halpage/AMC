@@ -1,20 +1,21 @@
-<mat-sidenav-container class="sidenav-container">
+
+<mat-sidenav-container class="sidenav-container" >
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === true"
-      [opened]="_authentication.logout">
+      >
     <mat-toolbar><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item [routerLink]="['home']"><mat-icon>home</mat-icon><span class="button-text">Home</span></a>     
+    <mat-nav-list >
+      <a mat-list-item [routerLink]="" (click)="dashboardcheck()" ><mat-icon>home</mat-icon><span class="button-text">Home</span></a>     
       <a mat-list-item [matMenuTriggerFor]="payment">
         <mat-icon >payment</mat-icon><span class="button-text">Payment</span>
          <mat-menu #payment="matMenu">
             <button mat-menu-item [routerLink]="['createReceipt']">Payment</button>
-            <button mat-menu-item [routerLink]="['invoicelist']" >Proforma Invoice</button>
-            <button mat-menu-item [routerLink]="['dueinvoice']" >Due Invoice</button>
-            <button mat-menu-item [routerLink]="['taxlist']">Tax</button>
-            <button mat-menu-item [routerLink]="['currencylist']">Currency</button>
+            <button mat-menu-item [routerLink]="['invoicelist']" *ngIf="_authentication.role === 'ROLE_admin'" >Proforma Invoice</button>
+            <button mat-menu-item [routerLink]="['dueinvoice']">Due Invoice</button>
+            <button mat-menu-item [routerLink]="['taxlist']" *ngIf="_authentication.role === 'ROLE_admin'">Tax</button>
+            <button mat-menu-item [routerLink]="['currencylist']" *ngIf="_authentication.role === 'ROLE_admin'">Currency</button>
             <button mat-menu-item [routerLink]="['paymentHlist']">Payment History</button>
             <button mat-menu-item [routerLink]="['duepayment']">Due Payment</button>
          </mat-menu>
@@ -22,41 +23,38 @@
       <a mat-list-item [matMenuTriggerFor]="Reports">
         <mat-icon>article</mat-icon> <span class="button-text">Reports</span>
            <mat-menu #Reports="matMenu">
-            <button mat-menu-item [routerLink]="['']" (click)="AllAMCDetailsFilter()">All AMC</button>
-            <button mat-menu-item [routerLink]="['']" (click)="ClientsDetailsFilter()">All client details</button>
-            <button mat-menu-item [routerLink]="['']" (click)="RenewalAmcsFilter()">Renewal AMCs</button>
-            <button mat-menu-item [routerLink]="['']" (click)="RenewedAmcsFilter()">Renewed AMCs</button>
-            <button mat-menu-item [routerLink]="['']" (click)="ExpiredAmcsFilter()">Expired AMCs</button>
-            <button mat-menu-item [routerLink]="['']" (click)="PaymentReportFilter()">Payment Reports</button>
-            <button mat-menu-item [routerLink]="['']">Quater Wise revenue</button>
-            <button mat-menu-item [routerLink]="['']" (click)="FullDetailsFilter()">Full Details Report</button>
+            <button mat-menu-item  (click)="AllAMCDetailsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">All AMC</button>
+            <button mat-menu-item  (click)="ClientsDetailsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">All client details</button>
+            <button mat-menu-item  (click)="RenewalAmcsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Renewal AMCs</button>
+            <button mat-menu-item  (click)="RenewedAmcsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Renewed AMCs</button>
+            <button mat-menu-item  (click)="ExpiredAmcsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Expired AMCs</button>
+            <button mat-menu-item  (click)="PaymentReportFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Payment Reports</button>    
+            <button mat-menu-item  (click)="PaymentReportFilter()">Payment Reports</button>
+            <button mat-menu-item  (click)="PaymentReportFilter()">AMC Reports</button>
+            <button mat-menu-item *ngIf="_authentication.role === 'ROLE_admin'" >Quater Wise revenue</button>
+            <button mat-menu-item (click)="FullDetailsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Full Details Report</button>
            </mat-menu>
       </a> 
-      <a mat-list-item [matMenuTriggerFor]="AMC">
+      <a mat-list-item [matMenuTriggerFor]="AMC" *ngIf="_authentication.role === 'ROLE_admin'">
         <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
           <mat-menu #AMC="matMenu">
-            <button mat-menu-item [routerLink]="['client/new']">Create New AMC </button>
-            <button mat-menu-item [routerLink]="['client-list']">AMC Renew</button>
-            <button mat-menu-item [routerLink]="['list']">Category</button>
-            <button mat-menu-item [routerLink]="['frequency']">Frequency</button>
+            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_admin'">Create New AMC </button>
+            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_admin'">AMC Renew</button>
+            <button mat-menu-item [routerLink]="['list']" *ngIf="_authentication.role === 'ROLE_admin'">Category</button>
+            <button mat-menu-item [routerLink]="['frequency']" *ngIf="_authentication.role === 'ROLE_admin'">Frequency</button>
           </mat-menu>
-      </a>          
-      <a mat-list-item [matMenuTriggerFor]="Products">
-        <mat-icon>store</mat-icon><span class="button-text">Products</span>
-         <mat-menu #Products="matMenu">
-           <button mat-menu-item [routerLink]="['productlist']">Products</button>
-           <button mat-menu-item [routerLink]="['']">New Products</button>
-         </mat-menu>
-      </a> 
+      </a>     
+      <a mat-list-item [routerLink]="['productlist']" *ngIf="_authentication.role === 'ROLE_admin'"><mat-icon>store</mat-icon><span class="button-text">Product</span>
+      </a>         
       <a mat-list-item [matMenuTriggerFor]="client">
         <mat-icon>supervisor_account</mat-icon><span class="button-text">Users</span>
           <mat-menu #client="matMenu">
-            <button mat-menu-item [routerLink]="['user']">New User</button>
-            <button mat-menu-item [routerLink]="['client-list']">Clients</button>
-            <button mat-menu-item [routerLink]="['client/new']">New client</button>
+            <button mat-menu-item [routerLink]="['user']" *ngIf="_authentication.role === 'ROLE_admin'">New User</button>
+            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_admin'" >Clients</button>
+            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_admin'">New client</button>
           </mat-menu>
       </a> 
-      <a mat-list-item [routerLink]="['']"><mat-icon>settings</mat-icon><span class="button-text">Setting</span>
+      <a mat-list-item (click)="profilepage()" ><mat-icon>settings</mat-icon><span class="button-text">Setting</span>
       </a>      
     </mat-nav-list>
   </mat-sidenav>
@@ -73,11 +71,11 @@
       <span class="text-white">Annual Maintenance Contract</span>   
       <span class="example-spacer"></span>
       <button  mat-button  *ngIf="!_authentication.loggedIn()" (click)="gotolog()">
-        <span>Login</span>
+        <span style="-webkit-text-fill-color:rgb(255, 255, 255)">Login</span>
       </button> 
-      <
+      <img src="" class="img-size2"  style=" background-image: url(../../assets/backgroundimage12.jpg);" *ngIf="_authentication.loggedIn()">
       <button  mat-button [matMenuTriggerFor]="profile" *ngIf="_authentication.loggedIn()">
-       <span class="button-text">name</span>
+       <span class="button-text" style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>
       </button>      
          <mat-menu #profile="matMenu">
             <button mat-menu-item [routerLink]="['profile/:userId']" >Profile</button>

@@ -52,6 +52,11 @@ public class TaxServiceImpl implements TaxService{
 		tax.setSavedIp(ipAddress);
 		return taxRepository.save(tax);
 	}
+
+	@Override
+	public List<Tax> getActiveTax() {		
+		return taxRepository.getActivetax();
+	}
 }
 
 

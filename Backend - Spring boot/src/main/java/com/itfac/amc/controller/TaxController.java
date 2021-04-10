@@ -59,6 +59,12 @@ public class TaxController {
 		return taxService.updateTax(httpServletRequest,tax);		
 	}
 	
+	@GetMapping("/findactivetaxes")
+	public List<Tax> getActivetax() {
+		return taxService.getActiveTax();
+		
+	}
+	
 }
 
 

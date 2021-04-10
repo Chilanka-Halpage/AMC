@@ -7,7 +7,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import {AllAmcFilterComponent} from '../Filters/all-amc-filter/all-amc-filter.component'
+import { AllAmcFilterComponent } from '../Filters/all-amc-filter/all-amc-filter.component'
 import { ClientDetailsFilterComponent } from '../Filters/client-details-filter/client-details-filter.component';
 import { FullDetailsFilterComponent } from '../Filters/full-details-filter/full-details-filter.component';
 import { RenewalAmcsFilterComponent } from '../Filters/renewal-amcs-filter/renewal-amcs-filter.component';
@@ -29,32 +29,32 @@ export class RootNavComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-              private dialog:MatDialog,
-              public _authentication: AuthenticationService,
-              private router: Router,
-              ) {}
+    private dialog: MatDialog,
+    public _authentication: AuthenticationService,
+    private router: Router,
+  ) { }
 
-  AllAMCDetailsFilter(){
+  AllAMCDetailsFilter() {
     this.dialog.open(AllAmcFilterComponent)
   }
 
-  logout(){
+  logout() {
     this._authentication.logoutUser();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
     this.logoutmessage();
   }
-  logedin(){
+  logedin() {
     this._authentication.loggedIn();
   }
-  gotolog(): void{  
+  gotolog(): void {
     this.router.navigate(['/login']);
   }
 
-  logoutmessage(){
+  logoutmessage() {
     this.dialog.open(MessageComponent);
   }
   ngOnInit(): void {
-     
+
   }
   ClientsDetailsFilter() {
     this.dialog.open(ClientDetailsFilterComponent)
@@ -74,7 +74,16 @@ export class RootNavComponent {
   PaymentReportFilter() {
     this.dialog.open(PaymentReportFilterComponent)
   }
-  
+  dashboardcheck(){
+    if(this._authentication.role == "ROLE_client"){
+      this.router.navigate(['/clienthome']);
+    }else{
+      this.router.navigate(['/adminhome']);
+    }
+  }
+  profilepage(){
+     this.router.navigate([`/profile/${this._authentication.userId}`])
+  }
 
 
 }
