@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,10 +44,15 @@ public class UserServiceImp implements UserService {
 	@Override
 
 	public User addUser(User user) {
-		user.setUserId((userRepository.getUserLastNo()) + randomString());
+		
+		genarateUserId(user);
 		user.setPassword(encoder.encode(user.getPassword()));
 		return userRepository.save(user);
 
+	}
+	
+	public void genarateUserId(User user) {
+		user.setUserId((userRepository.getUserLastNo())+randomString());
 	}
 
 	private int start() {
@@ -72,11 +79,6 @@ public class UserServiceImp implements UserService {
 	@Override
 	public User updateUser(User user) {
 		return userRepository.save(user);
-	}
-
-	@Override
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
 	}
 
 	@Override

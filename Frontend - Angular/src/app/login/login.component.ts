@@ -30,17 +30,17 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
   onLogin(): void {
-    /*
-    response {
-      status: true if login successful, false if login unsuccessful,
-      token: JWT token,
-      message: login successful or username/password incorrect,
-      role: admin/user
-    }
-    */
+    
+    // response {
+    //   status: true if login successful, false if login unsuccessful,
+    //   token: JWT token,
+    //   message: login successful or username/password incorrect,
+    //   role: admin/user
+    // }
+    
     this.error = '';
     if (this.loginForm.valid) {
-      this.http.post<any>('http://localhost:8080/authenticate', this.loginForm.value).subscribe(
+      this.http.post<any>('http://localhost:8086/authenticate', this.loginForm.value).subscribe(
         response => {            
             const currentUser = {
               token: response.jwt,
