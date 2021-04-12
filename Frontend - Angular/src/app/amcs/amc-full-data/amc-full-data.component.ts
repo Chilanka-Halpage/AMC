@@ -2,6 +2,7 @@ import { AmcMasterService } from 'src/app/shared/amc-master.service';
 import { AmcData } from './../../Model/amc-data.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
   selector: 'app-amc-full-data',
@@ -10,18 +11,22 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 })
 export class AmcFullDataComponent implements OnInit {
 
-  clientName: string;
-  data: AmcData;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  errorMessage = "Unknown Error"
+  public clientName: string;
+  public data: AmcData;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+  public isAuthorized: boolean;
+
   constructor(
     private amcService: AmcMasterService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
+    this.isAuthorized = (this.authService.role === 'ROLE_admin') ? true : false;
     this.activatedRoute.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
       if (value.type === "%M1%") { //type defines the whether the data are loaded useing either Amc No. or Amc Serial No. %M1%-> using Amc No

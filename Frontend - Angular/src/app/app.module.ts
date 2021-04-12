@@ -23,14 +23,10 @@ import { SettingComponent } from './setting/setting.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ListcategoryComponent } from './listcategory/listcategory.component'
 import { CategoryserviceService } from './categoryservice.service';
-<<<<<<< HEAD
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //--------------
 
-=======
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
->>>>>>> 9b55b5fb6ab72eee7a033ed5d6b860a3d34db332
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ReportComponent } from './report/report.component';
@@ -90,14 +86,11 @@ import { AmcSerialListComponent } from './amcs/amc-serial-list/amc-serial-list.c
 import { AmcFullDataComponent } from './amcs/amc-full-data/amc-full-data.component';
 import { AmcRenewEditComponent } from './amcs/amc-renew-edit/amc-renew-edit.component';
 import { NotifierComponent } from './notifier/notifier.component';
-<<<<<<< HEAD
 import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-view.component';
 
-=======
 import { RevalueComponent } from './revalue/revalue.component';
 import { SalesComponent } from './sales/sales.component';
 import { AMCStatusComponent } from './amcstatus/amcstatus.component';
->>>>>>> 9b55b5fb6ab72eee7a033ed5d6b860a3d34db332
 
 @NgModule({
   declarations: [
@@ -173,13 +166,10 @@ import { AMCStatusComponent } from './amcstatus/amcstatus.component';
     AmcFullDataComponent,
     AmcRenewEditComponent,
     NotifierComponent,
-<<<<<<< HEAD
-    AmcHistoryViewComponent
-=======
+    AmcHistoryViewComponent,
     RevalueComponent,
     SalesComponent,
     AMCStatusComponent,
->>>>>>> 9b55b5fb6ab72eee7a033ed5d6b860a3d34db332
   ],
   imports: [
     BrowserModule,

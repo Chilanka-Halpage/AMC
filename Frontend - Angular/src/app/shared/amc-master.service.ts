@@ -150,6 +150,10 @@ export class AmcMasterService {
     });
   }
 
+  getAmcHistoryData(amcNo: string): Observable<any>{
+    return this.http.get(`${this.baseURL}amcHistory/all/${amcNo}`);
+  }
+
   getCurrency(): Observable<Currency[]>{
     return this.http.get<Currency[]>(`${this.baseURL}Currency/findAllCurrency`);
   }

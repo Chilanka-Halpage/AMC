@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-view.component';
-=======
 import { ClientGuard } from './_helpers/client.guard';
->>>>>>> 9b55b5fb6ab72eee7a033ed5d6b860a3d34db332
 import { SattlementComponent } from './sattlement/sattlement.component';
 import { CreateReceiptComponent } from './create-receipt/create-receipt.component';
 import { EditDueinvoiceComponent } from './edit-dueinvoice/edit-dueinvoice.component';
@@ -62,70 +59,6 @@ import { AMCStatusComponent } from './amcstatus/amcstatus.component';
 const routes: Routes = [
   { path: 'root-nav' , component: RootNavComponent},
   { path: 'login', component: LoginComponent},
-<<<<<<< HEAD
-  { path: 'dashboard',component: DashComponent,canActivate: [AuthenticationGuard]},
-  { path: 'proforma-invoice',component: ProformaInvoiceComponent},
-  { path: 'setting',component: SettingComponent},
-  { path: 'reports',component: ReportsComponent},
-  { path: 'home',component: HomeComponent, canActivate: [AuthenticationGuard] },
-  { path: 'client/new', component: AddClientComponent },
-  { path: 'client/edit', component: AddClientComponent },
-  { path: 'client-list', component: ClientListComponent },
-  { path: 'dept-list/:cid', component: DepartmentListComponent },
-  { path: 'client/dept/edit/:did', component: AddClientComponent },
-  { path: 'client/:cid/dept/new', component: AddClientComponent },
-  { path: 'amcMaster/new', component: CreateAmcMasterComponent },
-  { path: 'list', component: ListcategoryComponent },
-  { path: 'reportslist', component: ReportComponent },
-  { path: 'profile/:userId', component: ProfileComponent },
-  { path: 'editprofile/:userId', component: EditProfileComponent },
-  { path: 'allamcdetailsfilter', component: AllAmcFilterComponent },
-  { path: 'usersfilter', component: UsersFilterComponent },
-  { path: 'generatereport', component: GenerateReportComponent },
-  { path: 'allAmcReport', component: AllAmcReportComponent },
-  { path: 'taxlist', component:TaxListComponent},
-  { path: 'invoicelist',component:InvoiceListComponent },
-  { path: 'createincoice', component:CreateInvoiceComponent },
-  { path: 'catogerylist', component:ListcategoryComponent },
-  { path: 'currencylist', component:CurrencyListComponent },
-  { path: 'paymentHlist', component:PaymentListComponent } ,
-  { path: 'productChart' ,component:ProductPieComponent },
-  { path: 'clientdashtable', component:ClientdashtableComponent },
-  { path: 'createtax',component:TaxFComponent },
-  { path: 'updatetax/:taxId', component:UpdateTaxComponent } ,
-  { path: 'duepayment', component:DuePaymentComponent },
-  { path: 'dueinvoice', component:CreateDueinvoiceComponent },
-  { path: 'editdueinvoice/:id', component:EditDueinvoiceComponent},
-  { path: 'createReceipt', component:CreateReceiptComponent },
-  { path: 'sattled', component:SattlementComponent },
-  { path: 'clientDetails/:date1/:date2', component: ClientDetailsComponent },
-  { path: 'clientDetailsFilter', component: ClientDetailsFilterComponent },
-  { path: 'fullDetails/:date1/:date2', component: FullDetailsComponent },
-  { path: 'fullDetailsFilter', component: FullDetailsFilterComponent },
-  { path: 'renewalAmcs/:date1/:date2', component: RenewalAmcsReportComponent },
-  { path: 'renewedAmcs/:date1/:date2', component: RenewedAmcsReportComponent },
-  { path: 'expiredAmcs/:date1/:date2', component: ExpiredAmcsReportComponent },
-  { path: 'ClientAmc/:cId', component: ClientAmcComponent },
-  { path: 'editprofile/:userId', component: EditProfileComponent },
-  { path: 'list',component: ListcategoryComponent},
-  { path: 'user', component: UserAddingComponent },
-  { path: 'productlist',component: ProductlistComponent},
-  { path: 'frequency',component: FrequencyComponent},
-  { path: 'client/new', component: AddClientComponent},
-  { path: 'client/edit', component: AddClientComponent},
-  { path: 'client-list', component: ClientListComponent},
-  { path: 'dept-list', component: DepartmentListComponent},
-  { path: 'client/dept/edit', component: AddClientComponent},
-  { path: 'client/:cid/dept/new', component: AddClientComponent},
-  { path: 'amcMaster/new', component: CreateAmcMasterComponent},
-  { path: 'amc-serial/new', component: AmcSerialComponent},
-  { path: 'clients/:cid/amc-list', component: AmcMasterListComponent},
-  { path: 'clients/depts/:did/amc-list', component: AmcSerialListComponent},
-  { path: 'clients/amc-list/:no/full', component: AmcFullDataComponent},
-  { path: 'clients/amc-list/:no/renew', component: AmcRenewEditComponent},
-  {path:'userList',component: UserlistComponent},
-  {path:'amcHistory/view',component: AmcHistoryViewComponent},
-=======
   { path: 'clienthome', component: ClientdashtableComponent,canActivate: [AuthenticationGuard] },
   { path: 'proforma-invoice',component: ProformaInvoiceComponent,canActivate: [AuthenticationGuard, ClientGuard] },
   { path: '',component: SettingComponent,canActivate: [AuthenticationGuard]},//default landing page for any not logged user
@@ -190,8 +123,8 @@ const routes: Routes = [
   { path: 'bar',component: RevalueComponent,canActivate: [AuthenticationGuard]},
   { path: 'pchart/sales', component: SalesComponent,canActivate: [AuthenticationGuard] },
   { path: 'amcstatus', component: AMCStatusComponent,canActivate: [AuthenticationGuard] },
->>>>>>> 9b55b5fb6ab72eee7a033ed5d6b860a3d34db332
-  ];
+  { path: 'amcHistory/view', component: AmcHistoryViewComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

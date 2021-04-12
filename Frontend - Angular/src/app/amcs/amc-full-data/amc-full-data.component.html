@@ -57,23 +57,23 @@
                 <mat-label class="col-6">Total Value (LKR)</mat-label>
                 <mat-label class="col-6">{{ data.total_value_lkr}}</mat-label>
             </div>
-            <div class="row px-0 m-0">
+            <div class="row px-0 m-0" *ngIf="isAuthorized">
                 <mat-label class="col-6">Saved By</mat-label>
                 <mat-label class="col-6">{{ data.saved_by }}</mat-label>
             </div>
-            <div class="row px-0 m-0">
+            <div class="row px-0 m-0" *ngIf="isAuthorized">
                 <mat-label class="col-6">Saved On</mat-label>
                 <mat-label class="col-6">{{ data.saved_on | date: 'short' }}</mat-label>
             </div>
-            <div class="row px-0 m-0">
+            <div class="row px-0 m-0" *ngIf="isAuthorized">
                 <mat-label class="col-6">Last Modified By</mat-label>
                 <mat-label class="col-6">{{ data.last_modified_by }}</mat-label>
             </div>
-            <div class="row px-0 m-0">
+            <div class="row px-0 m-0" *ngIf="isAuthorized">
                 <mat-label class="col-6">Last Modified On</mat-label>
                 <mat-label class="col-6">{{ data.last_modified_on | date: 'short' }}</mat-label>
             </div>
-            <div class="row px-0 m-0">
+            <div class="row px-0 m-0" *ngIf="isAuthorized">
                 <mat-label class="col-6">Last Modified IP</mat-label>
                 <mat-label class="col-6">{{ data.last_modified_ip }}</mat-label>
             </div>

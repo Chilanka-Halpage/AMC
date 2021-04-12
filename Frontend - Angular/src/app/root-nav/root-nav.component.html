@@ -35,11 +35,11 @@
             <button mat-menu-item (click)="FullDetailsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Full Details Report</button>
            </mat-menu>
       </a> 
-      <a mat-list-item [matMenuTriggerFor]="AMC" *ngIf="_authentication.role === 'ROLE_admin'">
+      <a mat-list-item [matMenuTriggerFor]="AMC" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator'">
         <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
           <mat-menu #AMC="matMenu">
-            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_admin'">Create New AMC </button>
-            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_admin'">AMC Renew</button>
+            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator'">Create New AMC </button>
+            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator'">AMC Renew</button>
             <button mat-menu-item [routerLink]="['list']" *ngIf="_authentication.role === 'ROLE_admin'">Category</button>
             <button mat-menu-item [routerLink]="['frequency']" *ngIf="_authentication.role === 'ROLE_admin'">Frequency</button>
           </mat-menu>
@@ -50,8 +50,8 @@
         <mat-icon>supervisor_account</mat-icon><span class="button-text">Users</span>
           <mat-menu #client="matMenu">
             <button mat-menu-item [routerLink]="['user']" *ngIf="_authentication.role === 'ROLE_admin'">New User</button>
-            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_admin'" >Clients</button>
-            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_admin'">New client</button>
+            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator' " >Clients</button>
+            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator'">New client</button>
           </mat-menu>
       </a> 
       <a mat-list-item (click)="profilepage()" ><mat-icon>settings</mat-icon><span class="button-text">Setting</span>
