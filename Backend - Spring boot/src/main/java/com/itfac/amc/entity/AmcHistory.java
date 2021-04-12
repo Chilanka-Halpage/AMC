@@ -1,6 +1,5 @@
 package com.itfac.amc.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -30,10 +29,10 @@ public class AmcHistory {
 	private String fieldName;
 	
 	@Column(name = "old_value", length = 45, nullable = false)
-	private BigDecimal oldValue;
+	private String oldValue;
 	
 	@Column(name = "new_value", length = 45, nullable = false)
-	private BigDecimal newValue;
+	private String newValue;
 	
 	@Column(name = "user_id", length = 45, nullable = false)
 	private String userId;

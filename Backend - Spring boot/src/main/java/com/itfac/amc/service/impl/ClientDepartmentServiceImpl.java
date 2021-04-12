@@ -18,6 +18,7 @@ import com.itfac.amc.entity.ClientDepartment;
 import com.itfac.amc.repository.ClientDepartmentRepository;
 import com.itfac.amc.repository.ClientRepository;
 import com.itfac.amc.service.ClientDepartmentService;
+import com.itfac.amc.service.UserService;
 
 @Service
 public class ClientDepartmentServiceImpl implements ClientDepartmentService {
@@ -26,6 +27,8 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 	ClientDepartmentRepository clientDepartmentRepository;
 	@Autowired
 	ClientRepository clientRepository;
+	@Autowired
+	UserService userService;
 
 	@Override
 	public List<ClientDepartment> getDepartmentsByClientId(int id) {

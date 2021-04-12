@@ -2,7 +2,6 @@ package com.itfac.amc.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 //import javax.persistence.GeneratedValue;
 //import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +20,7 @@ import lombok.Data;
 public class User {
 
 	@Id
-	@Column(columnDefinition = "TEXT", name = "user_id", length = 100)
+	@Column(name = "user_id", length = 100)
 	private String userId;
 
 	@NotEmpty(message = "User name cannot be Empty")
