@@ -17,6 +17,6 @@ public interface ProductService {
 
 	Product updateProduct(Product product);
 
-	Product getActiveProduct();
+	List<Product> getActiveProduct();
 
 }
