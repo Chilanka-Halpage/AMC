@@ -1,3 +1,4 @@
+import { LogDetailsComponent } from './log-details/log-details.component';
 import { ClientGuard } from './_helpers/client.guard';
 import { SattlementComponent } from './sattlement/sattlement.component';
 import { CreateReceiptComponent } from './create-receipt/create-receipt.component';
@@ -12,7 +13,7 @@ import { PaymentListComponent } from './payment-list/payment-list.component';
 import { CurrencyListComponent } from './currency-list/currency-list.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { TaxListComponent } from './tax-list/tax-list.component';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProformaInvoiceComponent } from './proforma-invoice/proforma-invoice.component';
 import { SettingComponent } from './setting/setting.component';
@@ -64,12 +65,12 @@ const routes: Routes = [
   { path: 'reports',component: ReportsComponent,canActivate: [AuthenticationGuard]},
   { path: 'adminhome',component: HomeComponent, canActivate: [AuthenticationGuard, ClientGuard] },
   { path: 'client/new', component: AddClientComponent,canActivate: [AuthenticationGuard, ClientGuard] },
-  { path: 'client/edit', component: AddClientComponent,canActivate: [AuthenticationGuard]},
-  { path: 'client-list', component: ClientListComponent,canActivate: [AuthenticationGuard]},
+  { path: 'client/edit', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'client-list', component: ClientListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'dept-list/:cid', component: DepartmentListComponent,canActivate: [AuthenticationGuard]},
   { path: 'client/dept/edit/:did', component: AddClientComponent,canActivate: [AuthenticationGuard]},
   { path: 'client/:cid/dept/new', component: AddClientComponent,canActivate: [AuthenticationGuard]},
-  { path: 'amcMaster/new', component: CreateAmcMasterComponent,canActivate: [AuthenticationGuard]},
+  { path: 'amcMaster/new', component: CreateAmcMasterComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'list', component: ListcategoryComponent,canActivate: [AuthenticationGuard]},
   { path: 'reportslist', component: ReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'profile/:userId', component: ProfileComponent,canActivate: [AuthenticationGuard]},
@@ -82,7 +83,7 @@ const routes: Routes = [
   { path: 'invoicelist',component:InvoiceListComponent,canActivate: [AuthenticationGuard]},
   { path: 'createincoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard]},
   { path: 'catogerylist', component:ListcategoryComponent,canActivate: [AuthenticationGuard]},
-  { path: 'currencylist', component:CurrencyListComponent,canActivate: [AuthenticationGuard]},
+  { path: 'currencylist', component:CurrencyListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'paymentHlist', component:PaymentListComponent,canActivate: [AuthenticationGuard]} ,
   { path: 'productChart' ,component:ProductPieComponent,canActivate: [AuthenticationGuard]},
   { path: 'clientdashtable', component:ClientdashtableComponent,canActivate: [AuthenticationGuard]},
@@ -92,7 +93,6 @@ const routes: Routes = [
   { path: 'dueinvoice', component:CreateDueinvoiceComponent,canActivate: [AuthenticationGuard]},
   { path: 'editdueinvoice/:id', component:EditDueinvoiceComponent,canActivate: [AuthenticationGuard]},
   { path: 'createReceipt', component:CreateReceiptComponent,canActivate: [AuthenticationGuard]},
-  { path: 'sattled', component:SattlementComponent,canActivate: [AuthenticationGuard]},
   { path: 'clientDetails/:date1/:date2', component: ClientDetailsComponent,canActivate: [AuthenticationGuard]},
   { path: 'clientDetailsFilter', component: ClientDetailsFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'fullDetails/:date1/:date2', component: FullDetailsComponent,canActivate: [AuthenticationGuard]},
@@ -106,8 +106,8 @@ const routes: Routes = [
   { path: 'user', component: UserAddingComponent,canActivate: [AuthenticationGuard]},
   { path: 'productlist',component: ProductlistComponent,canActivate: [AuthenticationGuard]},
   { path: 'frequency',component: FrequencyComponent,canActivate: [AuthenticationGuard]},
-  { path: 'client/new', component: AddClientComponent,canActivate: [AuthenticationGuard]},
-  { path: 'client/edit', component: AddClientComponent,canActivate: [AuthenticationGuard]},
+  { path: 'client/new', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'client/edit', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'client-list', component: ClientListComponent,canActivate: [AuthenticationGuard]},
   { path: 'dept-list', component: DepartmentListComponent,canActivate: [AuthenticationGuard]},
   { path: 'client/dept/edit', component: AddClientComponent,canActivate: [AuthenticationGuard]},
@@ -122,6 +122,8 @@ const routes: Routes = [
   { path: 'bar',component: RevalueComponent,canActivate: [AuthenticationGuard]},
   { path: 'pchart/sales', component: SalesComponent,canActivate: [AuthenticationGuard] },
   { path: 'amcstatus', component: AMCStatusComponent,canActivate: [AuthenticationGuard] },
+  { path: 'settled', component: SattlementComponent,canActivate: [AuthenticationGuard]  },
+  { path: 'logdetails', component: LogDetailsComponent, canActivate: [AuthenticationGuard,ClientGuard] }
   ];
 
 @NgModule({

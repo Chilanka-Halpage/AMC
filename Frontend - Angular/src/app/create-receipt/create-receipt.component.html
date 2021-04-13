@@ -85,8 +85,12 @@
                       </div>  
                   <div formGroupName="currency">        
                     <mat-form-field appearance="outline" class="col pl-2">
-                        <mat-label>currencyId:</mat-label>
-                        <input type="number" matInput formControlName="currencyId" >   
+                      <mat-label>Currency</mat-label>
+                      <mat-select formControlName="currencyId">
+                          <mat-option *ngFor="let currency of currencyList" [value]="currency.currencyId">
+                              {{currency.currencyName}}
+                          </mat-option>
+                      </mat-select>  
                     </mat-form-field>
                   </div>
                   <div formGroupName="clientDepartment">
@@ -99,14 +103,22 @@
                   <div class="row px-0">
                     <div formGroupName="category">
                     <mat-form-field appearance="outline" class="col-12">
-                      <mat-label> categoryId</mat-label>
-                      <input type="text" matInput formControlName="categoryId">   
+                      <mat-label>Category</mat-label>
+                            <mat-select formControlName="categoryId">
+                                <mat-option *ngFor="let category of categoryList" [value]="category.categoryId">
+                                    {{category.categoryName}}
+                                </mat-option>
+                            </mat-select>  
                     </mat-form-field> 
                   </div> 
                   <div formGroupName="invoice">          
                     <mat-form-field appearance="outline" class="col-12">
-                        <mat-label> piNo:</mat-label>
-                        <input type="number" matInput formControlName="piNo" >   
+                      <mat-label>Invoice No</mat-label>
+                      <mat-select formControlName="piNo">
+                          <mat-option *ngFor="let invoice of invoiceList" [value]="invoice.piNo">
+                              {{invoice.pi_no}}
+                          </mat-option>
+                      </mat-select>   
                     </mat-form-field>  
                   </div>          
                   </div>

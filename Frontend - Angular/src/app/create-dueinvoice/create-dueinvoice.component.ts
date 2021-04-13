@@ -1,5 +1,5 @@
+import { CurrencyService } from './../currency.service';
 import { DuePaymentService } from './../due-payment.service';
-import { DuePayment } from './../due-payment';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,9 +11,17 @@ import { Router } from '@angular/router';
 })
 export class CreateDueinvoiceComponent implements OnInit {
 
-  constructor( private fb: FormBuilder,private router: Router,private duePaymentService: DuePaymentService) { }
+  constructor( private fb: FormBuilder,
+               private router: Router,
+               private duePaymentService: DuePaymentService,
+               ) { }
   
   id: number;
+  productList = [];
+  currencyList = [];
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
 
     adddueinvoiceForm = this.fb.group({
     id:[''],
@@ -24,20 +32,21 @@ export class CreateDueinvoiceComponent implements OnInit {
     savedIp: [''],
     active: [''],
     amcMaster:this.fb.group({
-      amcNo:['']
+      amcNo:['', [Validators.required]]
     }),
     amcSerial:this.fb.group({
-      amcSerialNo:['']
+      amcSerialNo:['', [Validators.required]]
     }),
     product:this.fb.group({
-      productId:['']
+      productId:['', [Validators.required]]
     }),
     currency:this.fb.group({
-      currencyId:['']
+      currencyId:['', [Validators.required]]
     })
   })
 
   ngOnInit(): void {
+    this.loadSelectionData(); 
   }
 
   createdueinvoice(){
@@ -55,6 +64,25 @@ export class CreateDueinvoiceComponent implements OnInit {
 onSubmit(){
   console.log(this.adddueinvoiceForm.value);
   this.createdueinvoice();
+}
+private loadSelectionData() {
+  let currencyListLoad = false, productListLoad = false;
+  this.duePaymentService.getactiveCurrency().subscribe(response => {
+    this.currencyList = response;
+    this.isLoadingResults = ((currencyListLoad = true) && productListLoad) ? false : true;
+  }, error => {
+    this.isLoadingResults = false;
+    this.isRateLimitReached = true;
+    this.errorMessage = error;
+  });
+  this.duePaymentService.getProduct().subscribe(response => {
+    this.productList = response;
+    this.isLoadingResults = ((productListLoad = true) && currencyListLoad) ? false : true;
+  }, error => {
+    this.isLoadingResults = false;
+    this.isRateLimitReached = true;
+    this.errorMessage = error;
+  });
 }
 }
 

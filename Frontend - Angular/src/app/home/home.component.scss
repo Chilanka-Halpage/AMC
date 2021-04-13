@@ -1,26 +1,21 @@
 
 
 .example-card {
-    height: 350px;
+    height: 345px;
     width: 90%;
     border-radius: 10px;
     background: rgb(232, 244, 248);
   }
   .example-card:hover{
-    box-shadow: 1px 1px 6px  rgba(0,0,0,0.8);
-  }
-  /* .example-graph{
-    height: 750px;
-    width: 700px;
-    border-radius: 10px;
-    background: rgb(215, 238, 245);
-  } */
-  .example-graph:hover{
-    box-shadow: 1px 1px 6px  rgba(0,0,0,0.8);
+    box-shadow: 1px 1px 6px  rgba(202, 202, 202, 0.8);
   }
   .dashboard-card{
     height: 120px;
     width: 80%;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  }
+  .dashboard-card:hover{
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
   }
   .mat-h1{
    margin: 20px;
@@ -32,7 +27,6 @@
     width: 500px;
     margin: 30px;
   }
-  .dashboard-card:hover{
-    box-shadow: 1px 1px 6px  rgba(0,0,0,0.8);
+  h3{
+    text-shadow: rgba(46, 46, 51, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
   }
-  

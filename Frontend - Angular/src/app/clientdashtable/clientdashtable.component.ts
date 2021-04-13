@@ -1,8 +1,9 @@
-
 import { ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table/table-data-source';
+import { HomedetailsService } from '../homedetails.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-clientdashtable',
@@ -11,14 +12,28 @@ import { MatTableDataSource } from '@angular/material/table/table-data-source';
 })
 export class ClientdashtableComponent implements OnInit {
 
+  clientId: String
+
   clientdetails: MatTableDataSource<any>;
 
-  constructor() { }
+  constructor( private homedetails: HomedetailsService) { }
 
   displayedColumns:string[] = ['recNo','recDate','payMode','balance','Category','pi_no'];
-  @ViewChild(MatSort) sort: MatSort;
+
+  @ViewChild(MatSort) sort: MatSort;  
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
+  this.getclienthome()
   }
+
+  getclienthome(){
+    this.homedetails.getclienthome().subscribe(data =>{
+      this.clientdetails = new MatTableDataSource(data);
+      this.clientdetails.sort = this.sort;
+      this.clientdetails.paginator = this.paginator;
+    });
+  }
+
 
 }

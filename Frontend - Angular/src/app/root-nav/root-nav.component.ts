@@ -1,4 +1,3 @@
-
 import { MessageComponent } from './../message/message.component';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../_helpers/authentication.service';
@@ -84,6 +83,5 @@ export class RootNavComponent {
   profilepage(){
      this.router.navigate([`/profile/${this._authentication.userId}`])
   }
-
 
 }

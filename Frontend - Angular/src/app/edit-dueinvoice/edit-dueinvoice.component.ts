@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DuePaymentService } from '../due-payment.service';
-import { dateInputsHaveChanged } from '@angular/material/datepicker/datepicker-input-base';
 
 @Component({
   selector: 'app-edit-dueinvoice',
@@ -28,7 +27,7 @@ export class EditDueinvoiceComponent implements OnInit {
     invoiceBalance: ['', [Validators.required]],
     savedOn: [''],
     savedIp: [''],
-    active: [''],
+    settle: [''],
     id:[''],
     amcMaster:this.fb.group({
       amcNo:['']
@@ -44,7 +43,6 @@ export class EditDueinvoiceComponent implements OnInit {
     })
   })
 
-/* need to edit */
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.duePaymentService.getdueinvoicebyid(this.id).subscribe(data=>{
@@ -62,7 +60,6 @@ export class EditDueinvoiceComponent implements OnInit {
     error => console.log(error));
   }
 
-  /* need to edit */
   onSubmit(){
     this.duePaymentService.updatedueinvoice(this.id, this.adddueinvoiceForm.value).subscribe(
       data => {

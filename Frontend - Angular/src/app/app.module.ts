@@ -1,7 +1,6 @@
 import { MessageComponent } from './message/message.component';
 import { AmcMasterService } from './shared/amc-master.service';
 import { ClientService } from './shared/client.service';
-import { SharedAmcService } from './shared/shared-amc.service';
 import { AddClientComponent } from './clients/add-client/add-client.component';
 import { MaterialModule } from './material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -86,6 +85,7 @@ import { NotifierComponent } from './notifier/notifier.component';
 import { RevalueComponent } from './revalue/revalue.component';
 import { SalesComponent } from './sales/sales.component';
 import { AMCStatusComponent } from './amcstatus/amcstatus.component';
+import { LogDetailsComponent } from './log-details/log-details.component';
 
 @NgModule({
   declarations: [
@@ -164,6 +164,8 @@ import { AMCStatusComponent } from './amcstatus/amcstatus.component';
     RevalueComponent,
     SalesComponent,
     AMCStatusComponent,
+    LogDetailsComponent,
+    ClientdashtableComponent
   ],
   imports: [
     BrowserModule,
@@ -188,7 +190,6 @@ import { AMCStatusComponent } from './amcstatus/amcstatus.component';
   providers: [
     ClientService,
     AmcMasterService,
-    SharedAmcService,
     CategoryserviceService,
     AllAmcsService,
     UserserviceService,

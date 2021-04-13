@@ -15,9 +15,13 @@ export class LoginComponent implements OnInit {
   hide = false;
   error: any;
 
+  isLoadingResults = false;
+  isRateLimitReached = false;
+  errorMessage = "Unknown Error"
+
   loginForm: FormGroup = this.fb.group({
     userId: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
+    password: ['', [Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
   });
 
   constructor(
@@ -28,6 +32,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+  
   }
   onLogin(): void {
     /*
@@ -38,8 +43,10 @@ export class LoginComponent implements OnInit {
       role: admin/user
     }
     */
+  
     this.error = '';
     if (this.loginForm.valid) {
+      this.isLoadingResults=true
       this.http.post<any>('http://localhost:8080/authenticate', this.loginForm.value).subscribe(
         response => {            
             const currentUser = {
@@ -49,16 +56,17 @@ export class LoginComponent implements OnInit {
               userId: response.userId
             }
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-             if (response.role == "ROLE_admin") {
-              this.router.navigate(['/adminhome']);
+             if (response.role == "ROLE_client") {
+              this.router.navigate(['/clienthome']);
               console.log(response)
              } else {
-               this.router.navigate(['/clienthome']);
+               this.router.navigate(['/adminhome']);
              }
         }, error => {
           this.error = error;
           console.error(error);
           this.dialog.open(AlertComponent);
+          this.isLoadingResults=false
         }
       );
     }

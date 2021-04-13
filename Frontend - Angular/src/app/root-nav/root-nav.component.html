@@ -5,7 +5,7 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === true"
       >
-    <mat-toolbar><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
+    <mat-toolbar ><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
     <mat-nav-list >
       <a mat-list-item [routerLink]="" (click)="dashboardcheck()" ><mat-icon>home</mat-icon><span class="button-text">Home</span></a>     
       <a mat-list-item [matMenuTriggerFor]="payment">
@@ -66,14 +66,14 @@
         mat-icon-button
         (click)="drawer.toggle()"     
         *ngIf="_authentication.loggedIn()" >
-        <mat-icon aria-label="Side nav toggle icon" style="-webkit-text-fill-color:rgb(255, 255, 255)"  >menu</mat-icon>
+        <mat-icon aria-label="Side nav toggle icon" style="-webkit-text-fill-color:rgb(255, 255, 255)">menu</mat-icon>
       </button>
       <span class="text-white">Annual Maintenance Contract</span>   
       <span class="example-spacer"></span>
       <button  mat-button  *ngIf="!_authentication.loggedIn()" (click)="gotolog()">
         <span style="-webkit-text-fill-color:rgb(255, 255, 255)">Login</span>
       </button> 
-      <img src="" class="img-size2"  style=" background-image: url(../../assets/backgroundimage12.jpg);" *ngIf="_authentication.loggedIn()">
+      <img src="" class="avatar"  style=" background-image: url(../../assets/backgroundimage12.jpg);" *ngIf="_authentication.loggedIn()">
       <button  mat-button [matMenuTriggerFor]="profile" *ngIf="_authentication.loggedIn()">
        <span class="button-text" style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>
       </button>      

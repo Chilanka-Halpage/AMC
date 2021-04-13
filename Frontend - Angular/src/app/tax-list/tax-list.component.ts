@@ -1,5 +1,4 @@
 import { MatPaginator } from '@angular/material/paginator';
-import { filter } from 'rxjs/operators';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,7 +12,6 @@ import { TaxService } from '../tax.service';
 })
 export class TaxListComponent implements OnInit {
 
-
   taxes: MatTableDataSource<any>;
  
   constructor(private taxService: TaxService , private Router: Router) { }
@@ -25,12 +23,10 @@ export class TaxListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTax();
-   
   }
 
   getTax(){
     this.taxService.getTaxList().subscribe(data =>{
-    /*  this.taxes = data;    */
     this.taxes = new MatTableDataSource(data); 
     this.taxes.sort = this.sort;
     this.taxes.paginator = this.paginator;

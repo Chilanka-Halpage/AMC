@@ -18,8 +18,11 @@ export class InvoiceService {
   }
 
   createInvoice(invoice: Invoice): Observable<Object>{
-    return this.HttpClient.post(`${this.baseURL2}/add`,invoice);
-}
+    return this.HttpClient.post(`${this.baseURL}/add`,invoice,{responseType : "text" as "json"});
+  }
+  
+  deleteinvoice(pi_no: number): Observable<Object>{
+  return this.HttpClient.delete(`${this.baseURL}/deleteinvoice/${pi_no}`,{responseType:'text'});
+  }
 
-}
-
+}  

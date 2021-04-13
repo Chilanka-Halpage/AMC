@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { Tax } from '../tax';
 
 @Component({
   selector: 'app-due-payment',
@@ -32,15 +31,14 @@ export class DuePaymentComponent implements OnInit {
 
   getDuepayemt(){
     this.duePaymentService.getDuepaymentList().subscribe(data =>{
-    /*  this.taxes = data;    */
     this.duePayments = new MatTableDataSource(data); 
     this.duePayments.sort = this.sort;  
     this.duePayments.paginator = this.paginator;
     });
   }
 
-  deletedueinvooice(id: number){ console.log(id);
-  this.duePaymentService.deletedueinvooice(id).subscribe(data =>{
+  deletedueinvoice(id: number){ console.log(id);
+  this.duePaymentService.deletedueinvoice(id).subscribe(data =>{
     console.log(data);
     this.getDuepayemt();
   })

@@ -1,6 +1,5 @@
 import { Router } from '@angular/router';
 import { InvoiceService } from './../invoice.service';
-import { Invoice } from './../invoice';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -24,7 +23,6 @@ export class InvoiceListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInvoice();
-    this.invoices.paginator = this.paginator;
   }
   
   getInvoice(){
@@ -38,9 +36,16 @@ export class InvoiceListComponent implements OnInit {
   createinvoice(): void{
     this.router.navigate(['createincoice']);
   }
+
   applyFilter(filterValue: string) {
     this.invoices.filter = filterValue.trim().toLowerCase();
   }
     
-
+  deleteinvoice(pi_no: number){
+    console.log(pi_no);
+    this.invoiceService.deleteinvoice(pi_no).subscribe(data =>{
+      console.log(data);
+      this.getInvoice();
+  })
+  }
 }

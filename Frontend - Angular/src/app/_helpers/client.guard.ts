@@ -17,8 +17,8 @@ export class ClientGuard implements CanActivate {
     console.log(this.authentication.role);
         if (this.authentication.role !== 'ROLE_client') {    
         return true;     
-    } else {
-        this.authentication.logoutUser;
+    } else {/* 
+        this.authentication.logoutUser; */
         return false;
     }
   }

@@ -9,15 +9,24 @@ import { Injectable } from '@angular/core';
 })
 export class PaymentService {
 
-  private baseURL = "Http://localhost:8080/receipt";
+  private baseURL = "Http://localhost:8080";
 
   constructor(private HttpClient: HttpClient) { }
   
   getPaymetList(): Observable<Payment[]>{
-      return this.HttpClient.get<Payment[]>(`${this.baseURL}/findallreceipt`);     
+      return this.HttpClient.get<Payment[]>(`${this.baseURL}/receipt/findallreceipt`);     
   }
   
   createReceipt(payment): Observable<Object>{
-    return this.HttpClient.post(`${this.baseURL}/add`,payment, {responseType : "text" as "json"});
+    return this.HttpClient.post(`${this.baseURL}/receipt/add`,payment, {responseType : "text" as "json"});
+  }
+  getactiveCurrency(): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}/Currency/findactivecurrencies`);
+  }
+  getCategory(): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}/category/findAllCategory`)
+  }
+  getActiveInvoices(): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}/invoice/activeinvoices`) 
   }
 }

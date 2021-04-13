@@ -3,20 +3,22 @@
   <mat-grid-list cols="4" rowHeight="200px">
     <!--mini cards-->
     <mat-grid-tile>
-      <mat-card class="dashboard-card" style="background-color: rgb(245, 223, 223);">
+      <mat-card class="dashboard-card" style=" background: rgb(254,227,239);
+      background: radial-gradient(circle, rgba(254,227,239,0.9276844526873249) 0%, rgba(195,222,254,1) 100%); ">
           <mat-card-title >         
             <div><h3>Total AMC</h3></div>
-            <label class="value">355<!-- {{Homedetalis.amcNo}} --></label>
+            <label class="value">{{TotalAmc}}</label>
           </mat-card-title>
       <mat-card-content>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>     
     <mat-grid-tile>
-      <mat-card class="dashboard-card" style="background-color: rgb(229, 253, 215);">
+      <mat-card class="dashboard-card" style=" background: rgb(153,195,171);
+      background: linear-gradient(0deg, rgba(153,195,171,1) 0%, rgba(126,255,17,1) 100%); ">
           <mat-card-title >         
             <div><h3>Active AMC</h3></div>
-            <label class="value">20<!-- {{Homedetalis.ActiveAMC}} --></label>
+            <label class="value">{{ActiveAmcCount}} </label>
           </mat-card-title>
           <mat-card-content>
           </mat-card-content>
@@ -26,7 +28,7 @@
       <mat-card class="dashboard-card" style="background-color: rgb(205, 233, 255);" >
           <mat-card-title >         
             <div><h3>AMC Reminders</h3></div>
-            <label class="value">39</label>
+            <label class="value">{{AmcReminders}}</label>
           </mat-card-title>
         <mat-card-content>
         </mat-card-content>
@@ -35,8 +37,8 @@
     <mat-grid-tile>
       <mat-card class="dashboard-card" style="background-color: rgb(255, 254, 210);" >
           <mat-card-title >         
-            <div><h3>Total Clients</h3></div>
-            <label class="value"><!-- {{TotalUsers}} -->270</label>
+            <div><h3>Total Active Clients</h3></div>
+            <label class="value">{{TotalActiveClients}}</label>
           </mat-card-title>
         <mat-card-content>
         </mat-card-content>
@@ -48,7 +50,7 @@
 <mat-grid-list cols = "4" rowHeight = "100px">
   <mat-grid-tile 
   [colspan] = "2"
-  [rowspan] = "4"><mat-card class="example-card" >
+  [rowspan] = "4"><mat-card class="example-card " >
       <mat-card-content routerLink="sales">
                  <app-sales></app-sales>
       </mat-card-content>   
@@ -56,7 +58,7 @@
   </mat-grid-tile>
   <mat-grid-tile 
   [colspan] = "2"
-  [rowspan] = "4"> <mat-card class="example-card">   
+  [rowspan] = "4"> <mat-card class="example-card background-color">   
       <div >
        <app-revalue></app-revalue>
       </div>
@@ -64,7 +66,7 @@
   </mat-grid-tile>
   <mat-grid-tile
   [colspan] = "2"
-  [rowspan] = "4"><mat-card class="example-card">   
+  [rowspan] = "4"><mat-card class="example-card background-color">   
       <div >
         <app-amcstatus></app-amcstatus>
       </div>
@@ -72,9 +74,9 @@
   </mat-grid-tile>
   <mat-grid-tile
   [colspan] = "2"
-  [rowspan] = "4"><mat-card class="example-card">   
+  [rowspan] = "4"><mat-card class="example-card background-color">   
       <div >
-        
+        <app-log-details></app-log-details>
       </div>
   </mat-card>  
   </mat-grid-tile>

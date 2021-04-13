@@ -1,11 +1,11 @@
 import { MatSort } from '@angular/material/sort';
 import { CurrencyService } from './../currency.service';
-import { Currency } from './../Model/currency.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { AuthenticationService } from '../_helpers/authentication.service';
 
 @Component({
   selector: 'app-currency-list',
@@ -15,9 +15,7 @@ import { MatPaginator } from '@angular/material/paginator';
 export class CurrencyListComponent implements OnInit {
 
   currencies: MatTableDataSource<any>;
-  currency: Currency = new Currency();
   currencyId: number
-
 
   addcurrencyForm = this.fb.group({
     currencyName: [''],
@@ -31,13 +29,13 @@ export class CurrencyListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private currencyService: CurrencyService,private fb: FormBuilder,) { }
+  constructor(private currencyService: CurrencyService,private fb: FormBuilder,
+    public _authentication: AuthenticationService,) { }
 
   displayedColumns:string[] = ['currencyId','currencyName','savedBy','savedOn','savedIp','Action'];
  
   ngOnInit(): void {
     this.getCurrency(
-   
     );
   
   }
@@ -56,7 +54,7 @@ export class CurrencyListComponent implements OnInit {
   })
 }
 saveCurrency(){
-  this.currencyService.createCurrency(this.currency).subscribe(data =>{
+  this.currencyService.createCurrency(this.addcurrencyForm.value).subscribe(data =>{
     console.log(data);
   this.getCurrency();  
  },

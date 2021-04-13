@@ -1,7 +1,6 @@
 import { PaymentService } from './../payment.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Payment } from '../payment';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ViewChild } from '@angular/core';
@@ -29,8 +28,7 @@ export class PaymentListComponent implements OnInit {
     this.paymentService.getPaymetList().subscribe(data =>{
        this.payments = new MatTableDataSource(data);
        this.payments.sort = this.sort;
-       
-    this.payments.paginator = this.paginator;
+       this.payments.paginator = this.paginator;
     });
   }
 
