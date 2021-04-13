@@ -1,10 +1,16 @@
 package com.itfac.amc.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +27,9 @@ public class UserServiceImp implements UserService {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	
+	@Autowired
+    private JavaMailSender mailSender;
 
 	@Override
 	public List<User> getAllUser() {
@@ -42,11 +51,54 @@ public class UserServiceImp implements UserService {
 	@Override
 
 	public User addUser(User user) {
-		user.setUserId((userRepository.getUserLastNo()) + randomString());
-		user.setPassword(encoder.encode(user.getPassword()));
+		
+		String Password= "1234@abc";
+		String userId=genarateUserId();
+        user.setUserId(userId);
+		user.setPassword(encoder.encode(Password));
+		String Email=user.getEmail();
+		String UserId=user.getUserId();
+		
+		try {
+			sentPasswordAndUserId(Password,Email,UserId);
+		} catch (UnsupportedEncodingException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
 		return userRepository.save(user);
 
 	}
+	
+	public String genarateUserId() {
+		return userRepository.getUserLastNo()+randomString();
+	}
+	
+	public void sentPasswordAndUserId(String Password,String Email,String UserId)throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();              
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+         
+        helper.setFrom("amcrevenu@gmail.com", "AMC_EpicLanka");
+        helper.setTo(Email);
+         
+        String subject = "Here your Password and User Id";
+         
+        String content = "<p>Hello,</p>"
+                + "<p>Welcome to the Annual Maintanance contract Revenue System</p>"
+                + "<p>Login to the system use this password and User Id</p>"
+                + "<p>User Id: "+UserId+"</p>"
+                + "<p>Password: "+Password+"</p>"
+                + "<p>After first login you can change your Password using Forgot Password Link </p>"
+                + "<p>Happy journey with AMC</p>";
+         
+        helper.setSubject(subject);
+         
+        helper.setText(content, true);
+         
+        mailSender.send(message);
+    }
 
 	private int start() {
 		int a = 1000;
@@ -72,11 +124,6 @@ public class UserServiceImp implements UserService {
 	@Override
 	public User updateUser(User user) {
 		return userRepository.save(user);
-	}
-
-	@Override
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
 	}
 
 	@Override

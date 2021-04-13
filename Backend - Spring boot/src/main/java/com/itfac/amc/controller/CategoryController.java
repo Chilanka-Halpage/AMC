@@ -70,7 +70,7 @@ public class CategoryController {
 
 	@GetMapping("findActiveCategoy")
 
-	public Category getActiveCategory() {
+	public List<Category> getActiveCategory() {
 		return categoryservice.getActiveCategory();
 
 	}

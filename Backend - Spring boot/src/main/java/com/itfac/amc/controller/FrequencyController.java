@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.entity.Frequency;
+import com.itfac.amc.entity.Product;
 import com.itfac.amc.service.FrequencyService;
 
 @RestController
@@ -57,6 +58,10 @@ public class FrequencyController {
 	@PutMapping("updateFrequency/{id}")
 	public Frequency updateFrequency(@Validated @RequestBody Frequency frequency) {
 		return frequencyservice.updateFrequency(frequency);
+	}
+	@GetMapping("findActiveFrequency")
+	public List<Frequency> getActiveFrequency() {
+		return frequencyservice.getActiveFrequency();
 	}
 
 }

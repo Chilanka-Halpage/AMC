@@ -46,7 +46,7 @@ public class FrequencyServiceImp implements FrequencyService {
 	}
 
 	@Override
-	public Frequency getActiveFrequency() {
+	public List<Frequency> getActiveFrequency() {
 		return frequencyrepo.getActiveFrequency();
 	}
 

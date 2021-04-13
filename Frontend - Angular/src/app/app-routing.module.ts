@@ -1,3 +1,5 @@
+import { AccountantGuard } from './_helpers/accountant.guard';
+import { AmccordinatorGuard } from './_helpers/amccordinator.guard';
 import { LogDetailsComponent } from './log-details/log-details.component';
 import { ClientGuard } from './_helpers/client.guard';
 import { SattlementComponent } from './sattlement/sattlement.component';

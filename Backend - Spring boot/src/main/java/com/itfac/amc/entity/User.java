@@ -29,7 +29,7 @@ public class User {
 	@Column(length = 50, nullable = false)
 	private String uname;
 
-	@NotEmpty(message = "Password cannot be Empty")
+	
 	@Size(max = 200, message = "Password must be 200 characters")
 	@Column(length = 200, nullable = false)
 	private String password;
@@ -49,7 +49,7 @@ public class User {
 
 	@NotEmpty(message = "Contact Number cannot be Empty")
 	@Size(max = 60, message = "Contact number must be 60 characters")
-	@Column(name = "conatact_no", length = 60, nullable = false)
+	@Column(name = "contact_no", length = 60, nullable = false)
 	private String contactNo;
 
 	@Column(name = "reset_password_token", length = 60)

@@ -1,3 +1,5 @@
+import { AccountantGuard } from './_helpers/accountant.guard';
+import { AmccordinatorGuard } from './_helpers/amccordinator.guard';
 import { MessageComponent } from './message/message.component';
 import { AmcMasterService } from './shared/amc-master.service';
 import { ClientService } from './shared/client.service';
@@ -196,6 +198,8 @@ import { LogDetailsComponent } from './log-details/log-details.component';
     FrequencyserviceService,
     ProductserviceService,
     NotificationService,
+    AmccordinatorGuard,
+    AccountantGuard,
     AuthenticationGuard,
     ClientGuard,
     {
