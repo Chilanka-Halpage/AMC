@@ -144,8 +144,8 @@ export class AmcMasterService {
   }
 
   //Send updated data to the backend
-  updateAmcMaster(amcMater: any, amcNo: string): Observable<any>{
-    return this.http.put(`${this.baseURL}amcMaster/edit/${amcNo}`, amcMater, {
+  updateAmcMaster(amcMater: any, amcNo: string, amcSerialNo: String): Observable<any>{
+    return this.http.put(`${this.baseURL}amcMaster/edit/${amcNo}/${amcSerialNo}`, amcMater, {
       responseType: 'text' as 'json'
     });
   }

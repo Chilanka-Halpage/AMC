@@ -3,9 +3,6 @@ package com.itfac.amc.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
 

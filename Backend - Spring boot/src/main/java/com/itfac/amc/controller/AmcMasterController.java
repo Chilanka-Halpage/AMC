@@ -47,9 +47,9 @@ public class AmcMasterController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@PutMapping("edit/{amcNo}")
-	public ResponseEntity<String> getAmcByClient(@RequestBody AmcMaster amcMaster, @PathVariable String amcNo) {
-		amcService.updateAmcMaster(amcMaster, amcNo);
+	@PutMapping("edit/{amcNo}/{serialNo}")
+	public ResponseEntity<String> getAmcByClient(@RequestBody AmcMaster amcMaster, @PathVariable("amcNo") String amcNo, @PathVariable("serialNo") String amsSerialNo) {
+		amcService.updateAmcMaster(amcMaster, amcNo, amsSerialNo);
 		return ResponseEntity.status(HttpStatus.OK).body("Updated Successfully");
 	}
 

@@ -87,9 +87,9 @@ export class AmcSerialComponent implements OnInit {
         totalValueLkr: ['', [Validators.required]]
       }),
       currency: this.formBuilder.group({
-        currencyId: [''],
+        currencyId: ['', [Validators.required]],
       }),
-      frequency: [''],
+      frequency: ['', [Validators.required]],
       mtcStartDate: ['', [Validators.required]],
       mtcEndDate: ['', [Validators.required]],
       renewalDate: ['', [Validators.required]],

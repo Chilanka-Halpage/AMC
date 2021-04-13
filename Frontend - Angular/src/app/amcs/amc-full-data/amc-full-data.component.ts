@@ -102,6 +102,7 @@ export class AmcFullDataComponent implements OnInit {
           cname: this.clientName,
           dname: this.data.department_name,
           amcNo: this.data.amc_no,
+          asno: this.data.amc_serial_no,
           type: "%u2%"
         })
       }
