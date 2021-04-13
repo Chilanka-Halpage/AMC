@@ -29,7 +29,7 @@ public class User {
 	@Column(length = 50, nullable = false)
 	private String uname;
 
-	@NotEmpty(message = "Password cannot be Empty")
+	
 	@Size(max = 200, message = "Password must be 200 characters")
 	@Column(length = 200, nullable = false)
 	private String password;
