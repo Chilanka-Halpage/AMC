@@ -24,4 +24,8 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 
 	@Query(value = "select count(*) from client where active = true", nativeQuery = true)
 	String countclients();
+	
+	//@Query(value = "SELECT rec_no balance pay_mode category_id pi_no dept_id from receipt join client_department on  receipt.client_dept_id = client_department.client_id where client_id = clientId", nativeQuery = true)
+	//List<ClientDetailsdash> getclientDetailsById(int clientId);
+
 }

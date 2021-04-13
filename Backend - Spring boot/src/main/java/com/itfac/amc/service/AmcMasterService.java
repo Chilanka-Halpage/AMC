@@ -54,5 +54,9 @@ public interface AmcMasterService {
 	List<String> getAllAmcNo(String amc_no) throws Exception;
 	
 	String countActiveAmc();
+	
+	String countInactiveAmc();
+	
+	String countAmc();
 
 }

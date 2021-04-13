@@ -1,5 +1,6 @@
 package com.itfac.amc.service.impl;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,31 @@ public class ReceiptServiceImpl implements ReceiptService {
 		if (recDates == null)
 			throw new Exception("No payment has been done");
 		return recDates;
+	}
 
+	@Override
+	public String TotalrevanuelastYear(LocalDate Date1, LocalDate Date2) {
+		return receiptRepository.TotalrevanuelastYear(Date1, Date2);
+	}
+
+	@Override
+	public int Totalrevanuelast2Year(LocalDate Date1, LocalDate Date2) {
+		return receiptRepository.Totalrevanuelast2Year(Date1, Date2);
+	}
+
+	@Override
+	public int Totalrevanuelast3Year(LocalDate Date1, LocalDate Date2) {
+		return receiptRepository.Totalrevanuelast3Year(Date1, Date2);
+	}
+
+	@Override
+	public int Totalrevanuelast4Year(LocalDate Date1, LocalDate Date2) {
+		return receiptRepository.Totalrevanuelast4Year(Date1, Date2);
+	}
+
+	@Override
+	public int Totalrevanuelast5Year(LocalDate Date1, LocalDate Date2) {
+		return receiptRepository.Totalrevanuelast5Year(Date1, Date2);
 	}
 
 }

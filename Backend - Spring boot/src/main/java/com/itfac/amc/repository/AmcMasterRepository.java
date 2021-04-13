@@ -45,4 +45,12 @@ public interface AmcMasterRepository extends JpaRepository<AmcMaster, String> {
     
 	@Query(value = "select count(*) from amc_master where active = true", nativeQuery = true)
 	String countActiveAmc();
+	
+	@Query(value = "select count(*) from amc_master where active = false", nativeQuery = true)
+	String countInactiveAmc();
+	
+	@Query(value = "select count(*) from amc_master", nativeQuery = true)
+	String countAmc();
+	
+	
 }

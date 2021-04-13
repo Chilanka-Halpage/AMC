@@ -44,5 +44,10 @@ public class AmcDueInvoiceServiceImpl implements AmcDueInvoiceService {
 		amcDueInvoiceRepositiory.save(amcDueInvoice);
 	}
 
+	@Override
+	public List<DueInvoiceDto> settled() {
+		return amcDueInvoiceRepositiory.settled();
+	}
+
 	
 }

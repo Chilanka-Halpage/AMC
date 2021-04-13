@@ -105,4 +105,14 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 		return amcMasterRepository.countActiveAmc();
 	}
 
+	@Override
+	public String countInactiveAmc() {
+		return amcMasterRepository.countInactiveAmc();
+	}
+
+	@Override
+	public String countAmc() {
+		return amcMasterRepository.countAmc();
+	}
+
 }
