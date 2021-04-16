@@ -22,11 +22,13 @@ public interface ReceiptService {
 
 	String TotalrevanuelastYear(LocalDate Date1, LocalDate Date2);
 	
-	int Totalrevanuelast2Year(LocalDate Date1, LocalDate Date2);
+	String Totalrevanuelast2Year(LocalDate Date1, LocalDate Date2);
 	
-	int Totalrevanuelast3Year(LocalDate Date1, LocalDate Date2);
+	String Totalrevanuelast3Year(LocalDate Date1, LocalDate Date2);
+		
+	String Totalrevanuelast4Year(LocalDate Date1, LocalDate Date2);
 	
-	int Totalrevanuelast4Year(LocalDate Date1, LocalDate Date2);
-
-	int Totalrevanuelast5Year(LocalDate Date1, LocalDate Date2);
+	String Totalrevanuelast5Year(LocalDate Date1, LocalDate Date2);
+	
+	List<recieptDto> getReceiptbyClientId(int client_id);
 }

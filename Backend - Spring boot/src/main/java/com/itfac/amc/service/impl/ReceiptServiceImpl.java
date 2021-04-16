@@ -50,23 +50,28 @@ public class ReceiptServiceImpl implements ReceiptService {
 	}
 
 	@Override
-	public int Totalrevanuelast2Year(LocalDate Date1, LocalDate Date2) {
-		return receiptRepository.Totalrevanuelast2Year(Date1, Date2);
+	public String Totalrevanuelast2Year(LocalDate Date1, LocalDate Date2) {
+		return receiptRepository.TotalrevanuelastYear(Date1, Date2);
 	}
 
 	@Override
-	public int Totalrevanuelast3Year(LocalDate Date1, LocalDate Date2) {
-		return receiptRepository.Totalrevanuelast3Year(Date1, Date2);
+	public String Totalrevanuelast3Year(LocalDate Date1, LocalDate Date2) {
+		return receiptRepository.TotalrevanuelastYear(Date1, Date2);
 	}
 
 	@Override
-	public int Totalrevanuelast4Year(LocalDate Date1, LocalDate Date2) {
-		return receiptRepository.Totalrevanuelast4Year(Date1, Date2);
+	public String Totalrevanuelast4Year(LocalDate Date1, LocalDate Date2) {
+		return receiptRepository.TotalrevanuelastYear(Date1, Date2);
 	}
 
 	@Override
-	public int Totalrevanuelast5Year(LocalDate Date1, LocalDate Date2) {
-		return receiptRepository.Totalrevanuelast5Year(Date1, Date2);
+	public String Totalrevanuelast5Year(LocalDate Date1, LocalDate Date2) {
+		return receiptRepository.TotalrevanuelastYear(Date1, Date2);
+	}
+
+	@Override
+	public List<recieptDto> getReceiptbyClientId(int client_id) {
+		return receiptRepository.getReceiptbyClientId(client_id);
 	}
 
 }

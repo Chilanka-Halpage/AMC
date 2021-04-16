@@ -30,19 +30,8 @@ public interface ReceiptRepository extends JpaRepository<Receipt, String> {
 	@Query(value = "SELECT sum(total_lkr) FROM receipt WHERE rec_date BETWEEN :Date1 and :Date2", nativeQuery = true)
 	String TotalrevanuelastYear(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
     
-	//Total revanue of last 2nd year
-    @Query(value = "SELECT sum(total_lkr) FROM receipt WHERE rec_date BETWEEN :Date1 and :Date2", nativeQuery = true)
-    int Totalrevanuelast2Year(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
-    
-    //Total revanue of last 3rd year
-  	@Query(value = "SELECT sum(total_lkr) FROM receipt WHERE rec_date BETWEEN :Date1 and :Date2", nativeQuery = true)
-  	int Totalrevanuelast3Year(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
-      
-  	//Total revanue of last 4th year
-      @Query(value = "SELECT sum(total_lkr) FROM receipt WHERE rec_date BETWEEN :Date1 and :Date2", nativeQuery = true)
-      int Totalrevanuelast4Year(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
-
-    //Total revanue of last 5th year
-      @Query(value = "SELECT sum(total_lkr) FROM receipt WHERE rec_date BETWEEN :Date1 and :Date2", nativeQuery = true)
-      int Totalrevanuelast5Year(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
+	//find detail by clientId
+	@Query(value = "SELECT rec_no,balance,pay_mode,category_name,pi_no,dept_id from receipt,client_department,category where receipt.client_dept_id = client_department.client_id and receipt.category_id = category.category_id and  client_id =?1", nativeQuery = true)
+	List<recieptDto> getReceiptbyClientId(int client_id);
+		
 }

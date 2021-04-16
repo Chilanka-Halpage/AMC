@@ -44,12 +44,12 @@ public class ReceiptController {
 	}
 
 	@GetMapping("findreceipt/{id}")
-	ResponseEntity<Optional<recieptDto>> getAmcDueInvoiceById(@PathVariable("id") String recNo) {
+	ResponseEntity<Optional<recieptDto>> getReceiptById(@PathVariable("id") String recNo) {
 		Optional<recieptDto> receiptByIdd = receiptService.getReceiptById(recNo);
 		if (receiptByIdd != null) {
 			return ResponseEntity.ok(receiptByIdd);
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No dueinvoice with entered id " + recNo)
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No Receipts with entered id " + recNo)
 				.body(receiptByIdd);
 	}
 
@@ -69,31 +69,37 @@ public class ReceiptController {
 	}
 	
 	@GetMapping("/last2yearrevanue/{Date1}/{Date2}")            
-	public int Totalrevanuelast2Year(
+	public String Totalrevanuelast2Year(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
 		 return  receiptService.Totalrevanuelast2Year(Date1, Date2);
 	}
 	
 	@GetMapping("/last3yearrevanue/{Date1}/{Date2}")         
-	public int Totalrevanuelast3Year(
+	public String Totalrevanuelast3Year(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
 		 return  receiptService.Totalrevanuelast3Year(Date1, Date2);
 	}
 	
 	@GetMapping("/last4yearrevanue/{Date1}/{Date2}")     
-	public int Totalrevanuelast4Year(
+	public String Totalrevanuelast4Year(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
 		 return  receiptService.Totalrevanuelast4Year(Date1, Date2);
 	}
 	
 	@GetMapping("/last5yearrevanue/{Date1}/{Date2}")       
-	public int Totalrevanuelast5Year(
+	public String Totalrevanuelast5Year(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
 		 return  receiptService.Totalrevanuelast5Year(Date1, Date2);
 	}
+	
+	@GetMapping("findreceiptsforclient/{id}")
+	public List<recieptDto> getReceiptByClientId(@PathVariable("id") int clientId) {	 
+		return receiptService.getReceiptbyClientId(clientId);
+	}
+
 		
 }

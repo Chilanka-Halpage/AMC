@@ -63,10 +63,4 @@ public class ClientController {
 		return clientService.countclients();	   
 	}
 	
-	//clientDetailsbyid
-	//@GetMapping("clientDetailsbyId")
-	//public List<ClientDetailsdash> getclientDetailsById(@PathVariable("clientId") int clientId){
-	//	List<ClietDetailsdash> cDetails = clientService.getclientDetailsById(clientId);
-//		return null;		
-//	}
 }

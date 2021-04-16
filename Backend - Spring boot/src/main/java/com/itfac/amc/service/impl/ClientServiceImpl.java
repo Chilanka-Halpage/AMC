@@ -55,11 +55,4 @@ public class ClientServiceImpl implements ClientService {
 		return clientRepository.countclients();
 	}
 
-	//@Override
-	//public List<ClientDetails> getclientDetailsById(int clientId) {
-	//	return clientRepository.getclientDetailsById(clientId);
-	//}
-
-    
-
 }
