@@ -13,12 +13,17 @@ export class RevalueComponent implements OnInit {
 
   bar!: Chart;
 
+  a: number
+
   isLoadingResults = true;
   isRateLimitReached = false;
   errorMessage = "Unknown Error"
 
   lastyearLoad;
   secondyearLoad;
+  thirdyearLoad;
+  fourthyearLoad;
+  fifthyearLoad;
 
   lastyearrevanue;
   secondlastrevanue;
@@ -27,7 +32,6 @@ export class RevalueComponent implements OnInit {
   fifthlastrevanue;
 
   constructor( 
-               private Router: Router,
                private homedetails: HomedetailsService,
                private datePipe: DatePipe,
                ) { }
@@ -44,10 +48,8 @@ export class RevalueComponent implements OnInit {
 
   lastyearrevanu(){
     let date=new Date();
-    let date2=new Date();
     let formatteddate1 = this.datePipe.transform(date, "yyyy-MM-dd");
     console.log(formatteddate1)
-    date2.setMonth
     date.setFullYear(date.getFullYear() - 1);
     let formatteddate2 = this.datePipe.transform(date, "yyyy-MM-dd");
     console.log(formatteddate2)
@@ -55,7 +57,7 @@ export class RevalueComponent implements OnInit {
       this.isLoadingResults = ((this.secondyearLoad = true) && this.lastyearLoad) ? false : true;
       this.lastyearrevanue=data
         if(!this.isLoadingResults ){
-          this. barchart()
+          this.barchart()
         }
         console.log("lastyear", data)
     },
@@ -86,17 +88,21 @@ export class RevalueComponent implements OnInit {
   }
 
   thirdlastyearrevanue(){
+
     let date=new Date();
     let date2=new Date();
-    date.setFullYear(date.getFullYear() -2);
+    date.setFullYear(date.getFullYear() -2 );
     let formatteddate1 = this.datePipe.transform(date, "yyyy-MM-dd");
     console.log(formatteddate1)
     date2.setFullYear(date2.getFullYear() - 3);
     let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
     console.log(formatteddate2)
-    this.homedetails.lastyearrevanue(formatteddate2,formatteddate1).subscribe(
-      data => { 
+    this.homedetails.lastyearrevanue(formatteddate2,formatteddate1).subscribe(data => { 
+      this.isLoadingResults = ((this.thirdyearLoad = true) && this.fourthyearLoad && this.fifthyearLoad) ? false : true;
         this.thirdlastrevanue=data
+        if(!this.isLoadingResults ){
+          this. barchart()
+        }
         console.log("thirdyear", data)
     },
       error => {console.log("Error!", error)
@@ -112,8 +118,12 @@ export class RevalueComponent implements OnInit {
     date2.setFullYear(date2.getFullYear() - 4);
     let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
     console.log(formatteddate2)
-    this.homedetails.last4yearrevanue(formatteddate2,formatteddate1).subscribe(
-      data => { this.fourthlastrevanue=data
+    this.homedetails.last4yearrevanue(formatteddate2,formatteddate1).subscribe(data => {
+      this.isLoadingResults = ((this.fourthyearLoad = true) && this.thirdyearLoad && this.fifthyearLoad) ? false : true;
+      this.fourthlastrevanue=data
+      if(!this.isLoadingResults ){
+        this. barchart()
+      }
         console.log("fourthyear", data)
     },
       error => {console.log("Error!", error)
@@ -129,9 +139,12 @@ export class RevalueComponent implements OnInit {
     date2.setFullYear(date2.getFullYear() - 5);
     let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
     console.log(formatteddate2)
-    this.homedetails.last5yearrevanue(formatteddate2,formatteddate1).subscribe(
-      data => { 
+    this.homedetails.last5yearrevanue(formatteddate2,formatteddate1).subscribe(data => { 
+      this.isLoadingResults = ((this.fifthyearLoad = true) && this.thirdyearLoad && this.fourthyearLoad) ? false : true;
         this.fifthlastrevanue=data
+        if(!this.isLoadingResults ){
+          this. barchart()
+        }
         console.log("fifthyear", data)
     },
       error => {console.log("Error!", error)
@@ -145,7 +158,7 @@ export class RevalueComponent implements OnInit {
         labels: ["2016", "2017", "2018", "2019", "2020"],
         datasets: [{
           label: 'Revenue',
-          data: [/* this.fifthlastrevanue,this.fourthlastrevanue, this.thirdlastrevanue, */ this.secondlastrevanue, this.lastyearrevanue],
+          data: [this.fifthlastrevanue,this.fourthlastrevanue, this.thirdlastrevanue,this.secondlastrevanue,this.lastyearrevanue],
           backgroundColor: ["#EF6D3B", "#EF6D3B", "#EF6D3B","#EF6D3B", "#EF6D3B"],
         }]
       },

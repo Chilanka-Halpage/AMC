@@ -13,6 +13,12 @@ export class EditDueinvoiceComponent implements OnInit {
 
   duePayment: DuePayment = new DuePayment();
   id: number;
+  productList = [];
+  currencyList = [];
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+
 
   constructor(
     private fb: FormBuilder,
@@ -58,6 +64,7 @@ export class EditDueinvoiceComponent implements OnInit {
        })
        },
     error => console.log(error));
+    this.loadSelectionData()
   }
 
   onSubmit(){
@@ -71,5 +78,25 @@ export class EditDueinvoiceComponent implements OnInit {
    gotoDuepayemtlist(){
     this.router.navigate(['/duepayment']);
    }
+
+   private loadSelectionData() {
+    let currencyListLoad = false, productListLoad = false;
+    this.duePaymentService.getactiveCurrency().subscribe(response => {
+      this.currencyList = response;
+      this.isLoadingResults = ((currencyListLoad = true) && productListLoad) ? false : true;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
+    });
+    this.duePaymentService.getProduct().subscribe(response => {
+      this.productList = response;
+      this.isLoadingResults = ((productListLoad = true) && currencyListLoad) ? false : true;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
+    });
+  }
 
 }

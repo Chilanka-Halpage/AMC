@@ -1,6 +1,5 @@
 import {Injectable, Injector} from '@angular/core';
 import {HttpInterceptor, HttpRequest} from '@angular/common/http';
-
 import {AuthenticationService} from './authentication.service';
 
 @Injectable({
@@ -19,7 +18,7 @@ export class TokenInterceptor implements HttpInterceptor {
     if (currentUser) {
       request = request.clone({
         setHeaders: {
-          Authentication: `Bearer ${currentUser}`
+          Authentication: `Bearer ${currentUser}`,
         }
       });
     }

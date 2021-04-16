@@ -1,4 +1,3 @@
-import { CurrencyService } from './../currency.service';
 import { DuePaymentService } from './../due-payment.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';

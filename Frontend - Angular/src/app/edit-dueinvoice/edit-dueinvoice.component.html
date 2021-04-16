@@ -43,26 +43,29 @@
                   </mat-form-field> 
                 </div>  
                 <div formGroupName="product">
-                  <mat-form-field appearance="outline" class="col pl-3">
-                    <mat-label>
-                      product_id:  </mat-label>
-                      <input type="text" matInput formControlName="productId" > 
+                  <mat-form-field appearance="outline" class="col pl-2">
+                    <mat-label>Product</mat-label>
+                    <mat-select formControlName="productId">
+                        <mat-option *ngFor="let product of productList" [value]="product.productId">
+                            {{product.productName}}
+                        </mat-option>
+                    </mat-select>
                    </mat-form-field> 
                 </div>
                 <div formGroupName="currency">
-                   <mat-form-field appearance="outline" class="col pl-3">
-                    <mat-label>
-                      currency_id:  </mat-label>
-                      <input type="text" matInput formControlName="currencyId" > 
+                 <mat-form-field appearance="outline" class="col-12">
+                  <mat-label>Currency</mat-label>
+                  <mat-select formControlName="currencyId">
+                      <mat-option *ngFor="let currency of currencyList" [value]="currency.currencyId">
+                          {{currency.currencyName}}
+                      </mat-option>
+                  </mat-select>
                    </mat-form-field> 
                   </div>
               </div>
-              <div class="row px-0">
-                <mat-checkbox formControlName="settle" class="col-md-4">Settle</mat-checkbox>
-               </div>
                <div class="d-flex flex-row-reverse my-0">
                 <button class="btn btn-success mb-3" type="submit">submit</button>
                </div>
               </form>
-            </div>
+            </div>      
 <div>  

@@ -59,8 +59,19 @@ export class HomedetailsService {
   return this.HttpClient.get<any>(`${this.baseURL}receipt/last5yearrevanue/${Date1}/${Date2}`,{responseType : 'text' as 'json'});
  }
 
- getclienthome(): Observable<any>{
-  return this.HttpClient.get<any>(`${this.baseURL}lastyearrevanue`,{responseType : 'text' as 'json'});
- }
- 
+ getclienthome(id: number): Observable<any>{
+  return this.HttpClient.get<any>(`${this.baseURL}receipt/findreceiptsforclient/${id}`)
+}
+
+ public getImage(imgName): Observable<any> {
+  return this.HttpClient.get<any>(`${this.baseURL}api/images/getImage/${imgName}.jpg`,
+  {
+    responseType : 'text' as 'json'
+  });
+}
+
+  public Image(userId){
+  return  `${this.baseURL}api/images/getImage/${userId}.jpg`;
+}
+
 }

@@ -12,7 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ClientdashtableComponent implements OnInit {
 
-  clientId: String
+  clientId: number
 
   clientdetails: MatTableDataSource<any>;
 
@@ -28,7 +28,7 @@ export class ClientdashtableComponent implements OnInit {
   }
 
   getclienthome(){
-    this.homedetails.getclienthome().subscribe(data =>{
+    this.homedetails.getclienthome(this.clientId).subscribe(data =>{
       this.clientdetails = new MatTableDataSource(data);
       this.clientdetails.sort = this.sort;
       this.clientdetails.paginator = this.paginator;

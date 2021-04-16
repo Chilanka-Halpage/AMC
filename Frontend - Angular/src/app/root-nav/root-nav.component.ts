@@ -13,6 +13,7 @@ import { RenewalAmcsFilterComponent } from '../Filters/renewal-amcs-filter/renew
 import { RenewedAmcsFilterComponent } from '../Filters/renewed-amcs-filter/renewed-amcs-filter.component';
 import { ExpiredAmcsFilterComponent } from '../Filters/expired-amcs-filter/expired-amcs-filter.component';
 import { PaymentReportFilterComponent } from '../Filters/payment-report-filter/payment-report-filter.component';
+import { HomedetailsService } from '../homedetails.service';
 
 @Component({
   selector: 'app-root-nav',
@@ -20,6 +21,10 @@ import { PaymentReportFilterComponent } from '../Filters/payment-report-filter/p
   styleUrls: ['./root-nav.component.scss']
 })
 export class RootNavComponent {
+  
+  userId : String
+  imgSource : String
+  public imageSrc: string;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -31,6 +36,8 @@ export class RootNavComponent {
     private dialog: MatDialog,
     public _authentication: AuthenticationService,
     private router: Router,
+    private homedetalis: HomedetailsService,
+    
   ) { }
 
   AllAMCDetailsFilter() {
@@ -53,6 +60,14 @@ export class RootNavComponent {
     this.dialog.open(MessageComponent);
   }
   ngOnInit(): void {
+
+    console.log(this._authentication.userId)
+    this.homedetalis.getImage(this._authentication.userId).subscribe(
+      Response =>{
+        this.imgSource = Response;
+      }
+    )
+    this.imageSrc= this.homedetalis.Image(this.userId);
 
   }
   ClientsDetailsFilter() {

@@ -76,7 +76,11 @@
                  <div formGroupName="category" >    
                     <mat-form-field appearance="outline" class="col pl-2">
                       <mat-label>category</mat-label>
-                      <input type="number" matInput formControlName="categoryId" >     
+                      <mat-select formControlName="categoryId">
+                        <mat-option *ngFor="let category of categoryList" [value]="category.categoryId">
+                            {{category.categoryName}}
+                        </mat-option>
+                    </mat-select>      
                     </mat-form-field> 
                  </div> 
                  <div formGroupName="amcMaster">
@@ -89,14 +93,22 @@
                       <mat-form-field appearance="outline" class="col pl-2">
                       <mat-label>
                        currency Id</mat-label>
-                       <input type="number" matInput formControlName="currencyId" >     
+                       <mat-select formControlName="currencyId">
+                        <mat-option *ngFor="let currency of currencyList" [value]="currency.currencyId">
+                            {{currency.currencyName}}
+                        </mat-option>
+                    </mat-select>  
                       </mat-form-field> 
                   </div>  
                  <div formGroupName="frequency" >    
                       <mat-form-field appearance="outline" class="col pl-2">
                       <mat-label>
                       frequency Id</mat-label>
-                     <input type="number" matInput formControlName="frequencyId" >     
+                     <mat-select formControlName="frequencyId">
+                      <mat-option *ngFor="let frequency of  frequencyList" [value]="frequency.frequencyId">
+                          {{frequency.frequency}}
+                      </mat-option>
+                  </mat-select>     
                      </mat-form-field> 
                  </div>  
                </div> 

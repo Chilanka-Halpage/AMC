@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup = this.fb.group({
     userId: ['', [Validators.required]],
-    password: ['', [Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
+    password: ['', [Validators.maxLength(8)]]
   });
 
   constructor(
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
               userId: response.userId
             }
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-             if (response.role == "ROLE_client") {
+             if (response.role == "ROLE_CLIENT") {
               this.router.navigate(['/clienthome']);
               console.log(response)
              } else {
