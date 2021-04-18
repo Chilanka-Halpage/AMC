@@ -22,6 +22,7 @@ public class User {
 	@Id
 	@Column(name = "user_id", length = 100)
 	private String userId;
+	//columnDefinition = "TEXT", 
 
 	
 	@Size(max = 50, message = "User name must be 50 characters")

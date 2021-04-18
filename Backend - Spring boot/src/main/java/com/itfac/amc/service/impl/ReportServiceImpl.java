@@ -1,5 +1,7 @@
 package com.itfac.amc.service.impl;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -79,10 +81,10 @@ public class ReportServiceImpl implements ReportService {
 		return amcSerialRepository.getFullDetails(Date1, Date2);
 	}
 
-	// Client AMC report
+	// AMC report for client
 	@Override
-	public List<ClientAmc> clientAmcReport(String cId) {
-		return amcSerialRepository.ClientAmcReport(cId);
+	public List<ClientAmc> clientAmcReport(String user_id) {
+		return amcSerialRepository.ClientAmcReport(user_id);
 	}
 
 	// Payment Report
@@ -93,8 +95,8 @@ public class ReportServiceImpl implements ReportService {
 
 	// Payment Report for client
 	@Override
-	public List<ClientPaymentsDetails> ClientPaymentsReport(String cId) {
-		return amcSerialRepository.ClientPaymentsReport(cId);
+	public List<ClientPaymentsDetails> ClientPaymentsReport(String user_id) {
+		return amcSerialRepository.ClientPaymentsReport(user_id);
 
 	}
 
@@ -104,8 +106,7 @@ public class ReportServiceImpl implements ReportService {
 		return loginDtailsRepository.loginDetails();
 	}
 
-//client amc details mobile-----------------------------------
-
+	//client amc details mobile-----------------------------------
 	@Override
 	public List<GetClientAmc> getclientAmc(String amc_no) throws Exception {
 		List<GetClientAmc> clientAmc = amcMasterRepository.getClientAmcById(amc_no);
@@ -119,6 +120,11 @@ public class ReportServiceImpl implements ReportService {
 	public List<GetInvoice> getInvoiceById(String amc_no) throws Exception {
 		List<GetInvoice> invoice = proformaInvoiceRepository.getInvoiceById(amc_no);
 		return invoice;
+	}
+	
+	//Quarter wise report
+	public BigDecimal getRevanue(LocalDate date1, LocalDate date2) {
+		return amcSerialRepository.getRevanue(date1, date2);
 	}
 
 }

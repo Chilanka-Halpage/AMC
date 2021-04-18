@@ -8,6 +8,8 @@ import * as Chart from 'chart.js';
 })
 export class SalesComponent implements OnInit {
 
+
+
   doughnut!: Chart;
 
   constructor() { }

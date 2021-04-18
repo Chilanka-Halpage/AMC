@@ -1,3 +1,4 @@
+
 import { MessageComponent } from './message/message.component';
 import { AmcMasterService } from './shared/amc-master.service';
 import { ClientService } from './shared/client.service';
@@ -36,7 +37,6 @@ import { AllAmcReportComponent } from './Reports/all-amc-report/all-amc-report.c
 import { ClientDetailsFilterComponent } from './Filters/client-details-filter/client-details-filter.component';
 import { AllClientsDetailsFilterComponent } from './Filters/all-clients-details-filter/all-clients-details-filter.component';
 import { AllClientsDetailsReportComponent } from './Reports/all-clients-details-report/all-clients-details-report.component';
-import { UsersFilterComponent } from './Filters/users-filter/users-filter.component';
 import { AllAmcsService } from './data/all-amcs/all-amcs.service';
 import { AuthenticationGuard } from './_helpers/authentication.guard';
 import { ClientGuard } from './_helpers/client.guard';
@@ -96,6 +96,11 @@ import { ResetPageComponent } from './forgotPassword/reset-page/reset-page.compo
 import { PageComponent } from './forgotPassword/page/page.component';
 import { PageserviceService } from './pageservice.service';
 import { UpdateuserComponent } from './updateuser/updateuser.component';
+import { NotificationComponent } from './notification/notification.component';
+import { LoginDetailsComponent } from './login-details/login-details.component';
+import { QuarterWiseReportComponent } from './Filters/quarter-wise-report/quarter-wise-report.component';
+import { QuarterWiseRevenueReportComponent } from './reports/quarter-wise-report/quarter-wise-revenue-report.component';
+
 
 @NgModule({
   declarations: [
@@ -125,7 +130,6 @@ import { UpdateuserComponent } from './updateuser/updateuser.component';
     ClientDetailsFilterComponent,
     AllClientsDetailsFilterComponent,
     AllClientsDetailsReportComponent,
-    UsersFilterComponent,
     TaxListComponent,
     InvoiceListComponent,
     CreateInvoiceComponent,
@@ -178,6 +182,10 @@ import { UpdateuserComponent } from './updateuser/updateuser.component';
     PageComponent,
     ResetPageComponent,
     UpdateuserComponent,
+    NotificationComponent,
+    LoginDetailsComponent,
+    QuarterWiseReportComponent,
+    QuarterWiseRevenueReportComponent,
   ],
   imports: [
     BrowserModule,

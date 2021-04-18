@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface AllClientDetails {
 
+	//not
 	public String getclietn_iD();
 	public String getclient_name();
 	public String getamc_no();

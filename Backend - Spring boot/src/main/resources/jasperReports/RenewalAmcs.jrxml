@@ -10,8 +10,8 @@
 	</queryString>
 	<field name="amc_serial_no" class="java.lang.String"/>
 	<field name="amc_no" class="java.lang.String"/>
-	<field name="mtc_end_date" class="java.sql.Date"/>
-	<field name="client_id" class="java.lang.String"/>
+	<field name="renewal" class="java.sql.Date"/>
+	<field name="user_id" class="java.lang.String"/>
 	<field name="client_name" class="java.lang.String"/>
 	<field name="category_name" class="java.lang.String"/>
 	<field name="frequency" class="java.lang.String"/>
@@ -41,28 +41,28 @@
 					<text><![CDATA[Renewal AMCs]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="573" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="613" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[To:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="379" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="458" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[From:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="562" y="73" width="180" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<reportElement x="641" y="73" width="129" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{date1}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="757" y="73" width="163" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<reportElement x="797" y="73" width="123" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
 						<font size="12"/>
 					</textElement>
@@ -84,7 +84,7 @@
 	<columnHeader>
 		<band height="60">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="e4e75b6c-4d85-4c02-b9ff-4de20e81f679">
+				<reportElement mode="Opaque" x="80" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="e4e75b6c-4d85-4c02-b9ff-4de20e81f679">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2fb979a4-6eb0-44e2-85e6-6cd632e58509"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -93,7 +93,7 @@
 				<text><![CDATA[AMC Serial No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="80" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="403061c4-bc35-4a99-b266-c3e6638ab38a">
+				<reportElement mode="Opaque" x="0" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="403061c4-bc35-4a99-b266-c3e6638ab38a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dc0d59-4e2d-42ab-aec3-abb79e62ca6d"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -108,7 +108,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[mtc_end_date]]></text>
+				<text><![CDATA[Renewal Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="240" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="80ad5faa-a96f-4e8e-9ebd-964c54abd7b5">
@@ -117,7 +117,7 @@
 				<textElement textAlignment="Center">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[client_id]]></text>
+				<text><![CDATA[User ID]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="320" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="4855a4f2-f8e9-40d2-a9c3-9532a467b584">
@@ -126,7 +126,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[client_name]]></text>
+				<text><![CDATA[Client Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="400" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="858ec9fc-7602-4d1e-848d-6d3f7c99dfcd">
@@ -135,7 +135,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[category_name]]></text>
+				<text><![CDATA[Category Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="480" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="fe85a7bb-c51e-4cae-a0b4-1a83ab7cd660">
@@ -144,7 +144,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[frequency]]></text>
+				<text><![CDATA[Frequency]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="560" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="b89feb6f-abd0-4683-a54a-46cf23477489">
@@ -153,7 +153,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[currency_name]]></text>
+				<text><![CDATA[Currency Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="640" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
@@ -162,7 +162,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[invoice_amount]]></text>
+				<text><![CDATA[Invoice Amount]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="720" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="85f45384-4c40-4913-ac42-b37dae70af1c">
@@ -171,7 +171,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[total_value_lkr]]></text>
+				<text><![CDATA[Total Value Lkr]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="800" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="85f45384-4c40-4913-ac42-b37dae70af1c">
@@ -180,14 +180,14 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[mtc_qty]]></text>
+				<text><![CDATA[Mtc Qty]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="35">
 			<textField textAdjust="StretchHeight" pattern="MM/dd/yyyy">
-				<reportElement mode="Opaque" x="80" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="478e8bca-53e7-4f40-b092-c9d2cd62f258">
+				<reportElement mode="Opaque" x="0" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="478e8bca-53e7-4f40-b092-c9d2cd62f258">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dc0d59-4e2d-42ab-aec3-abb79e62ca6d"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -195,26 +195,26 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amc_no}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="160" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">
+			<textField textAdjust="StretchHeight" pattern="MM/dd/yyyy">
+				<reportElement mode="Opaque" x="160" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="527abf0f-a370-40aa-b1c0-b743ae7bff60"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{mtc_end_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{renewal}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="240" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="5c2030f3-ca3e-4200-86f9-a9555a25d5bd">
+				<reportElement mode="Opaque" x="240" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="5c2030f3-ca3e-4200-86f9-a9555a25d5bd">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bad068e8-bdfc-4712-8abe-275fe6f51b96"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{client_id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{user_id}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="320" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="7e85ebf9-1c78-42d8-93cf-73ea31cd3408">
+				<reportElement mode="Opaque" x="320" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="7e85ebf9-1c78-42d8-93cf-73ea31cd3408">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="55b15126-8082-4f4e-9cad-04eba8699773"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -223,7 +223,7 @@
 				<textFieldExpression><![CDATA[$F{client_name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="400" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="83c37a2c-5284-4eb0-95c9-92f15cbae8be">
+				<reportElement mode="Opaque" x="400" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="83c37a2c-5284-4eb0-95c9-92f15cbae8be">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5e90b6b1-e94a-4b79-a3db-0002b3c06db0"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -232,7 +232,7 @@
 				<textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="480" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="c1e27979-0d66-4be8-8afd-85e786232622">
+				<reportElement mode="Opaque" x="480" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="c1e27979-0d66-4be8-8afd-85e786232622">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b356be95-e9bd-44e5-a657-7680af79c061"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -241,7 +241,7 @@
 				<textFieldExpression><![CDATA[$F{frequency}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="560" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="f284a51b-31b4-483a-9fb5-4787b1048dbb">
+				<reportElement mode="Opaque" x="560" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="f284a51b-31b4-483a-9fb5-4787b1048dbb">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b973823-28f4-457c-a398-e0af49dab8da"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -250,7 +250,7 @@
 				<textFieldExpression><![CDATA[$F{currency_name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="640" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
+				<reportElement mode="Opaque" x="640" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a12d9db6-5d8a-4f38-9dc6-871807718384"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -259,7 +259,7 @@
 				<textFieldExpression><![CDATA[$F{invoice_amount}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="800" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
+				<reportElement mode="Opaque" x="720" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9630fc95-03cb-4dbf-8ed1-6c10873a3a90"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -268,7 +268,7 @@
 				<textFieldExpression><![CDATA[$F{total_value_lkr}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="720" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
+				<reportElement mode="Opaque" x="800" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9630fc95-03cb-4dbf-8ed1-6c10873a3a90"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -277,7 +277,7 @@
 				<textFieldExpression><![CDATA[$F{mtc_qty}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="0" y="-13" width="80" height="30" backcolor="#E0FFFF" uuid="285142c1-c2d7-4c4a-a95f-8cb43cf9d8ee">
+				<reportElement mode="Opaque" x="80" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="285142c1-c2d7-4c4a-a95f-8cb43cf9d8ee">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2fb979a4-6eb0-44e2-85e6-6cd632e58509"/>
 				</reportElement>
 				<textElement textAlignment="Center">

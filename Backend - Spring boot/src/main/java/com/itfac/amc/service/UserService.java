@@ -1,8 +1,10 @@
 package com.itfac.amc.service;
+
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import javax.mail.MessagingException;
+import org.springframework.http.ResponseEntity;
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.service.impl.UserNotFoundException;
@@ -19,6 +21,10 @@ public interface UserService {
 	public User getUser(String userId);
 
 	UserNameDto getUserName(String userid);
+
+	public ResponseEntity<String> updateUser(String userId, User user);
+
+	public ResponseEntity<String> updatePassword(String userId, User user);
 
 	List<User> getAllUser();
 

@@ -37,12 +37,12 @@ public class Client extends Auditable {
 
 	@NotEmpty(message = "Contact number cannot be empty")
 	@Size(min = 10, max = 60, message = "Contact number must be between 10 and 60 characters")
-	@Column(name = "conatact_no", length = 60, nullable = false)
+	@Column(name = "contact_no", length = 60, nullable = false)
 	private String contactNo;
 
 	@NotEmpty(message = "Contact person cannot be empty")
 	@Size(max = 100, message = "Contact person must be maximum 100 characters")
-	@Column(name = "conatact_person", length = 100, nullable = false)
+	@Column(name = "contact_person", length = 100, nullable = false)
 	private String contactPerson;
 
 	@NotEmpty(message = "Contact person cannot be empty")
@@ -51,7 +51,7 @@ public class Client extends Auditable {
 
 	@Column(name = "last_modified_ip", length = 20)
 	private String lastModifiedIp;
-
+	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "client_fk"))
 	@JsonIgnore

@@ -9,13 +9,13 @@
 		<![CDATA[]]>
 	</queryString>
 	<field name="amc_no" class="java.lang.String"/>
-	<field name="mtc_end_date" class="java.sql.Date"/>
+	<field name="due_date" class="java.sql.Date"/>
 	<field name="client_name" class="java.lang.String"/>
 	<field name="category_name" class="java.lang.String"/>
 	<field name="contact_no" class="java.lang.String"/>
 	<field name="frequency" class="java.lang.String"/>
-	<field name="invoice_amt" class="java.math.BigDecimal"/>
-	<field name="total_value" class="java.math.BigDecimal"/>
+	<field name="invoice_amount" class="java.math.BigDecimal"/>
+	<field name="total_value_lkr" class="java.math.BigDecimal"/>
 	<background>
 		<band/>
 	</background>
@@ -96,7 +96,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Mtc End Date]]></text>
+				<text><![CDATA[Due Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="160" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="2bc9f444-871e-4ba6-b2d8-5c0e301325af">
@@ -141,7 +141,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Invoice Amt]]></text>
+				<text><![CDATA[Invoice Amount]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="560" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
@@ -150,7 +150,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Total Value]]></text>
+				<text><![CDATA[Total Value Lkr]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -175,7 +175,7 @@
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{mtc_end_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{due_date}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="160" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">
@@ -220,7 +220,7 @@
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{invoice_amt}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{invoice_amount}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="560" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
@@ -229,7 +229,7 @@
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total_value}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{total_value_lkr}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

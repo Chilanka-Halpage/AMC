@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import { JrReportDetailsService } from '../../data/jr-report-details.service';
 import { RenewalAmcs } from '../../data/RenewalAmcs/renewal-amcs'
 
@@ -17,7 +18,9 @@ export class RenewalAmcsFilterComponent implements OnInit {
 
   date=new Date();
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    public _authentication: AuthenticationService,
+    private route: ActivatedRoute,
     private router: Router,
     private jrReportDetailsService:JrReportDetailsService,
     private fb: FormBuilder,
@@ -41,7 +44,7 @@ export class RenewalAmcsFilterComponent implements OnInit {
     console.log(formatteddate2);
     this.router.navigate(['renewalAmcs',formatteddate1,formatteddate2]);
   
-    this.jrReportDetailsService.RenewalAmcsJrReport(formatteddate1,formatteddate2).subscribe(
+    this.jrReportDetailsService.RenewalAmcsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
     },
       error => {console.log("Error!", error)
