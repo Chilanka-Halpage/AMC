@@ -21,10 +21,10 @@ import lombok.Data;
 public class User {
 
 	@Id
-	@Column(columnDefinition = "TEXT", name = "user_id", length = 100)
+	@Column(name = "user_id", length = 100)
 	private String userId;
 
-	@NotEmpty(message = "User name cannot be Empty")
+	
 	@Size(max = 50, message = "User name must be 50 characters")
 	@Column(length = 50, nullable = false)
 	private String uname;
@@ -41,15 +41,15 @@ public class User {
 
 	private boolean active;
 
-	@NotEmpty(message = "Email cannot be Empty")
+	
 	@Size(max = 100, message = "User name must be 100 characters")
 	@Email(message = "Email should be valid")
 	@Column(length = 100, nullable = false)
 	private String email;
 
-	@NotEmpty(message = "Contact Number cannot be Empty")
+	
 	@Size(max = 60, message = "Contact number must be 60 characters")
-	@Column(name = "contact_no", length = 60, nullable = false)
+	@Column(name = "conatact_no", length = 60, nullable = false)
 	private String contactNo;
 
 	@Column(name = "reset_password_token", length = 60)

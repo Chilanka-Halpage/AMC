@@ -1,7 +1,11 @@
 package com.itfac.amc.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,13 +22,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.reportData.viewLoginDetails;
 import com.itfac.amc.repository.UserRepository;
 import com.itfac.amc.service.LoginDetailsService;
 import com.itfac.amc.service.UserService;
+import com.itfac.amc.service.impl.UserNotFoundException;
+
+import net.bytebuddy.utility.RandomString;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -47,6 +53,8 @@ public class UserController {
 	public List<User> getAllUser() {
 		List<User> allUser = userservice.getAllUser();
 		return allUser;
+		
+		
 	}
 
 	@GetMapping("findUser/{id}")
@@ -70,7 +78,8 @@ public class UserController {
 	}
 
 	@PutMapping("updateUser/{id}")
-	User updateUser(@Validated @RequestBody User user) {
+	User updateUsers(@PathVariable("id") String userId,@Validated @RequestBody User user) {
+		user.setUserId(userId);
 		return userservice.updateUser(user);
 	}
 
@@ -116,5 +125,41 @@ public class UserController {
 		return Uname;
 
 	}
+	@PostMapping("forgot_password")
+	ResponseEntity <String> processForgotPassword(@RequestBody Map<String,Object> mail) {
+        String email = (String) mail.get("email");
+        String token = RandomString.make(30);
+   
+        try {
+        	userservice.updateResetPasswordToken(token, email);
+            String resetPasswordLink ="http://localhost:4200/ResetPassword?token=" + token;
+            userservice.sendEmail(email, resetPasswordLink);
+            return ResponseEntity.status(HttpStatus.OK).body("check email");
+             
+        } catch (UserNotFoundException ex) {
+        	return ResponseEntity.badRequest().body("invalid email");
+        } 
+        catch (UnsupportedEncodingException | MessagingException e) {
+           
+        }
+          return null;   
+        
+    }
+	
+	  @PostMapping("change_password/{token}")
+	    public ResponseEntity <String> processResetPassword(@RequestBody String password,@PathVariable("token") String token) {
+	    	
+	    	    User user = userservice.getByResetPasswordToken(token);
+	    	    
+	    	     if (user == null) {
+	    	    	 return ResponseEntity.badRequest().body("invalid Token");
+	    	    } else {           
+	    	    	userservice.updatePassword(user, password);
+	    	         
+	    	    	return ResponseEntity.status(HttpStatus.OK).body("Password Reset Successfully");
+	    	    }
+
+	    }
+	
 
 }

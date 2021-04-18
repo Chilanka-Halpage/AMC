@@ -86,6 +86,11 @@ import { NotifierComponent } from './notifier/notifier.component';
 import { RevalueComponent } from './revalue/revalue.component';
 import { SalesComponent } from './sales/sales.component';
 import { AMCStatusComponent } from './amcstatus/amcstatus.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { ResetPageComponent } from './forgotPassword/reset-page/reset-page.component';
+import { PageComponent } from './forgotPassword/page/page.component';
+import { PageserviceService } from './pageservice.service';
+import { UpdateuserComponent } from './updateuser/updateuser.component';
 
 @NgModule({
   declarations: [
@@ -164,6 +169,9 @@ import { AMCStatusComponent } from './amcstatus/amcstatus.component';
     RevalueComponent,
     SalesComponent,
     AMCStatusComponent,
+    PageComponent,
+    ResetPageComponent,
+    UpdateuserComponent,
   ],
   imports: [
     BrowserModule,
@@ -184,6 +192,9 @@ import { AMCStatusComponent } from './amcstatus/amcstatus.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger', 
+    })
   ],
   providers: [
     ClientService,
@@ -195,6 +206,7 @@ import { AMCStatusComponent } from './amcstatus/amcstatus.component';
     FrequencyserviceService,
     ProductserviceService,
     NotificationService,
+    PageserviceService,
     AuthenticationGuard,
     ClientGuard,
     {

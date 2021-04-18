@@ -16,7 +16,7 @@ export class CategoryserviceService {
   }
 
   createCategory(category: Object): Observable<Object> {
-    return this.http.post(`${this.baseURL}AddCategory`, category);
+    return this.http.post(`${this.baseURL}AddCategory`, category,{responseType : "text" as "json"});
   }
 
   getCategory(id: number): Observable<any> {
@@ -24,7 +24,7 @@ export class CategoryserviceService {
   }
 
   updateCategory(id: number, value: any): Observable<Object> {
-    return this.http.put(`${this.baseURL}UpdateCategory/${id}`, value);
+    return this.http.put(`${this.baseURL}UpdateCategory/${id}`, value,{responseType : "text" as "json"});
   }
 
   deleteCategory(id: number): Observable<any> {

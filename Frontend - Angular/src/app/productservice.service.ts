@@ -15,7 +15,7 @@ export class ProductserviceService {
   }
 
   createProduct(product: Object): Observable<Object> {
-    return this.http.post(`${this.baseURL}AddProduct`, product);
+    return this.http.post(`${this.baseURL}AddProduct`, product,{responseType : "text" as "json"});
   }
  
   getProduct(id: number): Observable<any> {
@@ -23,11 +23,11 @@ export class ProductserviceService {
   }
 
   updateProduct(id: number, value: any): Observable<Object> {
-    return this.http.put(`${this.baseURL}updateProduct/${id}`, value);
+    return this.http.put(`${this.baseURL}updateProduct/${id}`, value,{responseType : "text" as "json"});
   }
 
   deleteProduct(id: number): Observable<any> {
-    return this.http.delete(`${this.baseURL}deleteProduct/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.baseURL}deleteProduct/${id}`, { responseType : "text" as "json"});
   }
 
 

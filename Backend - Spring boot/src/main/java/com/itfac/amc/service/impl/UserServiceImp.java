@@ -9,11 +9,12 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.repository.UserRepository;
@@ -137,5 +138,61 @@ public class UserServiceImp implements UserService {
 		UserNameDto Uname = userRepository.findUsernameByUserId(userid);
 		return Uname;
 	}
+	
+	@Override
+	public void sendEmail(String recipientEmail, String link)
+            throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();              
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+         
+        helper.setFrom("amcrevenu@gmail.com", "AMC_EpicLanka");
+        helper.setTo(recipientEmail);
+         
+        String subject = "Here's the link to reset your password";
+         
+        String content = "<p>Hello,</p>"
+                + "<p>You have requested to reset your password.</p>"
+                + "<p>Click the link below to change your password:</p>"
+                + "<p><a href=\"" + link + "\">Change my password</a></p>"
+                + "<br>"
+                + "<p>Ignore this email if you do remember your password, "
+                + "or you have not made the request.</p>";
+         
+        helper.setSubject(subject);
+         
+        helper.setText(content, true);
+         
+        mailSender.send(message);
+    } 
+	
+	@Override
+	 public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
+		 
+		User user = userRepository.findByEmail(email);
+	        if (user != null) {
+	            user.setResetPasswordToken(token);
+	            userRepository.save(user);
+	        } else {
+	            throw new UserNotFoundException();
+	        }
+	    }
+	     
+	   @Override
+	    public User getByResetPasswordToken(String token) {
+	        return userRepository.findByResetPasswordToken(token);
+	    }
+	   
+	   @Override
+	    public void updatePassword(User user, String newPassword) {
+	        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	        String encodedPassword = passwordEncoder.encode(newPassword);
+	        user.setPassword(encodedPassword);
+	         
+	        user.setResetPasswordToken(null);
+	        userRepository.save(user);
+	    }
+
+
+	
 
 }

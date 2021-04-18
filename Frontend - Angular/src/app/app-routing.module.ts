@@ -54,6 +54,9 @@ import { UserlistComponent } from './userlist/userlist.component';
 import { RevalueComponent } from './revalue/revalue.component';
 import { SalesComponent } from './sales/sales.component';
 import { AMCStatusComponent } from './amcstatus/amcstatus.component';
+import { PageComponent } from './forgotPassword/page/page.component';
+import { ResetPageComponent } from './forgotPassword/reset-page/reset-page.component';
+import { UpdateuserComponent } from './updateuser/updateuser.component';
 
 const routes: Routes = [
   { path: 'root-nav' , component: RootNavComponent},
@@ -103,8 +106,11 @@ const routes: Routes = [
   { path: 'ClientAmc/:cId', component: ClientAmcComponent,canActivate: [AuthenticationGuard]},
   { path: 'editprofile/:userId', component: EditProfileComponent,canActivate: [AuthenticationGuard]},
   { path: 'list',component: ListcategoryComponent,canActivate: [AuthenticationGuard]},
+  { path: 'list/:id',component: ListcategoryComponent,canActivate: [AuthenticationGuard]},
+  { path: 'frequency/:id',component: FrequencyComponent,canActivate: [AuthenticationGuard]},
   { path: 'user', component: UserAddingComponent,canActivate: [AuthenticationGuard]},
   { path: 'productlist',component: ProductlistComponent,canActivate: [AuthenticationGuard]},
+  { path: 'productlist/:id',component: ProductlistComponent,canActivate: [AuthenticationGuard]},
   { path: 'frequency',component: FrequencyComponent,canActivate: [AuthenticationGuard]},
   { path: 'client/new', component: AddClientComponent,canActivate: [AuthenticationGuard]},
   { path: 'client/edit', component: AddClientComponent,canActivate: [AuthenticationGuard]},
@@ -122,6 +128,9 @@ const routes: Routes = [
   { path: 'bar',component: RevalueComponent,canActivate: [AuthenticationGuard]},
   { path: 'pchart/sales', component: SalesComponent,canActivate: [AuthenticationGuard] },
   { path: 'amcstatus', component: AMCStatusComponent,canActivate: [AuthenticationGuard] },
+  {path:'login/forgetPassword',component: PageComponent,canActivate: [AuthenticationGuard]},
+  {path:'ResetPassword',component: ResetPageComponent,canActivate: [AuthenticationGuard]},
+  {path:'userList/:id',component: UserlistComponent,canActivate: [AuthenticationGuard]}
   ];
 
 @NgModule({

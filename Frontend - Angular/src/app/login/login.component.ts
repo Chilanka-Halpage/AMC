@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
               userId: response.userId
             }
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-             if (response.role == "ROLE_admin") {
+             if (response.role == "ROLE_Admin") {
               this.router.navigate(['/adminhome']);
               console.log(response)
              } else {
