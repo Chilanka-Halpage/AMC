@@ -30,8 +30,8 @@ public class CategoryController {
 
 	@GetMapping("findAllCategory")
 
-	public ResponseEntity <List<Category>> getallctegory() {
-		List<Category> allCategory=categoryservice.getAllCategory();
+	public ResponseEntity<List<Category>> getallctegory() {
+		List<Category> allCategory = categoryservice.getAllCategory();
 		return ResponseEntity.status(HttpStatus.OK).body(allCategory);
 
 	}
@@ -56,16 +56,16 @@ public class CategoryController {
 
 	@PostMapping("AddCategory")
 
-	public ResponseEntity <String> AddCategory(@Validated @RequestBody Category category) {
+	public ResponseEntity<String> AddCategory(@Validated @RequestBody Category category) {
 		categoryservice.AddCategory(category);
 		return ResponseEntity.status(HttpStatus.OK).body("added successfull");
 
 	}
 
-	@PutMapping("UpdateCategory/{id}") 
+	@PutMapping("UpdateCategory/{id}")
 
 	public ResponseEntity<String> updateCategory(@PathVariable("id") int categoryId, @RequestBody Category category) {
-      
+
 		category.setCategoryId(categoryId);
 		categoryservice.updateCategory(category);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");

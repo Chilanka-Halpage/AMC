@@ -1,25 +1,13 @@
 package com.itfac.amc.service;
-
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
-
-<<<<<<< HEAD
 import javax.mail.MessagingException;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-=======
->>>>>>> 7fcdf99c55493e1de863de6400c84e2c0071bc71
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.service.impl.UserNotFoundException;
 
 public interface UserService {
-
-	
-
 	Optional<User> getUserById(String id);
 
 	void deleteUser(String id);
