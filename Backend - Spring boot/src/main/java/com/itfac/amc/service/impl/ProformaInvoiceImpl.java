@@ -28,10 +28,10 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 		return proformaInvoice;
 	}
 
-	public ProformaInvoice addProformaInvoice(HttpServletRequest httpServletRequest, ProformaInvoice proformaInvoice) {
+	public void addProformaInvoice(HttpServletRequest httpServletRequest, ProformaInvoice proformaInvoice) {
 		String ipAddress = httpServletRequest.getRemoteAddr();
 		proformaInvoice.setSavedIp(ipAddress);
-		return proformaInvoiceRepository.save(proformaInvoice);
+	    proformaInvoiceRepository.save(proformaInvoice);
 	}
 
 	@Override
@@ -55,5 +55,17 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 		returnValue.put("paybleAmount", paybleAmount);
 		returnValue.put("balance", balance);
 		return returnValue;
+	}
+
+	@Override
+	public List<ProformaInvoiceDto> getActiveinvoices() {
+		List<ProformaInvoiceDto> proformaInvoice = proformaInvoiceRepository.getActiveinvoices();
+		return proformaInvoice;
+	}
+
+	@Override
+	public void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice) {
+		proformaInvoiceRepository.save(proformaInvoice);
+		
 	}
 }

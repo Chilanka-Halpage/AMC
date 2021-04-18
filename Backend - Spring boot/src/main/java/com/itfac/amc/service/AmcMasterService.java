@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.repository.query.Param;
+
 import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.dto.AmcMasterDto;
 import com.itfac.amc.dto.AmcMasterSubData;
@@ -54,5 +56,13 @@ public interface AmcMasterService {
 	List<String> getAllAmcNo(String amc_no) throws Exception;
 	
 	String countActiveAmc();
+	
+	String countInactiveAmc();
+	
+	String countAmc();
+	
+	String countAmcByClient(String userId);
+	
+	String countActiveAmcByClient(String userId);
 
 }

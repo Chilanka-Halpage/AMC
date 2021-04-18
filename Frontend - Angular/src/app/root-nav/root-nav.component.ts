@@ -1,4 +1,3 @@
-
 import { MessageComponent } from './../message/message.component';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../_helpers/authentication.service';
@@ -14,6 +13,7 @@ import { RenewalAmcsFilterComponent } from '../Filters/renewal-amcs-filter/renew
 import { RenewedAmcsFilterComponent } from '../Filters/renewed-amcs-filter/renewed-amcs-filter.component';
 import { ExpiredAmcsFilterComponent } from '../Filters/expired-amcs-filter/expired-amcs-filter.component';
 import { PaymentReportFilterComponent } from '../Filters/payment-report-filter/payment-report-filter.component';
+import { HomedetailsService } from '../homedetails.service';
 import { QuarterWiseReportComponent } from '../Filters/quarter-wise-report/quarter-wise-report.component';
 import { JrReportDetailsService } from '../data/jr-report-details.service';
 import { NotificationService } from '../data/notification.service';
@@ -25,6 +25,10 @@ import {ImageService} from '../data/image-service.service';
   styleUrls: ['./root-nav.component.scss']
 })
 export class RootNavComponent {
+  
+  userId : String
+  imgSource : String
+  public imageSrc: string;
 
 
 
@@ -40,10 +44,11 @@ export class RootNavComponent {
     private dialog: MatDialog,
     public _authentication: AuthenticationService,
     private router: Router,
+    private homedetalis: HomedetailsService,
+    
     private notificationService:NotificationService,
     private imageService: ImageService
   ) { }
-  public imageSrc: string;
 
   AllAMCDetailsFilter() {
     this.dialog.open(AllAmcFilterComponent)
@@ -64,16 +69,21 @@ export class RootNavComponent {
   logoutmessage() {
     this.dialog.open(MessageComponent);
   }
-
   ngOnInit(): void {
+    this.homedetalis.getImage(this._authentication.userId).subscribe(
+      Response =>{
+        this.imgSource = Response;
+      }
+    )
+    this.imageSrc= this.homedetalis.Image(this._authentication.userId);
+
     console.log(this._authentication.userId)
     this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
       data => {
         this.notificationNo = data;
       }
       );
-    //console.log(this.notificationNo)
-    this.imageSrc= this.imageService.Image(this._authentication.userId);
+   
   }
    notificationNo
 
@@ -124,7 +134,7 @@ export class RootNavComponent {
   }
 
   dashboardcheck(){
-    if(this._authentication.role == "ROLE_client"){
+    if(this._authentication.role == "ROLE_CLIENT"){
       this.router.navigate(['/clienthome']);
     }else{
       this.router.navigate(['/adminhome']);

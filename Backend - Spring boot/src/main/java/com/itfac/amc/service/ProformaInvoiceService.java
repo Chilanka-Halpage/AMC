@@ -18,8 +18,12 @@ public interface ProformaInvoiceService {
 
 	Optional<ProformaInvoice> getProformaInvoiceById(String piNo);
 
-	ProformaInvoice addProformaInvoice(HttpServletRequest httpServletRequest, ProformaInvoice proformaInvoice);
+	void addProformaInvoice(HttpServletRequest httpServletRequest, ProformaInvoice proformaInvoice);
 
 	Map<String, BigDecimal> totalPaybleAmount(String idname);
+	
+	List<ProformaInvoiceDto> getActiveinvoices();
+
+	void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice);
 
 }

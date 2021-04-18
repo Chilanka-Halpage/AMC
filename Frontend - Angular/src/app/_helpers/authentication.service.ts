@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class AuthenticationService {
+  static userId: any;
 
   constructor(
     private _router: Router

@@ -13,10 +13,13 @@ import com.itfac.amc.entity.AmcDueInvoice;
 @Repository
 public interface AmcDueInvoiceRepositiory extends JpaRepository<AmcDueInvoice, Integer> {
 	
-	@Query(value = "SELECT * FROM amc_due_invoice", nativeQuery = true)
+	@Query(value = "SELECT * FROM amc_due_invoice where settle = false", nativeQuery = true)
 	List<DueInvoiceDto> getDueInvoices();
     
 	@Query(value = "SELECT * FROM amc_due_invoice where id = ?1", nativeQuery = true)
 	Optional<DueInvoiceDto> getiddueinvoice(int id);
-
+	
+	@Query(value = "SELECT * FROM amc_due_invoice where settle = true", nativeQuery = true)
+	List<DueInvoiceDto> settled();
+	
 }

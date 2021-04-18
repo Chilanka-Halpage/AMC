@@ -8,7 +8,6 @@ import com.itfac.amc.entity.AmcDueInvoice;
 
 public interface AmcDueInvoiceService {
 
-
 	List<DueInvoiceDto> getAllAmcDueInvoices();
 
 	void addAmcDueInvoice( AmcDueInvoice amcDueInvoice);
@@ -18,5 +17,7 @@ public interface AmcDueInvoiceService {
 	void deleteDueInvoice(int id);
 
 	void updateAmcDueInvoice( AmcDueInvoice amcDueInvoice);
+	
+	List<DueInvoiceDto> settled();
 
 }

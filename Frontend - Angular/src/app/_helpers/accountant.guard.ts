@@ -6,7 +6,7 @@ import {AuthenticationService} from '../_helpers/authentication.service';
   providedIn: 'root'
 })
 
-export class ClientGuard implements CanActivate {
+export class AccountantGuard implements CanActivate {
 
   constructor(
     private authentication: AuthenticationService,
@@ -15,10 +15,9 @@ export class ClientGuard implements CanActivate {
 
   canActivate() {
     console.log(this.authentication.role);
-        if (this.authentication.role !== 'ROLE_CLIENT') {    
+        if (this.authentication.role !== 'ROLE_AMC_CORDINATOR') {    
         return true;     
-    } else {/* 
-        this.authentication.logoutUser; */
+    } else {
         return false;
     }
   }

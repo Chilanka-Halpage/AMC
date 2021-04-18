@@ -3,40 +3,42 @@
   <mat-grid-list cols="4" rowHeight="200px">
     <!--mini cards-->
     <mat-grid-tile>
-      <mat-card class="dashboard-card" style="background-color: rgb(245, 223, 223);">
+      <mat-card class="dashboard-card" style=" background: rgb(255,210,141);
+      background: linear-gradient(0deg, rgba(255,210,141,1) 0%, rgba(255,189,45,1) 100%);  ">
           <mat-card-title >         
             <div><h3>Total AMC</h3></div>
-            <label class="value">355<!-- {{Homedetalis.amcNo}} --></label>
+            <label class="value">{{TotalAmc}}</label>
           </mat-card-title>
       <mat-card-content>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>     
     <mat-grid-tile>
-      <mat-card class="dashboard-card" style="background-color: rgb(229, 253, 215);">
+      <mat-card class="dashboard-card" style="  background: rgb(176,255,141);
+      background: linear-gradient(0deg, rgba(176,255,141,1) 0%, rgba(0,228,3,1) 100%);  ">
           <mat-card-title >         
             <div><h3>Active AMC</h3></div>
-            <label class="value">20<!-- {{Homedetalis.ActiveAMC}} --></label>
+            <label class="value">{{ActiveAmcCount}} </label>
           </mat-card-title>
           <mat-card-content>
           </mat-card-content>
       </mat-card>
     </mat-grid-tile>
     <mat-grid-tile>
-      <mat-card class="dashboard-card" style="background-color: rgb(205, 233, 255);" >
+      <mat-card class="dashboard-card" style="background: rgb(141,255,244);
+      background: linear-gradient(0deg, rgba(141,255,244,1) 0%, rgba(17,182,255,1) 100%); " >
           <mat-card-title >         
             <div><h3>AMC Reminders</h3></div>
-            <label class="value">39</label>
+            <label class="value">{{AmcReminders}}</label>
           </mat-card-title>
-        <mat-card-content>
-        </mat-card-content>
       </mat-card>
     </mat-grid-tile>
     <mat-grid-tile>
-      <mat-card class="dashboard-card" style="background-color: rgb(255, 254, 210);" >
+      <mat-card class="dashboard-card" style=" background: rgb(141,147,255);
+      background: linear-gradient(0deg, rgba(141,147,255,1) 0%, rgba(17,102,255,1) 100%); " >
           <mat-card-title >         
-            <div><h3>Total Clients</h3></div>
-            <label class="value"><!-- {{TotalUsers}} -->270</label>
+            <div><h3>Total Active Clients</h3></div>
+            <label class="value">{{TotalActiveClients}}</label>
           </mat-card-title>
         <mat-card-content>
         </mat-card-content>
@@ -48,7 +50,7 @@
 <mat-grid-list cols = "4" rowHeight = "100px">
   <mat-grid-tile 
   [colspan] = "2"
-  [rowspan] = "4"><mat-card class="example-card" >
+  [rowspan] = "4"><mat-card class="example-card " >
       <mat-card-content routerLink="sales">
                  <app-sales></app-sales>
       </mat-card-content>   
@@ -56,7 +58,7 @@
   </mat-grid-tile>
   <mat-grid-tile 
   [colspan] = "2"
-  [rowspan] = "4"> <mat-card class="example-card">   
+  [rowspan] = "4"> <mat-card class="example-card background-color">   
       <div >
        <app-revalue></app-revalue>
       </div>
@@ -64,7 +66,7 @@
   </mat-grid-tile>
   <mat-grid-tile
   [colspan] = "2"
-  [rowspan] = "4"><mat-card class="example-card">   
+  [rowspan] = "4"><mat-card class="example-card background-color">   
       <div >
         <app-amcstatus></app-amcstatus>
       </div>
@@ -72,9 +74,9 @@
   </mat-grid-tile>
   <mat-grid-tile
   [colspan] = "2"
-  [rowspan] = "4"><mat-card class="example-card">   
+  [rowspan] = "4"><mat-card class="example-card background-color" [hidden]="!isAuthorized">   
       <div >
-        
+        <app-log-details></app-log-details>
       </div>
   </mat-card>  
   </mat-grid-tile>

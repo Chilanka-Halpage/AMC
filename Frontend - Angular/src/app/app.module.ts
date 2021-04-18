@@ -1,8 +1,8 @@
-
+import { AccountantGuard } from './_helpers/accountant.guard';
+import { AmccordinatorGuard } from './_helpers/amccordinator.guard';
 import { MessageComponent } from './message/message.component';
 import { AmcMasterService } from './shared/amc-master.service';
 import { ClientService } from './shared/client.service';
-import { SharedAmcService } from './shared/shared-amc.service';
 import { AddClientComponent } from './clients/add-client/add-client.component';
 import { MaterialModule } from './material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -91,6 +91,7 @@ import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-vie
 import { RevalueComponent } from './revalue/revalue.component';
 import { SalesComponent } from './sales/sales.component';
 import { AMCStatusComponent } from './amcstatus/amcstatus.component';
+import { LogDetailsComponent } from './log-details/log-details.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ResetPageComponent } from './forgotPassword/reset-page/reset-page.component';
 import { PageComponent } from './forgotPassword/page/page.component';
@@ -179,6 +180,8 @@ import { QuarterWiseRevenueReportComponent } from './reports/quarter-wise-report
     RevalueComponent,
     SalesComponent,
     AMCStatusComponent,
+    LogDetailsComponent,
+    ClientdashtableComponent,
     PageComponent,
     ResetPageComponent,
     UpdateuserComponent,
@@ -213,13 +216,14 @@ import { QuarterWiseRevenueReportComponent } from './reports/quarter-wise-report
   providers: [
     ClientService,
     AmcMasterService,
-    SharedAmcService,
     CategoryserviceService,
     AllAmcsService,
     UserserviceService,
     FrequencyserviceService,
     ProductserviceService,
     NotificationService,
+    AmccordinatorGuard,
+    AccountantGuard,
     PageserviceService,
     AuthenticationGuard,
     ClientGuard,
