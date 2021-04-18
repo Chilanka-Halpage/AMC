@@ -36,9 +36,6 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
 	LoginDetailsService loginDetailsService;
 
 	@GetMapping("findAllUser")
@@ -81,24 +78,17 @@ public class UserController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No User with name " + userId).body(user);
 	}
-
-	// update users email and password
-	@PutMapping(path = "/update/{id}")
-	public ResponseEntity<String> updateUser(@PathVariable(value = "id") String userId, @RequestBody User user) {
-		User resultUser = userService.getUser(userId);
-		resultUser.setContactNo(user.getContactNo());
-		resultUser.setEmail(user.getEmail());
-		userRepository.save(resultUser);
-		return ResponseEntity.status(HttpStatus.OK).body("Modified Successfully");
-	}
-
-	// update password
+	
+	// update user's password
 	@PutMapping(path = "/updatePassword/{id}")
 	public ResponseEntity<String> updatePassword(@PathVariable(value = "id") String userId, @RequestBody User user) {
-		User resultUser = userService.getUser(userId);
-		resultUser.setPassword(user.getPassword());
-		userRepository.save(resultUser);
-		return ResponseEntity.status(HttpStatus.OK).body("Modified Successfully");
+		return userservice.updatePassword(userId, user);
+	}
+
+	// update User's email and contact No 
+	@PutMapping(path = "/update/{id}")
+	public ResponseEntity<String> updateUser(@PathVariable(value = "id") String userId, @RequestBody User user) {
+		return userservice.updateUser(userId, user);
 	}
 
 	// get login details

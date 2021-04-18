@@ -57,7 +57,6 @@ public class AmcMasterController {
 	ResponseEntity<List<String>> getAllAmcNo(@PathVariable("idname") String id) throws Exception {
 		List<String> allAmc = amcService.getAllAmcNo(id);
 		return ResponseEntity.status(HttpStatus.OK).body(allAmc);
-
 	}
 	
 	@GetMapping("ActiveAmcCount")

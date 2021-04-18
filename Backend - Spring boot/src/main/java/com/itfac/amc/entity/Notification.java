@@ -22,28 +22,24 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "login_details")
-public class LoginDetails {
+@Table(name = "notification")
+public class Notification {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int logno;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "notification_id")
+	private int NotificationId;
 	
-	@Column(name = "loged_datetime", nullable = false)
-	private Date logedTime;
+	@Column(name = "notification")
+	private String Notification;
 	
-	@Column(name = "loged_ip", length = 20)
-	private String logedIp;
+	@Column(name = "saved_date")
+	private Date SavedDate;
 	
-	@Column(name = "logout_datetime")
-	private Date logoutTime;
-	
-	@Column(name = "logout_ip", length = 20)
-	private String logoutIp;
+	private Boolean isRead;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "client_id", nullable = false, foreignKey = @ForeignKey(name = "login_details_fk"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_fk1"))
 	@JsonIgnore
 	private User user;
 	

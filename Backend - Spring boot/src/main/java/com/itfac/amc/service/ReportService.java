@@ -1,5 +1,7 @@
 package com.itfac.amc.service;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,11 +32,11 @@ public interface ReportService {
 
 	public List<FullDetailsReport> getFullDetails(LocalDate Date1, LocalDate Date2);
 
-	public List<ClientAmc> clientAmcReport(String cId);
+	public List<ClientAmc> clientAmcReport(String user_id);
 
 	public List<PaymentReport> paymentReport(LocalDate Date1, LocalDate Date2);
 
-	public List<ClientPaymentsDetails> ClientPaymentsReport(String cId);
+	public List<ClientPaymentsDetails> ClientPaymentsReport(String user_id);
 
 	public List<viewLoginDetails> loginDetails();
 
@@ -42,4 +44,5 @@ public interface ReportService {
 
 	List<GetInvoice> getInvoiceById(String amc_no) throws Exception;
 
+	BigDecimal getRevanue(LocalDate date1,LocalDate date2);
 }

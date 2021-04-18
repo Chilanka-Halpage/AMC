@@ -1,5 +1,7 @@
 package com.itfac.amc.repository;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +9,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -57,7 +60,7 @@ public interface AmcSerialRepository extends JpaRepository<AmcSerial, String> {
 	List<RenewalAmcs> getRenewalAmcs(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
 
 	// Expired AMCs----------------------------------
-	@Query(value = "select * from expired_amc where mtc_end_date BETWEEN :Date1 AND :Date2", nativeQuery = true)
+	@Query(value = "select * from expired_amc where due_date BETWEEN :Date1 AND :Date2", nativeQuery = true)
 	List<ExpiredAmc> getExpiredAmcs(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
 
 	// Full details report-------------------------------------
@@ -65,14 +68,18 @@ public interface AmcSerialRepository extends JpaRepository<AmcSerial, String> {
 	List<FullDetailsReport> getFullDetails(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
 
 	// Payment Details report----------------------------------------
-	@Query(value = "select * from payment_report where saved_on BETWEEN :Date1 AND :Date2", nativeQuery = true)
+	@Query(value = "select * from payment_report where rec_date BETWEEN :Date1 AND :Date2", nativeQuery = true)
 	List<PaymentReport> paymentsReport(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
 
 	// Client AMC report---------------------------------------
-	@Query(value = "SELECT * FROM get_client_amc where client_id = :cId", nativeQuery = true)
-	List<ClientAmc> ClientAmcReport(@Param("cId") String cId);
+	@Query(value = "SELECT * FROM get_client_amc where user_id = :user_id", nativeQuery = true)
+	List<ClientAmc> ClientAmcReport(@Param("user_id") String user_id);
 
 	// Payment report for client--------------------------------------
-	@Query(value = "SELECT * FROM client_payment_report WHERE client_id = :cId", nativeQuery = true)
-	List<ClientPaymentsDetails> ClientPaymentsReport(@Param("cId") String cId);
+	@Query(value = "SELECT * FROM client_payment_report WHERE user_id = :user_id", nativeQuery = true)
+	List<ClientPaymentsDetails> ClientPaymentsReport(@Param("user_id") String user_id);
+	
+	//Quarter wise report
+	@Query(value = "Call getTotal(:date1,:date2);", nativeQuery = true)
+	BigDecimal getRevanue(@Param("date1") LocalDate date1,@Param("date2") LocalDate date2);
 }

@@ -3,7 +3,7 @@ package com.itfac.amc.reportData;
 import java.sql.Date;
 
 public interface ClientAmc {
-	public String getclient_id();
+	public String getuser_id();
 	public String getamc_no();
 	public Date getstart_date();
 	public String getcategory_name();

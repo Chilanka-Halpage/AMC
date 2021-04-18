@@ -21,8 +21,9 @@ import lombok.Data;
 public class User {
 
 	@Id
-	@Column(columnDefinition = "TEXT", name = "user_id", length = 100)
+	@Column(name = "user_id", length = 100)
 	private String userId;
+	//columnDefinition = "TEXT", 
 
 	@NotEmpty(message = "User name cannot be Empty")
 	@Size(max = 50, message = "User name must be 50 characters")

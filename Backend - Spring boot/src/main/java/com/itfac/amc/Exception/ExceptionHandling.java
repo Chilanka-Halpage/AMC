@@ -32,9 +32,9 @@ public class ExceptionHandling{
 		return errors;
 	}
 	
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(RuntimeException.class)
-	public String runtimeExceptionHandler(Exception ex) {
-		return ex.getMessage();
-	}
+//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//	@ExceptionHandler(RuntimeException.class)
+//	public String runtimeExceptionHandler(Exception ex) {
+//		return ex.getMessage();
+//	}
 }
