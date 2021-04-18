@@ -7,9 +7,6 @@ import * as Chart from 'chart.js';
   styleUrls: ['./amcstatus.component.css']
 })
 export class AMCStatusComponent implements OnInit {
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
 
   pie!: Chart;
 

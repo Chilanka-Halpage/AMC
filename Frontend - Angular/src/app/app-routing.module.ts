@@ -1,3 +1,4 @@
+import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-view.component';
 import { ClientGuard } from './_helpers/client.guard';
 import { SattlementComponent } from './sattlement/sattlement.component';
 import { CreateReceiptComponent } from './create-receipt/create-receipt.component';
@@ -77,11 +78,11 @@ const routes: Routes = [
   { path: 'amcMaster/new', component: CreateAmcMasterComponent,canActivate: [AuthenticationGuard]},
   { path: 'list', component: ListcategoryComponent,canActivate: [AuthenticationGuard]},
   { path: 'reportslist', component: ReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'profile/:userId', component: ProfileComponent,canActivate: [AuthenticationGuard]},
-  { path: 'editprofile/:userId', component: EditProfileComponent,canActivate: [AuthenticationGuard]},
+  { path: 'profile/:userId', component: ProfileComponent,canActivate: [AuthenticationGuard]},//all
+  { path: 'editprofile/:userId', component: EditProfileComponent,canActivate: [AuthenticationGuard]},//all
   { path: 'allamcdetailsfilter', component: AllAmcFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'generatereport', component: GenerateReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'allAmcReport/:date1/:date2', component: AllAmcReportComponent,canActivate: [AuthenticationGuard]},
+  { path: 'allAmcReport/:date1/:date2', component: AllAmcReportComponent,canActivate: [AuthenticationGuard]},//admin,amc cordinater
   { path: 'taxlist', component:TaxListComponent,canActivate: [AuthenticationGuard]},
   { path: 'invoicelist',component:InvoiceListComponent,canActivate: [AuthenticationGuard]},
   { path: 'createincoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard]},
@@ -97,15 +98,15 @@ const routes: Routes = [
   { path: 'editdueinvoice/:id', component:EditDueinvoiceComponent,canActivate: [AuthenticationGuard]},
   { path: 'createReceipt', component:CreateReceiptComponent,canActivate: [AuthenticationGuard]},
   { path: 'sattled', component:SattlementComponent,canActivate: [AuthenticationGuard]},
-  { path: 'clientDetails/:date1/:date2', component: ClientDetailsComponent,canActivate: [AuthenticationGuard]},
+  { path: 'clientDetails/:date1/:date2', component: ClientDetailsComponent,canActivate: [AuthenticationGuard]},//admin,amc cordinater
   { path: 'clientDetailsFilter', component: ClientDetailsFilterComponent,canActivate: [AuthenticationGuard]},
-  { path: 'fullDetails/:date1/:date2', component: FullDetailsComponent,canActivate: [AuthenticationGuard]},
+  { path: 'fullDetails/:date1/:date2', component: FullDetailsComponent,canActivate: [AuthenticationGuard]},//admin,amc cordinater
   { path: 'fullDetailsFilter', component: FullDetailsFilterComponent,canActivate: [AuthenticationGuard]},
-  { path: 'renewalAmcs/:date1/:date2', component: RenewalAmcsReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'renewedAmcs/:date1/:date2', component: RenewedAmcsReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'expiredAmcs/:date1/:date2', component: ExpiredAmcsReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'paymentDetails/:date1/:date2', component: PaymentsDetailsComponent,canActivate: [AuthenticationGuard]},
-  { path: 'clientAmc/:cId', component: ClientAmcComponent,canActivate: [AuthenticationGuard]},
+  { path: 'renewalAmcs/:date1/:date2', component: RenewalAmcsReportComponent,canActivate: [AuthenticationGuard]},//admin,amc cordinater
+  { path: 'renewedAmcs/:date1/:date2', component: RenewedAmcsReportComponent,canActivate: [AuthenticationGuard]},//admin,amc cordinater
+  { path: 'expiredAmcs/:date1/:date2', component: ExpiredAmcsReportComponent,canActivate: [AuthenticationGuard]},//admin,amc cordinater
+  { path: 'paymentDetails/:date1/:date2', component: PaymentsDetailsComponent,canActivate: [AuthenticationGuard]},//admin,amc cordinater,accountant
+  { path: 'clientAmc/:cId', component: ClientAmcComponent,canActivate: [AuthenticationGuard]},//client
   { path: 'editprofile/:userId', component: EditProfileComponent,canActivate: [AuthenticationGuard]},
   { path: 'list',component: ListcategoryComponent,canActivate: [AuthenticationGuard]},
   { path: 'user', component: UserAddingComponent,canActivate: [AuthenticationGuard]},
@@ -127,11 +128,12 @@ const routes: Routes = [
   { path: 'bar',component: RevalueComponent,canActivate: [AuthenticationGuard]},
   { path: 'pchart/sales', component: SalesComponent,canActivate: [AuthenticationGuard] },
   { path: 'amcstatus', component: AMCStatusComponent,canActivate: [AuthenticationGuard] },
-  { path: 'notification/:userId', component: NotificationComponent},
-  { path: 'loginDetails', component: LoginDetailsComponent},
-  { path: 'clientPaymentReport/:userId', component: ClientPaymentDetailsComponent},
-  { path: 'quarterWiseRevenueReport/:date1', component: QuarterWiseRevenueReportComponent},
-  ];
+  { path: 'notification/:userId', component: NotificationComponent},//all
+  { path: 'loginDetails', component: LoginDetailsComponent},//admin
+  { path: 'clientPaymentReport/:userId', component: ClientPaymentDetailsComponent},//client
+  { path: 'quarterWiseRevenueReport/:date1', component: QuarterWiseRevenueReportComponent},//admin,amc cordinater,accountant
+  { path: 'amcHistory/view', component: AmcHistoryViewComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

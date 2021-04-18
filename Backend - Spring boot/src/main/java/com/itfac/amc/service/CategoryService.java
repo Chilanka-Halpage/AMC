@@ -17,6 +17,6 @@ public interface CategoryService {
 
 	Category updateCategory(Category category);
 
-	Category getActiveCategory();
+	List<Category> getActiveCategory();
 
 }

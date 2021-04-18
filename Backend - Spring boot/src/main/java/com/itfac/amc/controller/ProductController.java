@@ -48,7 +48,7 @@ public class ProductController {
 		productservice.deleteProduct(productId);
 	}
 
-	@PostMapping("AddProduct") // AddProduct
+	@PostMapping("AddProduct") 
 	public Product addProduct(@Validated @RequestBody Product product) {
 		return productservice.addProduct(product);
 
@@ -60,7 +60,7 @@ public class ProductController {
 	}
 
 	@GetMapping("findActiveProduct")
-	public Product getActiveProduct() {
+	public List<Product> getActiveProduct() {
 		return productservice.getActiveProduct();
 	}
 

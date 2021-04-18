@@ -17,6 +17,6 @@ public interface FrequencyService {
 
 	Frequency updateFrequency(Frequency frequency);
 
-	Frequency getActiveFrequency();
+	List<Frequency> getActiveFrequency();
 
 }

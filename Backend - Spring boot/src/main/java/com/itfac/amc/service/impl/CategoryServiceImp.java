@@ -44,7 +44,7 @@ public class CategoryServiceImp implements CategoryService {
 	}
 
 	@Override
-	public Category getActiveCategory() {
+	public List<Category> getActiveCategory() {
 		return categoryrepo.getActiveCategory();
 	}
 

@@ -9,7 +9,7 @@ import com.itfac.amc.entity.User;
 
 public interface UserService {
 
-	List<User> getAllUser();
+	
 
 	Optional<User> getUserById(String id);
 
@@ -19,7 +19,7 @@ public interface UserService {
 
 	User updateUser(User user);
 
-	public List<User> getAllUsers();
+	//public List<User> getAllUsers();
 
 	public User getUser(String userId);
 
@@ -30,4 +30,8 @@ public interface UserService {
 	public ResponseEntity<String> updatePassword(String userId,User user);
 	
 	
+	//Page<User> getAllUser(Pageable pageable);
+
+	List<User> getAllUser();
+
 }

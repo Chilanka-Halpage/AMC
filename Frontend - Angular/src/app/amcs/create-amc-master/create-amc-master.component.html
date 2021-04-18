@@ -37,6 +37,8 @@
                         <input matInput formControlName="startDate" [matDatepicker]="start_date" />
                         <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
                         <mat-datepicker #start_date></mat-datepicker>
+                        <mat-error *ngIf="startDate.touched && startDate.errors?.required">This field is required
+                        </mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline" class="col-4">
                         <mat-label>Frequency</mat-label>
@@ -45,6 +47,8 @@
                                 {{frequency.frequency}}
                             </mat-option>
                         </mat-select>
+                        <mat-error *ngIf="frequency.touched && frequency.errors?.required">This field is required
+                        </mat-error>
                     </mat-form-field>
                     <div formGroupName="currency" class="col-4">
                         <mat-form-field appearance="outline" class="col-12 p-0">
@@ -54,30 +58,31 @@
                                     {{currency.currencyName}}
                                 </mat-option>
                             </mat-select>
+                            <mat-error *ngIf="currency.touched && currency.errors?.required">This field is required
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row px-0">
                     <mat-form-field appearance="outline" class="col-4">
                         <mat-label>Exchange Rate</mat-label>
-                        <input type="number" matInput
-                            formControlName="exchangeRate" placeholder="EX: 180.00">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
+                        <input type="number" matInput formControlName="exchangeRate" placeholder="EX: 180.00">
+                        <mat-error *ngIf="exchangeRate.touched && exchangeRate.errors?.required">This field is required
+                        </mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline" class="col-4">
                         <mat-label>Total Value</mat-label>
-                        <input type="number" matInput
-                            formControlName="totalValue" placeholder="Total Value of the AMC">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
+                        <input type="number" matInput formControlName="totalValue" placeholder="Total Value of the AMC">
+                        <mat-error *ngIf="totalValue.touched && totalValue.errors?.required">This field is required
+                        </mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline" class="col-4">
                         <mat-label>Total Value LKR</mat-label>
                         <input type="number" matInput formControlName="totalValueLkr"
                             placeholder="Total value in Lankan Rupees">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
+                        <mat-error *ngIf="totalValueLkr.touched && totalValueLkr.errors?.required">This field is
+                            required
+                        </mat-error>
                     </mat-form-field>
                 </div>
 
@@ -86,6 +91,8 @@
                         <mat-label>Remark</mat-label>
                         <textarea matInput formControlName="remark" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+                        <mat-error *ngIf="remark.touched && remark.errors?.required">This field is required
+                        </mat-error>
                     </mat-form-field>
                 </div>
                 <div class="row px-0">
@@ -93,6 +100,8 @@
                         <mat-label>Invoice Description</mat-label>
                         <textarea matInput formControlName="invDesc" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                             cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+                        <mat-error *ngIf="invDesc.touched && invDesc.errors?.required">This field is required
+                        </mat-error>
                     </mat-form-field>
                 </div>
                 <div class="row px-0s">
@@ -101,11 +110,13 @@
                 </div>
 
                 <div class="d-flex flex-row-reverse my-0">
-                    <button *ngIf="isCreate" type="submit" (click)="submitForm()" mat-raised-button color="primary" class="ml-1">
+                    <button *ngIf="isCreate" type="submit" (click)="submitForm()" mat-raised-button color="primary"
+                        class="ml-1">
                         <span *ngIf="amcMasterProgress" class="spinner-border spinner-border-sm mr-1"></span>
                         Next
                     </button>
-                    <button *ngIf="!isCreate" type="submit" (click)="saveChanges()" mat-raised-button color="primary" class="ml-1">
+                    <button *ngIf="!isCreate" type="submit" (click)="saveChanges()" mat-raised-button color="primary"
+                        class="ml-1">
                         <span *ngIf="amcMasterProgress" class="spinner-border spinner-border-sm mr-1"></span>
                         Save Changes
                     </button>

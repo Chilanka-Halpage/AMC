@@ -45,7 +45,7 @@ public class ProductServiceImp implements ProductService {
 	}
 
 	@Override
-	public Product getActiveProduct() {
+	public List<Product> getActiveProduct() {
 		return productrepo.getActiveProduct();
 	}
 

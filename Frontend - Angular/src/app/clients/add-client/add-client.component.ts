@@ -304,7 +304,7 @@ export class AddClientComponent implements OnInit {
     return this.clientForm.get('client.contactPerson');
   }
   get clientAddress(): AbstractControl {
-    return this.clientForm.get('client').get('address');
+    return this.clientForm.get('client.address');
   }
   get departmentName(): AbstractControl {
     return this.clientForm.get('departmentName');

@@ -7,6 +7,7 @@ import { ClientService } from 'src/app/shared/client.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
   selector: 'app-department-list',
@@ -14,7 +15,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./department-list.component.css']
 })
 export class DepartmentListComponent implements OnInit {
-  displayedColumns: string[] = [
+  private clientId: number;
+  public displayedColumns: string[] = [
     'departmentName',
     'isActive',
     'email',
@@ -27,12 +29,12 @@ export class DepartmentListComponent implements OnInit {
     'lastModifiedIp',
     'action'
   ];
-  clientId: number;
-  clientName: any;
-  dataSource: MatTableDataSource<ClientDepartment>;
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
+  public clientName: any;
+  public dataSource: MatTableDataSource<ClientDepartment>;
+  public resultsLength = 0;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public isAuthorized: boolean;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,9 +43,11 @@ export class DepartmentListComponent implements OnInit {
     private clientService: ClientService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
+    this.isAuthorized = (this.authService.role === 'ROLE_admin') ? true : false;
     this.activatedRoute.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
       this.clientId = value.id;

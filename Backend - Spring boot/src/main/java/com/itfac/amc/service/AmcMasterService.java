@@ -49,7 +49,7 @@ public interface AmcMasterService {
 	 * @param amcMaster
 	 * @param amcNo
 	 */
-	void updateAmcMaster(AmcMaster amcMaster, String amcNo);
+	void updateAmcMaster(AmcMaster amcMaster, String amcNo, String amsSerialNo);
 
 	List<String> getAllAmcNo(String amc_no) throws Exception;
 	
