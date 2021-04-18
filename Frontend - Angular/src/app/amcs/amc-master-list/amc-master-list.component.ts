@@ -85,4 +85,16 @@ export class AmcMasterListComponent implements OnInit {
     this.router.navigate([`clients/amc-list/${row.amcNo}/full`], navigationExtras);
   }
 
+  onHistory(row: any): void {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "data": JSON.stringify({
+          "cname": this.clientName,
+          "amcno": row.amcNo
+        })
+      }
+    };
+    this.router.navigate(['amcHistory/view'], navigationExtras);
+  }
+
 }

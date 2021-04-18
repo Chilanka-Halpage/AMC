@@ -1,0 +1,23 @@
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+        {{errorMessage}}
+    </div>
+</div>
+<div *ngIf="!isLoadingResults && !isRateLimitReached">
+    <div class="jumbotron mb-3">
+        <h3 class="h2"> AMC History - {{ amcNo }} <br/> {{ clientName }} </h3>
+        <p> </p>
+    </div>
+    <br />
+    <div class="card">
+        <div class="card-body background-color">
+            <div *ngFor="let logData of list">
+                <div> {{ logData.dateTime | date: 'short' }} </div>
+                <div *ngIf="this.authService.role === 'ROLE_admin'">{{ logData.userId }} </div>
+                updated {{ logData.fieldName }} from {{ logData.oldValue }} to {{ logData.newValue }}
+                <mat-divider class="mat-divider"></mat-divider>
+            </div>
+        </div>
+    </div>
+</div>

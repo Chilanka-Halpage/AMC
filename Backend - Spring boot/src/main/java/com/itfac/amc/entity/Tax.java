@@ -1,12 +1,15 @@
 package com.itfac.amc.entity;
 
 import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import com.itfac.amc.util.Auditable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

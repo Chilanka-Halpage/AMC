@@ -1,3 +1,4 @@
+import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-view.component';
 import { ClientGuard } from './_helpers/client.guard';
 import { SattlementComponent } from './sattlement/sattlement.component';
 import { CreateReceiptComponent } from './create-receipt/create-receipt.component';
@@ -128,10 +129,15 @@ const routes: Routes = [
   { path: 'bar',component: RevalueComponent,canActivate: [AuthenticationGuard]},
   { path: 'pchart/sales', component: SalesComponent,canActivate: [AuthenticationGuard] },
   { path: 'amcstatus', component: AMCStatusComponent,canActivate: [AuthenticationGuard] },
+<<<<<<< HEAD
   {path:'login/forgetPassword',component: PageComponent,canActivate: [AuthenticationGuard]},
   {path:'ResetPassword',component: ResetPageComponent,canActivate: [AuthenticationGuard]},
   {path:'userList/:id',component: UserlistComponent,canActivate: [AuthenticationGuard]}
   ];
+=======
+  { path: 'amcHistory/view', component: AmcHistoryViewComponent },
+];
+>>>>>>> 7fcdf99c55493e1de863de6400c84e2c0071bc71
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
