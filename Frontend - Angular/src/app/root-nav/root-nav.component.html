@@ -29,11 +29,11 @@
             <button mat-menu-item  (click)="RenewedAmcsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Renewed AMCs</button>
             <button mat-menu-item  (click)="ExpiredAmcsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Expired AMCs</button>
             <button mat-menu-item  (click)="PaymentReportFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Payment Reports</button>    
-            <button mat-menu-item  (click)="PaymentReportFilter()">Payment Reports</button>
-            <button mat-menu-item  (click)="PaymentReportFilter()">AMC Reports</button>
-            <button mat-menu-item *ngIf="_authentication.role === 'ROLE_admin'" >Quater Wise revenue</button>
+            <button mat-menu-item (click)="ClientPayment()">Payment Reports</button><!-- For client --> 
+            <button mat-menu-item (click)="ClientAmc()">AMC Reports</button><!-- For client --> 
+            <button mat-menu-item (click)="QuarterWiseReport()" *ngIf="_authentication.role === 'ROLE_admin'">Quarter Wise revenue</button>
             <button mat-menu-item (click)="FullDetailsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Full Details Report</button>
-           </mat-menu>
+           </mat-menu> <!--*ngIf="_authentication.role === 'ROLE_admin'" -->
       </a> 
       <a mat-list-item [matMenuTriggerFor]="AMC" *ngIf="_authentication.role === 'ROLE_admin'">
         <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
@@ -71,14 +71,18 @@
       <span class="text-white">Annual Maintenance Contract</span>   
       <span class="example-spacer"></span>
       <button  mat-button  *ngIf="!_authentication.loggedIn()" (click)="gotolog()">
-        <span style="-webkit-text-fill-color:rgb(255, 255, 255)">Login</span>
+        <span style="-webkit-text-fill-color:#ffffff">Login</span>
       </button> 
-      <img src="" class="img-size2"  style=" background-image: url(../../assets/backgroundimage12.jpg);" *ngIf="_authentication.loggedIn()">
+      <button mat-icon-button>
+        <mat-icon style="color: #ffffff;" (click)="notification()"
+        [matBadge]="notificationNo" (click)="toggleBadgeVisibility()">notifications</mat-icon>
+      </button>
+      <img src="{{imageSrc}}" class="img-size2"  style=" background-image: url(../../assets/backgroundimage12.jpg);" *ngIf="_authentication.loggedIn()">
       <button  mat-button [matMenuTriggerFor]="profile" *ngIf="_authentication.loggedIn()">
        <span class="button-text" style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>
       </button>      
          <mat-menu #profile="matMenu">
-            <button mat-menu-item [routerLink]="['profile/:userId']" >Profile</button>
+            <button mat-menu-item (click) ="profilepage()" >Profile</button>
             <button mat-menu-item (click) ="logout()">Log Out</button> 
          </mat-menu>
     </mat-toolbar>

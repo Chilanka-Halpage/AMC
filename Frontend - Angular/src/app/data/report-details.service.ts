@@ -20,18 +20,18 @@ export class ReportDetailsService {
   constructor( private httpClient: HttpClient ) { }
 
   //All Amcs details
-  getAllAmcs(Date1 ,Date2): Observable<AllAmcs>{
-    return this.httpClient.get<AllAmcs>(`${this.baseURL}/AllAmcs/${Date1}/${Date2}`);
+  getAllAmcs(Date1 ,Date2): Observable<AllAmcs[]>{
+    return this.httpClient.get<AllAmcs[]>(`${this.baseURL}/AllAmcs/${Date1}/${Date2}`);
   }
 
   //Client details report
-  ClientDetails(Date1 ,Date2): Observable<ClientDetails>{
-    return this.httpClient.get<ClientDetails>(`${this.baseURL}/AllClients/${Date1}/${Date2}`);
+  ClientDetails(Date1 ,Date2): Observable<ClientDetails[]>{
+    return this.httpClient.get<ClientDetails[]>(`${this.baseURL}/AllClients/${Date1}/${Date2}`);
   }
 
   //full details report
-  FullDetails(Date1 ,Date2): Observable<FullDetails>{
-    return this.httpClient.get<FullDetails>(`${this.baseURL}/FullDeatils/${Date1}/${Date2}`);
+  FullDetails(Date1 ,Date2): Observable<FullDetails[]>{
+    return this.httpClient.get<FullDetails[]>(`${this.baseURL}/FullDeatils/${Date1}/${Date2}`);
   }
 
   //Renewal Amcs report
@@ -45,22 +45,27 @@ export class ReportDetailsService {
   }
 
   //Expired Amcs report
-  ExpiredAmcsDetails(Date1 ,Date2): Observable<ExpiredAmcs>{
-    return this.httpClient.get<ExpiredAmcs>(`${this.baseURL}/ExpiredAmcs/${Date1}/${Date2}`);
+  ExpiredAmcsDetails(Date1 ,Date2): Observable<ExpiredAmcs[]>{
+    return this.httpClient.get<ExpiredAmcs[]>(`${this.baseURL}/ExpiredAmcs/${Date1}/${Date2}`);
   }
 
   //Payments Details report
-  PaymentDetails(Date1 ,Date2): Observable<PaymentsDetails>{
-    return this.httpClient.get<PaymentsDetails>(`${this.baseURL}/PaymentReport/${Date1}/${Date2}`);
+  PaymentDetails(Date1 ,Date2): Observable<PaymentsDetails[]>{
+    return this.httpClient.get<PaymentsDetails[]>(`${this.baseURL}/PaymentReport/${Date1}/${Date2}`);
+  }
+
+  //Quarter wise revenue report
+  QuarterWiseRevenue(date1): Observable<any[]>{
+    return this.httpClient.get<any[]>(`${this.baseURL}/QuarterWiseRevenue/${date1}`);
   }
 
   //Amc report for client
-  ClientAmc(cId): Observable<ClientAmc>{
-    return this.httpClient.get<ClientAmc>(`${this.baseURL}/ClientAmc/${cId}`);
+  ClientAmc(userId): Observable<ClientAmc>{
+    return this.httpClient.get<ClientAmc>(`${this.baseURL}/ClientAmc/${userId}`);
   }
 
   //Payment Report for client
-  ClientPayment(cId): Observable<ClientPaymentDetails>{
-    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}/ClientAmc/${cId}`);
+  ClientPayment(userId): Observable<ClientPaymentDetails>{
+    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}/ClientAmc/${userId}`);
   }
 }

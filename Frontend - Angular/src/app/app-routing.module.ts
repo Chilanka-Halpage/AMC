@@ -28,7 +28,6 @@ import { ReportComponent } from './report/report.component';
 import { GenerateReportComponent } from './generate-report/generate-report.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { AllAmcFilterComponent } from './Filters/all-amc-filter/all-amc-filter.component'
-import { UsersFilterComponent } from './Filters/users-filter/users-filter.component';
 import { AllAmcReportComponent } from './Reports/all-amc-report/all-amc-report.component';
 import { RootNavComponent } from './root-nav/root-nav.component';
 import { AuthenticationGuard } from './_helpers/authentication.guard';
@@ -54,6 +53,12 @@ import { UserlistComponent } from './userlist/userlist.component';
 import { RevalueComponent } from './revalue/revalue.component';
 import { SalesComponent } from './sales/sales.component';
 import { AMCStatusComponent } from './amcstatus/amcstatus.component';
+import { PaymentsDetailsComponent } from './reports/payments-details/payments-details.component';
+import { NotificationComponent } from './notification/notification.component';
+import { LoginDetailsComponent } from './login-details/login-details.component';
+import { ClientPaymentDetailsComponent } from './reports/client-payment-details/client-payment-details.component';
+import { QuarterWiseRevenueReportComponent } from './reports/quarter-wise-report/quarter-wise-revenue-report.component'
+import { from } from 'rxjs';
 
 const routes: Routes = [
   { path: 'root-nav' , component: RootNavComponent},
@@ -75,9 +80,8 @@ const routes: Routes = [
   { path: 'profile/:userId', component: ProfileComponent,canActivate: [AuthenticationGuard]},
   { path: 'editprofile/:userId', component: EditProfileComponent,canActivate: [AuthenticationGuard]},
   { path: 'allamcdetailsfilter', component: AllAmcFilterComponent,canActivate: [AuthenticationGuard]},
-  { path: 'usersfilter', component: UsersFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'generatereport', component: GenerateReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'allAmcReport/', component: AllAmcReportComponent,canActivate: [AuthenticationGuard]},
+  { path: 'allAmcReport/:date1/:date2', component: AllAmcReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'taxlist', component:TaxListComponent,canActivate: [AuthenticationGuard]},
   { path: 'invoicelist',component:InvoiceListComponent,canActivate: [AuthenticationGuard]},
   { path: 'createincoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard]},
@@ -100,7 +104,8 @@ const routes: Routes = [
   { path: 'renewalAmcs/:date1/:date2', component: RenewalAmcsReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'renewedAmcs/:date1/:date2', component: RenewedAmcsReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'expiredAmcs/:date1/:date2', component: ExpiredAmcsReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'ClientAmc/:cId', component: ClientAmcComponent,canActivate: [AuthenticationGuard]},
+  { path: 'paymentDetails/:date1/:date2', component: PaymentsDetailsComponent,canActivate: [AuthenticationGuard]},
+  { path: 'clientAmc/:cId', component: ClientAmcComponent,canActivate: [AuthenticationGuard]},
   { path: 'editprofile/:userId', component: EditProfileComponent,canActivate: [AuthenticationGuard]},
   { path: 'list',component: ListcategoryComponent,canActivate: [AuthenticationGuard]},
   { path: 'user', component: UserAddingComponent,canActivate: [AuthenticationGuard]},
@@ -122,6 +127,10 @@ const routes: Routes = [
   { path: 'bar',component: RevalueComponent,canActivate: [AuthenticationGuard]},
   { path: 'pchart/sales', component: SalesComponent,canActivate: [AuthenticationGuard] },
   { path: 'amcstatus', component: AMCStatusComponent,canActivate: [AuthenticationGuard] },
+  { path: 'notification/:userId', component: NotificationComponent},
+  { path: 'loginDetails', component: LoginDetailsComponent},
+  { path: 'clientPaymentReport/:userId', component: ClientPaymentDetailsComponent},
+  { path: 'quarterWiseRevenueReport/:date1', component: QuarterWiseRevenueReportComponent},
   ];
 
 @NgModule({

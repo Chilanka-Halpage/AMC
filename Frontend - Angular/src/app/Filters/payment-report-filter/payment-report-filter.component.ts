@@ -2,6 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
   selector: 'app-payment-report-filter',
@@ -11,6 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class PaymentReportFilterComponent implements OnInit {
 
   constructor(
+    private jrReportDetailsService:JrReportDetailsService,
+    public _authentication: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
@@ -28,9 +32,14 @@ export class PaymentReportFilterComponent implements OnInit {
     let date2 = this.allAmcFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
-    this.router.navigate(['allAmcReport',formatteddate1,formatteddate2]);
+    this.router.navigate(['paymentDetails',formatteddate1,formatteddate2]);
     console.log(formatteddate1);
     console.log(formatteddate2);
+    this.jrReportDetailsService.PaymentsDetailsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
+      Response => {console.log("success", Response)
+    },
+      error => {console.log("Error!", error)
+    });
   }
 
 }

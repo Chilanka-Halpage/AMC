@@ -1,0 +1,30 @@
+<div class="container mt-2">
+    <h3 class="">All AMC Details Reports</h3>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+  class="mat-elevation-z8, table table-striped table-hover ">
+  
+      <ng-container matColumnDef="quarter1">
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Quarter1</th>
+        <td mat-cell *matCellDef="let element" class="align-middle"> {{element.quarter1}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="quarter2">
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Quarter2</th>
+        <td mat-cell *matCellDef="let element" class="align-middle"> {{element.quarter2}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="quarter3">
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Quarter3</th>
+        <td mat-cell *matCellDef="let element" class="align-middle"> {{element.quarter3}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="quarter4">
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Quarter4</th>
+        <td mat-cell *matCellDef="let element" class="align-middle"> {{element.quarter4}} </td>
+      </ng-container>
+      <tr mat-header-row class="p-3 mb-2 bg-primary text-white align-middle" *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <br>
+  <button (click)="viewPdf()" mat-raised-button color="primary">view PDF</button>
+  </div>

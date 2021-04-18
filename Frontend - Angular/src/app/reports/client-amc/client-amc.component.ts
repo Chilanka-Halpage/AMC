@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { ReportDetailsService } from 'src/app/data/report-details.service';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import { ClientAmc } from '../../data/ClientAmc/client-amc';
 
 @Component({
@@ -14,6 +16,8 @@ export class ClientAmcComponent implements OnInit {
   cId : any
 
   constructor(
+    private jrReportDetailsService: JrReportDetailsService,
+    public _authentication: AuthenticationService,
     private reportDetailsService: ReportDetailsService,
     private activatedRoute: ActivatedRoute,
   ) { }
@@ -31,7 +35,16 @@ export class ClientAmcComponent implements OnInit {
       this.clientAmc = data;
     });
   }
-  displayedColumns: string[] = ['amc_no','amc_serial_no', 'amc_product_no', 'start_date', 'category_name',
-  'department_name','frequency','mtc_start_date','mtc_end_date','product_description'];
+
+  viewPdf() {
+    this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
+      response => {
+        let url = URL.createObjectURL(response);
+        window.open(url, '_blank');
+        URL.revokeObjectURL(url);
+      });
+  }
+  displayedColumns: string[] = ['amc_no','amc_serial_no', 'start_date', 'mtc_start_date','mtc_end_date',
+  'frequency','category_name','amc_product_no','department_name','product_description'];
 
 }

@@ -1,7 +1,8 @@
 export class ClientPaymentDetails {
     amc_no : String
+	amc_serial_no : String
+	rec_date : Date
 	product_name : String
-	frequency : String
     currency_name :String
 	exchage_rate : number
 	total : number
