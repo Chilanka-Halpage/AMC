@@ -137,7 +137,7 @@ const routes: Routes = [
   {path:'login/forgetPassword',component: PageComponent,canActivate: [AuthenticationGuard]},
   {path:'ResetPassword',component: ResetPageComponent,canActivate: [AuthenticationGuard]},
   {path:'userList/:id',component: UserlistComponent,canActivate: [AuthenticationGuard]},
-  { path: 'amcHistory/view', component: AmcHistoryViewComponent }
+  { path: 'amcHistory/view', component: AmcHistoryViewComponent },
   { path: 'notification/:userId', component: NotificationComponent},//all
   { path: 'loginDetails', component: LoginDetailsComponent},//admin
   { path: 'clientPaymentReport/:userId', component: ClientPaymentDetailsComponent},//client
