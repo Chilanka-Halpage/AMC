@@ -1,8 +1,14 @@
 package com.itfac.amc.controller;
 
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -123,7 +129,28 @@ public class ReportController {
 	ResponseEntity<List<GetInvoice>> getInvoice(@PathVariable("amcno") String id) throws Exception {
 		List<GetInvoice> invoice = reportService.getInvoiceById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(invoice);
-
+	}
+	
+	// Quarter wise report
+	@GetMapping("/QuarterWiseRevenue/{Date1}")
+	public List<Map<String, Object>> QuarterWiseRevenue(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1)throws FileNotFoundException, JRException {
+			
+			LocalDate Date2 = Date1.plusMonths(3);
+			BigDecimal q1 = reportService.getRevanue(Date1,Date2);
+			LocalDate Date3 = Date2.plusMonths(3);
+			BigDecimal q2 = reportService.getRevanue(Date2,Date3);
+			LocalDate Date4 = Date3.plusMonths(3);
+			BigDecimal q3 = reportService.getRevanue(Date3,Date4);
+			LocalDate Date5 = Date3.plusMonths(3);
+			BigDecimal q4 = reportService.getRevanue(Date4,Date5);
+			Map<String, Object> parameters = new HashMap<>();	
+			parameters.put("quarter1", q1);
+			parameters.put("quarter2", q2);
+			parameters.put("quarter3", q3);
+			parameters.put("quarter4", q4);
+			List<Map<String, Object>> revenue=new ArrayList<>();
+			revenue.add(parameters);
+			return revenue;
 	}
 
 	// amc reminder for dashboard-----------------------------------

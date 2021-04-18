@@ -19,7 +19,8 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 
 	boolean existsByClientName(String name);
 
-	@Query(value = "select * from Client_Details where mtc_start_date BETWEEN :Date1 AND :Date2", nativeQuery = true)
+	//client details
+	@Query(value = "select * from Client_Details where start_date BETWEEN :Date1 AND :Date2", nativeQuery = true)
 	List<ClientDetails> getAllClientDetails(@Param("Date1") LocalDate date1, @Param("Date2") LocalDate date2);
 
 	@Query(value = "select count(*) from client where active = true", nativeQuery = true)

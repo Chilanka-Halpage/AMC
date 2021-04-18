@@ -1,55 +1,57 @@
 <div class="container mt-2">
     <h3 class="">Full Details Report</h3>
     <h5><b> From :</b> {{date1}} &nbsp; <b>To : </b>{{date2}}</h5>
+    <mat-form-field class="px-3">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. IT" #input>
+  </mat-form-field>
   <table mat-table [dataSource]="fullDetails" class="mat-elevation-z8 , table table-striped table-hover">
-  
       <ng-container matColumnDef="amc_no">
-        <th mat-header-cell *matHeaderCellDef>AMC No</th>
-        <td mat-cell *matCellDef="let element"> {{element.amc_no}} </td>
+        <th mat-header-cell *matHeaderCellDef class="align-middle">AMC No</th>
+        <td mat-cell *matCellDef="let element" class="align-middle"> {{element.amc_no}} </td>
       </ng-container>
       <ng-container matColumnDef="amc_serial_no">
-        <th mat-header-cell *matHeaderCellDef>Amc Serial No</th>
-        <td mat-cell *matCellDef="let element"> {{element.amc_serial_no}} </td>
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Amc Serial No</th>
+        <td mat-cell *matCellDef="let element" class="align-middle"> {{element.amc_serial_no}} </td>
       </ng-container>
       <ng-container matColumnDef="client_name">
-        <th mat-header-cell *matHeaderCellDef>Client Name</th>
-        <td mat-cell *matCellDef="let element"> {{element.client_name}} </td>
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Client Name</th>
+        <td mat-cell *matCellDef="let element" class="align-middle"> {{element.client_name}} </td>
       </ng-container>
       <ng-container matColumnDef="product_name">
-        <th mat-header-cell *matHeaderCellDef>Product Name</th>
-        <td mat-cell *matCellDef="let element"> {{element.product_name}} </td>
+        <th mat-header-cell *matHeaderCellDef class="align-middle">Product Name</th>
+        <td mat-cell *matCellDef="let element" class="align-middle"> {{element.product_name}} </td>
       </ng-container>
       <ng-container matColumnDef="category_name">
-          <th mat-header-cell *matHeaderCellDef>Category Name</th>
-          <td mat-cell *matCellDef="let element"> {{element.category_name}} </td>
+          <th mat-header-cell *matHeaderCellDef class="align-middle">Category Name</th>
+          <td mat-cell *matCellDef="let element" class="align-middle"> {{element.category_name}} </td>
         </ng-container>
         <ng-container matColumnDef="mtc_start_date">
-          <th mat-header-cell *matHeaderCellDef>Mtc Start Date</th>
-          <td mat-cell *matCellDef="let element"> {{element.mtc_start_date}} </td>
+          <th mat-header-cell *matHeaderCellDef class="align-middle">Mtc Start Date</th>
+          <td mat-cell *matCellDef="let element" class="align-middle"> {{element.mtc_start_date}} </td>
         </ng-container>
         <ng-container matColumnDef="mtc_end_date">
-          <th mat-header-cell *matHeaderCellDef>Mtc End Date</th>
-          <td mat-cell *matCellDef="let element"> {{element.mtc_end_date}} </td>
+          <th mat-header-cell *matHeaderCellDef class="align-middle">Mtc End Date</th>
+          <td mat-cell *matCellDef="let element" class="align-middle"> {{element.mtc_end_date}} </td>
         </ng-container>
         <ng-container matColumnDef="frequency">
-          <th mat-header-cell *matHeaderCellDef>Frequency</th>
-          <td mat-cell *matCellDef="let element"> {{element.frequency}} </td>
+          <th mat-header-cell *matHeaderCellDef class="align-middle">Frequency</th>
+          <td mat-cell *matCellDef="let element" class="align-middle"> {{element.frequency}} </td>
         </ng-container>
         <ng-container matColumnDef="mtc_amount_for_given_frequency">
-          <th mat-header-cell *matHeaderCellDef>Mtc Amount For Given Frequency</th>
-          <td mat-cell *matCellDef="let element">{{element.mtc_amount_for_given_frequency}} </td>
+          <th mat-header-cell *matHeaderCellDef class="align-middle">Mtc Amount For Given Frequency</th>
+          <td mat-cell *matCellDef="let element" class="align-middle">{{element.mtc_amount_for_given_frequency}} </td>
         </ng-container> 
            <ng-container matColumnDef="total_value_lkr">
-          <th mat-header-cell *matHeaderCellDef>Total Value Lkr</th>
-          <td mat-cell *matCellDef="let element"> {{element.total_value_lkr}} </td>
+          <th mat-header-cell *matHeaderCellDef class="align-middle">Total Value Lkr</th>
+          <td mat-cell *matCellDef="let element" class="align-middle"> {{element.total_value_lkr}} </td>
         </ng-container>
         <ng-container matColumnDef="active">
-            <th mat-header-cell *matHeaderCellDef>Status</th>
-            <td mat-cell *matCellDef="let element"> {{element.active}} </td>
+            <th mat-header-cell *matHeaderCellDef class="align-middle">Status</th>
+            <td mat-cell *matCellDef="let element" class="align-middle"> {{element.active}} </td>
           </ng-container>
       <tr mat-header-row class="p-3 mb-2 bg-primary text-white" *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <a href="assets\FullDetails.pdf" > Download PDF Report</a>
-  <button type="submit" mat-raised-button color="primary" class="mt-4">Generate PDF Report</button>
+    <button (click)="viewPdf()" mat-raised-button color="primary">view PDF</button>
   </div>

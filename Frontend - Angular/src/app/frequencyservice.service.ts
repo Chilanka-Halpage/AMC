@@ -18,7 +18,7 @@ export class FrequencyserviceService {
   }
 
   createFrequency(frequency: Object): Observable<Object> {
-    return this.http.post(`${this.baseURL}AddFrequency`, frequency);
+    return this.http.post(`${this.baseURL}AddFrequency`, frequency,{responseType : "text" as "json"});
   }
 
   getFrequency(id: number): Observable<any> {
@@ -26,11 +26,11 @@ export class FrequencyserviceService {
   }
 
   updateFrequency(id: number, value: any): Observable<Object> {
-    return this.http.put(`${this.baseURL}updateFrequency/${id}`, value);
+    return this.http.put(`${this.baseURL}updateFrequency/${id}`, value,{responseType : "text" as "json"});
   }
 
   deleteFrequency(id: number): Observable<any> {
-    return this.http.delete(`${this.baseURL}deleteFrequency/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.baseURL}deleteFrequency/${id}`, { responseType: 'text' as "json" });
   }
   
   

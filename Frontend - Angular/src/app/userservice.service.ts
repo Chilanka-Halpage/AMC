@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from './Model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UserserviceService {
 
   constructor(private http:HttpClient) { }
   getUserList(): Observable<any> {
-    return this.http.get(`${this.baseURL}/findAllUser`);
+    return this.http.get<User[]>(`${this.baseURL}/findAllUser`);
   }
 
   createUser(user: Object): Observable<Object> {
@@ -23,7 +24,7 @@ export class UserserviceService {
   }
 
   updateUser(id: number, value: any): Observable<Object> {
-    return this.http.put(`${this.baseURL}/updateUser/${id}`, value);
+    return this.http.put(`${this.baseURL}/updateUser/${id}`, value,{responseType : "text" as "json"});
   }
 
   deleteUser(id: number): Observable<any> {

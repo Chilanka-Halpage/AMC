@@ -32,6 +32,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatBadgeModule} from '@angular/material/badge';
 
 //-----------------------------
 import { FormControl } from '@angular/forms';
@@ -72,7 +73,7 @@ import { FormControl } from '@angular/forms';
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
-  
+    MatBadgeModule
   ],
   exports: [
     BrowserModule,
@@ -106,7 +107,7 @@ import { FormControl } from '@angular/forms';
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
-    
+    MatBadgeModule
   ],
   declarations: [],
 })

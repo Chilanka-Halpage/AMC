@@ -1,15 +1,15 @@
 package com.itfac.amc.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
-
+import javax.mail.MessagingException;
+import org.springframework.http.ResponseEntity;
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
+import com.itfac.amc.service.impl.UserNotFoundException;
 
 public interface UserService {
-
-	
-
 	Optional<User> getUserById(String id);
 
 	void deleteUser(String id);
@@ -18,14 +18,22 @@ public interface UserService {
 
 	User updateUser(User user);
 
-	//public List<User> getAllUsers();
-
 	public User getUser(String userId);
 
 	UserNameDto getUserName(String userid);
 
-	//Page<User> getAllUser(Pageable pageable);
+	public ResponseEntity<String> updateUser(String userId, User user);
+
+	public ResponseEntity<String> updatePassword(String userId, User user);
 
 	List<User> getAllUser();
+
+	void sendEmail(String recipientEmail, String link) throws MessagingException, UnsupportedEncodingException;
+
+	void updateResetPasswordToken(String token, String email) throws UserNotFoundException;
+
+	User getByResetPasswordToken(String token);
+
+	void updatePassword(User user, String newPassword);
 
 }

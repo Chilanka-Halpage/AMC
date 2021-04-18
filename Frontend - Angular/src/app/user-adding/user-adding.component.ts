@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { UserserviceService } from '../userservice.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-user-adding',
@@ -14,22 +15,20 @@ export class UserAddingComponent implements OnInit {
 
   hide = true;
   alert: boolean = false;
-
-
+  isDisabled=false;
+  public userSavingProgress = false;
   addForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private _service: UserserviceService, private _router: Router) { }
+  constructor(private fb: FormBuilder, private _service: UserserviceService, private _router: Router,private elementRef: ElementRef,private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.addForm = this.fb.group(
       {
-        userId: [''],
         uname: ['', [Validators.required]],
         role: ['', [Validators.required]],
         active: ['',[Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        contactNo: [''],
+        email: ['', [Validators.required,Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
+        contactNo: ['',[Validators.required,Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
 
 
       }
@@ -46,14 +45,22 @@ export class UserAddingComponent implements OnInit {
     return this.addForm.get('email').hasError('email') ? 'Not a valid email' : '';
   }
 
-  onAdd() {
-
+  onAdd():void {
+    if(this.addForm.valid){
+      this.userSavingProgress = true;
     this._service.createUser(this.addForm.value).subscribe(
       (result) => {
-        this.alert = true;
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.navigateTouserList()});
+      },
+      (error) => {
+        let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+        this.notificationService.showNoitfication(message, 'OK', 'error', null);
       }
-      )
-    this.emailSent();
+      ).add(() => this.userSavingProgress = false);
+    } else {
+      this.scrollToFirstInvalidControl();
+    }
+    
 
   }
   goList() {
@@ -61,7 +68,7 @@ export class UserAddingComponent implements OnInit {
   }
 
   get email() {
-    return this.addForm.get('email')
+    return this.addForm.get('email');
   }
 
   closeAlert() {
@@ -69,21 +76,21 @@ export class UserAddingComponent implements OnInit {
     this.goList();
   }
 
-  emailSent() {
-    this._service
-      .sentEmail(this.addForm.value).subscribe(data => {
-        console.log(data)
 
-        console.log("check email")
-      })
-  }
   navigateTouserList(): void{
-    this._router.navigateByUrl('userList');
- }
+     this._router.navigateByUrl('userList');
+  }
 
- resetForm(): void {
-   this.addForm.reset(); 
- }
+  resetForm(): void {
+    this.addForm.reset(); 
+  }
+
+  //scrroll the form to first invalid form ,when it clicks on save button, if any invalid form is there
+  scrollToFirstInvalidControl(): void {
+    const firstInvalidControl: HTMLElement = this.elementRef.nativeElement.querySelector('form .ng-invalid');
+    firstInvalidControl.scrollIntoView({ behavior: 'smooth' });
+  }
+ 
 
 
 }

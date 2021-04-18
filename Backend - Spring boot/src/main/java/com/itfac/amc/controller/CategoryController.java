@@ -8,13 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.entity.Category;
@@ -30,8 +30,9 @@ public class CategoryController {
 
 	@GetMapping("findAllCategory")
 
-	public List<Category> getallctegory() {
-		return categoryservice.getAllCategory();
+	public ResponseEntity<List<Category>> getallctegory() {
+		List<Category> allCategory = categoryservice.getAllCategory();
+		return ResponseEntity.status(HttpStatus.OK).body(allCategory);
 
 	}
 
@@ -47,25 +48,27 @@ public class CategoryController {
 				.body(categoryByIdd);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "deleteCategory/{id}")
+	@DeleteMapping("deleteCategory/{id}")
 
-	public void deleteCategory(@PathVariable("id") int categoryId) {
-		categoryservice.deleteCategory(categoryId);
+	public ResponseEntity<String> deleteCategory(@PathVariable("id") int categoryId) {
+		return ResponseEntity.badRequest().body("not deleted");
 	}
 
 	@PostMapping("AddCategory")
 
-	public Category AddCategory(@Validated @RequestBody Category category) {
-		return categoryservice.AddCategory(category);
+	public ResponseEntity<String> AddCategory(@Validated @RequestBody Category category) {
+		categoryservice.AddCategory(category);
+		return ResponseEntity.status(HttpStatus.OK).body("added successfull");
 
 	}
 
-	@PutMapping("UpdateCategory/{id}") // UpdateCategory
+	@PutMapping("UpdateCategory/{id}")
 
-	public Category updateCategory(@PathVariable("id") int categoryId, @Validated @RequestBody Category category) {
+	public ResponseEntity<String> updateCategory(@PathVariable("id") int categoryId, @RequestBody Category category) {
 
 		category.setCategoryId(categoryId);
-		return categoryservice.updateCategory(category);
+		categoryservice.updateCategory(category);
+		return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}
 
 	@GetMapping("findActiveCategoy")

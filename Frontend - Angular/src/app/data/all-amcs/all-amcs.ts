@@ -8,6 +8,6 @@ export class AllAmcs {
     currency_name: String
     exchage_rate: String
     mtc_qty: number
-    total_value: String
+    total_value_lkr: number
     active: boolean
 }

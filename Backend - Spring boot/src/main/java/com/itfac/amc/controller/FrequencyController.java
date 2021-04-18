@@ -8,17 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.entity.Frequency;
-import com.itfac.amc.entity.Product;
 import com.itfac.amc.service.FrequencyService;
 
 @RestController
@@ -30,8 +29,9 @@ public class FrequencyController {
 	FrequencyService frequencyservice;
 
 	@GetMapping("findAllFrequency")
-	List<Frequency> getAllFrequency() {
-		return frequencyservice.getAllFrequency();
+	public ResponseEntity <List<Frequency>> getAllFrequency() {
+		List<Frequency> allFrequency= frequencyservice.getAllFrequency();
+		return ResponseEntity.status(HttpStatus.OK).body(allFrequency);
 	}
 
 	@GetMapping("findFrequency/{id}")
@@ -44,20 +44,22 @@ public class FrequencyController {
 				.body(frequencyByIdd);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "deleteFrequency/{id}")
-	public void deleteFrequency(@PathVariable("id") int frequencyId) {
-		frequencyservice.deleteFrequency(frequencyId);
-
+	@DeleteMapping("deleteFrequency/{id}")
+	public ResponseEntity<String> deleteFrequency(@PathVariable("id") int frequencyId) {
+		return ResponseEntity.badRequest().body("not deleted");
 	}
 
 	@PostMapping("AddFrequency")
-	public Frequency addFrequency(@Validated @RequestBody Frequency frequency) {
-		return frequencyservice.addFrequency(frequency);
+	public ResponseEntity<String> addFrequency(@Validated @RequestBody Frequency frequency) {
+		frequencyservice.addFrequency(frequency);
+		return ResponseEntity.status(HttpStatus.OK).body("added successfull"); 
 	}
 
 	@PutMapping("updateFrequency/{id}")
-	public Frequency updateFrequency(@Validated @RequestBody Frequency frequency) {
-		return frequencyservice.updateFrequency(frequency);
+	public ResponseEntity<String> updateFrequency(@PathVariable("id") int frequencyId,@Validated @RequestBody Frequency frequency) {
+		frequency.setFrequencyId(frequencyId);
+		 frequencyservice.updateFrequency(frequency);
+		 return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}
 	@GetMapping("findActiveFrequency")
 	public List<Frequency> getActiveFrequency() {

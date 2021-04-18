@@ -17,9 +17,9 @@
         <td mat-cell *matCellDef="let element"> {{element.renewal}} </td>
       </ng-container>
     
-      <ng-container matColumnDef="client_id">
-        <th mat-header-cell *matHeaderCellDef>Client ID</th>
-        <td mat-cell *matCellDef="let element"> {{element.client_id}} </td>
+      <ng-container matColumnDef="user_id">
+        <th mat-header-cell *matHeaderCellDef>User ID</th>
+        <td mat-cell *matCellDef="let element"> {{element.user_id}} </td>
       </ng-container>
     
       <ng-container matColumnDef="client_name">
@@ -53,6 +53,5 @@
       <tr mat-header-row class="p-3 mb-2 bg-primary text-white" *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <a href="assets\renewalAmcs.pdf" > Download PDF Report</a>
-  <button type="submit" mat-raised-button color="primary" class="mt-4">Generate PDF Report</button>
+    <button (click)="viewPdf()" mat-raised-button color="primary">view PDF</button>
   </div>

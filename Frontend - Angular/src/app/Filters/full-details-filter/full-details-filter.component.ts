@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
 import { JrReportDetailsService } from '../../data/jr-report-details.service';
 import { FullDetails } from '../../data/FullDetails/full-details'
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
   selector: 'app-full-details-filter',
@@ -15,7 +16,9 @@ export class FullDetailsFilterComponent implements OnInit {
 
   FullDetails: FullDetails;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(
+    public _authentication: AuthenticationService,
+    private activatedRoute: ActivatedRoute,
     private jrReportDetailsService:JrReportDetailsService,
     private router: Router,
     private fb: FormBuilder,
@@ -42,10 +45,10 @@ export class FullDetailsFilterComponent implements OnInit {
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
     this.router.navigate(['fullDetails',formatteddate1,formatteddate2]);
 
-    this.jrReportDetailsService.FullDetailsJrReport(formatteddate1,formatteddate2).subscribe(
-      data=>{
-      this.FullDetails = data;}
-    )
+    this.jrReportDetailsService.FullDetailsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
+        Response => {console.log("success", Response)
+      },
+        error => {console.log("Error!", error)
+      });   
 }
-
 }

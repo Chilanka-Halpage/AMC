@@ -1,4 +1,7 @@
 
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <div style="background-color: rgb(255, 255, 255);">
   <div class="container" class="class1">
     <div>
@@ -27,4 +30,5 @@
         <button type="submit" mat-raised-button color="primary" mat-dialog-close>Generate Report</button>
       </form>
     </div>
+  </div>
   </div>
