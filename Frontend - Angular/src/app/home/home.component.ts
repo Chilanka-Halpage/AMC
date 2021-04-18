@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../_helpers/authentication.service';
 import { HomedetailsService } from './../homedetails.service';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -14,9 +15,11 @@ export class HomeComponent implements OnInit {
     ActiveAmcCount;
     TotalActiveClients;
     AmcReminders;
+    public isAuthorized: boolean;
 
   constructor( private homedetails: HomedetailsService ,
                private datePipe: DatePipe,
+               private _authentication: AuthenticationService
                ) { }
 
   ngOnInit(): void {
@@ -24,6 +27,7 @@ export class HomeComponent implements OnInit {
    this.getActiveAmcCount();
    this.getTotalAmc();
    this.amcreminder();
+   this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
   }
 
   getActiveClient(){

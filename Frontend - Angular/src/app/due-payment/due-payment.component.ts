@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../_helpers/authentication.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { DuePaymentService } from './../due-payment.service';
@@ -17,11 +18,13 @@ export class DuePaymentComponent implements OnInit {
 
   public isLoadingResults = true;
   public isRateLimitReached = false;
-  public errorMessage = "Unknown Error"
+  public errorMessage = "Unknown Error";
+  public isAuthorized: boolean;
 
   constructor(
     public duePaymentService: DuePaymentService,
-    public router: Router
+    public router: Router,
+    public _authentication: AuthenticationService
   ) { }
 
   displayedColumns:string[] = ['id','dueDate','invoiceAmt','amc_no','product_id','currency_id','Action','update'];
@@ -31,6 +34,7 @@ export class DuePaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDuepayemt();
+    this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
   }
 
   getDuepayemt(){

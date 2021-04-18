@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import { AccountantGuard } from './_helpers/accountant.guard';
 import { AmccordinatorGuard } from './_helpers/amccordinator.guard';
-=======
-
->>>>>>> 891f1733b086a08e922b2f6516cfa77c2ced0506
 import { MessageComponent } from './message/message.component';
 import { AmcMasterService } from './shared/amc-master.service';
 import { ClientService } from './shared/client.service';

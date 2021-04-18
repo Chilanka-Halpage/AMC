@@ -74,7 +74,7 @@
   </mat-grid-tile>
   <mat-grid-tile
   [colspan] = "2"
-  [rowspan] = "4"><mat-card class="example-card background-color">   
+  [rowspan] = "4"><mat-card class="example-card background-color" [hidden]="!isAuthorized">   
       <div >
         <app-log-details></app-log-details>
       </div>
