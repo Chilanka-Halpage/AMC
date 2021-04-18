@@ -44,7 +44,7 @@ public class UserController {
 	@Autowired
 	LoginDetailsService loginDetailsService;
 
-	@GetMapping("findAllUser")
+	@GetMapping("admin/findAllUser")
 	public List<User> getAllUser() {
 		List<User> allUser = userservice.getAllUser();
 		return allUser;
@@ -52,7 +52,7 @@ public class UserController {
 		
 	}
 
-	@GetMapping("findUser/{id}")
+	@GetMapping("admin/findUser/{id}")
 	ResponseEntity<Optional<User>> getUserById(@PathVariable("id") String userId) {
 		Optional<User> userById = userservice.getUserById(userId);
 		if (userById != null) {
@@ -62,18 +62,18 @@ public class UserController {
 				.body(userById);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "deleteUser/{id}")
+	@RequestMapping(method = RequestMethod.DELETE, value = "admin/deleteUser/{id}")
 	public void deleteUser(@PathVariable("id") String userId) {
 		userservice.deleteUser(userId);
 	}
 
-	@PostMapping("AddUser")
+	@PostMapping("admin/AddUser")
 	User addUser(@Validated @RequestBody User user) {
 		return userservice.addUser(user);
 	}
 
-	@PutMapping("updateUser/{id}")
-	User updateUsers(@PathVariable("id") String userId,@Validated @RequestBody User user) {
+	@PutMapping("admin/updateUser/{id}")
+	User updateUsers(@PathVariable("id") String userId,@RequestBody User user) {
 		user.setUserId(userId);
 		return userservice.updateUser(user);
 	}
