@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.repository.query.Param;
+
 import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.dto.AmcMasterDto;
 import com.itfac.amc.dto.AmcMasterSubData;
@@ -49,7 +51,7 @@ public interface AmcMasterService {
 	 * @param amcMaster
 	 * @param amcNo
 	 */
-	void updateAmcMaster(AmcMaster amcMaster, String amcNo);
+	void updateAmcMaster(AmcMaster amcMaster, String amcNo, String amsSerialNo);
 
 	List<String> getAllAmcNo(String amc_no) throws Exception;
 	
@@ -58,5 +60,9 @@ public interface AmcMasterService {
 	String countInactiveAmc();
 	
 	String countAmc();
+	
+	String countAmcByClient(String userId);
+	
+	String countActiveAmcByClient(String userId);
 
 }

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.itfac.amc.dto.clinetpaymentDto;
 import com.itfac.amc.dto.recieptDto;
 import com.itfac.amc.entity.Receipt;
 
@@ -31,7 +32,7 @@ public interface ReceiptRepository extends JpaRepository<Receipt, String> {
 	String TotalrevanuelastYear(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
     
 	//find detail by clientId
-	@Query(value = "SELECT rec_no,balance,pay_mode,category_name,pi_no,dept_id from receipt,client_department,category where receipt.client_dept_id = client_department.client_id and receipt.category_id = category.category_id and  client_id =?1", nativeQuery = true)
-	List<recieptDto> getReceiptbyClientId(int client_id);
+	@Query(value = "SELECT r.rec_no,r.balance,r.pay_mode,c.category_name,r.pi_no,d.dept_id,t.client_id,r.rec_date from receipt r,client_department d,category c,client t  where r.client_dept_id = d.client_id and d.client_id = t.client_id and r.category_id = c.category_id and user_id = :client_id", nativeQuery = true)
+	List<clinetpaymentDto> getReceiptbyClientId( @Param("client_id") String user_id);
 		
 }

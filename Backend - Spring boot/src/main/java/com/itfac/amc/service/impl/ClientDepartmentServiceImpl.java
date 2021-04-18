@@ -15,9 +15,11 @@ import com.itfac.amc.Exception.ResourceCreationFailedException;
 import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.entity.Client;
 import com.itfac.amc.entity.ClientDepartment;
+import com.itfac.amc.entity.User;
 import com.itfac.amc.repository.ClientDepartmentRepository;
 import com.itfac.amc.repository.ClientRepository;
 import com.itfac.amc.service.ClientDepartmentService;
+import com.itfac.amc.service.UserService;
 
 @Service
 public class ClientDepartmentServiceImpl implements ClientDepartmentService {
@@ -26,6 +28,8 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 	ClientDepartmentRepository clientDepartmentRepository;
 	@Autowired
 	ClientRepository clientRepository;
+	@Autowired
+	UserService userService;
 
 	@Override
 	public List<ClientDepartment> getDepartmentsByClientId(int id) {
@@ -42,7 +46,7 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 		String ipAddress = httpServletRequest.getRemoteAddr();
 		Client client = clientRepository.findById(clientId)
 				.orElseThrow(() -> new ResourceNotFoundException("ClientId " + clientId + " not found"));
-		
+
 		department.setLastModifiedIp(ipAddress);
 		department.setClient(client);
 		clientDepartmentRepository.save(department);
@@ -54,10 +58,19 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 			HttpServletRequest httpServletRequest) {
 
 		String ipAddress = httpServletRequest.getRemoteAddr();
-		department.setLastModifiedIp(ipAddress);
 		Client client = department.getClient();
-		client.setLastModifiedIp(ipAddress);
 
+		User user = new User();
+		user.setActive(true);
+		user.setContactNo(client.getContactNo());
+		user.setEmail(department.getEmail());
+		user.setRole("client");
+		user.setUname(client.getClientName());
+		user = userService.addUser(user);
+		
+		client.setUser(user);
+		department.setLastModifiedIp(ipAddress);
+		client.setLastModifiedIp(ipAddress);
 		client = clientRepository.save(client);
 		ClientDepartment clientDepartment = clientDepartmentRepository.save(department);
 
@@ -93,6 +106,11 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 	@Override
 	public boolean doesDeptExists(int clientId, String deptName) {
 		return clientDepartmentRepository.existsByClientClientIdAndDepartmentName(clientId, deptName);
+	}
+
+	@Override
+	public String countActiveAmcByClient(String userId) {
+		return clientDepartmentRepository.countActiveAmcByClient(userId);
 	}
 
 }

@@ -1,5 +1,4 @@
-import { AccountantGuard } from './_helpers/accountant.guard';
-import { AmccordinatorGuard } from './_helpers/amccordinator.guard';
+
 import { LogDetailsComponent } from './log-details/log-details.component';
 import { ClientGuard } from './_helpers/client.guard';
 import { SattlementComponent } from './sattlement/sattlement.component';
@@ -57,22 +56,25 @@ import { UserlistComponent } from './userlist/userlist.component';
 import { RevalueComponent } from './revalue/revalue.component';
 import { SalesComponent } from './sales/sales.component';
 import { AMCStatusComponent } from './amcstatus/amcstatus.component';
+import { AccountantGuard } from './_helpers/accountant.guard';
+import { AmccordinatorGuard } from './_helpers/amccordinator.guard';
+import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-view.component';
 
 const routes: Routes = [
-  { path: 'root-nav' , component: RootNavComponent},
+  { path: 'root-nav' , component: RootNavComponent,canActivate: [AuthenticationGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'clienthome', component: ClientdashtableComponent,canActivate: [AuthenticationGuard] },
   { path: 'proforma-invoice',component: ProformaInvoiceComponent,canActivate: [AuthenticationGuard, ClientGuard] },
   { path: '',component: SettingComponent,canActivate: [AuthenticationGuard]},//default landing page for any not logged user
   { path: 'reports',component: ReportsComponent,canActivate: [AuthenticationGuard]},
   { path: 'adminhome',component: HomeComponent, canActivate: [AuthenticationGuard, ClientGuard] },
-  { path: 'client/new', component: AddClientComponent,canActivate: [AuthenticationGuard, ClientGuard] },
-  { path: 'client/edit', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'client-list', component: ClientListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'dept-list/:cid', component: DepartmentListComponent,canActivate: [AuthenticationGuard]},
-  { path: 'client/dept/edit/:did', component: AddClientComponent,canActivate: [AuthenticationGuard]},
-  { path: 'client/:cid/dept/new', component: AddClientComponent,canActivate: [AuthenticationGuard]},
-  { path: 'amcMaster/new', component: CreateAmcMasterComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'client/new', component: AddClientComponent,canActivate: [AuthenticationGuard, ClientGuard,AccountantGuard] },
+  { path: 'client/edit', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
+  { path: 'client-list', component: ClientListComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
+  { path: 'dept-list/:cid', component: DepartmentListComponent,canActivate: [AuthenticationGuard,AccountantGuard]},
+  { path: 'client/dept/edit/:did', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
+  { path: 'client/:cid/dept/new', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
+  { path: 'amcMaster/new', component: CreateAmcMasterComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'list', component: ListcategoryComponent,canActivate: [AuthenticationGuard]},
   { path: 'reportslist', component: ReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'profile/:userId', component: ProfileComponent,canActivate: [AuthenticationGuard]},
@@ -81,11 +83,11 @@ const routes: Routes = [
   { path: 'usersfilter', component: UsersFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'generatereport', component: GenerateReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'allAmcReport/', component: AllAmcReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'taxlist', component:TaxListComponent,canActivate: [AuthenticationGuard]},
-  { path: 'invoicelist',component:InvoiceListComponent,canActivate: [AuthenticationGuard]},
-  { path: 'createincoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard]},
+  { path: 'taxlist', component:TaxListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'invoicelist',component:InvoiceListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'createincoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'catogerylist', component:ListcategoryComponent,canActivate: [AuthenticationGuard]},
-  { path: 'currencylist', component:CurrencyListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'currencylist', component:CurrencyListComponent,canActivate: [AuthenticationGuard]},
   { path: 'paymentHlist', component:PaymentListComponent,canActivate: [AuthenticationGuard]} ,
   { path: 'productChart' ,component:ProductPieComponent,canActivate: [AuthenticationGuard]},
   { path: 'clientdashtable', component:ClientdashtableComponent,canActivate: [AuthenticationGuard]},
@@ -94,7 +96,7 @@ const routes: Routes = [
   { path: 'duepayment', component:DuePaymentComponent,canActivate: [AuthenticationGuard]},
   { path: 'dueinvoice', component:CreateDueinvoiceComponent,canActivate: [AuthenticationGuard]},
   { path: 'editdueinvoice/:id', component:EditDueinvoiceComponent,canActivate: [AuthenticationGuard]},
-  { path: 'createReceipt', component:CreateReceiptComponent,canActivate: [AuthenticationGuard]},
+  { path: 'createReceipt', component:CreateReceiptComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'clientDetails/:date1/:date2', component: ClientDetailsComponent,canActivate: [AuthenticationGuard]},
   { path: 'clientDetailsFilter', component: ClientDetailsFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'fullDetails/:date1/:date2', component: FullDetailsComponent,canActivate: [AuthenticationGuard]},
@@ -104,28 +106,23 @@ const routes: Routes = [
   { path: 'expiredAmcs/:date1/:date2', component: ExpiredAmcsReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'ClientAmc/:cId', component: ClientAmcComponent,canActivate: [AuthenticationGuard]},
   { path: 'editprofile/:userId', component: EditProfileComponent,canActivate: [AuthenticationGuard]},
-  { path: 'list',component: ListcategoryComponent,canActivate: [AuthenticationGuard]},
   { path: 'user', component: UserAddingComponent,canActivate: [AuthenticationGuard]},
   { path: 'productlist',component: ProductlistComponent,canActivate: [AuthenticationGuard]},
   { path: 'frequency',component: FrequencyComponent,canActivate: [AuthenticationGuard]},
-  { path: 'client/new', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'client/edit', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'client-list', component: ClientListComponent,canActivate: [AuthenticationGuard]},
   { path: 'dept-list', component: DepartmentListComponent,canActivate: [AuthenticationGuard]},
-  { path: 'client/dept/edit', component: AddClientComponent,canActivate: [AuthenticationGuard]},
-  { path: 'client/:cid/dept/new', component: AddClientComponent,canActivate: [AuthenticationGuard]},
-  { path: 'amcMaster/new', component: CreateAmcMasterComponent,canActivate: [AuthenticationGuard]},
-  { path: 'amc-serial/new', component: AmcSerialComponent,canActivate: [AuthenticationGuard]},
-  { path: 'clients/:cid/amc-list', component: AmcMasterListComponent,canActivate: [AuthenticationGuard]},
-  { path: 'clients/depts/:did/amc-list', component: AmcSerialListComponent,canActivate: [AuthenticationGuard]},
-  { path: 'clients/amc-list/:no/full', component: AmcFullDataComponent,canActivate: [AuthenticationGuard]},//client can access
-  { path: 'clients/amc-list/:no/renew', component: AmcRenewEditComponent,canActivate: [AuthenticationGuard]},
+  { path: 'client/dept/edit', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
+  { path: 'amc-serial/new', component: AmcSerialComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
+  { path: 'clients/:cid/amc-list', component: AmcMasterListComponent,canActivate: [AuthenticationGuard,AccountantGuard]},
+  { path: 'clients/depts/:did/amc-list', component: AmcSerialListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'clients/amc-list/:no/full', component: AmcFullDataComponent,canActivate: [AuthenticationGuard,AccountantGuard]},
+  { path: 'clients/amc-list/:no/renew', component: AmcRenewEditComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'userList',component: UserlistComponent,canActivate: [AuthenticationGuard]},
   { path: 'bar',component: RevalueComponent,canActivate: [AuthenticationGuard]},
   { path: 'pchart/sales', component: SalesComponent,canActivate: [AuthenticationGuard] },
   { path: 'amcstatus', component: AMCStatusComponent,canActivate: [AuthenticationGuard] },
   { path: 'settled', component: SattlementComponent,canActivate: [AuthenticationGuard]  },
-  { path: 'logdetails', component: LogDetailsComponent, canActivate: [AuthenticationGuard,ClientGuard] }
+  { path: 'logdetails', component: LogDetailsComponent, canActivate: [AuthenticationGuard,ClientGuard] },
+  { path: 'amcHistory/view', component: AmcHistoryViewComponent,canActivate: [AuthenticationGuard,AccountantGuard] },
   ];
 
 @NgModule({

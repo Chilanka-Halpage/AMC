@@ -59,8 +59,20 @@ export class HomedetailsService {
   return this.HttpClient.get<any>(`${this.baseURL}receipt/last5yearrevanue/${Date1}/${Date2}`,{responseType : 'text' as 'json'});
  }
 
- getclienthome(id: number): Observable<any>{
-  return this.HttpClient.get<any>(`${this.baseURL}receipt/findreceiptsforclient/${id}`)
+ getclienthome(userId : String): Observable<any>{
+  return this.HttpClient.get<any>(`${this.baseURL}receipt/findreceiptsforclient/${userId}`)
+}
+
+gettotalAmcforclient(userId : String): Observable<any>{
+  return this.HttpClient.get<any>(`${this.baseURL}amcMaster/AmcCountforclient/${userId}`,{responseType : 'text' as 'json'})
+}
+
+getActiveAmcforclient(userId : String): Observable<any>{
+  return this.HttpClient.get<any>(`${this.baseURL}amcMaster/AmcActiveCountforclient/${userId}`,{responseType : 'text' as 'json'})
+}
+
+getdepartmentcount(userId : String): Observable<any>{
+  return this.HttpClient.get<any>(`${this.baseURL}clientDept/departmetncount/${userId}`,{responseType : 'text' as 'json'})
 }
 
  public getImage(imgName): Observable<any> {

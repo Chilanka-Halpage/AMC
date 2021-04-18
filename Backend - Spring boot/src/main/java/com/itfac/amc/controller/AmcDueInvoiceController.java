@@ -24,44 +24,45 @@ import com.itfac.amc.service.AmcDueInvoiceService;
 @RequestMapping("/amcDueInvoice")
 @CrossOrigin("*")
 public class AmcDueInvoiceController {
-	
+
 	@Autowired
 	private AmcDueInvoiceService amcDueInvoiceService;
-			
+
 	@GetMapping("/AllDueInvoice")
-	public List<DueInvoiceDto> getAllDueInvoices(){
+	public List<DueInvoiceDto> getAllDueInvoices() {
 		return amcDueInvoiceService.getAllAmcDueInvoices();
 	}
-	
-		@PostMapping("/add")
-	    ResponseEntity<String> addAmcDueInvoice(@RequestBody AmcDueInvoice amcDueInvoice ) throws Exception{
-			amcDueInvoiceService.addAmcDueInvoice(amcDueInvoice);
-	    	return ResponseEntity.ok("Successfully added");
-		}	
-		
-		@GetMapping("finddueinvoice/{id}")
-		ResponseEntity<Optional<DueInvoiceDto>> getAmcDueInvoiceById(@PathVariable("id") int id){
-			Optional<DueInvoiceDto> dueinvoiceByIdd = amcDueInvoiceService.getAmcDueInvoiceById(id);
-			if(dueinvoiceByIdd!=null) {
-				return ResponseEntity.ok(dueinvoiceByIdd);	
-				}
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No dueinvoice with entered id " + id).body(dueinvoiceByIdd);
+
+	@PostMapping("/add")
+	ResponseEntity<String> addAmcDueInvoice(@RequestBody AmcDueInvoice amcDueInvoice) throws Exception {
+		amcDueInvoiceService.addAmcDueInvoice(amcDueInvoice);
+		return ResponseEntity.ok("Successfully added");
+	}
+
+	@GetMapping("finddueinvoice/{id}")
+	ResponseEntity<Optional<DueInvoiceDto>> getAmcDueInvoiceById(@PathVariable("id") int id) {
+		Optional<DueInvoiceDto> dueinvoiceByIdd = amcDueInvoiceService.getAmcDueInvoiceById(id);
+		if (dueinvoiceByIdd != null) {
+			return ResponseEntity.ok(dueinvoiceByIdd);
 		}
-	
-		@RequestMapping(method = RequestMethod.DELETE,value="deletedueinvoice/{id}")
-		public void deleteDueInvoice(@PathVariable("id") int id) {
-	             amcDueInvoiceService.deleteDueInvoice(id);
-		}
-		
-		@PutMapping("editdueinvoice/{id}")
-		ResponseEntity<String> updateAmcDueInvoice(@RequestBody AmcDueInvoice amcDueInvoice)throws Exception {
-			 amcDueInvoiceService.updateAmcDueInvoice(amcDueInvoice);	
-			return ResponseEntity.ok("Succesfully edited");
-		}
-		
-		@GetMapping("settled")
-		public List<DueInvoiceDto> settled(){
-			return amcDueInvoiceService.settled();
-		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No dueinvoice with entered id " + id)
+				.body(dueinvoiceByIdd);
+	}
+
+	@RequestMapping(method = RequestMethod.DELETE, value = "deletedueinvoice/{id}")
+	public void deleteDueInvoice(@PathVariable("id") int id) {
+		amcDueInvoiceService.deleteDueInvoice(id);
+	}
+
+	@PutMapping("editdueinvoice/{id}")
+	ResponseEntity<String> updateAmcDueInvoice(@RequestBody AmcDueInvoice amcDueInvoice) throws Exception {
+		amcDueInvoiceService.updateAmcDueInvoice(amcDueInvoice);
+		return ResponseEntity.ok("Succesfully edited");
+	}
+
+	@GetMapping("settled")
+	public List<DueInvoiceDto> settled() {
+		return amcDueInvoiceService.settled();
+	}
 
 }

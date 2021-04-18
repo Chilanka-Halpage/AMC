@@ -14,6 +14,10 @@ import { MatPaginator } from '@angular/material/paginator';
 export class PaymentListComponent implements OnInit {
 
   payments: MatTableDataSource<any>;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+
 
   constructor(private paymentService: PaymentService , private Router: Router) { }
 
@@ -29,6 +33,7 @@ export class PaymentListComponent implements OnInit {
        this.payments = new MatTableDataSource(data);
        this.payments.sort = this.sort;
        this.payments.paginator = this.paginator;
+       this.isLoadingResults = false;
     });
   }
 

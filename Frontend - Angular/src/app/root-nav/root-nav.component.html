@@ -4,6 +4,7 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === true"
+      [hidden]="!_authentication.loggedIn()"
       >
     <mat-toolbar ><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
     <mat-nav-list >
@@ -11,11 +12,11 @@
       <a mat-list-item [matMenuTriggerFor]="payment">
         <mat-icon >payment</mat-icon><span class="button-text">Payment</span>
          <mat-menu #payment="matMenu">
-            <button mat-menu-item [routerLink]="['createReceipt']">Payment</button>
+            <button mat-menu-item [routerLink]="['createReceipt']">New Receipt</button>
             <button mat-menu-item [routerLink]="['invoicelist']" *ngIf="_authentication.role === 'ROLE_ADMIN'" >Proforma Invoice</button>
             <button mat-menu-item [routerLink]="['dueinvoice']">Due Invoice</button>
             <button mat-menu-item [routerLink]="['taxlist']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Tax</button>
-            <button mat-menu-item [routerLink]="['currencylist']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Currency</button>
+            <button mat-menu-item [routerLink]="['currencylist']">Currency</button>
             <button mat-menu-item [routerLink]="['paymentHlist']">Payment History</button>
             <button mat-menu-item [routerLink]="['duepayment']">Due Payment</button>
          </mat-menu>
@@ -78,8 +79,8 @@
        <span class="button-text" style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>
       </button>      
          <mat-menu #profile="matMenu">
-            <button mat-menu-item [routerLink]="['profile/:userId']" >Profile</button>
-            <button mat-menu-item (click) ="logout()">Log Out</button> 
+            <button mat-menu-item (click) = "profilepage()" >Profile</button>
+            <button mat-menu-item (click) = "logout()">Log Out</button> 
          </mat-menu>
     </mat-toolbar>
     <ng-content></ng-content>

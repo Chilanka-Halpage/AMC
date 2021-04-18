@@ -12,6 +12,12 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class InvoiceListComponent implements OnInit {
 
+  error: any;
+
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+
   invoices: MatTableDataSource<any>;
 
   constructor(private invoiceService: InvoiceService, private router: Router) {  }
@@ -30,7 +36,9 @@ export class InvoiceListComponent implements OnInit {
       this.invoices= new MatTableDataSource(data);
       this.invoices.sort = this.sort;
       this.invoices.paginator = this.paginator;
-    });
+      this.isLoadingResults = false;
+    },
+    error => console.log(error));
   }
 
   createinvoice(): void{

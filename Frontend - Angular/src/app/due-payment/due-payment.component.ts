@@ -15,6 +15,10 @@ export class DuePaymentComponent implements OnInit {
 
   duePayments: MatTableDataSource<any>
 
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+
   constructor(
     public duePaymentService: DuePaymentService,
     public router: Router
@@ -34,6 +38,7 @@ export class DuePaymentComponent implements OnInit {
     this.duePayments = new MatTableDataSource(data); 
     this.duePayments.sort = this.sort;  
     this.duePayments.paginator = this.paginator;
+    this.isLoadingResults = false;
     });
   }
 

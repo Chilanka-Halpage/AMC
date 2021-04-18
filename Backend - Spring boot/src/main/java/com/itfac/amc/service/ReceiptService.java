@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.itfac.amc.dto.clinetpaymentDto;
 import com.itfac.amc.dto.recieptDto;
 import com.itfac.amc.entity.Receipt;
 
@@ -30,5 +31,5 @@ public interface ReceiptService {
 	
 	String Totalrevanuelast5Year(LocalDate Date1, LocalDate Date2);
 	
-	List<recieptDto> getReceiptbyClientId(int client_id);
+	List<clinetpaymentDto> getReceiptbyClientId(String userId);
 }

@@ -1,3 +1,10 @@
+
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      {{errorMessage}}
+  </div>
+</div>
 <div class="w-100 px-3">
     <h2>Invoice List</h2>
     <div class="d-flex flex-row-reverse my-0 py-3 pr-2">  
@@ -48,7 +55,7 @@
       <ng-container matColumnDef="update">
         <th mat-header-cell *matHeaderCellDef class="align-middle">Edit</th>
         <td mat-cell *matCellDef="let element" class="align-middle">
-          <button mat-icon-button color="warn" aria-label="Example icon button with a update icon" (click)="updatetax(element.pi_no)">
+          <button mat-icon-button color="primary" aria-label="Example icon button with a update icon" (click)="updatetax(element.pi_no)">
             <mat-icon>edit</mat-icon>
           </button> </td>    
       </ng-container> 

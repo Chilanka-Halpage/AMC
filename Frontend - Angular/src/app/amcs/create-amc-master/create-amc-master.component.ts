@@ -1,15 +1,13 @@
 import { NotificationService } from './../../shared/notification.service';
 import { HttpClient } from '@angular/common/http';
-import { element } from 'protractor';
 import { AmcMasterService } from './../../shared/amc-master.service';
 import { Frequency } from './../../Model/frequency';
 import { Currency } from './../../Model/currency.model';
-import { Component, ElementRef, NgZone, OnInit, ViewChild, Pipe } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
-import { ClientService } from 'src/app/shared/client.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -24,6 +22,7 @@ export class CreateAmcMasterComponent implements OnInit {
   private deptName: string;
   private deptId: number;
   private amcNo: string;
+  private amcSerialNo: String;
   public currencyList: Currency[];
   public frequencyList: Frequency[];
   public amcMasterForm: FormGroup;
@@ -56,11 +55,12 @@ export class CreateAmcMasterComponent implements OnInit {
       this.deptId = value.did;
       this.deptName = value.dname;
       this.amcNo = value.amcNo;
+      this.amcSerialNo = value.asno;
       this.isCreate = (value.type === "%c1%") ? true : false; //type define whether the request is for creating new AMC or editing. %c1% -> creating new AMC
     });
     this.createForm();
-    this.calculate(); 
-    this.loadSelectionData(); 
+    this.calculate();
+    this.loadSelectionData();
     if (!this.isCreate) this.loadData(); // when a edit rquest comes, get AMC data to the form fields 
   }
 
@@ -69,16 +69,16 @@ export class CreateAmcMasterComponent implements OnInit {
       client: this.formBuilder.group({
         clientName: [{ value: this.clientName, disabled: true }]
       }),
-      startDate: [''],
-      frequency: [''],
-      exchangeRate: [''],
-      totalValue: [''],
-      totalValueLkr: [''],
-      remark: [''],
-      invDesc: [''],
+      startDate: ['', [Validators.required, Validators.pattern('')]],
+      frequency: ['', [Validators.required]],
+      exchangeRate: ['', [Validators.required]],
+      totalValue: ['', [Validators.required]],
+      totalValueLkr: ['', [Validators.required]],
+      remark: ['', [Validators.required]],
+      invDesc: ['', [Validators.required]],
       active: ['true'],
       currency: this.formBuilder.group({
-        currencyId: [],
+        currencyId: ['', [Validators.required]],
       })
     });
   }
@@ -139,7 +139,7 @@ export class CreateAmcMasterComponent implements OnInit {
   // Edited data send to the backend
   saveChanges() {
     this.amcMasterProgress = true;
-    this.amcMasterservice.updateAmcMaster(this.amcMasterForm.value, this.amcNo).subscribe(response => {
+    this.amcMasterservice.updateAmcMaster(this.amcMasterForm.value, this.amcNo, this.amcSerialNo).subscribe(response => {
       console.log(response);
       this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.location.back() });
     }, error => {
@@ -197,5 +197,38 @@ export class CreateAmcMasterComponent implements OnInit {
     firstInvalidControl.scrollIntoView({ behavior: 'smooth' });
   }
 
+  //below code lines for getting form controllers for validating
+
+  get startDate(): AbstractControl {
+    return this.amcMasterForm.get('startDate');
+  }
+
+  get frequency(): AbstractControl {
+    return this.amcMasterForm.get('frequency');
+  }
+
+  get exchangeRate(): AbstractControl {
+    return this.amcMasterForm.get('exchangeRate');
+  }
+
+  get totalValue(): AbstractControl {
+    return this.amcMasterForm.get('totalValue');
+  }
+
+  get totalValueLkr(): AbstractControl {
+    return this.amcMasterForm.get('totalValueLkr');
+  }
+
+  get remark(): AbstractControl {
+    return this.amcMasterForm.get('remark');
+  }
+
+  get invDesc(): AbstractControl {
+    return this.amcMasterForm.get('invDesc');
+  }
+
+  get currency(): AbstractControl {
+    return this.amcMasterForm.get('currency.currencyId');
+  }
 
 }

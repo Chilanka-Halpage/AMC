@@ -125,26 +125,25 @@ public class ReportController {
 		return ResponseEntity.status(HttpStatus.OK).body(invoice);
 
 	}
-	
-	//amc reminder for dashboard-----------------------------------
+
+	// amc reminder for dashboard-----------------------------------
 	@GetMapping("/AmcReminders/{Date1}/{Date2}")
-	public int amcreminder(
-			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
-			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2){
-		List<RenewalAmcs> count =  reportService.getRenewalAmcs(Date1, Date2);	
+	public int amcreminder(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
+		List<RenewalAmcs> count = reportService.getRenewalAmcs(Date1, Date2);
 		return count.size();
 	}
-	
-	//expired amc count for dashboard--------------------------------
+
+	// expired amc count for dashboard--------------------------------
 	@GetMapping("/ExpiredAmcscount/{Date1}/{Date2}")
 	public int getExpiredAmcCount(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
-		    List<ExpiredAmc> count = reportService.getExpiredAmcs(Date1, Date2);
-		    return count.size();
+		List<ExpiredAmc> count = reportService.getExpiredAmcs(Date1, Date2);
+		return count.size();
 	}
-	
-	//renewed amc count for dashboard--------------------------------
+
+	// renewed amc count for dashboard--------------------------------
 	@GetMapping("/RenewedAmccount/{Date1}/{Date2}")
 	public int getRenewedAmcCount(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,

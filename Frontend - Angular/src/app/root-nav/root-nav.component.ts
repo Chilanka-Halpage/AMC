@@ -60,14 +60,12 @@ export class RootNavComponent {
     this.dialog.open(MessageComponent);
   }
   ngOnInit(): void {
-
-    console.log(this._authentication.userId)
     this.homedetalis.getImage(this._authentication.userId).subscribe(
       Response =>{
         this.imgSource = Response;
       }
     )
-    this.imageSrc= this.homedetalis.Image(this.userId);
+    this.imageSrc= this.homedetalis.Image(this._authentication.userId);
 
   }
   ClientsDetailsFilter() {
@@ -89,7 +87,7 @@ export class RootNavComponent {
     this.dialog.open(PaymentReportFilterComponent)
   }
   dashboardcheck(){
-    if(this._authentication.role == "ROLE_client"){
+    if(this._authentication.role == "ROLE_CLIENT"){
       this.router.navigate(['/clienthome']);
     }else{
       this.router.navigate(['/adminhome']);

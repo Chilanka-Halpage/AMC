@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itfac.amc.dto.clinetpaymentDto;
 import com.itfac.amc.dto.recieptDto;
 import com.itfac.amc.entity.Receipt;
 import com.itfac.amc.repository.ReceiptRepository;
@@ -70,8 +71,9 @@ public class ReceiptServiceImpl implements ReceiptService {
 	}
 
 	@Override
-	public List<recieptDto> getReceiptbyClientId(int client_id) {
-		return receiptRepository.getReceiptbyClientId(client_id);
+	public List<clinetpaymentDto> getReceiptbyClientId(String user_id) {
+		return receiptRepository.getReceiptbyClientId(user_id);
+		
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.itfac.amc.service.impl;
 
+import java.math.BigDecimal;
 import java.time.Year;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.itfac.amc.Exception.ResourceCreationFailedException;
@@ -14,8 +16,10 @@ import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.dto.AmcMasterDto;
 import com.itfac.amc.dto.AmcMasterSubData;
 import com.itfac.amc.entity.AmcMaster;
+import com.itfac.amc.entity.AmcSerial;
 import com.itfac.amc.entity.Client;
 import com.itfac.amc.repository.AmcMasterRepository;
+import com.itfac.amc.repository.AmcSerialRepository;
 import com.itfac.amc.repository.ClientDepartmentRepository;
 import com.itfac.amc.repository.ClientRepository;
 import com.itfac.amc.service.AmcMasterService;
@@ -25,6 +29,8 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 
 	@Autowired
 	AmcMasterRepository amcMasterRepository;
+	@Autowired
+	AmcSerialRepository amcSerialRepository;
 	@Autowired
 	ClientRepository clientRepository;
 	@Autowired
@@ -76,21 +82,32 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 	}
 
 	@Override
-	public void updateAmcMaster(AmcMaster amcMaster, String amcNo) {
+	public void updateAmcMaster(AmcMaster amcMaster, String amcNo, String amsSerialNo) {
 		AmcMaster amc = amcMasterRepository.findById(amcNo)
 				.orElseThrow(() -> new ResourceNotFoundException("Amc No: " + amcNo + " not found"));
+		AmcSerial amcSerial = amcSerialRepository.findById(amsSerialNo)
+				.orElseThrow(() -> new ResourceNotFoundException("Amc Serial No: " + amsSerialNo + " not found"));
 
 		amc.setStartDate(amcMaster.getStartDate());
 		amc.setActive(amcMaster.isActive());
-		amc.setExchangeRate(amcMaster.getExchangeRate());
 		amc.setTotalValue(amcMaster.getTotalValue());
 		amc.setTotalValueLkr(amcMaster.getTotalValueLkr());
 		amc.setInvDesc(amcMaster.getInvDesc());
 		amc.setRemark(amcMaster.getRemark());
 		amc.setCurrency(amcMaster.getCurrency());
-		amc.setFrequency(amcMaster.getFrequency());
-
+		BigDecimal exchangeRate = amcMaster.getExchangeRate();
+		if (!exchangeRate.equals(amc.getExchangeRate())) {
+			amc.setExchangeRate(exchangeRate);
+			amcSerial.setMtcAmtforfrequencyLkr(amcSerial.getMtcAmtforfrequency().multiply(exchangeRate));
+			amcSerial.setMtcAmtforfrequencyPerItemLkr(amcSerial.getMtcAmtforfrequencyPerItem().multiply(exchangeRate));
+			amcSerial.setMtcAmtPerAnnumLkr(amcSerial.getMtcAmtPerAnnum().multiply(exchangeRate));
+			amcSerial.setMtcAmtPerProductLkr(amcSerial.getMtcAmtPerProduct().multiply(exchangeRate));
+		}
+		String frequency = amcMaster.getFrequency();
+		amc.setFrequency(frequency);
+		amcSerial.setFrequency(frequency);
 		amcMasterRepository.save(amc);
+		amcSerialRepository.save(amcSerial);
 	}
 
 	@Override
@@ -115,4 +132,14 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 		return amcMasterRepository.countAmc();
 	}
 
+	@Override
+	public String countAmcByClient(String userId) {
+		return amcMasterRepository.countAmcByClient(userId);
+	}
+	
+	@Override
+	public String countActiveAmcByClient(String userId) {
+		return amcMasterRepository.countActiveAmcByClient(userId);
+	}
+     
 }

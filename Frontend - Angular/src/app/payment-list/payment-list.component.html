@@ -1,3 +1,9 @@
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      {{errorMessage}}
+  </div>
+</div>
 <div class="w-100 px-3">  
   <h2>Payment History</h2> 
   

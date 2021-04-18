@@ -18,7 +18,7 @@ import com.itfac.amc.service.ImageService;
 @Service
 public class ImageServiceImpl implements ImageService{
 
-    public final String storageDirectoryPath = "C:\\Users\\User\\Desktop\\New folder";
+    public final String storageDirectoryPath = "C:\\Users\\Acer\\Desktop\\New folder";
     public ResponseEntity<String> uploadToLocalFileSystem(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         Path storageDirectory = Paths.get(storageDirectoryPath);

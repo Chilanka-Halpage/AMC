@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClientdashtableComponent } from './clientdashtable.component';
+import { AmcHistoryViewComponent } from './amc-history-view.component';
 
-describe('ClientdashtableComponent', () => {
-  let component: ClientdashtableComponent;
-  let fixture: ComponentFixture<ClientdashtableComponent>;
+describe('AmcHistoryViewComponent', () => {
+  let component: AmcHistoryViewComponent;
+  let fixture: ComponentFixture<AmcHistoryViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ClientdashtableComponent ]
+      declarations: [ AmcHistoryViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ClientdashtableComponent);
+    fixture = TestBed.createComponent(AmcHistoryViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
