@@ -45,6 +45,7 @@ export class RenewedAmcsFilterComponent implements OnInit {
     this.router.navigate(['renewedAmcs',formatteddate2,formatteddate1]);
     this.jrReportDetailsService.RenewedAmcsJrReport(formatteddate2,formatteddate1,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.router.navigate(['renewedAmcs',formatteddate2,formatteddate1]);
     },
       error => {console.log("Error!", error)
     }

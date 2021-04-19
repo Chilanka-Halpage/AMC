@@ -40,8 +40,8 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 	}
 
 	@Override
-	public Optional<ProformaInvoice> getProformaInvoiceById(String piNo) {
-		return proformaInvoiceRepository.findById(piNo);
+	public Optional<ProformaInvoiceDto> getProformaInvoiceById(String piNo) {
+		return proformaInvoiceRepository.getProformaInvoiceById(piNo);
 	}
 
 	@Override

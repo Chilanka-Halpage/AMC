@@ -55,7 +55,8 @@
           <mat-menu #client="matMenu">
             <button mat-menu-item [routerLink]="['user']" *ngIf="_authentication.role === 'ROLE_ADMIN'">New User</button>
             <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' " >Clients</button>
-            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">New client</button>
+            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' ">New client</button>
+            <button mat-menu-item [routerLink]="['loginDetails']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Login Details</button>
           </mat-menu>
       </a> 
       <a mat-list-item (click)="profilepage()" ><mat-icon>settings</mat-icon><span class="button-text">Setting</span>
@@ -84,7 +85,7 @@
       </button>
       <img class="avatar" alt="image" src="{{imageSrc}}" *ngIf="_authentication.loggedIn()">
       <button  mat-button [matMenuTriggerFor]="profile" *ngIf="_authentication.loggedIn()">
-       <span class="button-text" style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>
+       <span class="button-text "   style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>
       </button>      
          <mat-menu #profile="matMenu">
             <button mat-menu-item (click) = "profilepage()" >Profile</button>

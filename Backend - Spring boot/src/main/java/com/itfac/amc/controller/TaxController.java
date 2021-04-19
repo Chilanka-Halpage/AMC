@@ -66,4 +66,10 @@ public class TaxController {
 
 	}
 
+	@GetMapping("exists/{name}")
+	public ResponseEntity<Boolean> existsTax(@PathVariable("name") String taxName) {
+		boolean result = taxService.doesTaxExists(taxName);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
 }

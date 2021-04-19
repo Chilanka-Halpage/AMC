@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit {
     let formatteddate2 = this.datePipe.transform(this.date, "yyyy-MM-dd");
     this.homedetails.Amcreminders(formatteddate1,formatteddate2).subscribe(data=>{
      this.AmcReminders=data
-     console.log(data)
     })
   }
 

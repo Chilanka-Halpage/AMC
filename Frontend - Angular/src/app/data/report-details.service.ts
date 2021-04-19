@@ -10,62 +10,63 @@ import { ClientAmc } from './ClientAmc/client-amc';
 import { ClientPaymentDetails } from './ClientPaymentDetails/client-payment-details';
 import { AllAmcs } from './all-amcs/all-amcs';
 import { ClientDetails } from './client-details/client-details';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportDetailsService {
 
-  private baseURL ="http://localhost:8080";
+  private baseURL =environment.baseServiceUrl;
   constructor( private httpClient: HttpClient ) { }
 
   //All Amcs details
   getAllAmcs(Date1 ,Date2): Observable<AllAmcs[]>{
-    return this.httpClient.get<AllAmcs[]>(`${this.baseURL}/AllAmcs/${Date1}/${Date2}`);
+    return this.httpClient.get<AllAmcs[]>(`${this.baseURL}report/AllAmcs/${Date1}/${Date2}`);
   }
 
   //Client details report
   ClientDetails(Date1 ,Date2): Observable<ClientDetails[]>{
-    return this.httpClient.get<ClientDetails[]>(`${this.baseURL}/AllClients/${Date1}/${Date2}`);
+    return this.httpClient.get<ClientDetails[]>(`${this.baseURL}report/AllClients/${Date1}/${Date2}`);
   }
 
   //full details report
   FullDetails(Date1 ,Date2): Observable<FullDetails[]>{
-    return this.httpClient.get<FullDetails[]>(`${this.baseURL}/FullDeatils/${Date1}/${Date2}`);
+    return this.httpClient.get<FullDetails[]>(`${this.baseURL}report/FullDeatils/${Date1}/${Date2}`);
   }
 
   //Renewal Amcs report
   RenewalAmcsDetails(Date1 ,Date2): Observable<RenewalAmcs>{
-    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}/RenewalAmcs/${Date1}/${Date2}`);
+    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}report/RenewalAmcs/${Date1}/${Date2}`);
   }
 
   //Renewed Amcs report
   RenewedAmcsDetails(Date1 ,Date2): Observable<RenewedAmcs>{
-    return this.httpClient.get<RenewedAmcs>(`${this.baseURL}/RenewedAmcs/${Date1}/${Date2}`);
+    return this.httpClient.get<RenewedAmcs>(`${this.baseURL}report/RenewedAmcs/${Date1}/${Date2}`);
   }
 
   //Expired Amcs report
   ExpiredAmcsDetails(Date1 ,Date2): Observable<ExpiredAmcs[]>{
-    return this.httpClient.get<ExpiredAmcs[]>(`${this.baseURL}/ExpiredAmcs/${Date1}/${Date2}`);
+    return this.httpClient.get<ExpiredAmcs[]>(`${this.baseURL}report/ExpiredAmcs/${Date1}/${Date2}`);
   }
 
   //Payments Details report
   PaymentDetails(Date1 ,Date2): Observable<PaymentsDetails[]>{
-    return this.httpClient.get<PaymentsDetails[]>(`${this.baseURL}/PaymentReport/${Date1}/${Date2}`);
+    return this.httpClient.get<PaymentsDetails[]>(`${this.baseURL}report/PaymentReport/${Date1}/${Date2}`);
   }
 
   //Quarter wise revenue report
   QuarterWiseRevenue(date1): Observable<any[]>{
-    return this.httpClient.get<any[]>(`${this.baseURL}/QuarterWiseRevenue/${date1}`);
+    return this.httpClient.get<any[]>(`${this.baseURL}report/QuarterWiseRevenue/${date1}`);
   }
 
   //Amc report for client
   ClientAmc(userId): Observable<ClientAmc>{
-    return this.httpClient.get<ClientAmc>(`${this.baseURL}/ClientAmc/${userId}`);
+    return this.httpClient.get<ClientAmc>(`${this.baseURL}report/client/ClientAmc/${userId}`);
   }
 
   //Payment Report for client
   ClientPayment(userId): Observable<ClientPaymentDetails>{
-    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}/ClientAmc/${userId}`);
+    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}report/client/ClientAmc/${userId}`);
   }
 }

@@ -16,7 +16,7 @@ public interface ProformaInvoiceService {
 
 	void deleteInvoice(String piNo);
 
-	Optional<ProformaInvoice> getProformaInvoiceById(String piNo);
+	Optional<ProformaInvoiceDto> getProformaInvoiceById(String piNo);
 
 	void addProformaInvoice(HttpServletRequest httpServletRequest, ProformaInvoice proformaInvoice);
 

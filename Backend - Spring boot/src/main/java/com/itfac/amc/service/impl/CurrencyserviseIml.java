@@ -45,5 +45,10 @@ public class CurrencyserviseIml implements Currencyservice{
 	public List<Currency> getActivecurrencies() {
 		return currencyRepository.getActivecurrencies();
 	}
+	
+	@Override
+	public boolean doesCurrencyExists(String currencyName) {
+		return currencyRepository.existsByCurrencyName(currencyName);
+	}
 
 }

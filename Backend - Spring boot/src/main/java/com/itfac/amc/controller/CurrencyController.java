@@ -60,5 +60,11 @@ public class CurrencyController {
 	public List<Currency> getActivecurrencies() {
 		return currencyservice.getActivecurrencies();
 	}
+	
+	@GetMapping("exists/{name}")
+	public ResponseEntity<Boolean> existsCurrency(@PathVariable("name") String currencyName) {
+		boolean result = currencyservice.doesCurrencyExists(currencyName);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 
 }

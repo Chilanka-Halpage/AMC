@@ -15,7 +15,7 @@ import com.itfac.amc.reportData.NotificationView;
 @Repository
 public interface NotificationRepository  extends JpaRepository<Client, Integer> {
 
-	@Query(value = "SELECT * FROM notificationview WHERE user_id= :user_id", nativeQuery = true)
+	@Query(value = "SELECT * FROM notificationview WHERE user_id= :user_id ORDER BY saved_date DESC", nativeQuery = true)
 	List<NotificationView> getNotification(@Param("user_id") String user_id);
 	
 	@Query(value = "SELECT count(*) FROM notificationview WHERE user_id=:user_id And is_read=true", nativeQuery = true)
@@ -24,4 +24,6 @@ public interface NotificationRepository  extends JpaRepository<Client, Integer> 
 	@Modifying
 	@Query(value = "update notification set is_read=FALSE where user_id =:user_id", nativeQuery = true)
 	 void updateIsRead(@Param("user_id") String user_id);
+
+	Notification save(Notification notification);
 }

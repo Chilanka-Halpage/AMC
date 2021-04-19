@@ -57,6 +57,11 @@ public class TaxServiceImpl implements TaxService{
 	public List<Tax> getActiveTax() {		
 		return taxRepository.getActivetax();
 	}
+
+	@Override
+	public boolean doesTaxExists(String taxName) {
+		return taxRepository.existsByTaxName(taxName);
+	}
 }
 
 

@@ -20,4 +20,6 @@ public interface TaxService {
 	Tax updateTax(HttpServletRequest httpServletRequest, Tax tax);
 	
 	List<Tax> getActiveTax();
+	
+	boolean doesTaxExists(String taxName);
 }

@@ -1,6 +1,6 @@
- <div class="container-md mb-4">   
+<div class="container-md mb-4">   
     <div class="jumbotron mb-3">
-        <h2>Add New Invoice</h2>
+        <h2>Edit Invoice</h2>
         <p>Proforma Invoice Details</p>
     </div>
     <br>
@@ -76,12 +76,7 @@
                  </div>     
                  <div formGroupName="category" >    
                     <mat-form-field appearance="outline" class="col pl-2">
-                      <mat-label>category</mat-label>
-                      <mat-select formControlName="categoryId">
-                        <mat-option *ngFor="let category of categoryList" [value]="category.categoryId">
-                            {{category.categoryName}}
-                        </mat-option>
-                    </mat-select>      
+                      <mat-label>category</mat-label>   
                     </mat-form-field> 
                  </div> 
                  <div formGroupName="amcMaster">
@@ -94,22 +89,12 @@
                       <mat-form-field appearance="outline" class="col pl-2">
                       <mat-label>
                        currency Id</mat-label>
-                       <mat-select formControlName="currencyId">
-                        <mat-option *ngFor="let currency of currencyList" [value]="currency.currencyId">
-                            {{currency.currencyName}}
-                        </mat-option>
-                    </mat-select>  
                       </mat-form-field> 
                   </div>  
                  <div formGroupName="frequency" >    
                       <mat-form-field appearance="outline" class="col pl-2">
                       <mat-label>
-                      frequency Id</mat-label>
-                     <mat-select formControlName="frequencyId">
-                      <mat-option *ngFor="let frequency of  frequencyList" [value]="frequency.frequencyId">
-                          {{frequency.frequency}}
-                      </mat-option>
-                  </mat-select>     
+                      frequency Id</mat-label>   
                      </mat-form-field> 
                  </div>  
                </div> 

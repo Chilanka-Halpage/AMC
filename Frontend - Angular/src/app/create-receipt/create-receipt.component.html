@@ -2,16 +2,14 @@
     
     <div class="jumbotron mb-3">
         <h2>Create Receipt</h2>
+        <p>New Receipt and Payment details</p>
     </div>
-    <br>
-    <div class="card background-color">
-      
-            <div class="d-flex flex-row-reverse my-0 py-3 pr-2">  
-            <button  mat-raised-button class="btn btn-primary mr-2" (click)="goTopaymentlist()" >History</button>
-            </div>
-        
+    <div class="d-flex flex-row-reverse my-0 py-3 ">  
+      <button  mat-raised-button class="btn btn-primary mr-2" (click)="goTopaymentlist()" >History</button>
+      </div>
+    <div class="card background-color">      
         <div class="container pt-3">
-            <h6>Receipt Details</h6>
+            <h5>Receipt Details</h5>
             <mat-divider class="mat-divider"></mat-divider>
             <br/>
             <form [formGroup]="addReceiptForm" (ngSubmit)="onSubmit()">
@@ -71,7 +69,7 @@
                   </mat-form-field>
                   </div>
                   <br>
-                  <h6>Other Details</h6>
+                  <h5>Other Details</h5>
                  <!--  details for joined tables -->
                   <mat-divider class="mat-divider"></mat-divider>
                   <br />

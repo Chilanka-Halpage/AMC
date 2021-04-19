@@ -22,21 +22,22 @@ export class PaymentReportFilterComponent implements OnInit {
   ) { }
 
   
-  allAmcFilter = this.fb.group({
+  paymentReportsFilter = this.fb.group({
     date1: [''],
     date2: ['']
   });
   ngOnInit(): void {}
   onSubmit(){
-    let date1 = this.allAmcFilter.value.date1;
-    let date2 = this.allAmcFilter.value.date2;
+    let date1 = this.paymentReportsFilter.value.date1;
+    let date2 = this.paymentReportsFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
-    this.router.navigate(['paymentDetails',formatteddate1,formatteddate2]);
+    //this.router.navigate(['paymentDetails',formatteddate1,formatteddate2]);
     console.log(formatteddate1);
     console.log(formatteddate2);
     this.jrReportDetailsService.PaymentsDetailsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.router.navigate(['paymentDetails',formatteddate1,formatteddate2]);
     },
       error => {console.log("Error!", error)
     });
