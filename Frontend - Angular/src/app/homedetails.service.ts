@@ -28,15 +28,15 @@ export class HomedetailsService {
   }
 
   Amcreminders(Date1 ,Date2): Observable<any>{
-    return this.HttpClient.get<any>(`${this.baseURL}AmcReminders/${Date1}/${Date2}`);
+    return this.HttpClient.get<any>(`${this.baseURL}report/AmcReminders/${Date1}/${Date2}`);
   }
 
   RenewedAmcscount(Date1 ,Date2): Observable<any>{
-    return this.HttpClient.get<any>(`${this.baseURL}RenewedAmccount/${Date1}/${Date2}`,{responseType : 'text' as 'json'});
+    return this.HttpClient.get<any>(`${this.baseURL}report/RenewedAmccount/${Date1}/${Date2}`,{responseType : 'text' as 'json'});
   }
  
  expiredamcCount(Date1 ,Date2): Observable<any>{
-  return this.HttpClient.get<any>(`${this.baseURL}ExpiredAmcscount/${Date1}/${Date2}`,{responseType : 'text' as 'json'});
+  return this.HttpClient.get<any>(`${this.baseURL}report/ExpiredAmcscount/${Date1}/${Date2}`,{responseType : 'text' as 'json'});
  }
 
  lastyearrevanue(Date1 ,Date2): Observable<any>{

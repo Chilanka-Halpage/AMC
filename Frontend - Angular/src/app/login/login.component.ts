@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
   
     this.error = '';
     if (this.loginForm.valid) {
-      this.http.post<any>('http://localhost:8086/authenticate', this.loginForm.value).subscribe(
+      this.http.post<any>('http://localhost:8080/authenticate', this.loginForm.value).subscribe(
         response => {            
             const currentUser = {
               token: response.jwt,
