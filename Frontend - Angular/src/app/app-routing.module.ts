@@ -139,6 +139,7 @@ const routes: Routes = [
   { path: 'notification/:userId', component: NotificationComponent,canActivate: [AuthenticationGuard]},//all
   { path: 'clientPaymentReport/:userId', component: ClientPaymentDetailsComponent,canActivate: [AuthenticationGuard,AccountantGuard,AmccordinatorGuard] },//client
   { path: 'quarterWiseRevenueReport/:date1', component: QuarterWiseRevenueReportComponent,canActivate: [AuthenticationGuard,ClientGuard]},//admin,amc cordinater,accountant
+  { path: 'loginDetails', component:LoginDetailsComponent,canActivate: [AuthenticationGuard]},
 ];
 
 @NgModule({
