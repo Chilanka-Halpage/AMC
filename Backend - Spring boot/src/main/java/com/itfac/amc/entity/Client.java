@@ -51,7 +51,7 @@ public class Client extends Auditable {
 
 	@Column(name = "last_modified_ip", length = 20)
 	private String lastModifiedIp;
-	
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "client_fk"))
 	@JsonIgnore
