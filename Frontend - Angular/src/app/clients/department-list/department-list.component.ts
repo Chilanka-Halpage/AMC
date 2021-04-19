@@ -34,8 +34,8 @@ export class DepartmentListComponent implements OnInit {
   public resultsLength = 0;
   public isLoadingResults = true;
   public isRateLimitReached = false;
-  public isAuthorized: boolean;
-
+  public isAuthorized = false;
+  public isBlocked = false;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -47,13 +47,18 @@ export class DepartmentListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isAuthorized = (this.authService.role === 'ROLE_admin') ? true : false;
-    this.activatedRoute.queryParams.subscribe(params => {
-      let value = JSON.parse(params["data"]);
-      this.clientId = value.id;
-      this.clientName = value.name;
-      this.loadDeptList(this.clientId);
-    });
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
+    if (this.authService.role === 'ROLE_CLIENT') {
+      this.isBlocked = true;
+      this.loadDeptListForClient(this.authService.userId);
+    } else {
+      this.activatedRoute.queryParams.subscribe(params => {
+        let value = JSON.parse(params["data"]);
+        this.clientId = value.id;
+        this.clientName = value.name;
+        this.loadDeptList(this.clientId);
+      });
+    }
   }
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -71,14 +76,27 @@ export class DepartmentListComponent implements OnInit {
     }, error => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      console.log(error);
+    })
+  }
+
+  loadDeptListForClient(userId: string): void {
+    this.isLoadingResults = true;
+    this.clientService.getDepartmentsByUserId(userId).subscribe(response => {
+      this.isLoadingResults = false;
+      this.dataSource = new MatTableDataSource(response);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.resultsLength = this.dataSource.data.length;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
     })
   }
 
   onCreate(): void {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        data: JSON.stringify({type: '%DC4%'})
+        data: JSON.stringify({ type: '%DC4%' })
       }
     };
     this.router.navigate(['client/' + this.clientId + '/dept/new'], navigationExtras);
@@ -116,9 +134,10 @@ export class DepartmentListComponent implements OnInit {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "data": JSON.stringify({
-          "cname": this.clientName,
-          "did": row.deptId,
-          "dname": row.departmentName
+          cid: this.clientId,
+          cname: this.clientName,
+          did: row.deptId,
+          dname: row.departmentName
         })
       }
     };

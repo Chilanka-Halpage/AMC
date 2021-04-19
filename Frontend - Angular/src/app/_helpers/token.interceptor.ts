@@ -1,7 +1,9 @@
+import { catchError } from 'rxjs/operators';
 import {Injectable, Injector} from '@angular/core';
 import {HttpInterceptor, HttpRequest} from '@angular/common/http';
 
 import {AuthenticationService} from './authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ import {AuthenticationService} from './authentication.service';
 export class TokenInterceptor implements HttpInterceptor {
 
   constructor(
-    private injector: Injector,
+    private injector: Injector
   ) { }
 
   intercept(request: HttpRequest<any>, next: any): any {
@@ -19,10 +21,10 @@ export class TokenInterceptor implements HttpInterceptor {
     if (currentUser) {
       request = request.clone({
         setHeaders: {
-          Authentication: `Bearer ${currentUser}`
+          Authorization: `Bearer ${currentUser}`
         }
       });
     }
-    return next.handle(request);
+    return next.handle(request)
   }
 }
