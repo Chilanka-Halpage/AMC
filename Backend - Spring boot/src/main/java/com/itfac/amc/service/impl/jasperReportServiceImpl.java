@@ -212,13 +212,17 @@ public class jasperReportServiceImpl implements JasperReportService{
 	public ResponseEntity<String> QuarterWiseRevenueJrReport(LocalDate date1,String userId) throws FileNotFoundException, JRException{
 		LocalDate date2 = date1.plusMonths(3);
 		BigDecimal q1=amcSerialRepository.getRevanue(date1, date2);
-		System.out.println(q1);
 		LocalDate date3 = date2.plusMonths(3);
 		BigDecimal q2=amcSerialRepository.getRevanue(date2, date3);
 		LocalDate date4 = date3.plusMonths(3);
 		BigDecimal q3=amcSerialRepository.getRevanue(date3, date4);
 		LocalDate date5 = date4.plusMonths(3);
 		BigDecimal q4=amcSerialRepository.getRevanue(date4, date5);
+		System.out.println(date1);
+		System.out.println(date2);
+		System.out.println(date3);
+		System.out.println(date4);
+		System.out.println(date5);
 //		List<Map<String, Object>> report = new ArrayList<>();
 		Map<String, Object> parameter = new HashMap<>();
 		parameter.put("q1", q1);

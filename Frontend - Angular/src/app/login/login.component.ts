@@ -49,8 +49,7 @@ export class LoginComponent implements OnInit {
   
     this.error = '';
     if (this.loginForm.valid) {
-      this.isLoadingResults=true
-      this.http.post<any>('http://localhost:8080/authenticate', this.loginForm.value).subscribe(
+      this.http.post<any>('http://localhost:8086/authenticate', this.loginForm.value).subscribe(
         response => {            
             const currentUser = {
               token: response.jwt,
@@ -59,7 +58,7 @@ export class LoginComponent implements OnInit {
               userId: response.userId
             }
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-             if (response.role == "ROLE_ADMIN" || response.role == "ROLE_AMC_COORDINATOR" || response.role == "ROLE_ACCOUNTANT") {
+             if (response.role == "ROLE_ADMIN") {
               this.router.navigate(['/adminhome']);
              } else if(response.role == "ROLE_CLIENT"){
               this.router.navigate(['/clienthome']);

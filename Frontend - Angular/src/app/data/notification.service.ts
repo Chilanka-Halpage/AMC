@@ -11,14 +11,14 @@ export class NotificationService {
   constructor( private httpClient: HttpClient ) { }
 
   getNotification(userId): Observable<Notification>{
-    return this.httpClient.get<Notification>(`${this.baseURL}/getNotification/${userId}`);
+    return this.httpClient.get<Notification>(`${this.baseURL}/notification/getNotification/${userId}`);
   }
   getNotificationNo(userId): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseURL}/getNotificationNo/${userId}`);
+    return this.httpClient.get<any>(`${this.baseURL}/notification/getNotificationNo/${userId}`);
   }
 
   updateIsRead(userId : String): Observable<any> {
-    return this.httpClient.put(`${this.baseURL}/notificationIsRead/${userId}`, {
+    return this.httpClient.put(`${this.baseURL}/notification/notificationIsRead/${userId}`, {
       responseType: 'text' as 'json'
     }
     );

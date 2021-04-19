@@ -22,12 +22,15 @@ export class QuarterWiseRevenueReportComponent implements OnInit {
   ) { }
 
   date1: any;
+  date2: any;
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
       this.date1 = params.get('date1');
-      console.log(this.date1);
+      console.log(this.date1); 
+      this.date2.setMonth(this.date1.getMonth() + 12);
       this.QuarterWiseRevenue(this.date1);
+     
     });
   }
   QuarterWiseRevenue(date1) {

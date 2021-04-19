@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.JRException;
 
 @CrossOrigin(origins = "*")
 @RestController
-
+@RequestMapping("/jrReport")
 public class JrReportController {
 
 	@Autowired
@@ -38,7 +38,7 @@ public class JrReportController {
 	@Autowired
 	AmcSerialRepository amcSerialRepository;
 	
-	@RequestMapping("/viewPdf/{userId}")
+	@GetMapping("/viewPdf/{userId}")
 	public ResponseEntity<Resource> viewPdf(@PathVariable(value = "userId") String userId, HttpServletRequest request)throws Exception {
 		return jasperReportService.viewPdf(userId,request);
 	}
@@ -115,7 +115,7 @@ public class JrReportController {
 	}
 	
 	//AMC Report for client
-	@GetMapping("/ClientAmcReport/{userId}")
+	@GetMapping("/client/ClientAmcReport/{userId}")
 	public ResponseEntity<String> ClientAmc(
 			@PathVariable(value = "userId") String userId)
 			throws FileNotFoundException, JRException {
@@ -123,7 +123,7 @@ public class JrReportController {
 	}
 	
 	//Payment report for client
-	@GetMapping("/ClientPaymentsJrReport/{userId}")
+	@GetMapping("/client/ClientPaymentsJrReport/{userId}")
 	public ResponseEntity<String> ClientPaymentReport(
 			@PathVariable(value = "userId") String userId)
 			throws FileNotFoundException, JRException {
