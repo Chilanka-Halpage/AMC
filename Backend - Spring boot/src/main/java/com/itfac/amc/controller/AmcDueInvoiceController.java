@@ -59,13 +59,10 @@ public class AmcDueInvoiceController {
 		amcDueInvoiceService.updateAmcDueInvoice(amcDueInvoice);
 		return ResponseEntity.ok("Succesfully edited");
 	}
-<<<<<<< HEAD
-=======
 
 	@GetMapping("settled")
 	public List<DueInvoiceDto> settled() {
 		return amcDueInvoiceService.settled();
 	}
->>>>>>> 1f6024e9948f0afb60c7ba9f2bf64a5666adc762
 
 }

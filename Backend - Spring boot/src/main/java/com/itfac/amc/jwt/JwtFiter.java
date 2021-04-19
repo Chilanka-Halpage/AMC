@@ -36,30 +36,21 @@ public class JwtFiter extends OncePerRequestFilter {
 		String userId = null;
 		String jwt = null;
 
-		try {
-
-			if (header != null && header.startsWith("Bearer ")) {
-				jwt = header.substring(7);
-				userId = jwtUtil.extractUserId(jwt);
-			}
-
-			if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-				MyUserDetails userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(userId);
-				if (jwtUtil.validateToken(jwt, userDetails)) {
-					UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails,
-							null, userDetails.getAuthorities());
-					token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-					SecurityContextHolder.getContext().setAuthentication(token);
-				}
-			}
-		} catch (ExpiredJwtException ex) {
-			System.out.println("BBB");
-			request.setAttribute("exception", ex);
-			throw ex;
-		} catch (BadCredentialsException ex) {
-			request.setAttribute("exception", ex);
-			throw ex;
+		if (header != null && header.startsWith("Bearer ")) {
+			jwt = header.substring(7);
+			userId = jwtUtil.extractUserId(jwt);
 		}
+
+		if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			MyUserDetails userDetails = (MyUserDetails) userDetailsService.loadUserByUsername(userId);
+			if (jwtUtil.validateToken(jwt, userDetails)) {
+				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null,
+						userDetails.getAuthorities());
+				token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+				SecurityContextHolder.getContext().setAuthentication(token);
+			}
+		}
+
 		filterChain.doFilter(request, response);
 
 	}

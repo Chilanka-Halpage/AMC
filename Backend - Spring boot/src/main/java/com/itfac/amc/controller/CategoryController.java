@@ -29,16 +29,9 @@ public class CategoryController {
 	CategoryService categoryservice;
 
 	@GetMapping("findAllCategory")
-<<<<<<< HEAD
-	public List<Category> getallctegory() {
-		return categoryservice.getAllCategory();
-=======
-
 	public ResponseEntity<List<Category>> getallctegory() {
 		List<Category> allCategory = categoryservice.getAllCategory();
 		return ResponseEntity.status(HttpStatus.OK).body(allCategory);
->>>>>>> 1f6024e9948f0afb60c7ba9f2bf64a5666adc762
-
 	}
 
 	@GetMapping("findAllCategory/{id}")
@@ -52,29 +45,12 @@ public class CategoryController {
 				.body(categoryByIdd);
 	}
 
-<<<<<<< HEAD
-	@RequestMapping(method = RequestMethod.DELETE, value = "deleteCategory/{id}")
-	public void deleteCategory(@PathVariable("id") int categoryId) {
-		categoryservice.deleteCategory(categoryId);
-	}
-
-	@PostMapping("AddCategory")
-	public Category AddCategory(@Validated @RequestBody Category category) {
-		return categoryservice.AddCategory(category);
-
-	}
-
-	@PutMapping("UpdateCategory/{id}") // UpdateCategory
-	public Category updateCategory(@PathVariable("id") int categoryId, @Validated @RequestBody Category category) {
-=======
 	@DeleteMapping("deleteCategory/{id}")
-
 	public ResponseEntity<String> deleteCategory(@PathVariable("id") int categoryId) {
 		return ResponseEntity.badRequest().body("not deleted");
 	}
 
 	@PostMapping("AddCategory")
-
 	public ResponseEntity<String> AddCategory(@Validated @RequestBody Category category) {
 		categoryservice.AddCategory(category);
 		return ResponseEntity.status(HttpStatus.OK).body("added successfull");
@@ -82,10 +58,7 @@ public class CategoryController {
 	}
 
 	@PutMapping("UpdateCategory/{id}")
-
 	public ResponseEntity<String> updateCategory(@PathVariable("id") int categoryId, @RequestBody Category category) {
->>>>>>> 1f6024e9948f0afb60c7ba9f2bf64a5666adc762
-
 		category.setCategoryId(categoryId);
 		categoryservice.updateCategory(category);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");

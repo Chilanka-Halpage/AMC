@@ -26,10 +26,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 		// If yes then use it to create the response message else use the authException
 		if (exception != null) {
-			System.out.println("CCC");
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,exception.toString());
 		} else {
-			System.out.println("DDD");
 			if (authException.getCause() != null) {
 				message = authException.getCause().toString() + " " + authException.getMessage();
 			} else {
