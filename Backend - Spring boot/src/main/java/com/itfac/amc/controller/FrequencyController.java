@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.entity.Frequency;
-import com.itfac.amc.entity.Product;
 import com.itfac.amc.service.FrequencyService;
 
 @RestController

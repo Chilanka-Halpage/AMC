@@ -73,7 +73,7 @@ public class AmcSerialController {
 	}
 
 	@GetMapping("/download/{fileName}")
-	ResponseEntity<Resource> downLoadSingleFile(@PathVariable String fileName, HttpServletRequest request) {
+	ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
 		Resource resource = fileStorageService.downloadFile(fileName);
 		String mimeType;
 		try {

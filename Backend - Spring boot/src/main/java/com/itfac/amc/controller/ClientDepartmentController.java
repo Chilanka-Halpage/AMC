@@ -34,6 +34,11 @@ public class ClientDepartmentController {
 		return clientDepartmentService.getDepartmentsByClientId(id);
 	}
 
+	@GetMapping("client/{userId}/departments")
+	public List<ClientDepartment> getAllDepartmentsByUserId(@PathVariable(value = "userId") String id) {
+		return clientDepartmentService.getDepartmentsByUserId(id);
+	}
+
 	@GetMapping("exists/{clientId}/{deptName}")
 	public ResponseEntity<Boolean> existsDept(@PathVariable("clientId") int clientId,
 			@PathVariable("deptName") String deptName) {
@@ -59,7 +64,8 @@ public class ClientDepartmentController {
 
 	@PutMapping("edit/{clientId}/{deptId}")
 	public ResponseEntity<String> updateDepartmentByClientId(HttpServletRequest httpServletRequest,
-			 @RequestBody ClientDepartment dept, @PathVariable("clientId") int clientId, @PathVariable("deptId") int deptId) {
+			@RequestBody ClientDepartment dept, @PathVariable("clientId") int clientId,
+			@PathVariable("deptId") int deptId) {
 		this.clientDepartmentService.updateDepartment(httpServletRequest, dept, clientId, deptId);
 		return ResponseEntity.status(HttpStatus.OK).body("Modified Succesfully!");
 	}

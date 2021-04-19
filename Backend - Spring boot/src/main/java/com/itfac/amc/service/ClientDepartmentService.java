@@ -37,9 +37,10 @@ public interface ClientDepartmentService {
 	 * @return
 	 */
 	Map<String, String> addDepartmentAndClient(ClientDepartment department, HttpServletRequest httpServletRequest);
-	
+
 	/**
-	 * Modify clientDepartment data and throw ResourceNotFoundException if clientDepartment is not available to modify
+	 * Modify clientDepartment data and throw ResourceNotFoundException if
+	 * clientDepartment is not available to modify
 	 * 
 	 * @param httpServletRequest
 	 * @param department
@@ -57,5 +58,7 @@ public interface ClientDepartmentService {
 	 * @return
 	 */
 	boolean doesDeptExists(int clientId, String deptName);
+
+	List<ClientDepartment> getDepartmentsByUserId(String id);
 
 }

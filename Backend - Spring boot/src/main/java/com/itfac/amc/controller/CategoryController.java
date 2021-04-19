@@ -29,14 +29,12 @@ public class CategoryController {
 	CategoryService categoryservice;
 
 	@GetMapping("findAllCategory")
-
 	public List<Category> getallctegory() {
 		return categoryservice.getAllCategory();
 
 	}
 
 	@GetMapping("findAllCategory/{id}")
-
 	ResponseEntity<Optional<Category>> getCategoryById(@PathVariable("id") int categoryId) {
 		Optional<Category> categoryByIdd = categoryservice.getCategoryById(categoryId);
 
@@ -48,20 +46,17 @@ public class CategoryController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "deleteCategory/{id}")
-
 	public void deleteCategory(@PathVariable("id") int categoryId) {
 		categoryservice.deleteCategory(categoryId);
 	}
 
 	@PostMapping("AddCategory")
-
 	public Category AddCategory(@Validated @RequestBody Category category) {
 		return categoryservice.AddCategory(category);
 
 	}
 
 	@PutMapping("UpdateCategory/{id}") // UpdateCategory
-
 	public Category updateCategory(@PathVariable("id") int categoryId, @Validated @RequestBody Category category) {
 
 		category.setCategoryId(categoryId);
@@ -69,7 +64,6 @@ public class CategoryController {
 	}
 
 	@GetMapping("findActiveCategoy")
-
 	public List<Category> getActiveCategory() {
 		return categoryservice.getActiveCategory();
 
