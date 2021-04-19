@@ -40,7 +40,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.anyRequest().permitAll()
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.addFilterBefore(jwtFiter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(jwtFiter, UsernamePasswordAuthenticationFilter.class).cors();
 	}
 	
 	@Bean
