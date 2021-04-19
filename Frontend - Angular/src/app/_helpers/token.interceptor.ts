@@ -20,11 +20,7 @@ export class TokenInterceptor implements HttpInterceptor {
     if (currentUser) {
       request = request.clone({
         setHeaders: {
-<<<<<<< HEAD
           Authorization: `Bearer ${currentUser}`
-=======
-          Authorization: `Bearer ${currentUser}`,
->>>>>>> 1f6024e9948f0afb60c7ba9f2bf64a5666adc762
         }
       });
     }
