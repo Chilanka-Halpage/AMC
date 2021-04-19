@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.itfac.amc.entity.Currency;
 
-
 public interface Currencyservice {
 
 	List<Currency> getAllCurrency();
@@ -19,5 +18,7 @@ public interface Currencyservice {
 	Currency addCurrency(HttpServletRequest httpServletRequest, Currency currency);
 
 	List<Currency> getActivecurrencies();
-	
+
+	boolean doesCurrencyExists(String name);
+
 }
