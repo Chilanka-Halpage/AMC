@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {FormGroup,FormControl,FormBuilder, Validators} from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-productlist',
@@ -19,19 +20,18 @@ export class ProductlistComponent implements OnInit {
   productAddForm: FormGroup;
   submitted = false;
   id: number;
-  showMe:boolean=false
-  showMe2:boolean=false
+  edit=false;
   filterValue: string;
   listData: MatTableDataSource<any>;
   searchKey:string;
-  
-  
-
-  
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  pagesize = 20;
+  public dataSavingProgress = false;
+  public resultsLength = 0;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  popoverTitle = 'Delete Row';
+  popoverMessage = 'Are you sure to want to Delete ?';
+  confirmClicked = false;
+  cancelClicked = false;
   
 
   constructor(
@@ -39,7 +39,8 @@ export class ProductlistComponent implements OnInit {
     private _service: ProductserviceService,
     private router: Router,
     private formBuilder:FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notificationService: NotificationService
     ) { }
 
   displayedColumns: string[] = [
@@ -71,12 +72,15 @@ export class ProductlistComponent implements OnInit {
        this.listData = new MatTableDataSource(list);
        this.listData.sort= this.sort;
        this.listData.paginator=this.paginator;
-        
+       this.isLoadingResults = false;
       });
   }
-  
+  editProductsList(id){
+    this.router.navigate(['productlist', id]);
+  }
 
   editProductList(row) {
+    this.edit=true;
     console.log(row);
     this.productAddForm.patchValue({
     productName: row.productName,
@@ -88,21 +92,32 @@ export class ProductlistComponent implements OnInit {
     this._service.deleteProduct(id)
       .subscribe(
         data => {
+          this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
           console.log(data);
           
         },
-        error => console.log(error));
+        error => {
+          console.log(error);
+          this.notificationService.showNoitfication('Cannot proceed the request.', 'OK', 'error', null);
+        }).add(()=>this.dataSavingProgress=false);
   }
 
  
 
   save() {
+    this.dataSavingProgress = true;
     this._service
     .createProduct(this.productAddForm.value).subscribe(data => {
+      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
+      this.dataSavingProgress = false;
       console.log(data)
-      this.showTag()
+      
     }, 
-    error => console.log(error));
+    error => {
+      console.log(error);
+      let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+      this.notificationService.showNoitfication(message, 'OK', 'error', null);
+    }).add(()=>this.dataSavingProgress=false)
   }
 
   onSubmit() {
@@ -110,23 +125,35 @@ export class ProductlistComponent implements OnInit {
     this.submitted = true;
     this.save();    
   }
-
- 
-
-  showTag(){
-    this.showMe=!this.showMe
+  reload(){
+    this._service.getProductList().subscribe(
+      list => {
+       this.listData = new MatTableDataSource(list);
+       this.listData.sort= this.sort;
+       this.listData.paginator=this.paginator;
+        
+      });
+      this.resetForm();
   }
-  showTag2(){
-    this.showMe2=!this.showMe2
+  resetForm(): void {
+    this.productAddForm.reset();
   }
+
 
   onEdit(){
+    this.dataSavingProgress = true;
     this._service.updateProduct(this.route.snapshot.params.id,this. productAddForm.value).subscribe(
       (result)=>{
-        console.log(result,"data updated successfull")
-      }
-    )
-    this.showTag2()
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
+        this.dataSavingProgress = false;
+        console.log(result);
+      }, error => {
+        console.log(error);
+        let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+        this.notificationService.showNoitfication(message, 'OK', 'error', null);
+      }).add(()=>this.dataSavingProgress=false)
+    
+    
   }
 
 

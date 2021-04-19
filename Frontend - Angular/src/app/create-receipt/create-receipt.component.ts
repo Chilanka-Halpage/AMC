@@ -1,7 +1,8 @@
+import { Category } from './../Model/category';
 import { PaymentService } from './../payment.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 
 @Component({
   selector: 'app-create-receipt',
@@ -12,6 +13,13 @@ export class CreateReceiptComponent implements OnInit {
 
   /*  payment: Payment = new Payment(); */
   showme: boolean = false;
+  
+  invoiceList = [];
+  categoryList = [];
+  currencyList = [];
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +60,7 @@ export class CreateReceiptComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.loadSelectionData()
   }
 
   saveReceipt() {
@@ -74,6 +83,32 @@ export class CreateReceiptComponent implements OnInit {
   Showtoggle() {
     this.showme = !this.showme
   }
-
+  private loadSelectionData() {
+    let currencListLoad = false,categoryListLoad = false, invoiceListLoad = false;
+    this.paymentService.getactiveCurrency().subscribe(response => {
+      this.currencyList = response;
+      this.isLoadingResults = ((currencListLoad = true) &&  categoryListLoad && invoiceListLoad) ? false : true  ;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
+    });
+    this.paymentService.getCategory().subscribe(response => {
+      this.categoryList = response;
+      this.isLoadingResults = ((categoryListLoad = true) && currencListLoad) ? false : true;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
+    });
+    this.paymentService.getActiveInvoices().subscribe(response => {
+      this.invoiceList = response;
+      this.isLoadingResults = ((invoiceListLoad = true) && currencListLoad) ? false : true;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
+    });
+  }
 
 }

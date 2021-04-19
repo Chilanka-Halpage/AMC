@@ -1,4 +1,12 @@
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      {{errorMessage}}
+  </div>
+</div>
 <section>
+  
+
   <mat-card>
     <mat-card-content>
 
@@ -28,7 +36,7 @@
             </mat-error>
           </mat-form-field>
 
-          <a class="text-link" class="aLink" routerLink="">Forgot Password?</a>
+          <a class="text-link" class="aLink" routerLink="forgetPassword" routerLinkActive="active">Forgot Password?</a>
 
         </div>
         <div class="button">

@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.dto.ProformaInvoiceDto;
+import com.itfac.amc.entity.AmcDueInvoice;
 import com.itfac.amc.entity.ProformaInvoice;
 import com.itfac.amc.service.ProformaInvoiceService;
 
@@ -37,10 +39,10 @@ public class ProformaInvoiceController {
 	}
 
 	@PostMapping("/add")
-	ResponseEntity<ProformaInvoice> addProformInvoice(HttpServletRequest httpServletRequest,
+	ResponseEntity<String> addProformInvoice(HttpServletRequest httpServletRequest,
 			@RequestBody ProformaInvoice proformaInvoice) throws Exception {
-		ProformaInvoice newInvoice = proformaInvoiceService.addProformaInvoice(httpServletRequest, proformaInvoice);
-		return ResponseEntity.ok(newInvoice);
+		proformaInvoiceService.addProformaInvoice(httpServletRequest, proformaInvoice);
+		return ResponseEntity.ok("Succesfully added");
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "deleteinvoice/{id}")
@@ -66,5 +68,16 @@ public class ProformaInvoiceController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 
 	}
-
+	
+	@GetMapping("/activeinvoices")
+	public List<ProformaInvoiceDto> getActiveinvoices(){
+	  return proformaInvoiceService.getActiveinvoices();
+	}
+	
+	@PutMapping("editinvoice/{id}")
+		ResponseEntity<String> updateAmcDueInvoice(@RequestBody ProformaInvoice proformaInvoice)throws Exception {
+			 proformaInvoiceService.updateProformainvoiceInvoice(proformaInvoice);	
+			return ResponseEntity.ok("Succesfully edited");
+		
+	}
 }

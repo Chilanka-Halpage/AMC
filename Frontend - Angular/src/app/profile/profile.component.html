@@ -3,30 +3,36 @@
   <div class="conntainer-fluid div2">
     <div class="container div3">
       <div class="container" id="div1">
-        <br><br>
-        <div class="container">
-          <img src="{{imageSrc}}" alt="image" class="middle rounded-circle img-thumbnail img"><br><br>
-        </div>
-        <mat-grid-list cols="2" rowHeight="150px">
-          <mat-grid-tile>
-            <div>
-              <mat-label> <b>Name:</b></mat-label><br>
-              <mat-label> <b>User Id:</b></mat-label><br>
-              <mat-label> <b>Contact Number:</b></mat-label><br>
-              <mat-label> <b>Email:</b></mat-label>
-            </div>
-          </mat-grid-tile>
-          <mat-grid-tile>
-            <div>
-              <mat-label>{{users.uname}}</mat-label><br>
-              <mat-label>{{users.userId}}</mat-label><br>
-              <mat-label>{{users.contactNo}}</mat-label><br>
-              <mat-label>{{users.email}}</mat-label>
-            </div>
-          </mat-grid-tile>
-        </mat-grid-list>
+        <table>
+          <tr>
+            <td rowspan="8" style="width: 400px;"><img src="{{imageSrc}}" alt="image" class="middle rounded-circle img-thumbnail img"></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr style="height: 10px;">
+            <td><h1>{{users.uname}}</h1></td>
+          </tr>
+          <tr style="height: 20px;">
+            <td ><h2>ID : {{users.userId}}</h2></td>
+          </tr>
+          
+          <tr>
+            <td><h4>Contact No : {{users.contactNo}}</h4> </td>
+          </tr>
+          <tr>
+            <td><h4>Email : {{users.email}}</h4></td>
+          </tr>
+          <tr>
+            <td><button (click)="editprofile(users.userId)" class="btn btn-primary">Edit Profile</button></td>
+          </tr>
+        </table>
         <br>
-        <button (click)="editprofile(users.userId)" class="btn btn-primary">Edit Profile</button>
+        
       </div>
     </div>
   </div>

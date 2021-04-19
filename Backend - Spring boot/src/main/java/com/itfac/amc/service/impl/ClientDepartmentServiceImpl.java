@@ -115,4 +115,9 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 		return clientDepartmentRepository.existsByClientClientIdAndDepartmentName(clientId, deptName);
 	}
 
+	@Override
+	public String countActiveAmcByClient(String userId) {
+		return clientDepartmentRepository.countActiveAmcByClient(userId);
+	}
+
 }

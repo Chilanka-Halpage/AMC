@@ -11,21 +11,31 @@ export class DuePaymentService {
 
   constructor(private HttpClient: HttpClient) { }
 
-  private baseURL = "Http://localhost:8080/amcDueInvoice";
+  private baseURL = "Http://localhost:8080";
 
-  getDuepaymentList(): Observable<DuePayment[]>{
-    return this.HttpClient.get<DuePayment[]>(`${this.baseURL}/AllDueInvoice`);
+  getDuepaymentList(): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}/amcDueInvoice/AllDueInvoice`);
   }
-  deletedueinvooice(id: number): Observable<Object>{
-    return this.HttpClient.delete(`${this.baseURL}/deletedueinvoice/${id}`,{responseType:'text'})
+  deletedueinvoice(id: number): Observable<Object>{
+    return this.HttpClient.delete(`${this.baseURL}/amcDueInvoice/deletedueinvoice/${id}`,{responseType:'text'})
   } 
-  createdueinvoice(duePayment: DuePayment): Observable<Object>{
-    return this.HttpClient.post(`${this.baseURL}/add`,duePayment,{responseType : "text" as "json"});
+  createdueinvoice(duePayment): Observable<Object>{
+    return this.HttpClient.post(`${this.baseURL}/amcDueInvoice/add`,duePayment,{responseType : "text" as "json"});
   }
   updatedueinvoice(id: number, duePayment): Observable<Object>{
-    return this.HttpClient.put(`${this.baseURL}/editdueinvoice/${id}`,duePayment,{responseType : "text" as "json"})
-   }
+    return this.HttpClient.put(`${this.baseURL}/amcDueInvoice/editdueinvoice/${id}`,duePayment,{responseType : "text" as "json"})
+  }
    getdueinvoicebyid(id: number): Observable<any>{
-     return this.HttpClient.get<DuePayment>(`${this.baseURL}/finddueinvoice/${id}`)
-   }
-}
+     return this.HttpClient.get<any>(`${this.baseURL}/amcDueInvoice/finddueinvoice/${id}`)
+  }
+  getsettleddetails(): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}/amcDueInvoice/settled`)
+  }
+  getProduct(): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}/Product/findAllProduct`);
+  }
+  getactiveCurrency(): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}/Currency/findactivecurrencies`);
+  }
+
+  }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chart from 'chart.js';
+import { HomedetailsService } from '../homedetails.service';
 
 @Component({
   selector: 'app-sales',
@@ -8,28 +9,66 @@ import * as Chart from 'chart.js';
 })
 export class SalesComponent implements OnInit {
 
+  isLoadingResults = true;
+  isRateLimitReached = false;
+  errorMessage = "Unknown Error"
+  activeLoad = false;
+  inactiveLoad = false;
+
   doughnut!: Chart;
 
-  constructor() { }
+  ActiveAmcCount;
+  InactiveAmcCount;
+
+  constructor( private homedetails: HomedetailsService ,) { }
 
   ngOnInit(): void {
+
+    this.getActiveAmcCount()
+    this.getinactiveAmccount()
+   
+  }
+  
+  getinactiveAmccount(){
+    this.homedetails.getInactiveAmcCount().subscribe(data=>{
+      this.isLoadingResults = (( this.inactiveLoad = true) && this.activeLoad ) ? false : true ;
+      this.InactiveAmcCount=data   
+      console.log(data)
+      if(!this.isLoadingResults ){
+        this.doughnutchart()
+      }
+    })
+  }
+
+  getActiveAmcCount(){
+    this.homedetails.getActiveAmcCount().subscribe(data=>{
+      this.isLoadingResults = ((this.activeLoad = true) && this.inactiveLoad) ? false : true;
+      this.ActiveAmcCount=data
+      if(!this.isLoadingResults ){
+        this.doughnutchart()
+      }
+      console.log(data)
+    })
+  }
+
+  doughnutchart(){
     this.doughnut = new Chart("doughnut", {
       type: 'doughnut',
       data: {
         labels: ["Active", "Inactive"],
         datasets: [{
           label: '# of Votes',
-          data: [355, 20],
-          backgroundColor: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-          borderColor: ["White","White","White","White","White"],
-          borderWidth: 0
+          data: [this.ActiveAmcCount ,this.InactiveAmcCount ],
+          backgroundColor: ["Red", "Blue"],
+          borderColor: ["rgb(232, 244, 248)","rgb(232, 244, 248)"],
+          borderWidth: 3
         }]
       },
       options: {
         responsive: true,
         title: {
           display: true,
-          text: 'AMC Status'
+          text: 'AMC Active Inactive'
         },
         animation: {
           animateRotate: true,
@@ -39,4 +78,5 @@ export class SalesComponent implements OnInit {
     });
 
   }
+
 }

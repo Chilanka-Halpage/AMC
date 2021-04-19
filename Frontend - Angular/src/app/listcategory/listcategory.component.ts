@@ -1,12 +1,9 @@
-import { element } from 'protractor';
-import { Category } from './../category';
-import { Component, OnInit,ViewChild } from '@angular/core';
-
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { CategoryserviceService } from '../categoryservice.service';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import {FormGroup,FormControl,FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 
@@ -17,104 +14,136 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./listcategory.component.css']
 })
 export class ListcategoryComponent implements OnInit {
-  
+
   categoryAddForm: FormGroup;
   submitted = false;
   id: number;
-  showMe:boolean=false;
-  showMe2:boolean=false;
-  searchKey:string;
+  searchKey: string;
   showMyMessage = false;
+  edit = false;
+  alert: boolean = false;
+  public dataSavingProgress = false;
+  popoverTitle = 'Delete Row';
+  popoverMessage = 'Are you sure to want to Delete ?';
+  confirmClicked = false;
+  cancelClicked = false;
 
-  constructor(private _service: CategoryserviceService, private router: Router,private formBuilder:FormBuilder,private route: ActivatedRoute) { }
+  constructor(private _service: CategoryserviceService, private notificationService: NotificationService, private router: Router, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['id', 'categoryName', 'active', 'savedBy', 'savedOn', 'savedIp','lastModifiedBy','lastModifiedOn','action'];
-  
-  @ViewChild(MatSort) sort:MatSort;
-  @ViewChild(MatPaginator) paginator:MatPaginator;
+  displayedColumns: string[] = ['id', 'categoryName', 'active', 'savedBy', 'savedOn', 'savedIp', 'lastModifiedBy', 'lastModifiedOn', 'action'];
+
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this. categoryAddForm=this.formBuilder.group(
-      {
-        categoryName:['',[Validators.required]],
-        active:['',[Validators.required]]
-      }
-    )
 
-   
-     
     this._service.getCategoryList().subscribe(
       list => {
 
         this.listData = new MatTableDataSource(list);
-        this.listData.sort= this.sort;
-        this.listData.paginator=this.paginator;
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
       });
+    this.categoryAddForm = this.formBuilder.group(
+      {
+        categoryName: ['', [Validators.required]],
+        active: ['', [Validators.required]]
+      }
+    )
 
   }
+  editCategoryList(id) {
+    this.router.navigate(['list', id]);
+  }
 
- editCategoryList(row) {
+  editCategoryListe(row) {
+    this.router.navigate(['list', row.categoryId]);
     console.log(row);
-   this.categoryAddForm.patchValue({
-     id:row.id,
-     categoryName: row.categoryName,
-     active: row.active
-   });
-   
-   }
+    this.edit = true;
+    this.categoryAddForm.patchValue({
 
+      categoryName: row.categoryName,
+      active: row.active
+    });
+
+  }
   deleteCategoryList(id: number) {
     console.log(id);
-    this._service.deleteCategory(id)
-    
-      .subscribe(
-        data => {
-          console.log(data);
-         
-        },
-        error => console.log(error));  
+    this._service.deleteCategory(id).subscribe(
+      data => {
+        this.reload();
+      },
+      error => {
+        console.log(error);
+        this.notificationService.showNoitfication('Cannot proceed the request.', 'OK', 'error', null);
+      }).add(()=>this.dataSavingProgress=false);  
   }
 
   save() {
+    this.dataSavingProgress = true;
     this._service
-    .createCategory(this.categoryAddForm.value).subscribe(data => {
-      console.log(data)
-     
-      this.showTag();
-    }, 
-    error => console.log(error));
+      .createCategory(this.categoryAddForm.value).subscribe(data => {
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload() });
+        this.dataSavingProgress = false;
+        console.log(data)
+
+
+      },
+      error => {
+        console.log(error);
+        let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+        this.notificationService.showNoitfication(message, 'OK', 'error', null);
+      }).add(()=>this.dataSavingProgress=false)
   }
 
   onSubmit() {
     console.log(this.categoryAddForm);
     this.submitted = true;
-    this.save();    
+    this.save();
   }
 
 
 
-  onEdit(){
-     
-    error => console.log(error);
+  onEdit() {
 
+    this.dataSavingProgress = true;
+    console.log(this.route.snapshot.params.id);
+    this._service.updateCategory(this.route.snapshot.params.id, this.categoryAddForm.value).subscribe(
+      (result) => {
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload() });
+        this.dataSavingProgress = false;
+      }, error => {
+        console.log(error);
+        let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+        this.notificationService.showNoitfication(message, 'OK', 'error', null);
+      }).add(()=>this.dataSavingProgress=false)
     }
+  reload() {
+    this._service.getCategoryList().subscribe(
+      list => {
 
-  showTag(){
-    this.showMe=!this.showMe
+        this.listData = new MatTableDataSource(list);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
+      });
+    this.resetForm();
   }
 
-  showTag2(){
-    this.showMe2=!this.showMe2
+  resetForm(): void {
+    this.categoryAddForm.reset();
   }
 
-  onSearchClear(){
-    this.searchKey="";
+
+
+
+  onSearchClear() {
+    this.searchKey = "";
     this.applyFilter();
   }
 
-  applyFilter(){
-    this.listData.filter=this.searchKey.trim().toLowerCase();
+  applyFilter() {
+    this.listData.filter = this.searchKey.trim().toLowerCase();
   }
 
 

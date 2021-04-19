@@ -1,0 +1,38 @@
+
+  
+<div style="background-color: rgb(255, 255, 255);">
+    <div class="container" class="class1">
+      <div>
+        <h2>Quarter Wise Revenue Report</h2>
+        <form [formGroup]="quarterWiseReport" (ngSubmit)="onSubmit()">
+          <div>
+            <mat-form-field appearance="outline">
+                <select matNativeControl required formControlName="date1">
+                  <option value="2010-04-01"> 2010/04/01 to 2011/03/31 </option>
+                  <option  value="2011-04-01">2011/04/01 to 2012/03/31</option>
+                  <option  value="2012-04-01">2012/04/01 to 2013/03/31</option>
+                  <option  value="2013-04-01">2013/04/01 to 2014/03/31</option>
+                  <option  value="2014-04-01">2014/04/01 to 2015/03/31</option>
+                  <option  value="2015-04-01">2015/04/01 to 2016/03/31</option>
+                  <option  value="2016-04-01">2016/04/01 to 2017/03/31</option>
+                  <option  value="2017-04-01">2017/04/01 to 2018/03/31</option>
+                  <option  value="2018-04-01">2018/04/01 to 2019/03/31</option>
+                  <option  value="2019-04-01">2019/04/01 to 2020/03/31</option>
+                  <option value="2020-04-01" >2020/04/01 to 2021/03/31</option>
+                  <option  value="2021-04-01">2021/04/01 to 2022/03/31</option>
+                  <option  value="2022-04-01">2022/04/01 to 2023/03/31</option>
+                  <option  value="2023-04-01">2023/04/01 to 2024/03/31</option>
+                  <option  value="2024-04-01">2024/04/01 to 2025/03/31</option>
+                  <option  value="2025-04-01">2025/04/01 to 2026/03/31</option>
+                  <option  value="2026-04-01">2026/04/01 to 2027/03/31</option>
+                  <option  value="2027-04-01">2027/04/01 to 2028/03/31</option>
+                  <option  value="2028-04-01">2028/04/01 to 2029/03/31</option>
+                  <option value="2029-04-01" >2029/04/01 to 2030/03/31</option>
+                  <option value="2030-04-01" >2030/04/01 to 2031/03/31</option>
+                </select>
+              </mat-form-field>
+          </div>
+          <button type="submit" mat-raised-button color="primary" mat-dialog-close>Generate Report</button>
+        </form>
+      </div>
+    </div>

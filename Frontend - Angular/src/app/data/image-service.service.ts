@@ -23,6 +23,7 @@ export class ImageService {
           responseType : 'text' as 'json'
         });
     }
+    
     public Image(userId){
         return  `${this.baseUrl}/getImage/${userId}.jpg`;
     }

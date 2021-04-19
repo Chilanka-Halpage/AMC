@@ -3,7 +3,7 @@ import { from } from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router'
 import {Users } from '../data/Users/users'
 import { UsersService } from '../data/Users/users.service';
-import {ImageService} from '../data/image-service.service'
+import {ImageService} from '../data/image-service.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +19,8 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private usersService: UsersService,
-    private imageService: ImageService) { }
+    private imageService: ImageService
+    ) { }
     public imageSrc: string;
 
   ngOnInit(): void {

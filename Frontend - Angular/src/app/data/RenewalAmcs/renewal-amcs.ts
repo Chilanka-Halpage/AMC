@@ -2,7 +2,7 @@ export class RenewalAmcs {
     amc_no : String
 	amc_serial_no :String
 	renewal : Date
-	client_id :String
+	user_id :String
 	client_name :String
 	category_name :String
 	frequency :String

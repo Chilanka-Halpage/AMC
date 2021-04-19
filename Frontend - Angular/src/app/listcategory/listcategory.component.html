@@ -1,8 +1,14 @@
 
   <mat-card>
     <mat-card-content>
-        <strong><h3>Add Category</h3></strong>
-    
+        <strong><h3 *ngIf="!edit">Add Category</h3></strong>
+        <strong><h3 *ngIf="edit">Edit Category</h3></strong>
+        <div class="col-6 col-md-auto" *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Submited successsfull Refresh the Page !</strong>
+          <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
     <form [formGroup]="categoryAddForm">
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Category name</mat-label>
@@ -16,18 +22,21 @@
       <mat-form-field appearance="outline" class="col-12 col-md-auto">
         <mat-label>Choose an option</mat-label>
         <mat-select formControlName="active">
-          <mat-option  value="true">Active</mat-option>
-          
-          <mat-option  value="false">Inactive</mat-option>
+          <mat-option  [value]=true>Active</mat-option>
+          <mat-option [value]=false>Inactive</mat-option>
         </mat-select>
       </mat-form-field>
       
-      <button mat-flat-button type="submit"  class="btn btn-success" (click)="onSubmit()" >Create</button>
-      <h3 *ngIf="showMe">Create successfully! Refresh the page..</h3>
-      &nbsp;&nbsp;
-
-      <button mat-flat-button type="submit" color="primary" (click)="onEdit()">Edit</button>
-      <h3 *ngIf="showMe2">Edit successfully! Refresh the page..</h3>
+      <button *ngIf="!edit" mat-flat-button type="submit"  color="primary" (click)="onSubmit()" >
+        <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+        Create</button>
+      
+     
+      <button *ngIf="edit" mat-flat-button type="submit" color="primary" (click)="onEdit()">
+        <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+        Edit</button>
+      
+      
     </form>
    </mat-card-content>
   </mat-card>
@@ -64,17 +73,17 @@
 
       <ng-container matColumnDef="active">
           <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Active </th>
-          <td mat-cell *matCellDef="let element" class="px-2"> {{element.active}} </td>
+          <td mat-cell *matCellDef="let element" class="px-2"> {{(element.active)?"Active":"Inactive"}} </td>
       </ng-container>
 
       <ng-container matColumnDef="savedIp">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Saved Ip </th>
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Last Modified Ip </th>
           <td mat-cell *matCellDef="let element" class="px-2"> {{element.savedIp}} </td>
       </ng-container>
 
       <ng-container matColumnDef="savedBy">
           <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> saved By </th>
-          <td mat-cell *matCellDef="let element" class="px-2"> {{element.savedBy}} </td>
+          <td mat-cell *matCellDef="let element" class="px-2"><a href="/userList"> {{element.savedBy}} </a></td>
       </ng-container>
 
       <ng-container matColumnDef="savedOn">
@@ -95,11 +104,17 @@
       <ng-container matColumnDef="action">
           <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Action </th>
           <td mat-cell *matCellDef="let element">
-              <button mat-icon-button color="primary" (click)="editCategoryList(element)">
+              <button mat-icon-button color="primary" (click)="editCategoryListe(element)">
                   <mat-icon>create</mat-icon>
               </button>
-              <button mat-icon-button color="accent" (click)="deleteCategoryList(element.categoryId)">
-                  <mat-icon>select_all</mat-icon>
+              <button mat-icon-button color="accent" 
+              mwlConfirmationPopover
+              [popoverTitle]="popoverTitle"
+              [popoverMessage]="popoverMessage"
+              placement="left"
+              (confirm)="deleteCategoryList(element.categoryId)"
+              (cancel)="cancelClicked = true">
+                <mat-icon>delete</mat-icon>
               </button>
           </td>
       </ng-container>

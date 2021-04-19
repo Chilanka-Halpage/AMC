@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../_helpers/authentication.service';
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms'
 import {HttpClient} from '@angular/common/http';
@@ -12,12 +13,17 @@ import { AlertComponent } from '../alert/alert.component';
 })
 export class LoginComponent implements OnInit {
 
+  userId : String
   hide = false;
   error: any;
 
+  isLoadingResults = false;
+  isRateLimitReached = false;
+  errorMessage = "Unknown Error"
+
   loginForm: FormGroup = this.fb.group({
     userId: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
+    password: ['', [Validators.minLength(8)]]
   });
 
   constructor(
@@ -25,22 +31,25 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     private router: Router,    
     private dialog:MatDialog,
+    private _authservice: AuthenticationService
   ) {}
 
   ngOnInit(): void {
+  
   }
   onLogin(): void {
-    
-    // response {
-    //   status: true if login successful, false if login unsuccessful,
-    //   token: JWT token,
-    //   message: login successful or username/password incorrect,
-    //   role: admin/user
-    // }
-    
+    /*
+    response {
+      status: true if login successful, false if login unsuccessful,
+      token: JWT token,
+      message: login successful or username/password incorrect,
+      role: admin/user
+    }
+    */
+  
     this.error = '';
     if (this.loginForm.valid) {
-      this.http.post<any>('http://localhost:8080/authenticate', this.loginForm.value).subscribe(
+      this.http.post<any>('http://localhost:8086/authenticate', this.loginForm.value).subscribe(
         response => {            
             const currentUser = {
               token: response.jwt,
@@ -51,17 +60,19 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
              if (response.role == "ROLE_ADMIN") {
               this.router.navigate(['/adminhome']);
-              console.log(response)
-             } else {
-               this.router.navigate(['/clienthome']);
+             } else if(response.role == "ROLE_CLIENT"){
+              this.router.navigate(['/clienthome']);
+             } else{
+               this.dialog.open(AlertComponent);
              }
         }, error => {
           this.error = error;
-          console.error(error);
           this.dialog.open(AlertComponent);
+          this.isLoadingResults=false
         }
       );
     }
-    console.log(this.loginForm.value);
   }
+
+
 }

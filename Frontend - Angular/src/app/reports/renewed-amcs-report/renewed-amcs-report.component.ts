@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
+import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { ReportDetailsService } from 'src/app/data/report-details.service';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import {RenewedAmcs} from '../../data/RenewedAmcs/renewed-amcs'
 
 @Component({
@@ -13,6 +15,8 @@ export class RenewedAmcsReportComponent implements OnInit {
 
 renewedAmcs : RenewedAmcs;
   constructor(
+    private jrReportDetailsService: JrReportDetailsService,
+    public _authentication: AuthenticationService,
     private reportDetailsService: ReportDetailsService,
     private activatedRoute: ActivatedRoute,) { }
 
@@ -33,7 +37,15 @@ renewedAmcs : RenewedAmcs;
       this.renewedAmcs = data;
     })
   }
-  displayedColumns: string[] = [    'amc_no','amc_serial_no','mtc_end_date','client_name',
+  viewPdf() {
+    this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
+      response => {
+        let url = URL.createObjectURL(response);
+        window.open(url, '_blank');
+        URL.revokeObjectURL(url);
+      });
+  }
+  displayedColumns: string[] = [    'amc_no','amc_serial_no','mtc_start_date','client_name',
   'category_name','mtc_qty','frequency','currency_name','exchage_rate','invoice_amount','total_value_lkr', ];
 
 }

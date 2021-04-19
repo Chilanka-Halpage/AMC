@@ -104,7 +104,7 @@ public class AmcSerial {
 
 	@ManyToOne()
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk5"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
+//	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Category category;
 
 }

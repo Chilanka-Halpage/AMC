@@ -1,7 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { ReportDetailsService } from 'src/app/data/report-details.service';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import { ExpiredAmcs } from '../../data/ExpiredAmcs/expired-amcs';
 
 @Component({
@@ -11,9 +14,11 @@ import { ExpiredAmcs } from '../../data/ExpiredAmcs/expired-amcs';
 })
 export class ExpiredAmcsReportComponent implements OnInit {
 
-  expiredAmcs : ExpiredAmcs;
+  expiredAmcs : MatTableDataSource<ExpiredAmcs>;
   
   constructor(
+    private jrReportDetailsService: JrReportDetailsService,
+    public _authentication: AuthenticationService,
     private reportDetailsService: ReportDetailsService,
     private activatedRoute: ActivatedRoute,
     ) { }
@@ -30,13 +35,26 @@ export class ExpiredAmcsReportComponent implements OnInit {
     });
   }
   
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.expiredAmcs.filter = filterValue.trim().toLowerCase();
+  }
+
   RenewalAmcsDetails(date1,date2){
     this.reportDetailsService.ExpiredAmcsDetails(date1,date2).subscribe(
       data=>{
-      this.expiredAmcs = data;
+      this.expiredAmcs = new MatTableDataSource(data);
     })
+  }
+  viewPdf() {
+    this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
+      response => {
+        let url = URL.createObjectURL(response);
+        window.open(url, '_blank');
+        URL.revokeObjectURL(url);
+      });
   }
 
   displayedColumns: string[] = [ 'amc_no','due_date','category_name','client_name','contact_no','frequency',
-    'invoice_amt','total_value',];
+    'invoice_amount','total_value_lkr',];
 }

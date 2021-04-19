@@ -6,6 +6,7 @@ import { ClientDetailsService } from '../../data/client-details/client-details.s
 import { from } from 'rxjs';
 import { JrReportDetailsService } from '../../data/jr-report-details.service'
 import { ClientDetails } from 'src/app/data/client-details/client-details';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
   selector: 'app-client-details-filter',
@@ -16,6 +17,7 @@ export class ClientDetailsFilterComponent implements OnInit {
   clientDetails: ClientDetails
   
   constructor(
+    public _authentication: AuthenticationService,
     private jrReportDetailsService:JrReportDetailsService,
     private route: ActivatedRoute,
     private router: Router,
@@ -43,7 +45,7 @@ export class ClientDetailsFilterComponent implements OnInit {
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
     this.router.navigate(['clientDetails',formatteddate1,formatteddate2]);
-    this.jrReportDetailsService.ClientDetailsJrReport(formatteddate1,formatteddate2).subscribe(
+    this.jrReportDetailsService.ClientDetailsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
     },
       error => {console.log("Error!", error)

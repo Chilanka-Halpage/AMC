@@ -1,10 +1,9 @@
-
 import { MessageComponent } from './../message/message.component';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../_helpers/authentication.service';
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AllAmcFilterComponent } from '../Filters/all-amc-filter/all-amc-filter.component'
@@ -14,6 +13,11 @@ import { RenewalAmcsFilterComponent } from '../Filters/renewal-amcs-filter/renew
 import { RenewedAmcsFilterComponent } from '../Filters/renewed-amcs-filter/renewed-amcs-filter.component';
 import { ExpiredAmcsFilterComponent } from '../Filters/expired-amcs-filter/expired-amcs-filter.component';
 import { PaymentReportFilterComponent } from '../Filters/payment-report-filter/payment-report-filter.component';
+import { HomedetailsService } from '../homedetails.service';
+import { QuarterWiseReportComponent } from '../Filters/quarter-wise-report/quarter-wise-report.component';
+import { JrReportDetailsService } from '../data/jr-report-details.service';
+import { NotificationService } from '../data/notification.service';
+import {ImageService} from '../data/image-service.service';
 
 @Component({
   selector: 'app-root-nav',
@@ -21,6 +25,12 @@ import { PaymentReportFilterComponent } from '../Filters/payment-report-filter/p
   styleUrls: ['./root-nav.component.scss']
 })
 export class RootNavComponent {
+  
+  userId : String
+  imgSource : String
+  public imageSrc: string;
+
+
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -28,10 +38,16 @@ export class RootNavComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver,
+  constructor(
+    private jrReportDetailsService: JrReportDetailsService,
+    private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
     public _authentication: AuthenticationService,
     private router: Router,
+    private homedetalis: HomedetailsService,
+    
+    private notificationService:NotificationService,
+    private imageService: ImageService
   ) { }
 
   AllAMCDetailsFilter() {
@@ -54,8 +70,23 @@ export class RootNavComponent {
     this.dialog.open(MessageComponent);
   }
   ngOnInit(): void {
+    this.homedetalis.getImage(this._authentication.userId).subscribe(
+      Response =>{
+        this.imgSource = Response;
+      }
+    )
+    this.imageSrc= this.homedetalis.Image(this._authentication.userId);
 
+    console.log(this._authentication.userId)
+    this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
+      data => {
+        this.notificationNo = data;
+      }
+      );
+   
   }
+   notificationNo
+
   ClientsDetailsFilter() {
     this.dialog.open(ClientDetailsFilterComponent)
   }
@@ -74,8 +105,36 @@ export class RootNavComponent {
   PaymentReportFilter() {
     this.dialog.open(PaymentReportFilterComponent)
   }
+  QuarterWiseReport(){
+    this.dialog.open(QuarterWiseReportComponent)
+  }
+
+
+
+  //Client AMC
+  ClientAmc(){
+    this.router.navigate([`clientAmc/${this._authentication.userId}`]);
+    this.jrReportDetailsService.ClientAmcJrReport(this._authentication.userId).subscribe(
+      Response => {console.log("success", Response)
+    },
+      error => {console.log("Error!", error)
+    }
+    )
+  }
+
+  //Client Payment report
+  ClientPayment(){
+    this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
+    this.jrReportDetailsService.ClientPaymentJrReport(this._authentication.userId).subscribe(
+      Response => {console.log("success", Response)
+    },
+      error => {console.log("Error!", error)
+    }
+    )
+  }
+
   dashboardcheck(){
-    if(this._authentication.role == "ROLE_client"){
+    if(this._authentication.role == "ROLE_CLIENT"){
       this.router.navigate(['/clienthome']);
     }else{
       this.router.navigate(['/adminhome']);
@@ -85,5 +144,20 @@ export class RootNavComponent {
      this.router.navigate([`/profile/${this._authentication.userId}`])
   }
 
+    //notification
+    updateIsRead() {
+      this.notificationService.updateIsRead(this._authentication.userId).subscribe(
+         Response => {console.log("success", Response)}
+        )
+  }
+  notification(){
+    this.router.navigate([`/notification/${this._authentication.userId}`]);
+    this.updateIsRead()
+ }
 
+ hidden = false;
+
+ toggleBadgeVisibility() {
+   this.hidden = !this.hidden;
+ }
 }

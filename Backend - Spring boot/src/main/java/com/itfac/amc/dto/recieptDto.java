@@ -14,7 +14,9 @@ public interface recieptDto {
     int getcurrency_id();
     String getpi_no();
     String getpay_mode();
+    String getcategory_name();
     Date getrec_date();
     int getexchage_rate();
     int gettotal_lkr();
+    
 }

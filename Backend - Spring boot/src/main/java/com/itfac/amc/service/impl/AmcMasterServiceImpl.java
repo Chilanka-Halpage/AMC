@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.itfac.amc.Exception.ResourceCreationFailedException;
@@ -124,4 +125,24 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 		return amcMasterRepository.countActiveAmc();
 	}
 
+	@Override
+	public String countInactiveAmc() {
+		return amcMasterRepository.countInactiveAmc();
+	}
+
+	@Override
+	public String countAmc() {
+		return amcMasterRepository.countAmc();
+	}
+
+	@Override
+	public String countAmcByClient(String userId) {
+		return amcMasterRepository.countAmcByClient(userId);
+	}
+	
+	@Override
+	public String countActiveAmcByClient(String userId) {
+		return amcMasterRepository.countActiveAmcByClient(userId);
+	}
+     
 }

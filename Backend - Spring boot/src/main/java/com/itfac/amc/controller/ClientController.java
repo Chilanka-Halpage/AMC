@@ -1,5 +1,7 @@
 package com.itfac.amc.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.entity.Client;
+import com.itfac.amc.reportData.ClientDetails;
 import com.itfac.amc.service.ClientService;
 
 @RestController
@@ -57,8 +60,7 @@ public class ClientController {
 	
 	@GetMapping("activeclient")
 	public String countclients() {
-		return clientService.countclients();
-	   
+		return clientService.countclients();	   
 	}
-
+	
 }

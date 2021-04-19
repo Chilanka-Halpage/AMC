@@ -1,5 +1,7 @@
 package com.itfac.amc.service.impl;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.entity.Client;
+import com.itfac.amc.reportData.ClientDetails;
 import com.itfac.amc.repository.ClientRepository;
 import com.itfac.amc.service.ClientService;
 

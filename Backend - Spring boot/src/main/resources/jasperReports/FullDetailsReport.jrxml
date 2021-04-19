@@ -85,7 +85,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[AMC Serial No]]></text>
+				<text><![CDATA[AMC No]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="80" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="403061c4-bc35-4a99-b266-c3e6638ab38a">
@@ -94,10 +94,10 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[AMC No]]></text>
+				<text><![CDATA[AMC Serial No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="160" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="2bc9f444-871e-4ba6-b2d8-5c0e301325af">
+				<reportElement mode="Opaque" x="240" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="2bc9f444-871e-4ba6-b2d8-5c0e301325af">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="527abf0f-a370-40aa-b1c0-b743ae7bff60"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -106,7 +106,7 @@
 				<text><![CDATA[Product Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="240" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="80ad5faa-a96f-4e8e-9ebd-964c54abd7b5">
+				<reportElement mode="Opaque" x="160" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="80ad5faa-a96f-4e8e-9ebd-964c54abd7b5">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bad068e8-bdfc-4712-8abe-275fe6f51b96"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -188,10 +188,10 @@
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{amc_no}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{amc_serial_no}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="160" y="-17" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">
+				<reportElement mode="Opaque" x="240" y="-17" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="527abf0f-a370-40aa-b1c0-b743ae7bff60"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -200,7 +200,7 @@
 				<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="240" y="-17" width="80" height="30" backcolor="#E0FFFF" uuid="5c2030f3-ca3e-4200-86f9-a9555a25d5bd">
+				<reportElement mode="Opaque" x="160" y="-17" width="80" height="30" backcolor="#E0FFFF" uuid="5c2030f3-ca3e-4200-86f9-a9555a25d5bd">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bad068e8-bdfc-4712-8abe-275fe6f51b96"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -278,7 +278,7 @@
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{amc_serial_no}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{amc_no}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

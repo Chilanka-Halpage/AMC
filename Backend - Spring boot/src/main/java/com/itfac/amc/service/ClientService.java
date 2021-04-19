@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.itfac.amc.entity.Client;
 
+
 public interface ClientService {
 
 	/**
@@ -44,5 +45,5 @@ public interface ClientService {
 	boolean doesClientExists(String clientName);
 	
 	String countclients();
-
+	
 }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
+import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import {RenewalAmcs} from '../../data/RenewalAmcs/renewal-amcs'
 import { ReportDetailsService } from '../../data/report-details.service'
 
@@ -14,6 +16,8 @@ export class RenewalAmcsReportComponent implements OnInit {
 
   renewalAmcs: RenewalAmcs;
   constructor(
+    private jrReportDetailsService: JrReportDetailsService,
+    public _authentication: AuthenticationService,
     private reportDetailsService: ReportDetailsService,
     private activatedRoute: ActivatedRoute,
   ) { }
@@ -35,7 +39,14 @@ export class RenewalAmcsReportComponent implements OnInit {
       this.renewalAmcs = data;
     })
   }
-
-  displayedColumns: string[] = [ 'amc_no','amc_serial_no','renewal','client_id','client_name',
+  viewPdf() {
+    this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
+      response => {
+        let url = URL.createObjectURL(response);
+        window.open(url, '_blank');
+        URL.revokeObjectURL(url);
+      });
+  }
+  displayedColumns: string[] = [ 'amc_no','amc_serial_no','renewal','user_id','client_name',
   'category_name','frequency','currency_name','invoice_amount','total_value_lkr','mtc_qty', ];
 }

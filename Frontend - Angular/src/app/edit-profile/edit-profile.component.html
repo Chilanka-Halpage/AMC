@@ -62,7 +62,7 @@
                      
                   <div class="form-group">
                       <label for="password">New Password</label>
-                      <input formControlName="password" id="password" type="password" class="form-control" >
+                      <input formControlName="password" type="password" class="form-control" >
                       <mat-error *ngIf="f.password.touched && f.password.invalid">
                           <mat-error *ngIf="f.password.errors.required">Password is required.</mat-error>
                       </mat-error>
