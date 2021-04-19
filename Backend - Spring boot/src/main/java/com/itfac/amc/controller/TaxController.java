@@ -25,51 +25,45 @@ import com.itfac.amc.service.TaxService;
 @RequestMapping("/tax")
 @CrossOrigin("*")
 public class TaxController {
-	
+
 	@Autowired
 	private TaxService taxService;
-	
+
 	@GetMapping("/findalltaxes")
-	public List<Tax> getAllTax(){
+	public List<Tax> getAllTax() {
 		return taxService.getAllTax();
 	}
-	
+
 	@PostMapping("/add")
-	ResponseEntity<Tax> addTax(HttpServletRequest httpServletRequest, @RequestBody Tax tax) throws Exception{
+	ResponseEntity<Tax> addTax(HttpServletRequest httpServletRequest, @RequestBody Tax tax) throws Exception {
 		Tax newTax = taxService.addTax(httpServletRequest, tax);
 		return ResponseEntity.ok(newTax);
 	}
-	
-	@RequestMapping(method = RequestMethod.DELETE,value="deleteTax/{id}")
+
+	@RequestMapping(method = RequestMethod.DELETE, value = "deleteTax/{id}")
 	public void deleteTax(@PathVariable("id") int taxId) {
-             taxService.deleteTax(taxId);
+		taxService.deleteTax(taxId);
 	}
-		
+
 	@GetMapping("findTax/{id}")
-	ResponseEntity<Optional<Tax>> getTaxById(@PathVariable("id") int taxId){
+	ResponseEntity<Optional<Tax>> getTaxById(@PathVariable("id") int taxId) {
 		Optional<Tax> taxByIdd = taxService.getTaxById(taxId);
-		if(taxByIdd!=null) {
-			return ResponseEntity.ok(taxByIdd);	
-			}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No tax with entered id " + taxId).body(taxByIdd);
+		if (taxByIdd != null) {
+			return ResponseEntity.ok(taxByIdd);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No tax with entered id " + taxId)
+				.body(taxByIdd);
 	}
-	
+
 	@PutMapping("updateTax/{id}")
-	public Tax updateTax(HttpServletRequest httpServletRequest,@RequestBody Tax tax) {
-		return taxService.updateTax(httpServletRequest,tax);		
+	public Tax updateTax(HttpServletRequest httpServletRequest, @RequestBody Tax tax) {
+		return taxService.updateTax(httpServletRequest, tax);
 	}
-	
+
 	@GetMapping("/findactivetaxes")
 	public List<Tax> getActivetax() {
 		return taxService.getActiveTax();
-		
+
 	}
-	
+
 }
-
-
-
-
-
-
-

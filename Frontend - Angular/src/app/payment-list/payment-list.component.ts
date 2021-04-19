@@ -1,7 +1,6 @@
 import { PaymentService } from './../payment.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Payment } from '../payment';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ViewChild } from '@angular/core';
@@ -15,6 +14,10 @@ import { MatPaginator } from '@angular/material/paginator';
 export class PaymentListComponent implements OnInit {
 
   payments: MatTableDataSource<any>;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+
 
   constructor(private paymentService: PaymentService , private Router: Router) { }
 
@@ -29,8 +32,8 @@ export class PaymentListComponent implements OnInit {
     this.paymentService.getPaymetList().subscribe(data =>{
        this.payments = new MatTableDataSource(data);
        this.payments.sort = this.sort;
-       
-    this.payments.paginator = this.paginator;
+       this.payments.paginator = this.paginator;
+       this.isLoadingResults = false;
     });
   }
 

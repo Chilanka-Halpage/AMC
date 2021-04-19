@@ -21,8 +21,10 @@ export class CurrencyService {
   deleteCurrency(currencyId: number): Observable<Object>{
     return this.HttpClient.delete(`${this.baseURL}/deleteCurrency/${currencyId}`,{responseType:'text'});
   }  
-  createCurrency(currency: Currency): Observable<Object>{
+  createCurrency(currency): Observable<Object>{
     return this.HttpClient.post(`${this.baseURL}/add`,currency);
   }
-
+  getactiveCurrency(): Observable<Currency[]>{
+    return this.HttpClient.get<Currency[]>(`${this.baseURL}/findactivecurrencies`);
+  }
 }

@@ -33,4 +33,7 @@ public interface ProformaInvoiceRepository extends JpaRepository<ProformaInvoice
 	@Query(value = "select sum(r.total) from receipt r, client_department cd, client c, user u where r.client_dept_id = cd.dept_id and cd.client_id = c.client_id and c.user_id = u.user_id and u.user_id = :userId", nativeQuery = true)
 	BigDecimal getAmountById(@Param("userId") String userId);
 
+	//get active invoices-------------------------------------------
+	@Query(value = "select * from proforma_invoice where cancel = false", nativeQuery = true)
+	List<ProformaInvoiceDto> getActiveinvoices();
 }

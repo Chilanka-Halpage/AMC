@@ -1,5 +1,6 @@
 package com.itfac.amc.repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.itfac.amc.dto.clinetpaymentDto;
 import com.itfac.amc.dto.recieptDto;
 import com.itfac.amc.entity.Receipt;
 
@@ -24,5 +26,13 @@ public interface ReceiptRepository extends JpaRepository<Receipt, String> {
 	// List<Date> findAllRecDateByAmcMasterAmcNo( String amcNo);
 	@Query(value = "select rec_date from receipt where amc_no = :amcNo", nativeQuery = true)
 	List<Date> findDateByAmcNo(@Param("amcNo") String amcNo);
-
+	
+	//Total revanue of last year
+	@Query(value = "SELECT sum(total_lkr) FROM receipt WHERE rec_date BETWEEN :Date1 and :Date2", nativeQuery = true)
+	String TotalrevanuelastYear(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
+    
+	//find detail by clientId
+	@Query(value = "SELECT r.rec_no,r.balance,r.pay_mode,c.category_name,r.pi_no,d.dept_id,t.client_id,r.rec_date from receipt r,client_department d,category c,client t  where r.client_dept_id = d.client_id and d.client_id = t.client_id and r.category_id = c.category_id and user_id = :client_id", nativeQuery = true)
+	List<clinetpaymentDto> getReceiptbyClientId( @Param("client_id") String user_id);
+		
 }

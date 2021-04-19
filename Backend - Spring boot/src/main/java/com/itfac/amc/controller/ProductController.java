@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +30,9 @@ public class ProductController {
 	ProductService productservice;
 
 	@GetMapping("findAllProduct")
-	public List<Product> getallProduct() {
-		return productservice.findAllProduct();
+	public ResponseEntity <List<Product>> getallProduct() {
+		List<Product> allProduct= productservice.findAllProduct();
+		return ResponseEntity.status(HttpStatus.OK).body(allProduct);
 	}
 
 	@GetMapping("findAllProduct/{id}")
@@ -43,20 +45,24 @@ public class ProductController {
 				.body(productById);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "deleteProduct/{id}")
-	public void deleteProduct(@PathVariable("id") int productId) {
-		productservice.deleteProduct(productId);
+	@DeleteMapping("deleteProduct/{id}")
+	public ResponseEntity<String> deleteProduct(@PathVariable("id") int productId) {
+		
+		return ResponseEntity.badRequest().body("not deleted");
 	}
 
 	@PostMapping("AddProduct") 
-	public Product addProduct(@Validated @RequestBody Product product) {
-		return productservice.addProduct(product);
+	public ResponseEntity<String> addProduct(@Validated @RequestBody Product product) {
+		productservice.addProduct(product);
+		return ResponseEntity.status(HttpStatus.OK).body("added successfull");
 
 	}
 
 	@PutMapping("updateProduct/{id}")
-	public Product updateProduct(@Validated @RequestBody Product product) {
-		return productservice.updateProduct(product);
+	public ResponseEntity<String> updateProduct(@PathVariable("id") int productId,@Validated @RequestBody Product product) {
+		product.setProductId(productId);
+		productservice.updateProduct(product);
+		return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}
 
 	@GetMapping("findActiveProduct")

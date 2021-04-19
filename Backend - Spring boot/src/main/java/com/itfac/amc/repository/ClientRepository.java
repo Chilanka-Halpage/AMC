@@ -25,4 +25,5 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 
 	@Query(value = "select count(*) from client where active = true", nativeQuery = true)
 	String countclients();
+	
 }

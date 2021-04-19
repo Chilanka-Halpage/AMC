@@ -63,4 +63,12 @@ public class ClientDepartmentController {
 		this.clientDepartmentService.updateDepartment(httpServletRequest, dept, clientId, deptId);
 		return ResponseEntity.status(HttpStatus.OK).body("Modified Succesfully!");
 	}
+	
+	@GetMapping("departmetncount/{userId}")
+	public String countActiveAmcByClient(@PathVariable("userId") String userId){		
+		return clientDepartmentService.countActiveAmcByClient(userId);
+	}
+	
 }
+
+

@@ -159,4 +159,30 @@ public class ReportController {
 			revenue.add(parameters);
 			return revenue;
 	}
+
+	// amc reminder for dashboard-----------------------------------
+	@GetMapping("/AmcReminders/{Date1}/{Date2}")
+	public int amcreminder(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
+		List<RenewalAmcs> count = reportService.getRenewalAmcs(Date1, Date2);
+		return count.size();
+	}
+
+	// expired amc count for dashboard--------------------------------
+	@GetMapping("/ExpiredAmcscount/{Date1}/{Date2}")
+	public int getExpiredAmcCount(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
+		List<ExpiredAmc> count = reportService.getExpiredAmcs(Date1, Date2);
+		return count.size();
+	}
+
+	// renewed amc count for dashboard--------------------------------
+	@GetMapping("/RenewedAmccount/{Date1}/{Date2}")
+	public int getRenewedAmcCount(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
+		List<RenewedAmcs> count = reportService.getRenewedAmcs(Date1, Date2);
+		return count.size();
+	}
 }

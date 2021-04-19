@@ -4,54 +4,55 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === true"
+      [hidden]="!_authentication.loggedIn()"
       >
-    <mat-toolbar><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
+    <mat-toolbar ><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
     <mat-nav-list >
       <a mat-list-item [routerLink]="" (click)="dashboardcheck()" ><mat-icon>home</mat-icon><span class="button-text">Home</span></a>     
       <a mat-list-item [matMenuTriggerFor]="payment">
         <mat-icon >payment</mat-icon><span class="button-text">Payment</span>
          <mat-menu #payment="matMenu">
-            <button mat-menu-item [routerLink]="['createReceipt']">Payment</button>
-            <button mat-menu-item [routerLink]="['invoicelist']" *ngIf="_authentication.role === 'ROLE_admin'" >Proforma Invoice</button>
-            <button mat-menu-item [routerLink]="['dueinvoice']">Due Invoice</button>
-            <button mat-menu-item [routerLink]="['taxlist']" *ngIf="_authentication.role === 'ROLE_admin'">Tax</button>
-            <button mat-menu-item [routerLink]="['currencylist']" *ngIf="_authentication.role === 'ROLE_admin'">Currency</button>
-            <button mat-menu-item [routerLink]="['paymentHlist']">Payment History</button>
-            <button mat-menu-item [routerLink]="['duepayment']">Due Payment</button>
+            <button mat-menu-item [routerLink]="['createReceipt']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">New Receipt</button>
+            <button mat-menu-item [routerLink]="['invoicelist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'" >Proforma Invoice</button>
+            <button mat-menu-item [routerLink]="['dueinvoice']"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Due Invoice</button>
+            <button mat-menu-item [routerLink]="['taxlist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Tax</button>
+            <button mat-menu-item [routerLink]="['currencylist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Currency</button>
+            <button mat-menu-item [routerLink]="['paymentHlist']"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment History</button>
+            <button mat-menu-item [routerLink]="['duepayment']"*ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT' || _authentication.role === 'ROLE_CLIENT'" >Due Payment</button>
          </mat-menu>
       </a>  
       <a mat-list-item [matMenuTriggerFor]="Reports">
         <mat-icon>article</mat-icon> <span class="button-text">Reports</span>
            <mat-menu #Reports="matMenu">
-            <button mat-menu-item  (click)="AllAMCDetailsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">All AMC</button>
-            <button mat-menu-item  (click)="ClientsDetailsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">All client details</button>
-            <button mat-menu-item  (click)="RenewalAmcsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Renewal AMCs</button>
-            <button mat-menu-item  (click)="RenewedAmcsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Renewed AMCs</button>
-            <button mat-menu-item  (click)="ExpiredAmcsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Expired AMCs</button>
-            <button mat-menu-item  (click)="PaymentReportFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Payment Reports</button>    
-            <button mat-menu-item (click)="ClientPayment()">Payment Reports</button><!-- For client --> 
-            <button mat-menu-item (click)="ClientAmc()">AMC Reports</button><!-- For client --> 
-            <button mat-menu-item (click)="QuarterWiseReport()" *ngIf="_authentication.role === 'ROLE_admin'">Quarter Wise revenue</button>
-            <button mat-menu-item (click)="FullDetailsFilter()" *ngIf="_authentication.role === 'ROLE_admin'">Full Details Report</button>
+            <button mat-menu-item  (click)="AllAMCDetailsFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">All AMC</button>
+            <button mat-menu-item  (click)="ClientsDetailsFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">All client details</button>
+            <button mat-menu-item  (click)="RenewalAmcsFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Renewal AMCs</button>
+            <button mat-menu-item  (click)="RenewedAmcsFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Renewed AMCs</button>
+            <button mat-menu-item  (click)="ExpiredAmcsFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Expired AMCs</button>
+            <button mat-menu-item  (click)="PaymentReportFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment Reports</button>    
+            <button mat-menu-item (click)="ClientPayment()"*ngIf="_authentication.role === 'ROLE_CLIENT'">Payment Reports</button><!-- For client --> 
+            <button mat-menu-item (click)="ClientAmc()"*ngIf="_authentication.role === 'ROLE_CLIENT'">AMC Reports</button><!-- For client --> 
+            <button mat-menu-item (click)="QuarterWiseReport()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Quarter Wise revenue</button>
+            <button mat-menu-item (click)="FullDetailsFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Full Details Report</button>
            </mat-menu> <!--*ngIf="_authentication.role === 'ROLE_admin'" -->
       </a> 
-      <a mat-list-item [matMenuTriggerFor]="AMC" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator'">
-        <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
+      <a mat-list-item [matMenuTriggerFor]="AMC">
+        <mat-icon>assignment</mat-icon> <span class="button-text" >AMC</span>
           <mat-menu #AMC="matMenu">
-            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator'">Create New AMC </button>
-            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator'">AMC Renew</button>
-            <button mat-menu-item [routerLink]="['list']" *ngIf="_authentication.role === 'ROLE_admin'">Category</button>
-            <button mat-menu-item [routerLink]="['frequency']" *ngIf="_authentication.role === 'ROLE_admin'">Frequency</button>
+            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Create New AMC </button>
+            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' ">AMC Renew</button>
+            <button mat-menu-item [routerLink]="['list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Category</button>
+            <button mat-menu-item [routerLink]="['frequency']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Frequency</button>
           </mat-menu>
       </a>     
-      <a mat-list-item [routerLink]="['productlist']" *ngIf="_authentication.role === 'ROLE_admin'"><mat-icon>store</mat-icon><span class="button-text">Product</span>
+      <a mat-list-item [routerLink]="['productlist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'"><mat-icon>store</mat-icon><span class="button-text">Product</span>
       </a>         
-      <a mat-list-item [matMenuTriggerFor]="client">
+      <a mat-list-item [matMenuTriggerFor]="client" *ngIf="_authentication.role === 'ROLE_ADMIN'">
         <mat-icon>supervisor_account</mat-icon><span class="button-text">Users</span>
           <mat-menu #client="matMenu">
-            <button mat-menu-item [routerLink]="['user']" *ngIf="_authentication.role === 'ROLE_admin'">New User</button>
-            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator' " >Clients</button>
-            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_admin' || _authentication.role === 'ROLE_amc_coordinator'">New client</button>
+            <button mat-menu-item [routerLink]="['user']" *ngIf="_authentication.role === 'ROLE_ADMIN'">New User</button>
+            <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' " >Clients</button>
+            <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' ">New client</button>
           </mat-menu>
       </a> 
       <a mat-list-item (click)="profilepage()" ><mat-icon>settings</mat-icon><span class="button-text">Setting</span>
@@ -66,25 +67,25 @@
         mat-icon-button
         (click)="drawer.toggle()"     
         *ngIf="_authentication.loggedIn()" >
-        <mat-icon aria-label="Side nav toggle icon" style="-webkit-text-fill-color:rgb(255, 255, 255)"  >menu</mat-icon>
+        <mat-icon aria-label="Side nav toggle icon" style="-webkit-text-fill-color:rgb(255, 255, 255)">menu</mat-icon>
       </button>
       <span class="text-white">Annual Maintenance Contract</span>   
       <span class="example-spacer"></span>
       <button  mat-button  *ngIf="!_authentication.loggedIn()" (click)="gotolog()">
         <span style="-webkit-text-fill-color:#ffffff">Login</span>
       </button> 
-      <button mat-icon-button>
-        <mat-icon style="color: #ffffff;" (click)="notification()" [matBadgeHidden]="hidden" 
-        [matBadge]="notificationNo" >notifications</mat-icon>
+      
+      <button mat-icon-button *ngIf="_authentication.loggedIn()">
+        <mat-icon style="color: #ffffff;" (click)="notification()"
+        [matBadge]="notificationNo" (click)="toggleBadgeVisibility()">notifications</mat-icon>
       </button>
-      <!-- (click)="toggleBadgeVisibility()" -->
-      <img src="{{imageSrc}}" class="img-size2"  style=" background-image: url(../../assets/backgroundimage12.jpg);" *ngIf="_authentication.loggedIn()">
+      <img class="avatar" alt="image" src="{{imageSrc}}" *ngIf="_authentication.loggedIn()">
       <button  mat-button [matMenuTriggerFor]="profile" *ngIf="_authentication.loggedIn()">
        <span class="button-text" style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>
       </button>      
          <mat-menu #profile="matMenu">
-            <button mat-menu-item (click) ="profilepage()" >Profile</button>
-            <button mat-menu-item (click) ="logout()">Log Out</button> 
+            <button mat-menu-item (click) = "profilepage()" >Profile</button>
+            <button mat-menu-item (click) = "logout()">Log Out</button> 
          </mat-menu>
     </mat-toolbar>
     <ng-content></ng-content>

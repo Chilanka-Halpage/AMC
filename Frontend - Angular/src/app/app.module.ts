@@ -1,8 +1,8 @@
-
+import { AccountantGuard } from './_helpers/accountant.guard';
+import { AmccordinatorGuard } from './_helpers/amccordinator.guard';
 import { MessageComponent } from './message/message.component';
 import { AmcMasterService } from './shared/amc-master.service';
 import { ClientService } from './shared/client.service';
-import { SharedAmcService } from './shared/shared-amc.service';
 import { AddClientComponent } from './clients/add-client/add-client.component';
 import { MaterialModule } from './material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -91,6 +91,12 @@ import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-vie
 import { RevalueComponent } from './revalue/revalue.component';
 import { SalesComponent } from './sales/sales.component';
 import { AMCStatusComponent } from './amcstatus/amcstatus.component';
+import { LogDetailsComponent } from './log-details/log-details.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { ResetPageComponent } from './forgotPassword/reset-page/reset-page.component';
+import { PageComponent } from './forgotPassword/page/page.component';
+import { PageserviceService } from './pageservice.service';
+import { UpdateuserComponent } from './updateuser/updateuser.component';
 import { NotificationComponent } from './notification/notification.component';
 import { LoginDetailsComponent } from './login-details/login-details.component';
 import { QuarterWiseReportComponent } from './Filters/quarter-wise-report/quarter-wise-report.component';
@@ -174,6 +180,11 @@ import { QuarterWiseRevenueReportComponent } from './reports/quarter-wise-report
     RevalueComponent,
     SalesComponent,
     AMCStatusComponent,
+    LogDetailsComponent,
+    ClientdashtableComponent,
+    PageComponent,
+    ResetPageComponent,
+    UpdateuserComponent,
     NotificationComponent,
     LoginDetailsComponent,
     QuarterWiseReportComponent,
@@ -198,17 +209,22 @@ import { QuarterWiseRevenueReportComponent } from './reports/quarter-wise-report
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger', 
+    })
   ],
   providers: [
     ClientService,
     AmcMasterService,
-    SharedAmcService,
     CategoryserviceService,
     AllAmcsService,
     UserserviceService,
     FrequencyserviceService,
     ProductserviceService,
     NotificationService,
+    AmccordinatorGuard,
+    AccountantGuard,
+    PageserviceService,
     AuthenticationGuard,
     ClientGuard,
     {

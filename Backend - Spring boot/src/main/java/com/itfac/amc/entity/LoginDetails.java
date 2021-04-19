@@ -42,7 +42,7 @@ public class LoginDetails {
 	private String logoutIp;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "client_id", nullable = false, foreignKey = @ForeignKey(name = "login_details_fk"))
+	@JoinColumn(name = "user_id", nullable = true, foreignKey = @ForeignKey(name = "login_details_fk"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private User user;

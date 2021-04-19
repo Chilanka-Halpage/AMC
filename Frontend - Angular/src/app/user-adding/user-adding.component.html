@@ -1,84 +1,95 @@
-<div class="container-md mb-4 ">
+<div class="container-md mb-4 background-color">
 
-  <div class="jumbotron mb-1">
-  <h3>User Details Form</h3>
-  <p>add new users for the AMC</p>
-  </div>
-  <div  class="d-flex flex-row-reverse my-0">
-      <button type="button"  mat-raised-button class="btn btn-primary" (click)="navigateTouserList()">
-          Existing User 
-      </button>
-  </div>
-  <br />
-  <div class="card">
-
-      <div class="card-body background-color">
-
-          <form [formGroup]="addForm">
-              <div>
-                <div class="row px-0">
-                      <mat-form-field class="col" appearance="outline" >
-                          <mat-label>User Name</mat-label>
-                          <input type="text"  matInput formControlName="uname"
-                              placeholder="client name">
-                              <mat-error *ngIf="addForm.get('uname').hasError('required')">
-                                user name is required
-                              </mat-error>
-                      </mat-form-field>
-                  </div>
-                  <br />
-
+    <div class="jumbotron mb-1">
+    <h3>User Details Form</h3>
+    <p>add new users for the AMC</p>
+    </div>
+    <div  class="d-flex flex-row-reverse my-0">
+        <button type="button"  mat-raised-button class="btn btn-primary" (click)="navigateTouserList()">
+            Existing User 
+        </button>
+    </div>
+    <br />
+    <div class="card">
+  
+        <div class="card-header">
+            <h5>User details form for the AMC</h5>
+        </div>
+  
+        <div class="card-body background-color">
+  
+            <form [formGroup]="addForm">
+                <div>
                   <div class="row px-0">
-
-                      <mat-form-field appearance="outline" class="col pr-2">
-                          
-                          <mat-label>Role</mat-label>
-                          <mat-select formControlName="role">
-                               <mat-option  value="Admin">Admin</mat-option>
-                              <mat-option  value="Amc Coordinator">Amc Coordinator</mat-option>
-                              <mat-option  value="Accountant">Accountant</mat-option>
-                              <mat-option  value="Client">Client</mat-option>
+                        <mat-form-field class="col" appearance="outline" >
+                            <mat-label>User Name</mat-label>
+                            <input type="text"  matInput formControlName="uname"
+                                placeholder="User name">
+                                <mat-error *ngIf="addForm.get('uname').hasError('required')">
+                                  user name is required
+                                </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <br />
+  
+                    <div class="row px-0">
+  
+                        <mat-form-field appearance="outline" class="col pr-2">
+                            
+                            <mat-label>Role</mat-label>
+                            <mat-select formControlName="role">
+                                 <mat-option  value="ADMIN">ADMIN</mat-option>
+                                <mat-option  value="AMC_COORDINATOR">AMC_COORDINATOR</mat-option>
+                                <mat-option  value="ACCOUNTANT">ACCOUNTANT</mat-option>
+                                <mat-option  value="CLIENT">CLIENT</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+  
+                        <mat-form-field appearance="outline" class="col pl-2">
+                          <mat-label>Active/Inactive</mat-label>
+                          <mat-select formControlName="active">
+                            <mat-option  value=true>Active</mat-option>
+                            
+                            <mat-option  value=false>Inactive</mat-option>
                           </mat-select>
-                      </mat-form-field>
-
-                      <mat-form-field appearance="outline" class="col pl-2">
-                        <mat-label>Active/Inactive</mat-label>
-                        <mat-select formControlName="active">
-                          <mat-option  value="true">Active</mat-option>
+                        </mat-form-field>
+  
+                    </div>
+                    <div class="row px-0" >
+                        <mat-form-field class="col" appearance="outline">
+                          <mat-label>Enter your email</mat-label>
+                          <input matInput placeholder="pat@example.com" formControlName="email" matInput required>
                           
-                          <mat-option  value="false">Inactive</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-
-                  </div>
-                  <div class="row px-0" >
+                        </mat-form-field>
+                    </div>
+                    <div class="row px-0" >
                       <mat-form-field class="col" appearance="outline">
-                        <mat-label>Enter your email</mat-label>
-                        <input matInput placeholder="pat@example.com" formControlName="email" matInput required>
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput placeholder="+947123458976" formControlName="contactNo" matInput required>
                         
                       </mat-form-field>
                   </div>
-                  
-              </div>
-              <br />
-              <div>
-
-                  <div class="d-flex flex-row-reverse my-0">
-                      <button (click)="onAdd()" type="submit" mat-raised-button
-                          color="primary" class="ml-1">
-                          submit
-                      </button>
-                      <button  type="button" mat-raised-button color="warn" mat-button
-                          class="mr-1" (click)="resetForm()">Reset Form</button>
-                  </div>
-
-              </div>
-
-
-          </form>
-
-      </div>
-
+                    
+                </div>
+                <br />
+                <div>
+  
+                    <div class="d-flex flex-row-reverse my-0">
+                        <button  (click)="onAdd()" type="submit" mat-raised-button color="primary" class="ml-1">
+                            <span *ngIf="userSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+                            submit
+                        </button>
+                        <button  type="button" mat-raised-button color="warn" mat-button
+                            class="mr-1" (click)="resetForm()">Reset Form</button>
+                    </div>
+  
+                </div>
+  
+  
+            </form>
+  
+        </div>
+  
+    </div>
+  
   </div>
-
-</div>

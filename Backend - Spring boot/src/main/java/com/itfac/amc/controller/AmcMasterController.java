@@ -48,7 +48,8 @@ public class AmcMasterController {
 	}
 
 	@PutMapping("edit/{amcNo}/{serialNo}")
-	public ResponseEntity<String> getAmcByClient(@RequestBody AmcMaster amcMaster, @PathVariable("amcNo") String amcNo, @PathVariable("serialNo") String amsSerialNo) {
+	public ResponseEntity<String> getAmcByClient(@RequestBody AmcMaster amcMaster, @PathVariable("amcNo") String amcNo,
+			@PathVariable("serialNo") String amsSerialNo) {
 		amcService.updateAmcMaster(amcMaster, amcNo, amsSerialNo);
 		return ResponseEntity.status(HttpStatus.OK).body("Updated Successfully");
 	}
@@ -58,11 +59,29 @@ public class AmcMasterController {
 		List<String> allAmc = amcService.getAllAmcNo(id);
 		return ResponseEntity.status(HttpStatus.OK).body(allAmc);
 	}
-	
-	@GetMapping("ActiveAmcCount")
+
+	@GetMapping("activeAmcCount")
 	public String countActiveAmc() {
 		return amcService.countActiveAmc();
-	
 	}
 
+	@GetMapping("inactiveAmcCount")
+	public String countInactiveAmc() {
+		return amcService.countInactiveAmc();
+	}
+
+	@GetMapping("totalAmc")
+	public String countAmc() {
+		return amcService.countAmc();
+	}
+
+	@GetMapping("AmcCountforclient/{userId}")
+	public String countAmcByClient(@PathVariable("userId") String userId) {
+		return amcService.countAmcByClient(userId);
+	}
+
+	@GetMapping("AmcActiveCountforclient/{userId}")
+	public String countActiveAmcByClient(@PathVariable("userId") String userId) {
+		return amcService.countActiveAmcByClient(userId);
+	}
 }

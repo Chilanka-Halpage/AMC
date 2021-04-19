@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.data.repository.query.Param;
+
 import com.itfac.amc.entity.ClientDepartment;
 
 public interface ClientDepartmentService {
@@ -57,5 +59,7 @@ public interface ClientDepartmentService {
 	 * @return
 	 */
 	boolean doesDeptExists(int clientId, String deptName);
+	
+	String countActiveAmcByClient(String userId);
 
 }

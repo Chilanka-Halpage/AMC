@@ -1,5 +1,5 @@
+import { AuthenticationService } from './../_helpers/authentication.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { filter } from 'rxjs/operators';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,24 +13,26 @@ import { TaxService } from '../tax.service';
 })
 export class TaxListComponent implements OnInit {
 
+  public isAuthorized;
 
   taxes: MatTableDataSource<any>;
  
-  constructor(private taxService: TaxService , private Router: Router) { }
+  constructor(private taxService: TaxService , 
+              private Router: Router,
+              private _authentication: AuthenticationService) { }
 
-  displayedColumns:string[] = ['taxName','shortName','taxRate','savedOn','savedIp','Status','Action','update'];
+  displayedColumns:string[] = ['taxName','shortName','taxRate','active','savedOn','savedBy','savedIp','lastModifiedBy','Action','update'];
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
     this.getTax();
-   
+    this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
   }
 
   getTax(){
     this.taxService.getTaxList().subscribe(data =>{
-    /*  this.taxes = data;    */
     this.taxes = new MatTableDataSource(data); 
     this.taxes.sort = this.sort;
     this.taxes.paginator = this.paginator;
@@ -56,4 +58,6 @@ export class TaxListComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.taxes.filter = filterValue.trim().toLowerCase();
   }
+
+  
 }

@@ -1,11 +1,11 @@
 import { MatSort } from '@angular/material/sort';
 import { CurrencyService } from './../currency.service';
-import { Currency } from './../Model/currency.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { AuthenticationService } from '../_helpers/authentication.service';
 
 @Component({
   selector: 'app-currency-list',
@@ -15,8 +15,11 @@ import { MatPaginator } from '@angular/material/paginator';
 export class CurrencyListComponent implements OnInit {
 
   currencies: MatTableDataSource<any>;
-  currency: Currency = new Currency();
   currencyId: number
+  public isAuthorized: boolean;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
 
 
   addcurrencyForm = this.fb.group({
@@ -31,21 +34,22 @@ export class CurrencyListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private currencyService: CurrencyService,private fb: FormBuilder,) { }
+  constructor(private currencyService: CurrencyService,
+              private fb: FormBuilder,
+              public _authentication: AuthenticationService,) { }
 
-  displayedColumns:string[] = ['currencyId','currencyName','savedBy','savedOn','savedIp','Action'];
+  displayedColumns:string[] = ['currencyId','currencyName','savedBy','Active','savedOn','savedIp','Action'];
  
   ngOnInit(): void {
-    this.getCurrency(
-   
-    );
-  
+    this.getCurrency();
+    this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
   }
   getCurrency(){
     this.currencyService.getCurrencyList().subscribe(data =>{
       this.currencies = new MatTableDataSource(data);  
       this.currencies.sort = this.sort;  
       this.currencies.paginator = this.paginator;
+      this.isLoadingResults = false;
     });
   }
   deleteCurrency(currencyId: number){
@@ -56,7 +60,7 @@ export class CurrencyListComponent implements OnInit {
   })
 }
 saveCurrency(){
-  this.currencyService.createCurrency(this.currency).subscribe(data =>{
+  this.currencyService.createCurrency(this.addcurrencyForm.value).subscribe(data =>{
     console.log(data);
   this.getCurrency();  
  },

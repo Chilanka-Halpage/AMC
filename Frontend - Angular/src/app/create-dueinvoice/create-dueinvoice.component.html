@@ -18,12 +18,12 @@
               <div class="row px-0">
                 <mat-form-field appearance="outline" class="col-6">
                 <mat-label>
-                  invoiceAmt:  </mat-label>
+                  Invoice Amt:  </mat-label>
                   <input type="text" matInput formControlName="invoiceAmt" > 
                </mat-form-field>           
                 <mat-form-field appearance="outline" class="col pl-2">
                    <mat-label>
-                    invoiceBalance:</mat-label>
+                    Invoice Balance:</mat-label>
                     <input type="number" matInput formControlName="invoiceBalance">     
                 </mat-form-field>  
                </div> 
@@ -32,28 +32,34 @@
                 <mat-form-field appearance="outline" class="col-12">
                   <mat-label>
                     AMC number:  </mat-label>
-                    <input type="text" matInput formControlName="amcNo" > 
+                    <input type="text" matInput formControlName="amcNo" required>                   
                  </mat-form-field> 
                 </div>  
                 <div formGroupName="amcSerial">       
                   <mat-form-field appearance="outline" class="col pl-2">
                      <mat-label>
-                      amc_serialno:</mat-label>
+                      AMC serial number:</mat-label>
                       <input type="number" matInput formControlName="amcSerialNo" >     
                   </mat-form-field> 
                 </div>  
                 <div formGroupName="product">
                   <mat-form-field appearance="outline" class="col pl-2">
-                    <mat-label>
-                      product_id:  </mat-label>
-                      <input type="text" matInput formControlName="productId" > 
+                    <mat-label>Product</mat-label>
+                    <mat-select formControlName="productId">
+                        <mat-option *ngFor="let product of productList" [value]="product.productId">
+                            {{product.productName}}
+                        </mat-option>
+                    </mat-select>
                    </mat-form-field> 
                 </div>
                 <div formGroupName="currency">
                  <mat-form-field appearance="outline" class="col-12">
-                    <mat-label>
-                      currency_id:  </mat-label>
-                      <input type="text" matInput formControlName="currencyId" > 
+                  <mat-label>Currency</mat-label>
+                  <mat-select formControlName="currencyId">
+                      <mat-option *ngFor="let currency of currencyList" [value]="currency.currencyId">
+                          {{currency.currencyName}}
+                      </mat-option>
+                  </mat-select>
                    </mat-form-field> 
                   </div>
               </div>

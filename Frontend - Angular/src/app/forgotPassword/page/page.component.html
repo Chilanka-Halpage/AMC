@@ -1,0 +1,32 @@
+
+<div class="container">
+<mat-card>
+  <div class="header">
+    <h2>Forgot Password</h2>
+        </div>
+
+  <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>We have sent reset password link to your email</strong> Please check!
+    <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+
+  <form [formGroup]="emailAddForm">
+    
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Enter Your Email</mat-label>
+        <input matInput formControlName="email" placeholder="Ex: pm@gmail.com">
+        <mat-error *ngIf="emailAddForm.get('email').hasError('required')">
+          Email is required
+        </mat-error>
+      </mat-form-field><br><br>
+      <button type="button" mat-flat-button color="primary" (click)="onSubmit()">
+        <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
+        Sent Reset Password Link</button>
+    </form>
+</mat-card>
+</div>
+
+
