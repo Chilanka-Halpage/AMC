@@ -14,4 +14,5 @@ public interface TaxRepository extends JpaRepository<Tax, Integer> {
 	@Query(value = "SELECT * FROM tax where active = true", nativeQuery = true)
 	List<Tax> getActivetax();
 	
+	boolean existsByTaxName(String name);
 }

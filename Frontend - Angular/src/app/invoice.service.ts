@@ -2,13 +2,14 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Invoice } from './invoice';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvoiceService {
 
-  private baseURL = "http://localhost:8080/";
+  private baseURL = environment.baseServiceUrl;
 
   constructor(private HttpClient: HttpClient) { }
   
@@ -33,5 +34,9 @@ export class InvoiceService {
   getFrequency(): Observable<any>{
     return this.HttpClient.get<any>(`${this.baseURL}frequency/findActiveFrequency`)
   }
+
+  getinvoicebyId(id: number): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}invoice/findinvoice/${id}`)
+ }
 
 }  

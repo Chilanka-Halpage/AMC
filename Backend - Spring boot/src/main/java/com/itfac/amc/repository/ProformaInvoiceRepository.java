@@ -2,6 +2,7 @@ package com.itfac.amc.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,10 +18,11 @@ public interface ProformaInvoiceRepository extends JpaRepository<ProformaInvoice
 
 	void deleteByPiNo(String id);
 
-	// List<ProformaInvoiceDto> getProformainvoices();
-
 	@Query(value = "SELECT * FROM proforma_invoice", nativeQuery = true)
 	List<ProformaInvoiceDto> getProformainvoices();
+	
+	@Query(value = "SELECT * FROM proforma_invoice where pi_no = :piNo", nativeQuery = true)
+	Optional<ProformaInvoiceDto> getProformaInvoiceById(@Param("piNo") String pi_no);
 
 	// getInvoice-------------------------------------------
 	@Query(value = "select * from get_invoice where amc_no= :amcNo", nativeQuery = true)

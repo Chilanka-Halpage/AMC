@@ -45,17 +45,14 @@ export class RevalueComponent implements OnInit {
   lastyearrevanu(){
     let date=new Date();
     let formatteddate1 = this.datePipe.transform(date, "yyyy-01-01");
-    console.log(formatteddate1)
     date.setFullYear(date.getFullYear() - 1);
     let formatteddate2 = this.datePipe.transform(date, "yyyy-01-01");
-    console.log(formatteddate2)
     this.homedetails.lastyearrevanue(formatteddate2,formatteddate1).subscribe( data => { 
       this.isLoadingResults = ((this.secondyearLoad = true) && this.lastyearLoad) ? false : true;
       this.lastyearrevanue=data
         if(!this.isLoadingResults ){
           this.barchart()
         }
-        console.log("lastyear", data)
     },
       error => {console.log("Error!", error)
     })
@@ -67,17 +64,14 @@ export class RevalueComponent implements OnInit {
     let date1 = new Date();
     date.setFullYear(date.getFullYear() -1);
     let formatteddate1 = this.datePipe.transform(date, "yyyy-01-01");
-    console.log(formatteddate1)
     date1.setFullYear(date1.getFullYear() - 2);
     let formatteddate2 = this.datePipe.transform(date1, "yyyy-01-01");
-    console.log(formatteddate2)
     this.homedetails.lastyearrevanue(formatteddate2,formatteddate1).subscribe( data => { 
       this.isLoadingResults = ((this.lastyearLoad = true) && this.secondyearLoad) ? false : true;
       this.secondlastrevanue=data
       if(!this.isLoadingResults ){
         this. barchart()
       }
-        console.log("secondyear", data)
     },
       error => {console.log("Error!", error)
     })
@@ -89,17 +83,14 @@ export class RevalueComponent implements OnInit {
     let date2=new Date();
     date.setFullYear(date.getFullYear() -2 );
     let formatteddate1 = this.datePipe.transform(date, "yyyy-01-01");
-    console.log(formatteddate1)
     date2.setFullYear(date2.getFullYear() - 3);
     let formatteddate2 = this.datePipe.transform(date2, "yyyy-01-01");
-    console.log(formatteddate2)
     this.homedetails.lastyearrevanue(formatteddate2,formatteddate1).subscribe(data => { 
       this.isLoadingResults = ((this.thirdyearLoad = true) && this.fourthyearLoad && this.fifthyearLoad) ? false : true;
         this.thirdlastrevanue=data
         if(!this.isLoadingResults ){
           this. barchart()
         }
-        console.log("thirdyear", data)
     },
       error => {console.log("Error!", error)
     })
@@ -109,17 +100,14 @@ export class RevalueComponent implements OnInit {
     let date=new Date();
     date.setFullYear(date.getFullYear() -3);
     let formatteddate1 = this.datePipe.transform(date, "yyyy-01-01");
-    console.log(formatteddate1)
     date.setFullYear(date.getFullYear() - 1);
     let formatteddate2 = this.datePipe.transform(date, "yyyy-01-01");
-    console.log(formatteddate2)
     this.homedetails.last4yearrevanue(formatteddate2,formatteddate1).subscribe(data => {
       this.isLoadingResults = ((this.fourthyearLoad = true) && this.thirdyearLoad && this.fifthyearLoad) ? false : true;
       this.fourthlastrevanue=data
       if(!this.isLoadingResults ){
         this. barchart()
       }
-        console.log("fourthyear", data)
     },
       error => {console.log("Error!", error)
     })
