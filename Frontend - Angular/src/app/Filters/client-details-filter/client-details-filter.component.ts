@@ -26,7 +26,7 @@ export class ClientDetailsFilterComponent implements OnInit {
     private datePipe: DatePipe,
     ) { } 
 
-      allAmcFilter = this.fb.group({
+    clientDetailsFilter = this.fb.group({
       date1: [''],
       date2: ['']
     });
@@ -40,13 +40,14 @@ export class ClientDetailsFilterComponent implements OnInit {
  
   onSubmit(){
 
-    let date1 = this.allAmcFilter.value.date1;
-    let date2 = this.allAmcFilter.value.date2;
+    let date1 = this.clientDetailsFilter.value.date1;
+    let date2 = this.clientDetailsFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
-    this.router.navigate(['clientDetails',formatteddate1,formatteddate2]);
+    //this.router.navigate(['clientDetails',formatteddate1,formatteddate2]);
     this.jrReportDetailsService.ClientDetailsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.router.navigate(['clientDetails',formatteddate1,formatteddate2]);
     },
       error => {console.log("Error!", error)
     }

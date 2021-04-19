@@ -74,9 +74,10 @@
         <span style="-webkit-text-fill-color:#ffffff">Login</span>
       </button> 
       <button mat-icon-button>
-        <mat-icon style="color: #ffffff;" (click)="notification()"
-        [matBadge]="notificationNo" (click)="toggleBadgeVisibility()">notifications</mat-icon>
+        <mat-icon style="color: #ffffff;" (click)="notification()" [matBadgeHidden]="hidden" 
+        [matBadge]="notificationNo" >notifications</mat-icon>
       </button>
+      <!-- (click)="toggleBadgeVisibility()" -->
       <img src="{{imageSrc}}" class="img-size2"  style=" background-image: url(../../assets/backgroundimage12.jpg);" *ngIf="_authentication.loggedIn()">
       <button  mat-button [matMenuTriggerFor]="profile" *ngIf="_authentication.loggedIn()">
        <span class="button-text" style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>

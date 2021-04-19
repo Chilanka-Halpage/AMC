@@ -6,8 +6,9 @@
         <h2>Quarter Wise Revenue Report</h2>
         <form [formGroup]="quarterWiseReport" (ngSubmit)="onSubmit()">
           <div>
-            <mat-form-field appearance="outline">
-                <select matNativeControl required formControlName="date1">
+            <mat-form-field appearance="outline" style="width: 300px;">
+              <mat-label>Choose a year</mat-label>
+                <select matNativeControl formControlName="date1" required>
                   <option value="2010-04-01"> 2010/04/01 to 2011/03/31 </option>
                   <option  value="2011-04-01">2011/04/01 to 2012/03/31</option>
                   <option  value="2012-04-01">2012/04/01 to 2013/03/31</option>
@@ -30,8 +31,12 @@
                   <option value="2029-04-01" >2029/04/01 to 2030/03/31</option>
                   <option value="2030-04-01" >2030/04/01 to 2031/03/31</option>
                 </select>
+                <mat-error *ngIf="quarterWiseReport.get('date1').hasError('required')">
+                  This field is required
+                </mat-error>
               </mat-form-field>
           </div>
+          <br>
           <button type="submit" mat-raised-button color="primary" mat-dialog-close>Generate Report</button>
         </form>
       </div>

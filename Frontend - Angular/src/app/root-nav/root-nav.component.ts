@@ -44,6 +44,8 @@ export class RootNavComponent {
     private imageService: ImageService
   ) { }
   public imageSrc: string;
+  notificationNo
+  notifications: Notification;
 
   AllAMCDetailsFilter() {
     this.dialog.open(AllAmcFilterComponent)
@@ -66,16 +68,9 @@ export class RootNavComponent {
   }
 
   ngOnInit(): void {
-    console.log(this._authentication.userId)
-    this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
-      data => {
-        this.notificationNo = data;
-      }
-      );
-    //console.log(this.notificationNo)
+    this.notificationCount()
     this.imageSrc= this.imageService.Image(this._authentication.userId);
   }
-   notificationNo
 
   ClientsDetailsFilter() {
     this.dialog.open(ClientDetailsFilterComponent)
@@ -103,9 +98,10 @@ export class RootNavComponent {
 
   //Client AMC
   ClientAmc(){
-    this.router.navigate([`clientAmc/${this._authentication.userId}`]);
+    //this.router.navigate([`clientAmc/${this._authentication.userId}`]);
     this.jrReportDetailsService.ClientAmcJrReport(this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.router.navigate([`clientAmc/${this._authentication.userId}`]);
     },
       error => {console.log("Error!", error)
     }
@@ -114,9 +110,10 @@ export class RootNavComponent {
 
   //Client Payment report
   ClientPayment(){
-    this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
+    //this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
     this.jrReportDetailsService.ClientPaymentJrReport(this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
     },
       error => {console.log("Error!", error)
     }
@@ -135,19 +132,28 @@ export class RootNavComponent {
   }
 
     //notification
-    updateIsRead() {
-      this.notificationService.updateIsRead(this._authentication.userId).subscribe(
-         Response => {console.log("success", Response)}
-        )
+  updateIsRead() {
+    this.notificationService.updateIsRead(this._authentication.userId).subscribe(
+        Response => {console.log("success", Response)}
+      )
   }
   notification(){
     this.router.navigate([`/notification/${this._authentication.userId}`]);
     this.updateIsRead()
  }
 
- hidden = false;
+ hidden;
 
- toggleBadgeVisibility() {
-   this.hidden = !this.hidden;
- }
+ notificationCount(){
+  console.log(this._authentication.userId)
+  this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
+    data => {
+      this.notificationNo = data;
+      if(this.notificationNo==0)
+      {this.hidden=true;}
+      else
+      {this.hidden=false;}
+    }
+    );
+  }
 }

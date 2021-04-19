@@ -32,10 +32,11 @@ date1
     this.date1 = this.quarterWiseReport.value.date1;
     //console.log(this.date1);
      //let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
-    this.router.navigate(['quarterWiseRevenueReport',this.date1]);
+    //this.router.navigate(['quarterWiseRevenueReport',this.date1]);
   
     this.jrReportDetailsService.QuarterWiseRevenueJrReport(this.date1,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.router.navigate(['quarterWiseRevenueReport',this.date1]);
     },
       error => {console.log("Error!", error)
     }

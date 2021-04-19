@@ -42,10 +42,11 @@ export class RenewalAmcsFilterComponent implements OnInit {
     this.date.setMonth(this.date.getMonth() +   numberValue);
     let formatteddate2 = this.datePipe.transform(this.date, "yyyy-MM-dd");
     console.log(formatteddate2);
-    this.router.navigate(['renewalAmcs',formatteddate1,formatteddate2]);
+    //this.router.navigate(['renewalAmcs',formatteddate1,formatteddate2]);
   
     this.jrReportDetailsService.RenewalAmcsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.router.navigate(['renewalAmcs',formatteddate1,formatteddate2]);
     },
       error => {console.log("Error!", error)
     }
