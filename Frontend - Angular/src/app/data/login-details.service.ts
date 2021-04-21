@@ -12,7 +12,7 @@ export class LoginDetailsService {
   private baseURL =environment.baseServiceUrl;
   constructor( private httpClient: HttpClient ) { }
 
-  getLoginDetails(): Observable<LoginDetails>{
-    return this.httpClient.get<LoginDetails>(`${this.baseURL}User/loginDetails`);
+  getLoginDetails(): Observable<LoginDetails[]>{
+    return this.httpClient.get<LoginDetails[]>(`${this.baseURL}User/loginDetails`);
   }
 }

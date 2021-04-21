@@ -26,5 +26,21 @@ export class AllClientsDetailsFilterComponent implements OnInit {
     console.log(this.allAmcFilter.value);
     this.router.navigate(['generatereport', {relativeTo: this.route}])
   }
-
+  get f(){
+    return this.allAmcFilter.controls;
+  }
+}
+export function ConfirmedValidator(fromDate: string, toDate: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[fromDate];
+    const matchingControl = formGroup.controls[toDate];
+    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+      return;
+    }
+    if (control.value > matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  }
 }

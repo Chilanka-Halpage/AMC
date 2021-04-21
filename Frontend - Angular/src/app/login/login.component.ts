@@ -58,13 +58,14 @@ export class LoginComponent implements OnInit {
               userId: response.userId
             }
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
-             if (response.role == "ROLE_ADMIN") {
+            if (response.role == "ROLE_ADMIN" || response.role == "ROLE_AMC_COORDINATOR" || response.role == "ROLE_ACCOUNTANT") {
               this.router.navigate(['/adminhome']);
              } else if(response.role == "ROLE_CLIENT"){
               this.router.navigate(['/clienthome']);
              } else{
                this.dialog.open(AlertComponent);
              }
+
         }, error => {
           this.error = error;
           this.dialog.open(AlertComponent);

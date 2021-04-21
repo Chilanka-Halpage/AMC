@@ -78,7 +78,7 @@
       
       <button mat-icon-button *ngIf="_authentication.loggedIn()">
         <mat-icon style="color: #ffffff;" (click)="notification()"
-        [matBadge]="notificationNo" (click)="toggleBadgeVisibility()">notifications</mat-icon>
+        [matBadge]="notificationNo" [matBadgeHidden]="hidden">notifications</mat-icon>
       </button>
       <img class="avatar" alt="image" src="{{imageSrc}}" *ngIf="_authentication.loggedIn()">
       <button  mat-button [matMenuTriggerFor]="profile" *ngIf="_authentication.loggedIn()">

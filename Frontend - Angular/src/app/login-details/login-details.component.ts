@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { LoginDetailsService } from '../data/login-details.service';
 import { LoginDetails } from '../data/loginDetails/login-details';
 
@@ -9,7 +10,8 @@ import { LoginDetails } from '../data/loginDetails/login-details';
 })
 export class LoginDetailsComponent implements OnInit {
 
-  loginDetails: LoginDetails
+  resultsLength = 0;
+  loginDetails: MatTableDataSource<LoginDetails>
 
   constructor(
     private loginDetailsService: LoginDetailsService
@@ -17,12 +19,18 @@ export class LoginDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLoginDetails()
+    this.resultsLength = this.loginDetails.data.length;
   }
   getLoginDetails(){
     this.loginDetailsService.getLoginDetails().subscribe(
       data => {
-        this.loginDetails = data;
+        this.loginDetails = new MatTableDataSource(data);
       })
   }
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.loginDetails.filter = filterValue.trim().toLowerCase();
+  }
+
   displayedColumns: string[] = ['user_id','uname','loged_ip','loged_datetime'];
 }
