@@ -54,7 +54,6 @@ public class NotificationServiceImpl implements NotificationService{
 		notification.setIsRead(true);
 		notification.setUser(user);
 		notification.setSavedDate(date);
-		System.out.println("jkhkhk");
 		return notificationRepository.save(notification);
 	}
 }
