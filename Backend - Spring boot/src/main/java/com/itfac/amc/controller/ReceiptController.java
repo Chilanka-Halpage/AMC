@@ -56,7 +56,6 @@ public class ReceiptController {
 
 	@GetMapping("getDate/{idname}")
 	ResponseEntity<List<Date>> getDate(@PathVariable("idname") String id) throws Exception {
-
 		List<Date> receiptDate = receiptService.getDate(id);
 		return ResponseEntity.status(HttpStatus.OK).body(receiptDate);
 	}

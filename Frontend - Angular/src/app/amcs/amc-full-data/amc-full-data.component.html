@@ -6,26 +6,32 @@
 </div>
 <div *ngIf="!isLoadingResults && !isRateLimitReached" class="container-xl background-color">
     <div class="col-6 pt-2 pb-0 my-0 ">
-        <h3 class="mar-h1 text-primary"><i>AMC Full Data - {{ clientName }} <br /> Department {{ data.department_name }}</i></h3>
+        <h2 class="mar-h1">AMC Full Data - {{ clientName }} <br /> Department {{ data.department_name }}</h2>
+    </div>
+    <div *ngIf="isExpired" class="alert alert-danger">
+        AMC is expired
+    </div>
+    <div *ngIf="!isExpired && isInactive" class="col-6 pt-2 pb-0 my-0 alert alert-danger">
+        AMC is Inactive
     </div>
     <div class="d-flex flex-row-reverse my-0">
-        <button (click)="onSelect()" type="button" mat-raised-button class="btn btn-info ml-1">
+        <button (click)="onSelect()" type="button" mat-raised-button class="btn btn-info ml-1" *ngIf="!isBlocked">
             <mat-icon>add</mat-icon> Renew
         </button>
-        <button (click)="onEditGeneral()" type="button" mat-raised-button class="btn btn-danger ml-1">
+        <button (click)="onEditGeneral()" type="button" mat-raised-button class="btn btn-danger ml-1" *ngIf="!isBlocked">
             <mat-icon>create</mat-icon> Edit
         </button>
     </div>
     <div class="row no-gutters">
         <div class="col-md-6 no-gutters amc-grid">
-            <h6 class="ml-2">AMC General Details</h6>
+            <h4 class="ml-2 text-primary">AMC General Details</h4>
             <mat-divider class="mat-divider"></mat-divider>
             <br />
             <div class="row px-0 m-0">
                 <mat-label class="col-6">Amc No</mat-label>
                 <mat-label class="col-6">{{ data.amc_no }}</mat-label>
             </div>
-            <div class="row px-0 m-0">
+            <div class="row px-0 m-0" *ngIf="!(isExpired || isInactive)">
                 <mat-label class="col-6">Status</mat-label>
                 <mat-label class="col-6">{{ (data.amc_active)? "Active" : "Inactive" }}</mat-label>
             </div>
@@ -45,21 +51,21 @@
                 <mat-label class="col-6">Currency</mat-label>
                 <mat-label class="col-6">{{ data.currency_name }}</mat-label>
             </div>
-            <div class="row px-0 m-0">
+            <div class="row px-0 m-0" *ngIf="!(isExpired || isInactive)">
                 <mat-label class="col-6">Exchange Rate</mat-label>
                 <mat-label class="col-6">{{ data.exchage_rate }}</mat-label>
             </div>
-            <div class="row px-0 m-0">
+            <div class="row px-0 m-0" *ngIf="!(isExpired || isInactive)">
                 <mat-label class="col-6">Total Value</mat-label>
                 <mat-label class="col-6">{{ data.total_value }}</mat-label>
             </div>
-            <div class="row px-0 m-0">
+            <div class="row px-0 m-0" *ngIf="!(isExpired || isInactive)">
                 <mat-label class="col-6">Total Value (LKR)</mat-label>
                 <mat-label class="col-6">{{ data.total_value_lkr}}</mat-label>
             </div>
             <div class="row px-0 m-0" *ngIf="isAuthorized">
                 <mat-label class="col-6">Saved By</mat-label>
-                <mat-label class="col-6">{{ data.saved_by }}</mat-label>
+                <mat-label class="col-6"> <a href="/userList"> {{ data.saved_by }} </a> </mat-label>
             </div>
             <div class="row px-0 m-0" *ngIf="isAuthorized">
                 <mat-label class="col-6">Saved On</mat-label>
@@ -67,7 +73,7 @@
             </div>
             <div class="row px-0 m-0" *ngIf="isAuthorized">
                 <mat-label class="col-6">Last Modified By</mat-label>
-                <mat-label class="col-6">{{ data.last_modified_by }}</mat-label>
+                <mat-label class="col-6"><a href="/userList"> {{ data.last_modified_by }} </a> </mat-label>
             </div>
             <div class="row px-0 m-0" *ngIf="isAuthorized">
                 <mat-label class="col-6">Last Modified On</mat-label>
@@ -87,7 +93,7 @@
             </div>
         </div>
         <div class="col-md-6 no-gutters amc-grid">
-            <h6 class="ml-2">AMC Maintenance Details</h6>
+            <h4 class="ml-2 text-primary">AMC Maintenance Details</h4>
             <mat-divider class="mat-divider"></mat-divider>
             <br />
             <div class="row px-0 m-0">
@@ -147,7 +153,7 @@
     </div>
     <div class="row no-gutters">
         <div class="col-md-6 no-gutters amc-grid">
-            <h6 class="ml-2">AMC Product Details</h6>
+            <h4 class="ml-2 text-primary">AMC Product Details</h4>
             <mat-divider class="mat-divider"></mat-divider>
             <br />
             <div class="row px-0 m-0">
@@ -184,7 +190,7 @@
             </div>
         </div>
         <div class="col-md-6 no-gutters">
-            <h6 class="ml-2">Scanned Copy of Contract</h6>
+            <h4 class="ml-2 text-primary">Scanned Copy of Contract</h4>
             <mat-divider class="mat-divider"></mat-divider>
             <br />
             <div *ngIf="data.contract_url;else elseBlock" class="d-flex justify-content-center">

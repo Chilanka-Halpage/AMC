@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -16,6 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.itfac.amc.security.MyUserDetails;
 import com.itfac.amc.security.MyUserDetailsService;
+
+import io.jsonwebtoken.ExpiredJwtException;
 
 @Component
 public class JwtFiter extends OncePerRequestFilter {
@@ -47,6 +50,7 @@ public class JwtFiter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(token);
 			}
 		}
+
 		filterChain.doFilter(request, response);
 
 	}

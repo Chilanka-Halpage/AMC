@@ -7,7 +7,7 @@
 <div *ngIf="!isLoadingResults && !isRateLimitReached" class="container-md mb-4">
 
     <div class="jumbotron mb-3">
-        <h3 class="h2">Add New AMC</h3>
+        <h2 class="h2">Add New AMC</h2>
         <p>Add new AMC maintenance details</p>
     </div>
     <br />
@@ -22,7 +22,7 @@
 
             <form [formGroup]="amcSerialForm">
                 <div formGroupName="amcMaster">
-                    <h6>AMC Details</h6>
+                    <h5>AMC Details</h5>
                     <mat-divider class="mat-divider"></mat-divider>
                     <br />
                     <div class="row px-0">
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div formGroupName="clientDepartment">
-                    <h6>Department Details</h6>
+                    <h5>Department Details</h5>
                     <mat-divider class="mat-divider"></mat-divider>
                     <br />
                     <div class="row px-0">
@@ -62,7 +62,7 @@
                 </div>
                 <br />
                 <div formGroupName="amcProduct">
-                    <h6>AMC Product Details</h6>
+                    <h5>AMC Product Details</h5>
                     <mat-divider class="mat-divider"></mat-divider>
                     <br />
                     <div class="row px-0">
@@ -129,7 +129,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <h6>Maintenace Details</h6>
+                <h5>Maintenace Details</h5>
                 <mat-divider class="mat-divider"></mat-divider>
                 <br />
                 <div class="row px-0">

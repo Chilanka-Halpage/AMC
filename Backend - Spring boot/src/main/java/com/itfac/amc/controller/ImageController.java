@@ -19,7 +19,7 @@ import com.itfac.amc.service.ImageService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value = "api/images")
+@RequestMapping(value = "api/images/")
 public class ImageController {
 
 	@Autowired

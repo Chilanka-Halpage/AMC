@@ -47,7 +47,7 @@ export class ClientListComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.isAuthorized = (this.authService.role === 'ROLE_admin') ? true : false;
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
   }
 
   ngAfterViewInit(): void {
@@ -77,7 +77,11 @@ export class ClientListComponent implements OnInit, AfterViewInit {
 
           return data.content;
         }),
-        catchError(() => {
+        catchError( error => {
+          if (error.status === 403) {
+            this.authService.logoutUser();
+            this.router.navigate(['/login']);
+          }
           this.isLoadingResults = false;
           // set flag to identify that errors ocuured
           this.isRateLimitReached = true;

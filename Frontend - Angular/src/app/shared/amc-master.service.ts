@@ -114,6 +114,11 @@ export class AmcMasterService {
     return this.http.get(`${this.baseURL}amcMaster/get/clients/${clientId}`).pipe(timeout(5000));
   }
 
+  //Get AMC master data related to a client
+  getAmcMasterListForClient(userId: string): Observable<any> {
+    return this.http.get(`${this.baseURL}amcMaster/get/client/${userId}`).pipe(timeout(5000));
+  }
+
   //Get AMC serial data
   getAmcSerilaList(deptId: number): Observable<any> {
     return this.http.get(`${this.baseURL}amcSerial/get/clients/depts/${deptId}`);
