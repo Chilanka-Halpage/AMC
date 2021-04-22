@@ -14,4 +14,5 @@ public interface CurrencyRepository extends JpaRepository<Currency, Integer> {
 	@Query(value = "SELECT * FROM currency where active = true", nativeQuery = true)
 	List<Currency> getActivecurrencies();
 	
+	boolean existsByCurrencyName(String name);
 }

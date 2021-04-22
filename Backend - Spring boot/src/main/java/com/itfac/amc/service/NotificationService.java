@@ -10,4 +10,5 @@ public interface NotificationService {
 	public List<NotificationView> getNotification(String userId);
 	public List<String> getNotificationNo(String user_id);
 	public void updateIsRead(String userId);
+	public Notification test(String userId);
 }

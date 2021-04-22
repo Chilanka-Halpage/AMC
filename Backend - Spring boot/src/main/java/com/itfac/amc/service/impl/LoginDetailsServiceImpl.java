@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itfac.amc.dto.logindetailsDTo;
 import com.itfac.amc.entity.Currency;
 import com.itfac.amc.entity.LoginDetails;
 import com.itfac.amc.entity.User;
@@ -17,20 +18,20 @@ import com.itfac.amc.repository.LoginDtailsRepository;
 import com.itfac.amc.service.LoginDetailsService;
 
 @Service
-public class LoginDetailsServiceImpl implements LoginDetailsService{
-	
+public class LoginDetailsServiceImpl implements LoginDetailsService {
+
 	@Autowired
 	private LoginDtailsRepository loginDtailsRepository;
-	
-	//login details---------------------------------
-	//get from userdetailscontroller-----------------------
+
+	// login details---------------------------------
+	// get from userdetailscontroller-----------------------
 	@Override
-	public List<viewLoginDetails> loginDetails(){
+	public List<viewLoginDetails> loginDetails() {
 		return loginDtailsRepository.loginDetails();
 	}
-	
+
 	@Override
-	public LoginDetails loginDetails(HttpServletRequest httpServletRequest,String userId){
+	public LoginDetails loginDetails(HttpServletRequest httpServletRequest, String userId) {
 		LoginDetails loginDetails = new LoginDetails();
 		User user = new User();
 		user.setUserId(userId);
@@ -42,5 +43,10 @@ public class LoginDetailsServiceImpl implements LoginDetailsService{
 		loginDetails.setLogoutIp(ipAddress);
 		loginDetails.setLogoutTime(date);
 		return loginDtailsRepository.save(loginDetails);
+	}
+
+	@Override
+	public List<logindetailsDTo> logindetailslist() {
+		return loginDtailsRepository.logindetailslist();
 	}
 }

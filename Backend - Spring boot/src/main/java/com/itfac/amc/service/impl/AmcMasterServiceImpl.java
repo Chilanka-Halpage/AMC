@@ -75,10 +75,13 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 
 	@Override
 	public List<AmcMasterDto> getAmcByClient(int clientId) {
-		List<AmcMasterDto> amcList = amcMasterRepository.findByClientClientId(clientId);
-		if (amcList.isEmpty())
-			throw new ResourceNotFoundException("Client ID " + clientId + " not have records");
-		return amcList;
+		return amcMasterRepository.findByClientClientId(clientId);
+	}
+	
+	@Override
+	public List<AmcMasterDto> getAmcListByUserId(String userId) {
+		int clientId = clientRepository.getClientIdByUserId(userId).orElseThrow(() -> new ResourceNotFoundException("Client not found for user ID: " + userId));
+		return getAmcByClient(clientId);
 	}
 
 	@Override

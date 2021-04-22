@@ -43,7 +43,6 @@ export class AMCStatusComponent implements OnInit {
       data => { 
         this.isLoadingResults = ((this.renewdLoad = true) && this.renewelLoad) ? false : true;
         this.renewedAmcCount=data
-        console.log("renewd",data)
         if(!this.isLoadingResults ){
           this.piechart();
         }
@@ -61,7 +60,6 @@ export class AMCStatusComponent implements OnInit {
       data => {
         this.isLoadingResults = ((this.renewelLoad = true) && this.renewdLoad) ? false : true;
         this.AmcReminders=data
-        console.log("renewel",data)
         if(!this.isLoadingResults ){
           this.piechart();
         }
@@ -77,7 +75,6 @@ export class AMCStatusComponent implements OnInit {
     let formatteddate2 = this.datePipe.transform(date, "yyyy-MM-dd");
     this.homedetails.expiredamcCount(formatteddate2,formatteddate1).subscribe(
       data => { this.expiredAmcCount=data
-        console.log("expired", data)
     },
       error => {console.log("Error!", error)
     })

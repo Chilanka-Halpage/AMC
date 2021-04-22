@@ -51,8 +51,8 @@ public class ProformaInvoiceController {
 	}
 
 	@GetMapping("findinvoice/{id}")
-	ResponseEntity<Optional<ProformaInvoice>> getProformaInvoiceById(@PathVariable("id") String piNo) {
-		Optional<ProformaInvoice> invoiceByIdd = proformaInvoiceService.getProformaInvoiceById(piNo);
+	ResponseEntity<Optional<ProformaInvoiceDto>> getProformaInvoiceById(@PathVariable("id") String piNo) {
+		Optional<ProformaInvoiceDto> invoiceByIdd = proformaInvoiceService.getProformaInvoiceById(piNo);
 		if (invoiceByIdd != null) {
 			return ResponseEntity.ok(invoiceByIdd);
 		}

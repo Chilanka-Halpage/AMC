@@ -6,7 +6,7 @@
 </div>
 <div *ngIf="!isLoadingResults && !isRateLimitReached">
     <div class="jumbotron mb-3">
-        <h3 class="h2"> AMC History - {{ amcNo }} <br/> {{ clientName }} </h3>
+        <h2 class="h2"> AMC History - {{ amcNo }} <br/> {{ clientName }} </h2>
         <p> </p>
     </div>
     <br />
@@ -14,7 +14,7 @@
         <div class="card-body background-color">
             <div *ngFor="let logData of list">
                 <div> {{ logData.dateTime | date: 'short' }} </div>
-                <div *ngIf="this.authService.role === 'ROLE_admin'">{{ logData.userId }} </div>
+                <div *ngIf="this.authService.role === 'ROLE_ADMIN'">{{ logData.userId }} </div>
                 updated {{ logData.fieldName }} from {{ logData.oldValue }} to {{ logData.newValue }}
                 <mat-divider class="mat-divider"></mat-divider>
             </div>

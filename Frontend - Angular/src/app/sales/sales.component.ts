@@ -33,7 +33,6 @@ export class SalesComponent implements OnInit {
     this.homedetails.getInactiveAmcCount().subscribe(data=>{
       this.isLoadingResults = (( this.inactiveLoad = true) && this.activeLoad ) ? false : true ;
       this.InactiveAmcCount=data   
-      console.log(data)
       if(!this.isLoadingResults ){
         this.doughnutchart()
       }
@@ -47,7 +46,6 @@ export class SalesComponent implements OnInit {
       if(!this.isLoadingResults ){
         this.doughnutchart()
       }
-      console.log(data)
     })
   }
 

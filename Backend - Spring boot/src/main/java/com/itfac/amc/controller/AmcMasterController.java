@@ -42,8 +42,14 @@ public class AmcMasterController {
 	}
 
 	@GetMapping("get/clients/{clientId}")
-	public ResponseEntity<List<AmcMasterDto>> getAmcByClient(@PathVariable("clientId") int clientId) {
+	public ResponseEntity<List<AmcMasterDto>> getAmcListByClient(@PathVariable("clientId") int clientId) {
 		List<AmcMasterDto> result = amcService.getAmcByClient(clientId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+	
+	@GetMapping("get/client/{userId}")
+	public ResponseEntity<List<AmcMasterDto>> getAmcListByUserId(@PathVariable("userId") String userId) {
+		List<AmcMasterDto> result = amcService.getAmcListByUserId(userId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 

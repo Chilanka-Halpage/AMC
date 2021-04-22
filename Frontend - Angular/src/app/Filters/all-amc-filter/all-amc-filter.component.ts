@@ -18,6 +18,7 @@ export class AllAmcFilterComponent implements OnInit {
   allAmcs: AllAmcs;
   users : Users;
   isLoadingResults ;
+  closeDialog=false;
   constructor(
     public _authentication: AuthenticationService,
     private jrReportDetailsService: JrReportDetailsService,
@@ -30,7 +31,9 @@ export class AllAmcFilterComponent implements OnInit {
       allAmcFilter = this.fb.group({
       date1: [''],
       date2: ['']
-    });
+    },{
+      validator: ConfirmedValidator('date1', 'date2')
+    } );
 
   ngOnInit(): void {
   }
@@ -41,7 +44,6 @@ export class AllAmcFilterComponent implements OnInit {
     let date2 = this.allAmcFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
-      //this.router.navigate(['allAmcReport',formatteddate1,formatteddate2]);
     console.log(formatteddate1);
     console.log(formatteddate2);
     //generate All AMCs jasper report
@@ -50,9 +52,28 @@ export class AllAmcFilterComponent implements OnInit {
         console.log("success", Response)
         this.router.navigate(['allAmcReport',formatteddate1,formatteddate2]);
         this.isLoadingResults=false;
+       // this.closeDialog=true;
     },
       error => {console.log("Error!", error)
     }
     )
+  }
+  get f(){
+    return this.allAmcFilter.controls;
+  }
+   
+}
+export function ConfirmedValidator(fromDate: string, toDate: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[fromDate];
+    const matchingControl = formGroup.controls[toDate];
+    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+      return;
+    }
+    if (control.value > matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
   }
 }

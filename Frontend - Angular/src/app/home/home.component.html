@@ -3,14 +3,15 @@
   <mat-grid-list cols="4" rowHeight="200px">
     <!--mini cards-->
     <mat-grid-tile>
-      <mat-card class="dashboard-card" style=" background: rgb(255,210,141);
+      <mat-card class="dashboard-card " style=" background: rgb(255,210,141);
       background: linear-gradient(0deg, rgba(255,210,141,1) 0%, rgba(255,189,45,1) 100%);  ">
           <mat-card-title >         
             <div><h3>Total AMC</h3></div>
-            <label class="value">{{TotalAmc}}</label>
+            <label class="value col-6 ">{{TotalAmc}}</label>
           </mat-card-title>
-      <mat-card-content>
+      <mat-card-content  class=" col-md-6">
         </mat-card-content>
+        
       </mat-card>
     </mat-grid-tile>     
     <mat-grid-tile>
@@ -18,7 +19,7 @@
       background: linear-gradient(0deg, rgba(176,255,141,1) 0%, rgba(0,228,3,1) 100%);  ">
           <mat-card-title >         
             <div><h3>Active AMC</h3></div>
-            <label class="value">{{ActiveAmcCount}} </label>
+            <label class="value col-6">{{ActiveAmcCount}} </label>
           </mat-card-title>
           <mat-card-content>
           </mat-card-content>
@@ -29,7 +30,7 @@
       background: linear-gradient(0deg, rgba(141,255,244,1) 0%, rgba(17,182,255,1) 100%); " >
           <mat-card-title >         
             <div><h3>AMC Reminders</h3></div>
-            <label class="value">{{AmcReminders}}</label>
+            <label class="value col-6">{{AmcReminders}}</label>
           </mat-card-title>
       </mat-card>
     </mat-grid-tile>
@@ -38,15 +39,15 @@
       background: linear-gradient(0deg, rgba(141,147,255,1) 0%, rgba(17,102,255,1) 100%); " >
           <mat-card-title >         
             <div><h3>Total Active Clients</h3></div>
-            <label class="value">{{TotalActiveClients}}</label>
+            <label class="value col-6" >{{TotalActiveClients}}</label>
           </mat-card-title>
-        <mat-card-content>
+        <mat-card-content >
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>   
   </mat-grid-list>
 </div>
-
+ 
 <mat-grid-list cols = "4" rowHeight = "100px">
   <mat-grid-tile 
   [colspan] = "2"
@@ -66,19 +67,35 @@
   </mat-grid-tile>
   <mat-grid-tile
   [colspan] = "2"
-  [rowspan] = "4"><mat-card class="example-card background-color">   
-      <div >
+  [rowspan] = "4"><mat-card class="example-card">   
+     
         <app-amcstatus></app-amcstatus>
-      </div>
+      
   </mat-card>  
   </mat-grid-tile>
   <mat-grid-tile
   [colspan] = "2"
-  [rowspan] = "4"><mat-card class="example-card background-color" [hidden]="!isAuthorized">   
+  [rowspan] = "4"><mat-card class="example-card" [hidden]="!isAuthorized">
       <div >
         <app-log-details></app-log-details>
-      </div>
-  </mat-card>  
+      </div></mat-card>
   </mat-grid-tile>
 
-</mat-grid-list>
+</mat-grid-list> 
+
+<!-- <div class="row">
+  <div class="col-md-6 ">
+    <app-sales></app-sales>
+  </div>
+  <div class="col-md-6">
+    <app-revalue></app-revalue>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6 ">
+    <app-amcstatus></app-amcstatus>
+  </div>
+  <div class="col-lg-6">
+    <app-log-details></app-log-details>
+  </div>
+</div> -->

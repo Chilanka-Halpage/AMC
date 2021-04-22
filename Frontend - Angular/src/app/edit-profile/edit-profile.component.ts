@@ -59,10 +59,8 @@ export class EditProfileComponent implements OnInit {
   onSubmit() {
     console.log(this.editProfileForm.value);
     this.usersService.updateUser(this.userId, this.editProfileForm.value).subscribe(
-      Response => {console.log("success", Response)
-      
+      Response => {console.log("success", Response)   
     },
-
       error => {console.log("Error!", error)
       this.location.back() 
     })
@@ -90,7 +88,7 @@ export class EditProfileComponent implements OnInit {
   }
 
 
-  // upload image-----------------------------------
+  //upload image-----------------------------------
   onSelectFile(event) {
     this.selectedFile = event.target.files[event.target.files.length - 1] as File;
   }
@@ -103,8 +101,6 @@ export class EditProfileComponent implements OnInit {
       },
     );
   }
-
-
   
   get f(){
     return this.form.controls;

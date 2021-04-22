@@ -29,15 +29,12 @@ public class CategoryController {
 	CategoryService categoryservice;
 
 	@GetMapping("findAllCategory")
-
 	public ResponseEntity<List<Category>> getallctegory() {
 		List<Category> allCategory = categoryservice.getAllCategory();
 		return ResponseEntity.status(HttpStatus.OK).body(allCategory);
-
 	}
 
 	@GetMapping("findAllCategory/{id}")
-
 	ResponseEntity<Optional<Category>> getCategoryById(@PathVariable("id") int categoryId) {
 		Optional<Category> categoryByIdd = categoryservice.getCategoryById(categoryId);
 
@@ -49,13 +46,11 @@ public class CategoryController {
 	}
 
 	@DeleteMapping("deleteCategory/{id}")
-
 	public ResponseEntity<String> deleteCategory(@PathVariable("id") int categoryId) {
 		return ResponseEntity.badRequest().body("not deleted");
 	}
 
 	@PostMapping("AddCategory")
-
 	public ResponseEntity<String> AddCategory(@Validated @RequestBody Category category) {
 		categoryservice.AddCategory(category);
 		return ResponseEntity.status(HttpStatus.OK).body("added successfull");
@@ -63,16 +58,13 @@ public class CategoryController {
 	}
 
 	@PutMapping("UpdateCategory/{id}")
-
 	public ResponseEntity<String> updateCategory(@PathVariable("id") int categoryId, @RequestBody Category category) {
-
 		category.setCategoryId(categoryId);
 		categoryservice.updateCategory(category);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}
 
 	@GetMapping("findActiveCategoy")
-
 	public List<Category> getActiveCategory() {
 		return categoryservice.getActiveCategory();
 

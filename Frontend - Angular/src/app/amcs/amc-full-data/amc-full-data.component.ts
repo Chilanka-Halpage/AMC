@@ -3,6 +3,7 @@ import { AmcData } from './../../Model/amc-data.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-amc-full-data',
@@ -11,12 +12,16 @@ import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 })
 export class AmcFullDataComponent implements OnInit {
 
+  private currentDate = new Date();
   public clientName: string;
   public data: AmcData;
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public errorMessage = "Unknown Error"
-  public isAuthorized: boolean;
+  public isAuthorized = false;
+  public isExpired = false;
+  public isInactive = false;
+  public isBlocked = false;
 
   constructor(
     private amcService: AmcMasterService,
@@ -26,7 +31,8 @@ export class AmcFullDataComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isAuthorized = (this.authService.role === 'ROLE_admin') ? true : false;
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
+    if (this.authService.role === 'ROLE_CLIENT') this.isBlocked = true;
     this.activatedRoute.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
       if (value.type === "%M1%") { //type defines the whether the data are loaded useing either Amc No. or Amc Serial No. %M1%-> using Amc No
@@ -46,6 +52,7 @@ export class AmcFullDataComponent implements OnInit {
     this.isLoadingResults = true;
     this.amcService.getAmcFullDataByAmcNo(amcNo).subscribe(response => {
       this.data = response;
+      this.checkStatus();
       this.isLoadingResults = false;
       this.isRateLimitReached = false;
     }, error => {
@@ -60,6 +67,7 @@ export class AmcFullDataComponent implements OnInit {
     this.isLoadingResults = true;
     this.amcService.getAmcFullDataByAmSerialcNo(amcSerialNo).subscribe(response => {
       this.data = response;
+      this.checkStatus()
       this.isLoadingResults = false;
       this.isRateLimitReached = false;
     }, error => {
@@ -69,6 +77,15 @@ export class AmcFullDataComponent implements OnInit {
     })
   }
 
+  checkStatus(): void {
+    console.log(this.currentDate);
+    console.log(new Date(this.data.mtc_end_date));
+    if (this.currentDate > new Date(this.data.mtc_end_date)) this.isExpired = true;
+    if (!this.data.active) this.isInactive = true;
+    console.log(this.isExpired);
+    console.log(this.isInactive);
+  }
+
   //Download scanned copy of amc
   redirect(): void {
     this.amcService.getAmcScannedCopy(this.data.contract_url).subscribe(response => {
@@ -76,9 +93,9 @@ export class AmcFullDataComponent implements OnInit {
       window.open(url, '_blank');
       URL.revokeObjectURL(url);
     },
-    error => {
-      console.log(error);
-    });
+      error => {
+        console.log(error);
+      });
   }
 
   //renew amc

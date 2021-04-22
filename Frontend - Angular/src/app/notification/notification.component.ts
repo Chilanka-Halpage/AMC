@@ -11,7 +11,7 @@ import { AuthenticationService } from '../_helpers/authentication.service';
 })
 export class NotificationComponent implements OnInit {
 
-  notification: Notification;
+  notifications: Notification;
   userId :any
   constructor(
     private notificationService: NotificationService,
@@ -19,21 +19,20 @@ export class NotificationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAmcDetails()
+    this.getNotifications()
     //this.updateIsRead()
   }
 
-  getAmcDetails() {
+  getNotifications() {
     this.notificationService.getNotification(this._authentication.userId).subscribe(
       data => {
-        this.notification = data;
+        this.notifications = data;
       })
   }
-  // updateIsRead() {
-  //   this.notificationService.updateIsRead(this._authentication.userId).subscribe(
-  //      Response => {console.log("success", Response)}
-  //     )
-  // }
+
+  notViewedNotifications(){
+    //this.notifications.is_read==false
+  }
 
 displayedColumns: string[] = ['saved_date', 'notification'];
 

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.reportData.AllAmcs;
@@ -36,6 +37,7 @@ import net.sf.jasperreports.engine.JRException;
 
 @CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/report")
 public class ReportController {
 
 	@Autowired
@@ -104,13 +106,13 @@ public class ReportController {
 	}
 
 	// Client AMC Report
-	@GetMapping("/ClientAmc/{cId}")
+	@GetMapping("/client/ClientAmc/{cId}")
 	public List<ClientAmc> clientAmcReport(@PathVariable("cId") String cId) throws FileNotFoundException, JRException {
 		return reportService.clientAmcReport(cId);
 	}
 
 	// Payment report for client
-	@GetMapping("/ClientPaymentsReport/{cId}")
+	@GetMapping("/client/ClientPaymentsReport/{cId}")
 	public List<ClientPaymentsDetails> ClientPaymentsReport(@PathVariable("cId") String cId)
 			throws FileNotFoundException, JRException {
 		return reportService.ClientPaymentsReport(cId);
@@ -141,8 +143,13 @@ public class ReportController {
 			BigDecimal q2 = reportService.getRevanue(Date2,Date3);
 			LocalDate Date4 = Date3.plusMonths(3);
 			BigDecimal q3 = reportService.getRevanue(Date3,Date4);
-			LocalDate Date5 = Date3.plusMonths(3);
+			LocalDate Date5 = Date4.plusMonths(3);
 			BigDecimal q4 = reportService.getRevanue(Date4,Date5);
+			System.out.println(Date1);
+			System.out.println(Date2);
+			System.out.println(Date3);
+			System.out.println(Date4);
+			System.out.println(Date5);
 			Map<String, Object> parameters = new HashMap<>();	
 			parameters.put("quarter1", q1);
 			parameters.put("quarter2", q2);
@@ -154,7 +161,7 @@ public class ReportController {
 	}
 
 	// amc reminder for dashboard-----------------------------------
-	@GetMapping("/AmcReminders/{Date1}/{Date2}")
+	@GetMapping("/dashboard/AmcReminders/{Date1}/{Date2}")
 	public int amcreminder(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
 		List<RenewalAmcs> count = reportService.getRenewalAmcs(Date1, Date2);
@@ -162,7 +169,7 @@ public class ReportController {
 	}
 
 	// expired amc count for dashboard--------------------------------
-	@GetMapping("/ExpiredAmcscount/{Date1}/{Date2}")
+	@GetMapping("/dashboard/ExpiredAmcscount/{Date1}/{Date2}")
 	public int getExpiredAmcCount(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
@@ -171,7 +178,7 @@ public class ReportController {
 	}
 
 	// renewed amc count for dashboard--------------------------------
-	@GetMapping("/RenewedAmccount/{Date1}/{Date2}")
+	@GetMapping("/dashboard/RenewedAmccount/{Date1}/{Date2}")
 	public int getRenewedAmcCount(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
