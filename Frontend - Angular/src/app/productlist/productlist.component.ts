@@ -15,33 +15,29 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./productlist.component.css']
 })
 export class ProductlistComponent implements OnInit {
-
-  products: Observable<product[]>;
-  productAddForm: FormGroup;
-  submitted = false;
-  id: number;
-  edit=false;
-  filterValue: string;
-  listData: MatTableDataSource<any>;
-  searchKey:string;
-  public dataSavingProgress = false;
-  public resultsLength = 0;
-  public isLoadingResults = true;
-  public isRateLimitReached = false;
-  popoverTitle = 'Delete Row';
-  popoverMessage = 'Are you sure to want to Delete ?';
-  confirmClicked = false;
-  cancelClicked = false;
-  
-
   constructor(
-
     private _service: ProductserviceService,
     private router: Router,
     private formBuilder:FormBuilder,
     private route: ActivatedRoute,
     private notificationService: NotificationService
     ) { }
+    public products: Observable<product[]>;
+    public productAddForm: FormGroup;
+    public submitted = false;
+    public id: number;
+    public edit=false;
+    public filterValue: string;
+    listData: MatTableDataSource<any>;
+    public searchKey:string;
+    public dataSavingProgress = false;
+    public resultsLength = 0;
+    public isLoadingResults = true;
+    public isRateLimitReached = false;
+    public popoverTitle = 'Delete Row';
+    public popoverMessage = 'Are you sure to want to Delete ?';
+    public confirmClicked = false;
+    public cancelClicked = false;
 
   displayedColumns: string[] = [
     'id',
@@ -93,25 +89,20 @@ export class ProductlistComponent implements OnInit {
       .subscribe(
         data => {
           this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
-          console.log(data);
-          
+          console.log(data);   
         },
         error => {
           console.log(error);
           this.notificationService.showNoitfication('Cannot proceed the request.', 'OK', 'error', null);
         }).add(()=>this.dataSavingProgress=false);
   }
-
- 
-
   save() {
     this.dataSavingProgress = true;
     this._service
     .createProduct(this.productAddForm.value).subscribe(data => {
       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
       this.dataSavingProgress = false;
-      console.log(data)
-      
+      console.log(data) 
     }, 
     error => {
       console.log(error);
@@ -138,8 +129,6 @@ export class ProductlistComponent implements OnInit {
   resetForm(): void {
     this.productAddForm.reset();
   }
-
-
   onEdit(){
     this.dataSavingProgress = true;
     this._service.updateProduct(this.route.snapshot.params.id,this. productAddForm.value).subscribe(
@@ -151,11 +140,8 @@ export class ProductlistComponent implements OnInit {
         console.log(error);
         let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
-      }).add(()=>this.dataSavingProgress=false)
-    
-    
+      }).add(()=>this.dataSavingProgress=false)   
   }
-
 
   onSearchClear(){
     this.searchKey="";
@@ -165,6 +151,4 @@ export class ProductlistComponent implements OnInit {
   applyFilter(){
     this.listData.filter=this.searchKey.trim().toLowerCase();
   }
-
-
 }

@@ -15,32 +15,44 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class ListcategoryComponent implements OnInit {
 
-  categoryAddForm: FormGroup;
-  submitted = false;
-  id: number;
-  searchKey: string;
-  showMyMessage = false;
-  edit = false;
-  alert: boolean = false;
-  public dataSavingProgress = false;
-  popoverTitle = 'Delete Row';
-  popoverMessage = 'Are you sure to want to Delete ?';
-  confirmClicked = false;
-  cancelClicked = false;
+  constructor(
+    private _service: CategoryserviceService, 
+    private notificationService: NotificationService, 
+    private router: Router, 
+    private formBuilder: FormBuilder, 
+    private route: ActivatedRoute) {}
 
-  constructor(private _service: CategoryserviceService, private notificationService: NotificationService, private router: Router, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
+    public  categoryAddForm: FormGroup;
+    public submitted = false;
+    public id: number;
+    public searchKey: string;
+    public showMyMessage = false;
+    public edit = false;
+    public alert: boolean = false;
+    public dataSavingProgress = false;
+    public popoverTitle = 'Delete Row';
+    public popoverMessage = 'Are you sure to want to Delete ?';
+    public confirmClicked = false;
+    public cancelClicked = false;
+    listData: MatTableDataSource<any>;
 
-  listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['id', 'categoryName', 'active', 'savedBy', 'savedOn', 'savedIp', 'lastModifiedBy', 'lastModifiedOn', 'action'];
+  displayedColumns: string[] = [
+    'id', 
+    'categoryName', 
+    'active', 
+    'savedBy', 
+    'savedOn', 
+    'savedIp', 
+    'lastModifiedBy', 
+    'lastModifiedOn', 
+    'action'];
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-
     this._service.getCategoryList().subscribe(
       list => {
-
         this.listData = new MatTableDataSource(list);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
@@ -61,8 +73,8 @@ export class ListcategoryComponent implements OnInit {
     this.router.navigate(['list', row.categoryId]);
     console.log(row);
     this.edit = true;
-    this.categoryAddForm.patchValue({
 
+    this.categoryAddForm.patchValue({
       categoryName: row.categoryName,
       active: row.active
     });
@@ -87,8 +99,6 @@ export class ListcategoryComponent implements OnInit {
         this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload() });
         this.dataSavingProgress = false;
         console.log(data)
-
-
       },
       error => {
         console.log(error);
@@ -103,10 +113,7 @@ export class ListcategoryComponent implements OnInit {
     this.save();
   }
 
-
-
   onEdit() {
-
     this.dataSavingProgress = true;
     console.log(this.route.snapshot.params.id);
     this._service.updateCategory(this.route.snapshot.params.id, this.categoryAddForm.value).subscribe(
@@ -119,10 +126,10 @@ export class ListcategoryComponent implements OnInit {
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
       }).add(()=>this.dataSavingProgress=false)
     }
+
   reload() {
     this._service.getCategoryList().subscribe(
       list => {
-
         this.listData = new MatTableDataSource(list);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
@@ -134,18 +141,11 @@ export class ListcategoryComponent implements OnInit {
     this.categoryAddForm.reset();
   }
 
-
-
-
   onSearchClear() {
     this.searchKey = "";
     this.applyFilter();
   }
-
   applyFilter() {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
-
-
-
 }

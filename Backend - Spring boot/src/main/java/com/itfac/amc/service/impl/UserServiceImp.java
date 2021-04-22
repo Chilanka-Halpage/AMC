@@ -89,7 +89,7 @@ public class UserServiceImp implements UserService {
 		String content = "<p>Hello,</p>" + "<p>Welcome to the Annual Maintanance contract Revenue System</p>"
 				+ "<p>Login to the system use this password and User Id</p>" + "<p>User Id: " + UserId + "</p>"
 				+ "<p>Password: " + Password + "</p>"
-				+ "<p>After first login you can change your Password using Forgot Password Link </p>"
+				+ "<p>it's better change your password after first login</p>"
 				+ "<p>Happy journey with AMC</p>";
 
 		helper.setSubject(subject);

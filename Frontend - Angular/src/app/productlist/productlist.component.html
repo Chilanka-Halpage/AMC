@@ -1,8 +1,8 @@
 <mat-card class="bg-color">
   <mat-card-content>
-
     <strong><h3 *ngIf="!edit">Add Product</h3></strong>
     <strong><h3 *ngIf="edit">Edit Product</h3></strong>
+
     <form [formGroup]="productAddForm">
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Product name</mat-label>
@@ -12,7 +12,6 @@
         </mat-error>
       </mat-form-field>
 
-
       <mat-form-field appearance="outline" class="col-12 col-md-auto">
         <mat-label>Choose an option</mat-label>
         <mat-select formControlName="active">
@@ -20,7 +19,6 @@
           <mat-option [value]=false>Inactive</mat-option>
         </mat-select>
       </mat-form-field>
-
 
       <button mat-flat-button color="primary" *ngIf="!edit" (click)="onSubmit()">
         <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>

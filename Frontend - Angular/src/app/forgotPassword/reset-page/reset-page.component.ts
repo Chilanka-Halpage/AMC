@@ -11,24 +11,23 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class ResetPageComponent implements OnInit {
 
-  constructor(private _service: PageserviceService, private notificationService: NotificationService,private router: Router, private route: ActivatedRoute, private fb:FormBuilder) {
-    {}
-    
-   }
+  constructor(
+  private _service: PageserviceService,
+  private notificationService: NotificationService,
+  private router: Router,
+  private route: ActivatedRoute,
+  private fb:FormBuilder) {}
 
-  passwordAddForm: FormGroup;
-  submitted = false;
-  hide = true;
-  alert:boolean=false;
-  errorMessage: string;
-  successMessage: string;
-  resetToken: null;
-  CurrentState: any;
-  IsResetFormValid = true;
+  public passwordAddForm: FormGroup;
+  public submitted = false;
+  public hide = true;
+  public errorMessage: string;
+  public successMessage: string;
+  public resetToken: null;
+  public CurrentState: any;
+  public IsResetFormValid = true;
   public dataSavingProgress = false;
  
-
-
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
        this.resetToken = params.token;
@@ -37,23 +36,15 @@ export class ResetPageComponent implements OnInit {
       });
 
     this.passwordAddForm = this.fb.group(
-      {
-        
+      { 
         passwordOne: ['', [Validators.required, Validators.minLength(8)]],
-        passwordTwo: ['', [Validators.required, Validators.minLength(8)]],
-        
+        passwordTwo: ['', [Validators.required, Validators.minLength(8)]], 
       }, {
         validator: ConfirmedValidator('passwordOne', 'passwordTwo')
       });
 
     // this.Init();
   }
-
-  
-
-  
-
-
   ResetPassword(form) {
     let password1= form.get('passwordOne').value
      let password2=form.get('passwordTwo').value
@@ -84,8 +75,7 @@ export class ResetPageComponent implements OnInit {
 
       navigateToLoginPage(){
         this.router.navigate(['login']);
-      }
-     
+      }     
 }
 
 export function ConfirmedValidator(controlName: string, matchingControlName: string) {

@@ -14,25 +14,39 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class FrequencyComponent implements OnInit {
 
-  frequencyAddForm: FormGroup;
-  submitted = false;
-  id: number;
-  searchKey:string;
-  edit=false;
-  public dataSavingProgress = false;
-  public resultsLength = 0;
-  public isLoadingResults = true;
-  public isRateLimitReached = false;
-  popoverTitle = 'Delete Row';
-  popoverMessage = 'Are you sure to want to Delete ?';
-  confirmClicked = false;
-  cancelClicked = false;
+  constructor(
+    private _service: FrequencyserviceService,
+    private router: Router,
+    private formBuilder:FormBuilder,
+    private notificationService: NotificationService,
+    private route: ActivatedRoute) { }
 
-  constructor(private _service: FrequencyserviceService, private router: Router,
-    private formBuilder:FormBuilder,private notificationService: NotificationService,private route: ActivatedRoute) { }
+    public frequencyAddForm: FormGroup;
+    public submitted = false;
+    public id: number;
+    public searchKey:string;
+    public edit=false;
+    public dataSavingProgress = false;
+    public resultsLength = 0;
+    public isLoadingResults = true;
+    public isRateLimitReached = false;
+    public popoverTitle = 'Delete Row';
+    public popoverMessage = 'Are you sure to want to Delete ?';
+    public confirmClicked = false;
+    public cancelClicked = false;
+    listData: MatTableDataSource<any>;
 
-  listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['id', 'frequency', 'active', 'savedBy', 'savedOn', 'savedIp','lastModifiedBy','lastModifiedOn','action'];
+  displayedColumns: string[] = [
+    'id', 
+    'frequency', 
+    'active', 
+    'savedBy', 
+    'savedOn', 
+    'savedIp',
+    'lastModifiedBy',
+    'lastModifiedOn',
+    'action'
+  ];
   @ViewChild(MatSort) sort:MatSort;
   @ViewChild(MatPaginator) paginator:MatPaginator;
 
@@ -43,11 +57,9 @@ export class FrequencyComponent implements OnInit {
         active:['',[Validators.required]]
       }
     )
-
-  
+ 
 this._service.getFrequencyList().subscribe(
   list => {
-
     this.listData = new MatTableDataSource(list);
     this.listData.sort= this.sort;
     this.listData.paginator=this.paginator;
@@ -102,8 +114,6 @@ console.log(this.frequencyAddForm);
 this.submitted = true;
 this.save();    
 }
-
-
 
 onEdit(){
   this.dataSavingProgress = true;

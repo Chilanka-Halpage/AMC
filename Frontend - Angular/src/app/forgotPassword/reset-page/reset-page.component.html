@@ -5,18 +5,13 @@
     <h2>Password Reset form</h2>
         </div>
 
-        <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        <!-- <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
           <strong>Success!</strong> you change your password successfully !..
           <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-
-
+        </div> -->
     <form name="addForm" [formGroup]="passwordAddForm">
-    
-      <br> 
-      
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Enter New Password</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" formControlName="passwordOne">
@@ -41,10 +36,6 @@
       </mat-form-field>
       <br>
       <button type="button" mat-flat-button color="primary" (click)="ResetPassword(passwordAddForm)">Verify</button>
- 
-      
-
-  
     </form>
     </mat-card-content>
 </mat-card>
