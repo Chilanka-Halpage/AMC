@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
@@ -25,7 +25,10 @@ export class PaymentReportFilterComponent implements OnInit {
   paymentReportsFilter = this.fb.group({
     date1: [''],
     date2: ['']
+  },{
+    validator: ConfirmedValidator('date1', 'date2')
   });
+  
   ngOnInit(): void {}
   onSubmit(){
     let date1 = this.paymentReportsFilter.value.date1;
@@ -42,5 +45,21 @@ export class PaymentReportFilterComponent implements OnInit {
       error => {console.log("Error!", error)
     });
   }
-
+  get f(){
+    return this.paymentReportsFilter.controls;
+  }
+}
+export function ConfirmedValidator(fromDate: string, toDate: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[fromDate];
+    const matchingControl = formGroup.controls[toDate];
+    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+      return;
+    }
+    if (control.value > matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  }
 }

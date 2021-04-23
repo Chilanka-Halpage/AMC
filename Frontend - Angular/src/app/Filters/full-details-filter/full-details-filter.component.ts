@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
 import { JrReportDetailsService } from '../../data/jr-report-details.service';
@@ -28,14 +28,13 @@ export class FullDetailsFilterComponent implements OnInit {
       fullDetailsFilter = this.fb.group({
       date1: [''],
       date2: ['']
+    },{
+      validator: ConfirmedValidator('date1', 'date2')
     });
 
   ngOnInit(): void {
  
   }
-    //AllAMCsReport() {
-   //   this.router.navigate(['AllAmcReport', {relativeTo: this.route}]) 
- // }
  
   onSubmit(){
 
@@ -51,4 +50,21 @@ export class FullDetailsFilterComponent implements OnInit {
         error => {console.log("Error!", error)
       });   
 }
+get f(){
+  return this.fullDetailsFilter.controls;
+}
+}
+export function ConfirmedValidator(fromDate: string, toDate: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[fromDate];
+    const matchingControl = formGroup.controls[toDate];
+    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+      return;
+    }
+    if (control.value > matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  }
 }

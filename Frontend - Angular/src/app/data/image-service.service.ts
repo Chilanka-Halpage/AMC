@@ -28,5 +28,4 @@ export class ImageService {
     public Image(userId){
         return  `${this.baseUrl}api/images/getImage/${userId}.jpg`;
     }
-
 }

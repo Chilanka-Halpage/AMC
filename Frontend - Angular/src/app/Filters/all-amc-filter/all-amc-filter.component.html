@@ -27,13 +27,15 @@
             <input matInput [matDatepicker]="picker2" formControlName="date2" required>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
-            <mat-error *ngIf="allAmcFilter.get('date2').hasError('required')">
-              to date is required
-            </mat-error>
-          </mat-form-field>
+            
+            <mat-error *ngIf="allAmcFilter.get('date2').hasError('required')">to date is required</mat-error>
+            </mat-form-field>
+           <br>
+         <mat-error *ngIf="f.date2.invalid">
+           <mat-error *ngIf="f.date2.errors.confirmedValidator"><h5>"From date" should be less than "to date".</h5></mat-error> 
+          </mat-error>
         </div>
-        <br>
-        <button type="submit" mat-raised-button color="primary" mat-dialog-close>Generate Report</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!allAmcFilter.valid" mat-dialog-close="closeDialog">Generate Report</button>
       </form>
     </div>
   </div>

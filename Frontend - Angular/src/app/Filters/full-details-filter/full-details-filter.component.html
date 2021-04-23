@@ -27,9 +27,12 @@
                 to date is required
               </mat-error>
             </mat-form-field>
+            <mat-error *ngIf="f.date2.invalid">
+              <mat-error *ngIf="f.date2.errors.confirmedValidator"><h5>"From date" should be before than "to date".</h5></mat-error> 
+             </mat-error>
           </div>
           <br>
-          <button type="submit" mat-raised-button color="primary" mat-dialog-close>Generate Report</button>
+          <button class="btn btn-primary" type="submit" [disabled]="!fullDetailsFilter.valid"  mat-dialog-close>Generate Report</button>
         </form>
       </div>
     </div>
