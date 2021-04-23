@@ -21,7 +21,7 @@ public interface AmcSerialService {
 
 	AmcFullDataDto getAmcFullDataByAmcSerialNo(String amcSerialNo);
 
-	void renewAmc(HttpServletRequest request, String data, MultipartFile file, String amcNo)
+	void renewAmc(HttpServletRequest request, String data, MultipartFile file, String amcNo, String amcSerialNo)
 			throws JsonMappingException, JsonProcessingException;
 
 
