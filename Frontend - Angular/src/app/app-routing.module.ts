@@ -91,12 +91,12 @@ const routes: Routes = [
   { path: 'allamcdetailsfilter', component: AllAmcFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'generatereport', component: GenerateReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'taxlist', component:TaxListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'invoicelist',component:InvoiceListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'invoicelist/:amc_no',component:InvoiceListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'createincoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard,ClientGuard,AmccordinatorGuard]},
   { path: 'allAmcReport/:date1/:date2', component: AllAmcReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater 
   { path: 'catogerylist', component:ListcategoryComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'currencylist', component:CurrencyListComponent,canActivate: [AuthenticationGuard]},
-  { path: 'paymentHlist', component:PaymentListComponent,canActivate: [AuthenticationGuard]} ,
+  { path: 'paymentHlist', component:PaymentListComponent,canActivate: [AuthenticationGuard,ClientGuard]} ,
   { path: 'productChart' ,component:ProductPieComponent,canActivate: [AuthenticationGuard]},
   { path: 'clientdashtable', component:ClientdashtableComponent,canActivate: [AuthenticationGuard]},
   { path: 'createtax',component:TaxFComponent,canActivate: [AuthenticationGuard]},
@@ -104,8 +104,8 @@ const routes: Routes = [
   { path: 'duepayment', component:DuePaymentComponent,canActivate: [AuthenticationGuard]},
   { path: 'dueinvoice', component:CreateDueinvoiceComponent,canActivate: [AuthenticationGuard]},
   { path: 'editdueinvoice/:id', component:EditDueinvoiceComponent,canActivate: [AuthenticationGuard]},
-  { path: 'createReceipt', component:CreateReceiptComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'sattled', component:SattlementComponent,canActivate: [AuthenticationGuard]},
+  { path: 'createReceipt/:pi_no', component:CreateReceiptComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'sattled', component:SattlementComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'clientDetails/:date1/:date2', component: ClientDetailsComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater
   { path: 'clientDetailsFilter', component: ClientDetailsFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'fullDetails/:date1/:date2', component: FullDetailsComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater
@@ -134,7 +134,7 @@ const routes: Routes = [
   { path: 'amcstatus', component: AMCStatusComponent,canActivate: [AuthenticationGuard] },
   { path: 'logdetails', component: LogDetailsComponent, canActivate: [AuthenticationGuard,ClientGuard] },
   { path: 'amcHistory/view', component: AmcHistoryViewComponent,canActivate: [AuthenticationGuard,AccountantGuard] },
-  { path: 'login/forgetPassword',component: PageComponent,canActivate: [AuthenticationGuard]},
+  { path: 'login/forgetPassword',component: PageComponent},
   { path: 'ResetPassword',component: ResetPageComponent,canActivate: [AuthenticationGuard]},
   { path: 'userList/:id',component: UserlistComponent,canActivate: [AuthenticationGuard]},
   { path: 'notification/:userId', component: NotificationComponent,canActivate: [AuthenticationGuard]},//all

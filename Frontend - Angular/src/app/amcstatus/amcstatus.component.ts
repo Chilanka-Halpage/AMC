@@ -98,7 +98,6 @@ export class AMCStatusComponent implements OnInit {
         responsive: true,
         title: {
           display: true,
-         text: 'AMCs Status' 
         },
         animation: {
           animateRotate: true,

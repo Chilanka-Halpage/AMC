@@ -1,3 +1,4 @@
+import { Currency } from './../../currency';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -22,6 +23,8 @@ export class AmcSerialListComponent implements OnInit {
     'isActive',
     'action'
   ];
+  
+  private deptId: number;
   clientName: string;
   departmentName: String;
   dataSource: MatTableDataSource<AmcMaster>;
@@ -44,7 +47,9 @@ export class AmcSerialListComponent implements OnInit {
       let value = JSON.parse(params["data"]);
       this.clientName = value.cname;
       this.departmentName = value.dname;
-      this.loadAmcSerialList(value.did);
+      this.deptId = value.did;
+      this.loadAmcSerialList(this.deptId);
+      
     });
   }
 
@@ -85,6 +90,18 @@ export class AmcSerialListComponent implements OnInit {
       }
     };
     this.router.navigate([`clients/amc-list/${row.amc_serial_no}/full`], navigationExtras);
+  }
+
+  gotoinvoice(amc_no: String): void {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "data": JSON.stringify({
+          "id": this.deptId, 
+        })
+      }
+    };
+    console.log(this.deptId)
+    this.router.navigate(['invoicelist',amc_no],navigationExtras);
   }
 
 }

@@ -10,8 +10,8 @@ import { DuePaymentService } from '../due-payment.service';
   styleUrls: ['./edit-dueinvoice.component.scss']
 })
 export class EditDueinvoiceComponent implements OnInit {
-
-  duePayment: DuePayment = new DuePayment();
+/* 
+  duePayment: DuePayment = new DuePayment(); */
   id: number;
   productList = [];
   currencyList = [];

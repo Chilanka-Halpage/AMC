@@ -1,11 +1,12 @@
-mat-card {
+.mat-card {
   max-width: 700px;
   margin: auto;
   text-align: center;
-  max-height: 600px;
-  background-color: #e8f3fc;
-  border-radius: 20px !important;
+  max-height: 600px;  
+  background-color: rgba(255,255,255,0.4);
+  border-radius: 10px !important;
   transform: translate(0, 45%);
+  
 }
 
 .header {

@@ -66,7 +66,6 @@ export class SalesComponent implements OnInit {
         responsive: true,
         title: {
           display: true,
-          text: 'AMC Active Inactive'
         },
         animation: {
           animateRotate: true,

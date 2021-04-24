@@ -8,10 +8,9 @@
   <div class="row px-0">
     <mat-form-field appearance="outline" class="col-6">
       <mat-label>Tax Name:</mat-label>
-      <input type="text" matInput formControlName="taxName" [(ngModel)]="tax.taxName">  
-      <mat-error *ngIf="!addtaxForm.controls['taxName'].valid">
-        Tax Name required
-         </mat-error> 
+      <input type="text" matInput formControlName="taxName" [(ngModel)]="tax.taxName">
+         <mat-error *ngIf="addtaxForm.controls['taxName'].errors?.taxNameExists">Tax already exists </mat-error> 
+         <mat-error *ngIf="addtaxForm.controls['taxName'].touched && addtaxForm.controls['taxName'].errors?.required">Tax Name required </mat-error> 
     </mat-form-field>
   </div>
   <mat-divider class="mat-divider"></mat-divider>
@@ -21,24 +20,20 @@
     <mat-label>
       Tax Short Name:  </mat-label>
       <input type="text" matInput formControlName="shortName" [(ngModel)]="tax.shortName"> 
-      <mat-error *ngIf="!addtaxForm.controls['shortName'].valid">
-        Short Name required
-         </mat-error> 
+      <mat-error *ngIf="!addtaxForm.controls['shortName'].valid"> Short Name required</mat-error> 
    </mat-form-field>
     <mat-form-field appearance="outline" class="col pl-2">
        <mat-label>
         Tax Rate:</mat-label>
-        <input type="number" matInput formControlName="taxRate" [(ngModel)]="tax.taxRate">  
-        <mat-error *ngIf="!addtaxForm.controls['taxRate'].valid">
-          less than 999
-        </mat-error>   
+        <input type="number" matInput formControlName="taxRate" [(ngModel)]="tax.taxRate"> 
+        <mat-error *ngIf="!addtaxForm.controls['taxRate'].valid">less than 999</mat-error>   
     </mat-form-field>     
    </div> 
    <div class="row px-0">
     <mat-checkbox formControlName="active" class="col-md-4" [(ngModel)]="tax.active" >Active Tax</mat-checkbox>
    </div>
    <div class="d-flex flex-row-reverse my-0">
-    <button class="btn btn-success mb-3" type="submit">submit</button>
+    <button class="btn btn-success mb-3" type="submit" [disabled]="isDesabled">  <span *ngIf="TaxSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
    </div>
   </form>
 </div>

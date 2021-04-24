@@ -39,4 +39,11 @@ export class InvoiceService {
     return this.HttpClient.get<any>(`${this.baseURL}invoice/findinvoice/${id}`)
  }
 
+ getinvoicebyAmcNo(id: number): Observable<any>{
+  return this.HttpClient.get<any>(`${this.baseURL}invoice/activeinvoices/${id}`)
+}
+doesInvoiceExists(piNo: string): Observable<boolean> {
+  return this.HttpClient.get<boolean>(`${this.baseURL}invoice/exists/${piNo}`);
+}
+
 }  

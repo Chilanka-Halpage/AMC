@@ -1,8 +1,17 @@
+import { AmcMaster } from './../Model/amc-master.model';
 import { Category } from './../Model/category';
 import { PaymentService } from './../payment.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router, CanActivate } from '@angular/router';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { Router, CanActivate, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
+import { delay } from 'rxjs/internal/operators/delay';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { map } from 'rxjs/internal/operators/map';
+import { CompileShallowModuleMetadata } from '@angular/compiler';
+import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-create-receipt',
@@ -10,9 +19,6 @@ import { Router, CanActivate } from '@angular/router';
   styleUrls: ['./create-receipt.component.scss']
 })
 export class CreateReceiptComponent implements OnInit {
-
-  /*  payment: Payment = new Payment(); */
-  showme: boolean = false;
   
   invoiceList = [];
   categoryList = [];
@@ -20,22 +26,33 @@ export class CreateReceiptComponent implements OnInit {
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public errorMessage = "Unknown Error"
+  receiptProgress = false
+ 
+  private deptId: number;
+  private amc_no: number;
+  pi_no: number; 
+  private receiptForm$: Observable<any>;
+  public isDesabled = false;
+  public type: any;
+  public ReceiptSavingProgress = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private route: ActivatedRoute,
+    private notificationService: NotificationService,
   ) { }
 
   addReceiptForm = this.fb.group({
-    recNo: ['', [Validators.required]],
-    recDate: [''],
+    recNo: ['', [Validators.required],[this.existReceiptValidator()], blur],
+    recDate: ['',[Validators.required]],
     cancel: false,
     cancelReason: ['', [Validators.required]],
     exchageRate: [''],
     description: ['', [Validators.required]],
-    payMode: [''],
-    total: [''],
+    payMode: ['',[Validators.required]],
+    total: ['',[Validators.required]],
     balance: [''],
     totalLkr: [''],
     balanceLkr: [''],
@@ -59,16 +76,29 @@ export class CreateReceiptComponent implements OnInit {
     })
   })
 
-  ngOnInit(): void {
-    this.loadSelectionData()
+  ngOnInit(): void { 
+    this.checkStatus()
+    this.route.queryParams.subscribe(params => {
+      let value = JSON.parse(params["data"]);
+      this.deptId = value.id;
+      this.amc_no = value.amcno;
+      this.addReceiptForm.patchValue({ 
+        invoice:{ piNo:this.pi_no},
+        amcMaster:{ amcNo:this.amc_no },
+        clientDepartment:{deptId:this.deptId}
+       })
+    });
+    console.log(this.pi_no)
   }
 
   saveReceipt() {
     this.paymentService.createReceipt(this.addReceiptForm.value).subscribe(data => {
-      console.log(data);
-      this.goTopaymentlist();
+      this.receiptProgress = true
+      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {this.goTopaymentlist(); });  
     },
-      error => console.log(error));
+    error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+                this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+    );
   }
 
   goTopaymentlist() {
@@ -78,10 +108,6 @@ export class CreateReceiptComponent implements OnInit {
   onSubmit() {
     console.log(this.addReceiptForm.value);
     this.saveReceipt();
-  }
-
-  Showtoggle() {
-    this.showme = !this.showme
   }
   private loadSelectionData() {
     let currencListLoad = false,categoryListLoad = false, invoiceListLoad = false;
@@ -108,7 +134,34 @@ export class CreateReceiptComponent implements OnInit {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
       this.errorMessage = error;
-    });
+    });  
+    console.log(this.pi_no)
   }
 
+  private checkStatus(): void {
+    this.receiptForm$ = this.addReceiptForm.statusChanges;
+    this.receiptForm$.subscribe(response => {
+      if (response === 'PENDING') {
+        setTimeout(() => {
+          console.log("gg");
+          this.addReceiptForm.updateValueAndValidity();
+        }, 2000);
+      }
+    })
+  }
+  private existReceiptValidator():AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!this.type) {
+        return of(control.value).pipe(
+          delay(500),
+          switchMap((recNo: string) => this.paymentService.doesReceiptExists(recNo)),
+          map(response => {
+            this.isDesabled = response;
+            return response ? { receiptExists: true } : null
+          })
+        )
+      }
+      return of(null);
+    };
+  }
 }

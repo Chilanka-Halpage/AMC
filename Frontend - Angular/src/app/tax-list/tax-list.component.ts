@@ -14,6 +14,10 @@ import { TaxService } from '../tax.service';
 export class TaxListComponent implements OnInit {
 
   public isAuthorized;
+  
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
 
   taxes: MatTableDataSource<any>;
  
@@ -21,7 +25,7 @@ export class TaxListComponent implements OnInit {
               private Router: Router,
               private _authentication: AuthenticationService) { }
 
-  displayedColumns:string[] = ['taxName','shortName','taxRate','active','savedOn','savedBy','savedIp','lastModifiedBy','Action','update'];
+  displayedColumns:string[] = ['taxName','shortName','taxRate','active','savedOn','savedBy','savedIp','lastModifiedBy','Action'];
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -36,6 +40,7 @@ export class TaxListComponent implements OnInit {
     this.taxes = new MatTableDataSource(data); 
     this.taxes.sort = this.sort;
     this.taxes.paginator = this.paginator;
+    this.isLoadingResults = false;
     });
   }
   

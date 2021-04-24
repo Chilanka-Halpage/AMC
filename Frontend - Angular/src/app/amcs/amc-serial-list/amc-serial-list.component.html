@@ -56,11 +56,13 @@
                     <button mat-icon-button color="accent" (click)="onSelect(element)">
                         <mat-icon>description</mat-icon>
                     </button>
+                    <button mat-icon-button color="accent" (click)="gotoinvoice(element.amc_no)">
+                        <mat-icon>select_all</mat-icon>
+                    </button>
                 </td>
             </ng-container>
             <tr mat-header-row class="bg-primary" *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
             <tr class="mat-row" *matNoDataRow>
                 <td *ngIf="resultsLength" class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
             </tr>
