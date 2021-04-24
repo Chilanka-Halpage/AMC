@@ -25,7 +25,7 @@ export class ProductlistComponent implements OnInit {
     public products: Observable<product[]>;
     public productAddForm: FormGroup;
     public submitted = false;
-    public id: number;
+    //public id: number;
     public edit=false;
     public filterValue: string;
     listData: MatTableDataSource<any>;
@@ -38,6 +38,7 @@ export class ProductlistComponent implements OnInit {
     public popoverMessage = 'Are you sure to want to Delete ?';
     public confirmClicked = false;
     public cancelClicked = false;
+    productId:number;
 
   displayedColumns: string[] = [
     'id',
@@ -71,12 +72,10 @@ export class ProductlistComponent implements OnInit {
        this.isLoadingResults = false;
       });
   }
-  editProductsList(id){
-    this.router.navigate(['productlist', id]);
-  }
 
   editProductList(row) {
     this.edit=true;
+    this.productId=row.productId;
     console.log(row);
     this.productAddForm.patchValue({
     productName: row.productName,
@@ -131,7 +130,7 @@ export class ProductlistComponent implements OnInit {
   }
   onEdit(){
     this.dataSavingProgress = true;
-    this._service.updateProduct(this.route.snapshot.params.id,this. productAddForm.value).subscribe(
+    this._service.updateProduct(this.productId,this. productAddForm.value).subscribe(
       (result)=>{
         this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
         this.dataSavingProgress = false;

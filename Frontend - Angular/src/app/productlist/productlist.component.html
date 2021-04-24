@@ -101,7 +101,7 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Action </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="editProductList(element)" (click)="editProductsList(element.productId)">
+          <button mat-icon-button color="primary" (click)="editProductList(element)">
             <mat-icon>create</mat-icon>
           </button>
           <button mat-icon-button color="accent"  

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { CategoryserviceService } from '../categoryservice.service';
@@ -20,7 +21,8 @@ export class ListcategoryComponent implements OnInit {
     private notificationService: NotificationService, 
     private router: Router, 
     private formBuilder: FormBuilder, 
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private location:Location) {}
 
     public  categoryAddForm: FormGroup;
     public submitted = false;
@@ -35,6 +37,8 @@ export class ListcategoryComponent implements OnInit {
     public confirmClicked = false;
     public cancelClicked = false;
     listData: MatTableDataSource<any>;
+    categoryId:number;
+    
 
   displayedColumns: string[] = [
     'id', 
@@ -59,18 +63,17 @@ export class ListcategoryComponent implements OnInit {
       });
     this.categoryAddForm = this.formBuilder.group(
       {
-        categoryName: ['',],
+        categoryName: ['',[Validators.required]],
         active: ['', [Validators.required]]
       }
     )
 
   }
-  editCategoryList(id) {
-    this.router.navigate(['list', id]);
-  }
+ 
 
   editCategoryListe(row) {
-    //this.router.navigate(['list', row.categoryId]);
+   //this.router.navigate(['list', row.categoryId]);
+   this.categoryId=row.categoryId;
     console.log(row);
     this.edit = true;
 
@@ -78,7 +81,6 @@ export class ListcategoryComponent implements OnInit {
       categoryName: row.categoryName,
       active: row.active
     });
-    this.router.navigate(['list', row.categoryId]);
 
   }
   deleteCategoryList(id: number) {
@@ -117,9 +119,9 @@ export class ListcategoryComponent implements OnInit {
   onEdit() {
     this.dataSavingProgress = true;
     console.log(this.route.snapshot.params.id);
-    this._service.updateCategory(this.route.snapshot.params.id, this.categoryAddForm.value).subscribe(
+    this._service.updateCategory(this.categoryId, this.categoryAddForm.value).subscribe(
       (result) => {
-        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload() });
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {});
         this.dataSavingProgress = false;
       }, error => {
         console.log(error);

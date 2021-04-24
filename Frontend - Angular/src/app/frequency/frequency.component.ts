@@ -23,7 +23,7 @@ export class FrequencyComponent implements OnInit {
 
     public frequencyAddForm: FormGroup;
     public submitted = false;
-    public id: number;
+    //public id: number;
     public searchKey:string;
     public edit=false;
     public dataSavingProgress = false;
@@ -35,6 +35,7 @@ export class FrequencyComponent implements OnInit {
     public confirmClicked = false;
     public cancelClicked = false;
     listData: MatTableDataSource<any>;
+    frequencyId:number;
 
   displayedColumns: string[] = [
     'id', 
@@ -67,13 +68,12 @@ this._service.getFrequencyList().subscribe(
   });
 
 }
-editFrequencysList(id){
-  this.router.navigate(['frequency', id]);
-}
+
 
 editFrequencyList(row) {
 this.edit=true;
 console.log(row);
+this.frequencyId=row.frequencyId;
 this.frequencyAddForm.patchValue({
 frequency: row.frequency,
 active: row.active
@@ -116,7 +116,7 @@ this.save();
 
 onEdit(){
   this.dataSavingProgress = true;
-  this._service.updateFrequency(this.route.snapshot.params.id,this.frequencyAddForm.value).subscribe(
+  this._service.updateFrequency(this.frequencyId,this.frequencyAddForm.value).subscribe(
     (result)=>{
       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
       this.dataSavingProgress = false;

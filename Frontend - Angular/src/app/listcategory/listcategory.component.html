@@ -7,7 +7,7 @@
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Category name</mat-label>
         <input matInput placeholder="Ex. software" formControlName="categoryName">
-        <mat-error *ngIf="categoryAddForm.controls['categoryName'].touched && categoryAddForm.get('categoryName').hasError('required')">
+        <mat-error *ngIf="categoryAddForm.get('categoryName').touched && categoryAddForm.get('categoryName').hasError('required')">
           category name is required
         </mat-error>
       </mat-form-field>

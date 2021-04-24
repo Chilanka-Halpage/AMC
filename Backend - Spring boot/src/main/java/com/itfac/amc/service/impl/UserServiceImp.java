@@ -112,8 +112,9 @@ public class UserServiceImp implements UserService {
 
 		String generatedString = random.ints(leftLimit, rightLimit + 1).limit(targetStringLength)
 				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+		
 
-		return generatedString;
+		return generatedString.toUpperCase();
 	}
 
 	public String ranString() {
