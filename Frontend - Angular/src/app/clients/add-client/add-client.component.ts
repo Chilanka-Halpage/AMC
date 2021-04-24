@@ -127,7 +127,6 @@ export class AddClientComponent implements OnInit {
       });
       this.checkStatus();
     } else {
-      console.log('shgf')
       this.checkStatus();
     }
   }
@@ -148,6 +147,7 @@ export class AddClientComponent implements OnInit {
 
   // when department edit requset comes, set department data to form fields
   loadDeptData(): void {
+    this.clientForm.get('client').disable();
     this.clientForm.patchValue({
       deptId: this.data.deptId,
       departmentName: this.data.departmentName,
@@ -156,7 +156,6 @@ export class AddClientComponent implements OnInit {
       contactPerson: this.data.contactPerson,
       active: this.data.active
     });
-    this.clientForm.controls['client'].setErrors(null);
   }
 
   // when department creation requset for existing client comes, set existing client data to form fields
