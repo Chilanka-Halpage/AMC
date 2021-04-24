@@ -11,24 +11,24 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class PageComponent implements OnInit {
 
-  constructor(private _service: PageserviceService,private notificationService: NotificationService, private router: Router, private formBuilder:FormBuilder) { }
+  constructor(
+    private _service: PageserviceService,
+    private notificationService: NotificationService, 
+    private router: Router,
+    private formBuilder:FormBuilder) { }
 
-  emailAddForm: FormGroup;
-  submitted = false;
-  hide = true;
-  alert:boolean=false;
-  public dataSavingProgress = false;
+    public emailAddForm: FormGroup;
+    public submitted = false;
+    public hide = true;
+    public dataSavingProgress = false;
 
   ngOnInit(): void {
     this.emailAddForm=this.formBuilder.group(
       {
-        email:['',[Validators.required,Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]]
-        
+        email:['',[Validators.required,Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]] 
       }
-    )
-
-  }
-
+    );
+   }
 
   save() {
     this.dataSavingProgress = true;
@@ -48,21 +48,11 @@ export class PageComponent implements OnInit {
   }
     
     onSubmit() {
-    this.alert=true;
-    //this.notificationService.showNoitfication('We have sent reset password link to your email. Please check!', 'OK', 'success', () => { null});
-    //console.log(this.emailAddForm);
-    this.submitted = true;
-    
-    this.save();    
+      this.submitted = true;
+      this.save();    
     }
     
     gotoList() {
     this.router.navigate(['']);
     }
-
-    closeAlert(){
-      this.alert=false;
-      
-    }
-
 }

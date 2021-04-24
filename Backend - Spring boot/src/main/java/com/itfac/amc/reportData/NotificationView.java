@@ -7,4 +7,5 @@ public interface NotificationView {
 	public String getnotification();
 	public Date getsaved_date();
 	public Boolean getis_read();
+	public Date getrenewalDate();
 }

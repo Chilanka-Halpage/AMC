@@ -49,7 +49,7 @@ public class User {
 
 	
 	@Size(max = 60, message = "Contact number must be 60 characters")
-	@Column(name = "conatact_no", length = 60, nullable = false)
+	@Column(name = "contact_no")
 	private String contactNo;
 
 	@Column(name = "reset_password_token", length = 60)

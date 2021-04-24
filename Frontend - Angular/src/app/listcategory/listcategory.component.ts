@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { CategoryserviceService } from '../categoryservice.service';
@@ -15,54 +16,68 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class ListcategoryComponent implements OnInit {
 
-  categoryAddForm: FormGroup;
-  submitted = false;
-  id: number;
-  searchKey: string;
-  showMyMessage = false;
-  edit = false;
-  alert: boolean = false;
-  public dataSavingProgress = false;
-  popoverTitle = 'Delete Row';
-  popoverMessage = 'Are you sure to want to Delete ?';
-  confirmClicked = false;
-  cancelClicked = false;
+  constructor(
+    private _service: CategoryserviceService, 
+    private notificationService: NotificationService, 
+    private router: Router, 
+    private formBuilder: FormBuilder, 
+    private route: ActivatedRoute,
+    private location:Location) {}
 
-  constructor(private _service: CategoryserviceService, private notificationService: NotificationService, private router: Router, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
+    public  categoryAddForm: FormGroup;
+    public submitted = false;
+    public id: number;
+    public searchKey: string;
+    public showMyMessage = false;
+    public edit = false;
+    public alert: boolean = false;
+    public dataSavingProgress = false;
+    public popoverTitle = 'Delete Row';
+    public popoverMessage = 'Are you sure to want to Delete ?';
+    public confirmClicked = false;
+    public cancelClicked = false;
+    listData: MatTableDataSource<any>;
+    categoryId:number;
+    
 
-  listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['id', 'categoryName', 'active', 'savedBy', 'savedOn', 'savedIp', 'lastModifiedBy', 'lastModifiedOn', 'action'];
+  displayedColumns: string[] = [
+    'id', 
+    'categoryName', 
+    'active', 
+    'savedBy', 
+    'savedOn', 
+    'savedIp', 
+    'lastModifiedBy', 
+    'lastModifiedOn', 
+    'action'];
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-
     this._service.getCategoryList().subscribe(
       list => {
-
         this.listData = new MatTableDataSource(list);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
       });
     this.categoryAddForm = this.formBuilder.group(
       {
-        categoryName: ['', [Validators.required]],
+        categoryName: ['',[Validators.required]],
         active: ['', [Validators.required]]
       }
     )
 
   }
-  editCategoryList(id) {
-    this.router.navigate(['list', id]);
-  }
+ 
 
   editCategoryListe(row) {
-    this.router.navigate(['list', row.categoryId]);
+   //this.router.navigate(['list', row.categoryId]);
+   this.categoryId=row.categoryId;
     console.log(row);
     this.edit = true;
-    this.categoryAddForm.patchValue({
 
+    this.categoryAddForm.patchValue({
       categoryName: row.categoryName,
       active: row.active
     });
@@ -72,11 +87,11 @@ export class ListcategoryComponent implements OnInit {
     console.log(id);
     this._service.deleteCategory(id).subscribe(
       data => {
-        this.reload();
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()}); 
       },
       error => {
         console.log(error);
-        this.notificationService.showNoitfication('Cannot proceed the request.', 'OK', 'error', null);
+        this.notificationService.showNoitfication('Cannot delete a parent row: a foreign key constraint fails !', 'OK', 'error', null);
       }).add(()=>this.dataSavingProgress=false);  
   }
 
@@ -87,8 +102,6 @@ export class ListcategoryComponent implements OnInit {
         this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload() });
         this.dataSavingProgress = false;
         console.log(data)
-
-
       },
       error => {
         console.log(error);
@@ -103,15 +116,12 @@ export class ListcategoryComponent implements OnInit {
     this.save();
   }
 
-
-
   onEdit() {
-
     this.dataSavingProgress = true;
     console.log(this.route.snapshot.params.id);
-    this._service.updateCategory(this.route.snapshot.params.id, this.categoryAddForm.value).subscribe(
+    this._service.updateCategory(this.categoryId, this.categoryAddForm.value).subscribe(
       (result) => {
-        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload() });
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {});
         this.dataSavingProgress = false;
       }, error => {
         console.log(error);
@@ -119,33 +129,28 @@ export class ListcategoryComponent implements OnInit {
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
       }).add(()=>this.dataSavingProgress=false)
     }
+
   reload() {
+    this.edit = false;
+    this.resetForm();
     this._service.getCategoryList().subscribe(
       list => {
-
         this.listData = new MatTableDataSource(list);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
       });
-    this.resetForm();
+    //this.resetForm();
   }
 
   resetForm(): void {
     this.categoryAddForm.reset();
   }
 
-
-
-
   onSearchClear() {
     this.searchKey = "";
     this.applyFilter();
   }
-
   applyFilter() {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
-
-
-
 }

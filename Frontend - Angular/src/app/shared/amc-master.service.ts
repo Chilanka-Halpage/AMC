@@ -114,6 +114,11 @@ export class AmcMasterService {
     return this.http.get(`${this.baseURL}amcMaster/get/clients/${clientId}`).pipe(timeout(5000));
   }
 
+  //Get AMC master data related to a client
+  getAmcMasterListForClient(userId: string): Observable<any> {
+    return this.http.get(`${this.baseURL}amcMaster/get/client/${userId}`).pipe(timeout(5000));
+  }
+
   //Get AMC serial data
   getAmcSerilaList(deptId: number): Observable<any> {
     return this.http.get(`${this.baseURL}amcSerial/get/clients/depts/${deptId}`);
@@ -137,8 +142,8 @@ export class AmcMasterService {
   }
 
   //Send renewed data to the beckend
-  renewAmcByClientId(formData: FormData, amcNo: string): Observable<any> {
-    return this.http.post(`${this.baseURL}amcSerial/renew/${amcNo}`, formData, {
+  renewAmcByClientId(formData: FormData, amcNo: string, amcSerialNo: string): Observable<any> {
+    return this.http.post(`${this.baseURL}amcSerial/renew/${amcNo}/${amcSerialNo}`, formData, {
       responseType: 'text' as 'json'
     });
   }
@@ -153,18 +158,15 @@ export class AmcMasterService {
   getAmcHistoryData(amcNo: string): Observable<any>{
     return this.http.get(`${this.baseURL}amcHistory/all/${amcNo}`);
   }
-
-  getCurrency(): Observable<Currency[]>{
-    return this.http.get<Currency[]>(`${this.baseURL}Currency/findAllCurrency`);
-  }
+  
   getCategory(): Observable<any>{
-    return this.http.get<any>(`${this.baseURL}category/findAllCategory`)
+    return this.http.get<any>(`${this.baseURL}category/findActiveCategoy`)
   }
   getFrequency(): Observable<Frequency[]>{
-    return this.http.get<Frequency[]>(`${this.baseURL}frequency/findAllFrequency`);
+    return this.http.get<Frequency[]>(`${this.baseURL}frequency/findActiveFrequency`);
   }
   getProduct(): Observable<any>{
-    return this.http.get<any>(`${this.baseURL}Product/findAllProduct`);
+    return this.http.get<any>(`${this.baseURL}Product/findActiveProduct`);
   }
 
 }

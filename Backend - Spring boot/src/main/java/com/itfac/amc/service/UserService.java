@@ -16,8 +16,6 @@ public interface UserService {
 
 	User addUser(User user);
 
-	User updateUser(User user);
-
 	public User getUser(String userId);
 
 	UserNameDto getUserName(String userid);
@@ -35,5 +33,9 @@ public interface UserService {
 	User getByResetPasswordToken(String token);
 
 	void updatePassword(User user, String newPassword);
+
+	User getByUserName(User user);
+
+	void updateUser(User user, String userId);
 
 }

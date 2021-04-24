@@ -8,18 +8,19 @@ import { RenewalAmcs } from './RenewalAmcs/renewal-amcs';
 import { RenewedAmcs } from './RenewedAmcs/renewed-amcs';
 import { ClientAmc } from './ClientAmc/client-amc';
 import { ClientPaymentDetails } from './ClientPaymentDetails/client-payment-details'
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JrReportDetailsService {
 
-  private baseURL ="http://localhost:8080";
+  private baseURL =environment.baseServiceUrl;
   constructor( private httpClient: HttpClient ) { }
 
   //All AMCs jasper report
   AllAmcPdfReport(Date1 ,Date2, userId): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseURL}/jrReport/AllAmcsJrReport/${Date1}/${Date2}/${userId}`,
+    return this.httpClient.get<any>(`${this.baseURL}jrReport/AllAmcsJrReport/${Date1}/${Date2}/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -27,7 +28,7 @@ export class JrReportDetailsService {
 
   //full details jasper report
   FullDetailsJrReport(Date1 ,Date2, userId): Observable<FullDetails>{
-    return this.httpClient.get<FullDetails>(`${this.baseURL}/jrReport/FullDetailsJrReport/${Date1}/${Date2}/${userId}`,
+    return this.httpClient.get<FullDetails>(`${this.baseURL}jrReport/FullDetailsJrReport/${Date1}/${Date2}/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -35,7 +36,7 @@ export class JrReportDetailsService {
 
   //Renewal Amcs jasper report
   RenewalAmcsJrReport(Date1 ,Date2, userId): Observable<RenewalAmcs>{
-    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}/jrReport/RenewalAmcsJrReport/${Date1}/${Date2}/${userId}`,
+    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}jrReport/RenewalAmcsJrReport/${Date1}/${Date2}/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -43,7 +44,7 @@ export class JrReportDetailsService {
 
   //Expired Amcs jasper report
   ExpiredAmcsJrReport(Date1 ,Date2, userId): Observable<RenewalAmcs>{
-    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}/jrReport/ExpiredAmcsJrReport/${Date1}/${Date2}/${userId}`,
+    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}jrReport/ExpiredAmcsJrReport/${Date1}/${Date2}/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -51,7 +52,7 @@ export class JrReportDetailsService {
 
   //Renewed Amcs jasper report
   RenewedAmcsJrReport(Date1 ,Date2, userId): Observable<RenewedAmcs>{
-    return this.httpClient.get<RenewedAmcs>(`${this.baseURL}/jrReport/RenewedAmcsJrReport/${Date1}/${Date2}/${userId}`,
+    return this.httpClient.get<RenewedAmcs>(`${this.baseURL}jrReport/RenewedAmcsJrReport/${Date1}/${Date2}/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -59,7 +60,7 @@ export class JrReportDetailsService {
 
   //Clients Details jasper report
   ClientDetailsJrReport(Date1 ,Date2, userId): Observable<ClientDetails>{
-    return this.httpClient.get<ClientDetails>(`${this.baseURL}/jrReport/ClientDetailsJrReport/${Date1}/${Date2}/${userId}`,
+    return this.httpClient.get<ClientDetails>(`${this.baseURL}jrReport/ClientDetailsJrReport/${Date1}/${Date2}/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -67,7 +68,7 @@ export class JrReportDetailsService {
 
   //Payments Details jasper report
   PaymentsDetailsJrReport(Date1 ,Date2, userId): Observable<PaymentsDetails>{
-    return this.httpClient.get<PaymentsDetails>(`${this.baseURL}/jrReport/PaymentsJrReport/${Date1}/${Date2}/${userId}`,
+    return this.httpClient.get<PaymentsDetails>(`${this.baseURL}jrReport/PaymentsJrReport/${Date1}/${Date2}/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -75,7 +76,7 @@ export class JrReportDetailsService {
 
   //Amc jasper report for client
   ClientAmcJrReport(userId): Observable<ClientAmc>{
-    return this.httpClient.get<ClientAmc>(`${this.baseURL}/jrReport/client/ClientAmcReport/${userId}`,
+    return this.httpClient.get<ClientAmc>(`${this.baseURL}jrReport/client/ClientAmcReport/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -83,7 +84,7 @@ export class JrReportDetailsService {
 
   //Payment Jasper report for client
   ClientPaymentJrReport(userId): Observable<ClientPaymentDetails>{
-    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}/jrReport/client/ClientPaymentsJrReport/${userId}`,
+    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}jrReport/client/ClientPaymentsJrReport/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -91,7 +92,7 @@ export class JrReportDetailsService {
 
   //Quarter wise revenue report
   QuarterWiseRevenueJrReport(date1, userId): Observable<ClientPaymentDetails>{
-    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}/jrReport/QuarterWiseRevenueJrReport/${date1}/${userId}`,
+    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}jrReport/QuarterWiseRevenueJrReport/${date1}/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -99,7 +100,7 @@ export class JrReportDetailsService {
 
   //view pdf
   viewPdf(userId):Observable<Blob>{
-    return this.httpClient.get(`${this.baseURL}/jrReport/viewPdf/${userId}` ,{
+    return this.httpClient.get(`${this.baseURL}jrReport/viewPdf/${userId}` ,{
       responseType: 'blob'
     });
   }

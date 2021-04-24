@@ -47,6 +47,10 @@ export class ClientService {
     return this.http.get(`${this.baseURL}clientDept/clients/${cid}/departments`);
   }
 
+  getDepartmentsByUserId(userId: string): Observable<any> {
+    return this.http.get(`${this.baseURL}clientDept/client/${userId}/departments`);
+  }
+
   //Send client edited data to update client entity
   updateClient(client: any): Observable<any> {
     return this.http.put(`${this.baseURL}client/edit`, client, {

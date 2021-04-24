@@ -69,6 +69,7 @@ export class LoginComponent implements OnInit {
              } else{
                this.dialog.open(AlertComponent);
              }
+
         }, error => {
           this.error = error;
           this.dialog.open(AlertComponent);

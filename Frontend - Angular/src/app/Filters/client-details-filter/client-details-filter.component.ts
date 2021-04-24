@@ -29,15 +29,13 @@ export class ClientDetailsFilterComponent implements OnInit {
     clientDetailsFilter = this.fb.group({
       date1: [''],
       date2: ['']
+    },{
+      validator: ConfirmedValidator('date1', 'date2')
     });
 
   ngOnInit(): void {
  
   }
-    //AllAMCsReport() {
-   //   this.router.navigate(['AllAmcReport', {relativeTo: this.route}]) 
- // }
- 
   onSubmit(){
 
     let date1 = this.clientDetailsFilter.value.date1;
@@ -53,5 +51,21 @@ export class ClientDetailsFilterComponent implements OnInit {
     }
     )
 }
-
+get f(){
+  return this.clientDetailsFilter.controls;
+}
+}
+export function ConfirmedValidator(fromDate: string, toDate: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[fromDate];
+    const matchingControl = formGroup.controls[toDate];
+    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+      return;
+    }
+    if (control.value > matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
+  }
 }

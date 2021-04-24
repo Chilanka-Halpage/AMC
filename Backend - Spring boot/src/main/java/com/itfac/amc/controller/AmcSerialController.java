@@ -11,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +28,6 @@ import com.itfac.amc.service.FileStorageService;
 
 @RestController()
 @RequestMapping("amcSerial/")
-@CrossOrigin("*")
 public class AmcSerialController {
 
 	@Autowired
@@ -46,10 +44,12 @@ public class AmcSerialController {
 		return ResponseEntity.status(HttpStatus.OK).body("Successfully Saved");
 	}
 
-	@PostMapping("renew/{amcNo}")
+	@PostMapping("renew/{amcNo}/{amcSerialNo}")
 	public ResponseEntity<String> renewAmc(HttpServletRequest request, @RequestParam("data") String data,
-			@RequestParam("file") MultipartFile file, @PathVariable(value = "amcNo") String amcNo) throws JsonMappingException, JsonProcessingException {
-		amcSerialService.renewAmc(request, data, file, amcNo);
+			@RequestParam("file") MultipartFile file, @PathVariable(value = "amcNo") String amcNo,
+			@PathVariable(value = "amcSerialNo") String amcSerialNo)
+			throws JsonMappingException, JsonProcessingException {
+		amcSerialService.renewAmc(request, data, file, amcNo, amcSerialNo);
 		return ResponseEntity.status(HttpStatus.OK).body(("Successfully Saved!"));
 	}
 
@@ -73,7 +73,7 @@ public class AmcSerialController {
 	}
 
 	@GetMapping("/download/{fileName}")
-	ResponseEntity<Resource> downLoadSingleFile(@PathVariable String fileName, HttpServletRequest request) {
+	ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
 		Resource resource = fileStorageService.downloadFile(fileName);
 		String mimeType;
 		try {

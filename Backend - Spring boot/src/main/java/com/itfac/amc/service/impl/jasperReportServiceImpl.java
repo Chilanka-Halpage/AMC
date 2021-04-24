@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -53,14 +54,17 @@ public class jasperReportServiceImpl implements JasperReportService{
 	@Autowired
 	private ClientRepository clientRepository;
 	
-	private final String url = "C:\\Users\\User\\Desktop\\New folder\\";
+	String storageDirectoryPath = "C:\\Users\\User\\Desktop\\New folder\\";
 	
-	
+	@Value("${report_path}")
+	public void setDirectoryPath(String storageDirectoryPath) {
+		this.storageDirectoryPath = storageDirectoryPath;
+	}
 	//view pdf
 	@Override
 	public ResponseEntity<Resource> viewPdf(String userId, HttpServletRequest request)throws Exception 
 	{
-		File file = new File(url+userId+".pdf");
+		File file = new File(storageDirectoryPath+userId+".pdf");
     	Path path = Paths.get(file.getAbsolutePath());
         ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
@@ -79,7 +83,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "test");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, url+userId+".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath+userId+".pdf");
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 	//renewal amcs report
@@ -94,7 +98,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,url+userId+".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,storageDirectoryPath+userId+".pdf");
 		
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -110,7 +114,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,url+userId+".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,storageDirectoryPath+userId+".pdf");
 		
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -127,7 +131,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, url+userId+".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath+userId+".pdf");
 		
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -144,7 +148,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, url+userId+".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath+userId+".pdf");
 
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -161,7 +165,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,url+userId+".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,storageDirectoryPath+userId+".pdf");
 		
 				return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -176,7 +180,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		 parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,url+userId+".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,storageDirectoryPath+userId+".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 	
@@ -190,7 +194,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,url+userId+".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,storageDirectoryPath+userId+".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 	
@@ -204,7 +208,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,url+userId+".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,storageDirectoryPath+userId+".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 	
@@ -237,7 +241,7 @@ public class jasperReportServiceImpl implements JasperReportService{
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint,url+userId+".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint,storageDirectoryPath+userId+".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 	

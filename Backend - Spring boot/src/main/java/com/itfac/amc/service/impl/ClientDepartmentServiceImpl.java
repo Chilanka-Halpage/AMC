@@ -41,6 +41,13 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 	}
 
 	@Override
+	public List<ClientDepartment> getDepartmentsByUserId(String id) {
+		int clientId = clientRepository.getClientIdByUserId(id)
+				.orElseThrow(() -> new ResourceCreationFailedException("Not Found client for user ID: " + id));
+		return getDepartmentsByClientId(clientId);
+	}
+
+	@Override
 	public void addDepartmentByClientId(int clientId, ClientDepartment department,
 			HttpServletRequest httpServletRequest) {
 		String ipAddress = httpServletRequest.getRemoteAddr();
@@ -67,7 +74,7 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 		user.setRole("client");
 		user.setUname(client.getClientName());
 		user = userService.addUser(user);
-		
+
 		client.setUser(user);
 		department.setLastModifiedIp(ipAddress);
 		client.setLastModifiedIp(ipAddress);

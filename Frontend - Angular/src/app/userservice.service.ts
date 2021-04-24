@@ -18,7 +18,7 @@ export class UserserviceService {
   }
 
   createUser(user: Object): Observable<Object> {
-    return this.http.post(`${this.baseURL}User/admin/AddUser`, user);
+    return this.http.post(`${this.baseURL}User/admin/AddUser`, user,{responseType : "text" as "json"});
   }
  
   getUser(id: number): Observable<any> {
@@ -33,9 +33,7 @@ export class UserserviceService {
     return this.http.delete(`${this.baseURL}User/admin/deleteUser/${id}`, { responseType: 'text' });
   }
 
-  sentEmail(user: Object): Observable<Object> {
-    return this.http.post(`${this.baseURL}User/admin/AddUser`, user);
-  }
+  
 
 
 }

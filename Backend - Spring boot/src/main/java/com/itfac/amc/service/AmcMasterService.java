@@ -65,4 +65,6 @@ public interface AmcMasterService {
 	
 	String countActiveAmcByClient(String userId);
 
+	List<AmcMasterDto> getAmcListByUserId(String userId);
+
 }

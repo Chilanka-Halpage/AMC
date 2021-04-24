@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.dto.logindetailsDTo;
-import com.itfac.amc.entity.LoginDetails;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.reportData.viewLoginDetails;
-import com.itfac.amc.repository.UserRepository;
 import com.itfac.amc.service.LoginDetailsService;
 import com.itfac.amc.service.UserService;
 import com.itfac.amc.service.impl.UserNotFoundException;
@@ -33,7 +31,6 @@ import com.itfac.amc.service.impl.UserNotFoundException;
 import net.bytebuddy.utility.RandomString;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("User/")
 public class UserController {
 
@@ -47,9 +44,9 @@ public class UserController {
 	LoginDetailsService loginDetailsService;
 
 	@GetMapping("admin/findAllUser")
-	public List<User> getAllUser() {
+	public ResponseEntity<List<User>> getAllUser() {
 		List<User> allUser = userservice.getAllUser();
-		return allUser;
+		return ResponseEntity.status(HttpStatus.OK).body(allUser);
 	}
 
 	@GetMapping("admin/findUser/{id}")
@@ -68,15 +65,23 @@ public class UserController {
 	}
 
 	@PostMapping("admin/AddUser")
-	User addUser(@Validated @RequestBody User user) {
-		return userservice.addUser(user);
+	public ResponseEntity<String> addUser(@Validated @RequestBody User user) {
+		User userr =userservice.getByUserName(user);
+		if(userr==null) {
+		 userservice.addUser(user);
+		 return ResponseEntity.ok().body("succefully added.");
+		}
+		else {
+			userservice.addUser(user);
+			return ResponseEntity.badRequest().body("User already exist.");
+		}
 	}
 
 
 	@PutMapping("admin/updateUser/{id}")
-	User updateUsers(@PathVariable("id") String userId,@RequestBody User user) {
-		user.setUserId(userId);
-		return userservice.updateUser(user);
+	public ResponseEntity<String> updateUsers(@PathVariable("id") String userId,@RequestBody User user) {
+		userservice.updateUser(user,userId);
+		return ResponseEntity.ok().body("succefully updated");
 	}
 
 	// get user details

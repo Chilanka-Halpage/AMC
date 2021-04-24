@@ -28,17 +28,17 @@ export class HomedetailsService {
     return this.HttpClient.get<any>(`${this.baseURL}amcMaster/dashboard/inactiveAmcCount`, { responseType: 'text' as 'json' })
   }
 
-  Amcreminders(Date1, Date2): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}report/AmcReminders/${Date1}/${Date2}`);
+  Amcreminders(Date1 ,Date2): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}report/dashboard/AmcReminders/${Date1}/${Date2}`);
   }
 
-  RenewedAmcscount(Date1, Date2): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}report/RenewedAmccount/${Date1}/${Date2}`, { responseType: 'text' as 'json' });
+  RenewedAmcscount(Date1 ,Date2): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}report/dashboard/RenewedAmccount/${Date1}/${Date2}`,{responseType : 'text' as 'json'});
   }
-
-  expiredamcCount(Date1, Date2): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}report/ExpiredAmcscount/${Date1}/${Date2}`, { responseType: 'text' as 'json' });
-  }
+ 
+ expiredamcCount(Date1 ,Date2): Observable<any>{
+  return this.HttpClient.get<any>(`${this.baseURL}report/dashboard/ExpiredAmcscount/${Date1}/${Date2}`,{responseType : 'text' as 'json'});
+ }
 
   lastyearrevanue(Date1, Date2): Observable<any> {
     return this.HttpClient.get<any>(`${this.baseURL}receipt/lastyearrevanue/${Date1}/${Date2}`, { responseType: 'text' as 'json' });

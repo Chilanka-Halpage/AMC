@@ -11,10 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,7 +24,7 @@ import lombok.Data;
 public class Notification {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "notification_id")
 	private int NotificationId;
 	
@@ -43,4 +41,8 @@ public class Notification {
 	@JsonIgnore
 	private User user;
 	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "amc_serial_no", foreignKey = @ForeignKey(name = "user_fk2"))
+	@JsonIgnore
+	private AmcSerial amcSerial;
 }

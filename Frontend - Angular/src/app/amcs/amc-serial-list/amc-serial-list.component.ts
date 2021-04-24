@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { AmcMaster } from 'src/app/Model/amc-master.model';
 import { AmcMasterService } from 'src/app/shared/amc-master.service';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
   selector: 'app-amc-serial-list',
@@ -23,15 +24,16 @@ export class AmcSerialListComponent implements OnInit {
     'isActive',
     'action'
   ];
-  
-  private deptId: number;
-  clientName: string;
-  departmentName: String;
-  dataSource: MatTableDataSource<AmcMaster>;
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  errorMessage = "Unknown Error"
+  private clientId: number;
+  private departmentId: number;
+  public clientName: string;
+  public departmentName: String;
+  public dataSource: MatTableDataSource<AmcMaster>;
+  public resultsLength = 0;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+  public isBlocked = false;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,16 +42,19 @@ export class AmcSerialListComponent implements OnInit {
     private amcService: AmcMasterService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
+    if (this.authService.role === 'ROLE_CLIENT')
+      this.isBlocked = true;
     this.activatedRoute.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
+      this.clientId = value.cid;
       this.clientName = value.cname;
       this.departmentName = value.dname;
-      this.deptId = value.did;
-      this.loadAmcSerialList(this.deptId);
-      
+      this.departmentId = value.did;
+      this.loadAmcSerialList(this.departmentId);
     });
   }
 
@@ -76,7 +81,18 @@ export class AmcSerialListComponent implements OnInit {
   }
 
   onCreate(): void {
-    this.router.navigate(['client/' + this.clientName + '/dept/new']);
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        data: JSON.stringify({
+          cid: this.clientId,
+          cname: this.clientName,
+          did: this.departmentId,
+          dname: this.departmentName,
+          type: "%c1%"
+        })
+      }
+    };
+    this.router.navigate(['/amcMaster/new'], navigationExtras);
   }
 
   onSelect(row: any): void {
@@ -96,11 +112,11 @@ export class AmcSerialListComponent implements OnInit {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "data": JSON.stringify({
-          "id": this.deptId, 
+          "id": this.departmentId, 
         })
       }
     };
-    console.log(this.deptId)
+    console.log(this.departmentId)
     this.router.navigate(['invoicelist',amc_no],navigationExtras);
   }
 

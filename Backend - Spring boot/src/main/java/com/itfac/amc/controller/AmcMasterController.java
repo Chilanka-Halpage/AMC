@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,7 +19,6 @@ import com.itfac.amc.dto.AmcMasterSubData;
 import com.itfac.amc.entity.AmcMaster;
 import com.itfac.amc.service.AmcMasterService;
 
-@CrossOrigin("*")
 @RestController()
 @RequestMapping("amcMaster/")
 public class AmcMasterController {
@@ -42,8 +40,14 @@ public class AmcMasterController {
 	}
 
 	@GetMapping("get/clients/{clientId}")
-	public ResponseEntity<List<AmcMasterDto>> getAmcByClient(@PathVariable("clientId") int clientId) {
+	public ResponseEntity<List<AmcMasterDto>> getAmcListByClient(@PathVariable("clientId") int clientId) {
 		List<AmcMasterDto> result = amcService.getAmcByClient(clientId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+	
+	@GetMapping("get/client/{userId}")
+	public ResponseEntity<List<AmcMasterDto>> getAmcListByUserId(@PathVariable("userId") String userId) {
+		List<AmcMasterDto> result = amcService.getAmcListByUserId(userId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 

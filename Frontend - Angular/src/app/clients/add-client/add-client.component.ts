@@ -55,14 +55,14 @@ export class AddClientComponent implements OnInit {
     this.clientForm = this.formBuilder.group({
       client: this.formBuilder.group({
         clientId: [''],
-        clientName: ['', [Validators.required], [this.clientExistsValidator()], blur],
+        clientName: ['', Validators.required, [this.clientExistsValidator()]],
         contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
         contactPerson: ['', [Validators.required]],
         address: ['', [Validators.required]],
         active: [true]
       }),
       deptId: [''],
-      departmentName: ['', Validators.required, [this.deptExistsValidator()], blur],
+      departmentName: ['', Validators.required, [this.deptExistsValidator()]],
       email: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
       contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
       contactPerson: ['', [Validators.required]],
@@ -77,6 +77,7 @@ export class AddClientComponent implements OnInit {
           delay(500),
           switchMap((clientName: string) => this.clientService.doesClientExists(clientName)),
           map(response => {
+            console.log(response);
             this.isDesabled = response;
             return response ? { clientExists: true } : null
           })
@@ -106,6 +107,7 @@ export class AddClientComponent implements OnInit {
 
   //According to request type, data is set to the form fields
   private setForm(type: any): void {
+    console.log("djhdhb")
     if (type === '%CE2%') { // request type -> client edit
       this.heading = 'Edit Client';
       this.description = 'Client details modification';
@@ -145,6 +147,7 @@ export class AddClientComponent implements OnInit {
 
   // when department edit requset comes, set department data to form fields
   loadDeptData(): void {
+    this.clientForm.get('client').disable();
     this.clientForm.patchValue({
       deptId: this.data.deptId,
       departmentName: this.data.departmentName,
@@ -153,7 +156,6 @@ export class AddClientComponent implements OnInit {
       contactPerson: this.data.contactPerson,
       active: this.data.active
     });
-    this.clientForm.controls['client'].setErrors(null);
   }
 
   // when department creation requset for existing client comes, set existing client data to form fields
@@ -244,8 +246,7 @@ export class AddClientComponent implements OnInit {
 
   //send edited department data to the backend for saving changes
   updateDept() {
-    this.clientForm.controls['client'].setErrors(null);
-    if (true) {
+    if (this.clientForm.valid) {
       this.clientSavingProgress = true;
       this.clientService.updateDepartment(this.clientForm.value, this.clientId, this.clientForm.value.deptId).subscribe(
         response => {

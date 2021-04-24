@@ -15,7 +15,7 @@ import { PaymentListComponent } from './payment-list/payment-list.component';
 import { CurrencyListComponent } from './currency-list/currency-list.component';
 import { InvoiceListComponent } from './invoice-list/invoice-list.component';
 import { TaxListComponent } from './tax-list/tax-list.component';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProformaInvoiceComponent } from './proforma-invoice/proforma-invoice.component';
 import { SettingComponent } from './setting/setting.component';
@@ -124,7 +124,7 @@ const routes: Routes = [
   { path: 'dept-list', component: DepartmentListComponent,canActivate: [AuthenticationGuard]},
   { path: 'client/dept/edit', component: AddClientComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'amc-serial/new', component: AmcSerialComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
-  { path: 'clients/:cid/amc-list', component: AmcMasterListComponent,canActivate: [AuthenticationGuard,AccountantGuard]},
+  { path: 'clients/:cid/amc-list', component: AmcMasterListComponent,canActivate: [AuthenticationGuard]},
   { path: 'clients/depts/:did/amc-list', component: AmcSerialListComponent,canActivate: [AuthenticationGuard]},
   { path: 'clients/amc-list/:no/full', component: AmcFullDataComponent,canActivate: [AuthenticationGuard,AccountantGuard]},
   { path: 'clients/amc-list/:no/renew', component: AmcRenewEditComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
@@ -140,6 +140,7 @@ const routes: Routes = [
   { path: 'notification/:userId', component: NotificationComponent,canActivate: [AuthenticationGuard]},//all
   { path: 'clientPaymentReport/:userId', component: ClientPaymentDetailsComponent,canActivate: [AuthenticationGuard,AccountantGuard,AmccordinatorGuard] },//client
   { path: 'quarterWiseRevenueReport/:date1', component: QuarterWiseRevenueReportComponent,canActivate: [AuthenticationGuard,ClientGuard]},//admin,amc cordinater,accountant
+  { path: 'loginDetails', component:LoginDetailsComponent,canActivate: [AuthenticationGuard]},
   { path: 'edit-Invoice/:piNo',component: EditInvoiceComponent,canActivate: [AuthenticationGuard,AccountantGuard]}
 ];
 

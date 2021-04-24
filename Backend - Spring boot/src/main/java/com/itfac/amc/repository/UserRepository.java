@@ -12,7 +12,7 @@ import com.itfac.amc.reportData.UserDetails;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
-	@Query(value = "select max(SUBSTR(user_id, 1, 4))+1 from user;", nativeQuery = true)
+	@Query(value = "select max(cast(user_id as unsigned))+1 from user;", nativeQuery = true)
 	int getUserLastNo();
 
 	@Query(value = "select email from user where email= :email", nativeQuery = true)
@@ -22,6 +22,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 	User findByResetPasswordToken(@Param("token") String token);
 
 	User findByEmail(String email);
+	User findByUname(String uname);
 
 	User findByUserId(String userId);
 

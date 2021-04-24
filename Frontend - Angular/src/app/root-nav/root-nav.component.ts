@@ -77,12 +77,6 @@ export class RootNavComponent {
       }
     )
     this.imageSrc= this.homedetalis.Image(this._authentication.userId);
-    this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
-      data => {
-        this.notificationNo = data;
-      }
-      );
-   
   }
 
   ClientsDetailsFilter() {

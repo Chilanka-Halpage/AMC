@@ -9,7 +9,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +22,6 @@ import com.itfac.amc.service.ClientDepartmentService;
 
 @RestController
 @RequestMapping("clientDept/")
-@CrossOrigin("*")
 public class ClientDepartmentController {
 
 	@Autowired
@@ -32,6 +30,11 @@ public class ClientDepartmentController {
 	@GetMapping("clients/{clientId}/departments")
 	public List<ClientDepartment> getAllDepartmentsByClientId(@PathVariable(value = "clientId") int id) {
 		return clientDepartmentService.getDepartmentsByClientId(id);
+	}
+
+	@GetMapping("client/{userId}/departments")
+	public List<ClientDepartment> getAllDepartmentsByUserId(@PathVariable(value = "userId") String id) {
+		return clientDepartmentService.getDepartmentsByUserId(id);
 	}
 
 	@GetMapping("exists/{clientId}/{deptName}")
@@ -59,7 +62,8 @@ public class ClientDepartmentController {
 
 	@PutMapping("edit/{clientId}/{deptId}")
 	public ResponseEntity<String> updateDepartmentByClientId(HttpServletRequest httpServletRequest,
-			 @RequestBody ClientDepartment dept, @PathVariable("clientId") int clientId, @PathVariable("deptId") int deptId) {
+			@RequestBody ClientDepartment dept, @PathVariable("clientId") int clientId,
+			@PathVariable("deptId") int deptId) {
 		this.clientDepartmentService.updateDepartment(httpServletRequest, dept, clientId, deptId);
 		return ResponseEntity.status(HttpStatus.OK).body("Modified Succesfully!");
 	}

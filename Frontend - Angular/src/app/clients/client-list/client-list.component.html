@@ -7,7 +7,7 @@
 
 <div class="background-color">
     <div class="col-6 pt-2 pb-0 my-0 ">
-        <h3 class="h2"> Client List </h3>
+        <h2 class="h2"> Client List </h2>
     </div>
     <div class="d-flex flex-row-reverse my-0 py-3 pr-2">
         <button type="button" (click)="onCreate()" mat-raised-button class="btn btn-success">
@@ -55,7 +55,7 @@
 
             <ng-container matColumnDef="savedBy" >
                 <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle" [hidden]="!isAuthorized"> saved By </th>
-                <td mat-cell *matCellDef="let element" class="align-middle" [hidden]="!isAuthorized"> {{element.savedBy}} </td>
+                <td mat-cell *matCellDef="let element" class="align-middle" [hidden]="!isAuthorized"> <a href="/userList"> {{element.savedBy}} </a> </td>
             </ng-container>
 
             <ng-container matColumnDef="savedOn">
@@ -65,7 +65,7 @@
 
             <ng-container matColumnDef="lastModifiedBy">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle" [hidden]="!isAuthorized"> last Modified By </th>
-                <td mat-cell *matCellDef="let element" class="align-middle" [hidden]="!isAuthorized"> {{element.lastModifiedBy}} </td>
+                <td mat-cell *matCellDef="let element" class="align-middle" [hidden]="!isAuthorized"> <a href="/userList"> {{element.lastModifiedBy}} </a> </td>
             </ng-container>
 
             <ng-container matColumnDef="lastModifiedOn">
