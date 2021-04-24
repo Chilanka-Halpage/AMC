@@ -69,15 +69,26 @@ public class ProformaInvoiceController {
 
 	}
 	
-	@GetMapping("/activeinvoices")
-	public List<ProformaInvoiceDto> getActiveinvoices(){
-	  return proformaInvoiceService.getActiveinvoices();
+	@GetMapping("/activeinvoices/{amcNo}")
+	ResponseEntity<List<ProformaInvoiceDto>> getActiveinvoicesById(@PathVariable("amcNo") String amcNo){
+		 List<ProformaInvoiceDto> activeinvoice = proformaInvoiceService.getActiveinvoicesById(amcNo);
+		 if (activeinvoice != null) {
+				return ResponseEntity.ok(activeinvoice);
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No invoice with entered amcNo " + amcNo)
+					.body(activeinvoice);
 	}
 	
-	@PutMapping("editinvoice/{id}")
+	@PutMapping("/editinvoice/{id}")
 		ResponseEntity<String> updateAmcDueInvoice(@RequestBody ProformaInvoice proformaInvoice)throws Exception {
 			 proformaInvoiceService.updateProformainvoiceInvoice(proformaInvoice);	
-			return ResponseEntity.ok("Succesfully edited");
-		
+			return ResponseEntity.ok("Succesfully edited");	
 	}
+	
+	@GetMapping("exists/{piNo}")
+	public ResponseEntity<Boolean> existsinvoice(@PathVariable("piNo") String piNo) {
+		boolean result = proformaInvoiceService.doesInvoiceExists(piNo);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
 }

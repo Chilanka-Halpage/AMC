@@ -45,4 +45,6 @@ public interface ReportService {
 	List<GetInvoice> getInvoiceById(String amc_no) throws Exception;
 
 	BigDecimal getRevanue(LocalDate date1,LocalDate date2);
+	
+	String getRenewalAmc(LocalDate Date1,LocalDate Date2, String user_id);
 }

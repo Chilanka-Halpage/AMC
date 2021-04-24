@@ -100,5 +100,11 @@ public class ReceiptController {
 	public List<clinetpaymentDto> getReceiptByClientId(@PathVariable("id") String userId) {
 		return receiptService.getReceiptbyClientId(userId);
 	}
+	
+	@GetMapping("exists/{recNo}")
+	public ResponseEntity<Boolean> existsReceipt(@PathVariable("recNo") String recNo) {
+		boolean result = receiptService.doesReceiptExists(recNo);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 
 }

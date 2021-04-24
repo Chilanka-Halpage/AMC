@@ -32,4 +32,6 @@ public interface ReceiptService {
 	String Totalrevanuelast5Year(LocalDate Date1, LocalDate Date2);
 	
 	List<clinetpaymentDto> getReceiptbyClientId(String userId);
+
+	boolean doesReceiptExists(String recNo);
 }

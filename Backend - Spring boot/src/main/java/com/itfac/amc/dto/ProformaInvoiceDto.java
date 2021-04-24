@@ -14,6 +14,7 @@ public interface ProformaInvoiceDto {
 	Date getpi_date();
 	boolean gettax_applicable();
 	int getcategory_id();
+	int getcurrency_id();
 	int getclient_dept_id();
 	String getremark();
 
