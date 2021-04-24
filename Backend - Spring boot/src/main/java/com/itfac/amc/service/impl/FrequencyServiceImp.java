@@ -41,8 +41,11 @@ public class FrequencyServiceImp implements FrequencyService {
 	}
 
 	@Override
-	public Frequency updateFrequency(Frequency frequency) {
-		return frequencyrepo.save(frequency);
+	public void updateFrequency(Frequency frequency,int frequencyId) {
+		Frequency frequencyy=frequencyrepo.findByFrequencyId(frequencyId);
+		frequencyy.setFrequency(frequency.getFrequency());
+		frequencyy.setActive(frequency.isActive());
+		 frequencyrepo.save(frequencyy);
 	}
 
 	@Override

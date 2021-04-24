@@ -45,8 +45,14 @@ public class FrequencyController {
 	}
 
 	@DeleteMapping("deleteFrequency/{id}")
-	public ResponseEntity<String> deleteFrequency(@PathVariable("id") int frequencyId) {
-		return ResponseEntity.badRequest().body("not deleted");
+	public ResponseEntity<String> deleteFrequency(@PathVariable("id") int frequencyId) throws Exception {
+		try {
+			frequencyservice.deleteFrequency(frequencyId);;
+		    return ResponseEntity.ok().body("delete done");
+		}
+		catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 	@PostMapping("AddFrequency")
@@ -57,8 +63,7 @@ public class FrequencyController {
 
 	@PutMapping("updateFrequency/{id}")
 	public ResponseEntity<String> updateFrequency(@PathVariable("id") int frequencyId,@Validated @RequestBody Frequency frequency) {
-		frequency.setFrequencyId(frequencyId);
-		 frequencyservice.updateFrequency(frequency);
+		 frequencyservice.updateFrequency(frequency,frequencyId);
 		 return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}
 	@GetMapping("findActiveFrequency")

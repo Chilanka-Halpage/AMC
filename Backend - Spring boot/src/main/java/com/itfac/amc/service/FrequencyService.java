@@ -15,8 +15,8 @@ public interface FrequencyService {
 
 	Frequency addFrequency(Frequency frequency);
 
-	Frequency updateFrequency(Frequency frequency);
-
 	List<Frequency> getActiveFrequency();
+
+	void updateFrequency(Frequency frequency, int frequencyId);
 
 }

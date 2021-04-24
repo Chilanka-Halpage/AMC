@@ -88,12 +88,11 @@ export class ProductlistComponent implements OnInit {
     this._service.deleteProduct(id)
       .subscribe(
         data => {
-          this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
-          console.log(data);   
+          this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});  
         },
         error => {
           console.log(error);
-          this.notificationService.showNoitfication('Cannot proceed the request.', 'OK', 'error', null);
+          this.notificationService.showNoitfication('Cannot delete a parent row: a foreign key constraint fails !', 'OK', 'error', null);
         }).add(()=>this.dataSavingProgress=false);
   }
   save() {
@@ -117,6 +116,7 @@ export class ProductlistComponent implements OnInit {
     this.save();    
   }
   reload(){
+    this.edit=false;
     this._service.getProductList().subscribe(
       list => {
        this.listData = new MatTableDataSource(list);

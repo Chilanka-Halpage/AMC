@@ -1,18 +1,13 @@
 <mat-card>
     <mat-card-content>
-        <strong><h3 *ngIf="!edit">Add Category</h3></strong>
-        <strong><h3 *ngIf="edit">Edit Category</h3></strong>
-        <div class="col-6 col-md-auto" *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
-          <strong>Submited successsfull Refresh the Page !</strong>
-          <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <strong><h2 *ngIf="!edit">Add Category</h2></strong>
+        <strong><h2 *ngIf="edit">Edit Category</h2></strong>
+
     <form [formGroup]="categoryAddForm">
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Category name</mat-label>
         <input matInput placeholder="Ex. software" formControlName="categoryName">
-        <mat-error *ngIf="categoryAddForm.get('categoryName').hasError('required')">
+        <mat-error *ngIf="categoryAddForm.controls['categoryName'].touched && categoryAddForm.get('categoryName').hasError('required')">
           category name is required
         </mat-error>
       </mat-form-field>
@@ -39,7 +34,7 @@
 
 <div class="background-color">
   <div class="col-6 pt-2 pb-0 my-0 ">
-      <strong><h3>Category List</h3></strong>
+      <strong><h2>Category List</h2></strong>
   </div>
   <div class="search-div" class="col-12 pt-2 pb-0 my-0">
     <mat-form-field class="example-form-field">

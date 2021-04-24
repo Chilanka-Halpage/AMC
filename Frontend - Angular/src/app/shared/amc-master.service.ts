@@ -163,13 +163,13 @@ export class AmcMasterService {
     return this.http.get<Currency[]>(`${this.baseURL}Currency/findAllCurrency`);
   }
   getCategory(): Observable<any>{
-    return this.http.get<any>(`${this.baseURL}category/findAllCategory`)
+    return this.http.get<any>(`${this.baseURL}category/findActiveCategoy`)
   }
   getFrequency(): Observable<Frequency[]>{
-    return this.http.get<Frequency[]>(`${this.baseURL}frequency/findAllFrequency`);
+    return this.http.get<Frequency[]>(`${this.baseURL}frequency/findActiveFrequency`);
   }
   getProduct(): Observable<any>{
-    return this.http.get<any>(`${this.baseURL}Product/findAllProduct`);
+    return this.http.get<any>(`${this.baseURL}Product/findActiveProduct`);
   }
 
 }

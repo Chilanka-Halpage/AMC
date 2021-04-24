@@ -84,12 +84,11 @@ deleteFrequencyList(id: number) {
 console.log(id);
 this._service.deleteFrequency(id).subscribe(
     data => {
-      console.log(data);
-      this.reload();
+      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()}); 
     },
     error => {
       console.log(error);
-      this.notificationService.showNoitfication('Cannot proceed the request.', 'OK', 'error', null);
+      this.notificationService.showNoitfication('Cannot delete a parent row: a foreign key constraint fails !', 'OK', 'error', null);
     }).add(()=>this.dataSavingProgress=false);  
 }
 

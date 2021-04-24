@@ -12,8 +12,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.repository.UserRepository;
@@ -51,8 +49,10 @@ public class UserServiceImp implements UserService {
 	@Override
 
 	public User addUser(User user) {
+		
+	
 
-		String Password = "1234@abc";
+		String Password = user.getUname();
 		String userId = genarateUserId();
 		user.setUserId(userId);
 		user.setPassword(encoder.encode(Password));
@@ -121,8 +121,12 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public User updateUser(User user) {
-		return userRepository.save(user);
+	public void updateUser(User user, String userId) {
+		 User userr=userRepository.findByUserId(userId);
+		// userr.setUserId(userId);
+		 userr.setRole(user.getRole());
+		 userr.setActive(user.isActive());
+		 userRepository.save(userr);
 	}
 
 	@Override
@@ -168,7 +172,8 @@ public class UserServiceImp implements UserService {
 
 		String content = "<p>Hello,</p>" + "<p>You have requested to reset your password.</p>"
 				+ "<p>Click the link below to change your password:</p>" + "<p><a href=\"" + link
-				+ "\">Change my password</a></p>" + "<br>" + "<p>Ignore this email if you do remember your password, "
+				+ "\">Change my password</a></p>" 
+				+ "<p>Ignore this email if you do remember your password, "
 				+ "or you have not made the request.</p>";
 
 		helper.setSubject(subject);
@@ -188,6 +193,10 @@ public class UserServiceImp implements UserService {
 		} else {
 			throw new UserNotFoundException();
 		}
+	}
+	@Override
+	public User getByUserName(User user) {
+		return userRepository.findByUname(user.getUname());
 	}
 
 	@Override

@@ -59,7 +59,7 @@ export class ListcategoryComponent implements OnInit {
       });
     this.categoryAddForm = this.formBuilder.group(
       {
-        categoryName: ['', [Validators.required]],
+        categoryName: ['',],
         active: ['', [Validators.required]]
       }
     )
@@ -70,7 +70,7 @@ export class ListcategoryComponent implements OnInit {
   }
 
   editCategoryListe(row) {
-    this.router.navigate(['list', row.categoryId]);
+    //this.router.navigate(['list', row.categoryId]);
     console.log(row);
     this.edit = true;
 
@@ -78,17 +78,18 @@ export class ListcategoryComponent implements OnInit {
       categoryName: row.categoryName,
       active: row.active
     });
+    this.router.navigate(['list', row.categoryId]);
 
   }
   deleteCategoryList(id: number) {
     console.log(id);
     this._service.deleteCategory(id).subscribe(
       data => {
-        this.reload();
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()}); 
       },
       error => {
         console.log(error);
-        this.notificationService.showNoitfication('Cannot proceed the request.', 'OK', 'error', null);
+        this.notificationService.showNoitfication('Cannot delete a parent row: a foreign key constraint fails !', 'OK', 'error', null);
       }).add(()=>this.dataSavingProgress=false);  
   }
 
@@ -128,13 +129,15 @@ export class ListcategoryComponent implements OnInit {
     }
 
   reload() {
+    this.edit = false;
+    this.resetForm();
     this._service.getCategoryList().subscribe(
       list => {
         this.listData = new MatTableDataSource(list);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
       });
-    this.resetForm();
+    //this.resetForm();
   }
 
   resetForm(): void {

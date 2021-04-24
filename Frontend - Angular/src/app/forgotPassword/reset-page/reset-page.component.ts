@@ -21,6 +21,7 @@ export class ResetPageComponent implements OnInit {
   public passwordAddForm: FormGroup;
   public submitted = false;
   public hide = true;
+  public hide1 = true;
   public errorMessage: string;
   public successMessage: string;
   public resetToken: null;

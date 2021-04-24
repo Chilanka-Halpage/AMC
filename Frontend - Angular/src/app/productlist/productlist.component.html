@@ -1,7 +1,7 @@
 <mat-card class="bg-color">
   <mat-card-content>
-    <strong><h3 *ngIf="!edit">Add Product</h3></strong>
-    <strong><h3 *ngIf="edit">Edit Product</h3></strong>
+    <strong><h2 *ngIf="!edit">Add Product</h2></strong>
+    <strong><h2 *ngIf="edit">Edit Product</h2></strong>
 
     <form [formGroup]="productAddForm">
       <mat-form-field class="example-full-width" appearance="outline">
@@ -41,7 +41,7 @@
 <div class="background-color">
   <div class="col-6 pt-2 pb-0 my-0 ">
     <strong>
-      <h3>Product List</h3>
+      <h2>Product List</h2>
     </strong>
   </div>
   <div class="search-div" class="col-12 pt-2 pb-0 my-0">

@@ -15,8 +15,8 @@ public interface CategoryService {
 
 	Category AddCategory(Category category);
 
-	Category updateCategory(Category category);
-
 	List<Category> getActiveCategory();
+
+	void updateCategory(Category category, int categoryId);
 
 }

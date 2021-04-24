@@ -47,9 +47,9 @@ public class UserController {
 	LoginDetailsService loginDetailsService;
 
 	@GetMapping("admin/findAllUser")
-	public List<User> getAllUser() {
+	public ResponseEntity<List<User>> getAllUser() {
 		List<User> allUser = userservice.getAllUser();
-		return allUser;
+		return ResponseEntity.status(HttpStatus.OK).body(allUser);
 	}
 
 	@GetMapping("admin/findUser/{id}")
@@ -68,15 +68,23 @@ public class UserController {
 	}
 
 	@PostMapping("admin/AddUser")
-	User addUser(@Validated @RequestBody User user) {
-		return userservice.addUser(user);
+	public ResponseEntity<String> addUser(@Validated @RequestBody User user) {
+		User userr =userservice.getByUserName(user);
+		if(userr==null) {
+		 userservice.addUser(user);
+		 return ResponseEntity.ok().body("succefully added.");
+		}
+		else {
+			userservice.addUser(user);
+			return ResponseEntity.badRequest().body("User already exist.");
+		}
 	}
 
 
 	@PutMapping("admin/updateUser/{id}")
-	User updateUsers(@PathVariable("id") String userId,@RequestBody User user) {
-		user.setUserId(userId);
-		return userservice.updateUser(user);
+	public ResponseEntity<String> updateUsers(@PathVariable("id") String userId,@RequestBody User user) {
+		userservice.updateUser(user,userId);
+		return ResponseEntity.ok().body("succefully updated");
 	}
 
 	// get user details

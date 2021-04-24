@@ -46,8 +46,14 @@ public class CategoryController {
 	}
 
 	@DeleteMapping("deleteCategory/{id}")
-	public ResponseEntity<String> deleteCategory(@PathVariable("id") int categoryId) {
-		return ResponseEntity.badRequest().body("not deleted");
+	public ResponseEntity<String> deleteCategory(@PathVariable("id") int categoryId) throws Exception {
+		try {
+			categoryservice.deleteCategory(categoryId);
+		    return ResponseEntity.ok().body("delete done");
+		}
+		catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 	@PostMapping("AddCategory")
@@ -60,7 +66,7 @@ public class CategoryController {
 	@PutMapping("UpdateCategory/{id}")
 	public ResponseEntity<String> updateCategory(@PathVariable("id") int categoryId, @RequestBody Category category) {
 		category.setCategoryId(categoryId);
-		categoryservice.updateCategory(category);
+		categoryservice.updateCategory(category,categoryId);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}
 
