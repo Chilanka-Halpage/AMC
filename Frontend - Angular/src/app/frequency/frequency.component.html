@@ -78,28 +78,28 @@
       </ng-container>
 
       <ng-container matColumnDef="savedIp">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Last Modified Ip </th>
-        <td mat-cell *matCellDef="let element" class="px-2"> {{element.savedIp}} </td>
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle" [hidden]="!isAuthorized"> Last Modified Ip </th>
+        <td mat-cell *matCellDef="let element" class="px-2" [hidden]="!isAuthorized"> {{element.savedIp}} </td>
       </ng-container>
 
       <ng-container matColumnDef="savedBy">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> saved By </th>
-        <td mat-cell *matCellDef="let element" class="px-2"> <a href="/userList">{{element.savedBy}}</a> </td>
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle" [hidden]="!isAuthorized"> saved By </th>
+        <td mat-cell *matCellDef="let element" class="px-2" [hidden]="!isAuthorized"> <a href="/userList">{{element.savedBy}}</a> </td>
       </ng-container>
 
       <ng-container matColumnDef="savedOn">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> saved On </th>
-        <td mat-cell *matCellDef="let element" class="px-2"> {{element.savedOn | date: 'short'}} </td>
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle" [hidden]="!isAuthorized"> saved On </th>
+        <td mat-cell *matCellDef="let element" class="px-2" [hidden]="!isAuthorized"> {{element.savedOn | date: 'short'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="lastModifiedBy">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> last Modified By </th>
-        <td mat-cell *matCellDef="let element" class="px-2"> {{element.lastModifiedBy}} </td>
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle" [hidden]="!isAuthorized"> last Modified By </th>
+        <td mat-cell *matCellDef="let element" class="px-2" [hidden]="!isAuthorized"> {{element.lastModifiedBy}} </td>
       </ng-container>
 
       <ng-container matColumnDef="lastModifiedOn">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> last Modified On </th>
-        <td mat-cell *matCellDef="let element" class="px-2"> {{element.lastModifiedOn | date: 'short'}} </td>
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle" [hidden]="!isAuthorized"> last Modified On </th>
+        <td mat-cell *matCellDef="let element" class="px-2" [hidden]="!isAuthorized"> {{element.lastModifiedOn | date: 'short'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="action">

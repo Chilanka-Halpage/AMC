@@ -6,4 +6,9 @@ export class user {
     active:boolean;
     email:string;
     contactNo:string;
+    savedBy: string;
+    savedOn:Date;
+    savedIp: string;
+    lastModifiedBy: string;
+    lastModifiedOn: Date;
 }

@@ -9,15 +9,19 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.itfac.amc.util.Auditable;
+
 //import org.hibernate.annotations.GenericGenerator;
 
 //import org.hibernate.annotations.Parameter;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
-public class User {
+public class User extends Auditable{
 
 	@Id
 	@Column(name = "user_id", length = 100)
@@ -54,5 +58,8 @@ public class User {
 
 	@Column(name = "reset_password_token", length = 60)
 	private String resetPasswordToken;
+	
+	@Column(name = "saved_ip", length = 20)
+	private String savedIp;
 
 }
