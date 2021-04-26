@@ -3,7 +3,7 @@
 }
 
 .sidenav {
-  width: 170px;
+  width: 200px;
 }
 
 .sidenav .mat-toolbar {
@@ -31,4 +31,8 @@
   height: 30px;
   border-radius: 60%;
   margin-left: 30px;
+}
+
+::ng-deep .width {
+  width: 200px;
 }

@@ -150,15 +150,14 @@ export class RevalueComponent implements OnInit {
         datasets: [{
           label: 'Revenue',
           data: [this.fifthlastrevanue,this.fourthlastrevanue, this.thirdlastrevanue,this.secondlastrevanue,this.lastyearrevanue],
-          backgroundColor: ["#EF6D3B", "#EF6D3B", "#EF6D3B","#EF6D3B", "#EF6D3B"],
-        }]
+          backgroundColor: ["#4265ff", "#4265ff", "#4265ff","#4265ff", "#4265ff"],
+        }] 
       },
       options: {
         responsive: true,
         
         title: {
           display: true,
-          text: 'AMCs Revenue',
            
         },
         animation: {

@@ -1,5 +1,5 @@
 import { AuthenticationService } from './../_helpers/authentication.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { InvoiceService } from './../invoice.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,9 +14,12 @@ import { MatPaginator } from '@angular/material/paginator';
 export class InvoiceListComponent implements OnInit {
 
   error: any;
+  clientId: number
 
   public isAuthorized: boolean;
-
+  private pi_no: number;
+  private deptId: number;
+  private amc_no: number;
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public errorMessage = "Unknown Error"
@@ -24,8 +27,9 @@ export class InvoiceListComponent implements OnInit {
   invoices: MatTableDataSource<any>;
 
   constructor(private invoiceService: InvoiceService,
-    private router: Router,
-    private _authentication: AuthenticationService) { }
+              private router: Router,
+              private _authentication: AuthenticationService,
+              private route: ActivatedRoute) { }
 
   displayedColumns: string[] = ['piNo', 'piDate', 'exchageRate', 'totalTax', 'totalAmt', 'totalAmtLkr', 'remark', 'Action', 'update'];
 
@@ -35,14 +39,20 @@ export class InvoiceListComponent implements OnInit {
   ngOnInit(): void {
     this.getInvoice();
     this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
-  }
+    this.route.queryParams.subscribe(params => {
+      let value = JSON.parse(params["data"]);
+      this.deptId = value.id;
+    });
+}
 
   getInvoice() {
-    this.invoiceService.getInvoiceList().subscribe(data => {
+    this.amc_no = this.route.snapshot.params['amc_no'];
+    this.invoiceService.getinvoicebyAmcNo(this.amc_no).subscribe(data => {
       this.invoices = new MatTableDataSource(data);
       this.invoices.sort = this.sort;
       this.invoices.paginator = this.paginator;
       this.isLoadingResults = false;
+      console.log(this.clientId);
     },
       error => console.log(error));
   }
@@ -57,12 +67,22 @@ export class InvoiceListComponent implements OnInit {
 
   deleteinvoice(pi_no: number) {
     this.invoiceService.deleteinvoice(pi_no).subscribe(data => {
-      console.log(data);
-      this.getInvoice();
     })
   }
 
   editinvoice(pi_no: number) {
     this.router.navigate(['edit-Invoice', pi_no]);
+  }
+
+  gotoreceipt(pi_no: number){
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "data": JSON.stringify({
+          "id": this.deptId, 
+          "amcno": this.amc_no
+        })
+      }
+    };
+    this.router.navigate(['createReceipt', pi_no],navigationExtras);
   }
 }

@@ -10,7 +10,7 @@
     <div class="row px-0">
       <mat-form-field appearance="outline" class="col-6">
         <mat-label>Tax Name:</mat-label>
-        <input type="text" matInput formControlName="taxName" [(ngModel)]="tax.taxName">  
+        <input type="text" matInput formControlName="taxName" [(ngModel)]="tax.taxName"   [readonly]>  
         <mat-error *ngIf="!addtaxForm.controls['taxName'].valid">
           Tax Name required
            </mat-error> 

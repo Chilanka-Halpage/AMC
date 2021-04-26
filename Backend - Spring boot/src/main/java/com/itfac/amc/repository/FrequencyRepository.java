@@ -11,5 +11,7 @@ public interface FrequencyRepository extends JpaRepository<Frequency, Integer> {
 
 	@Query(value = "SELECT * FROM frequency where active = true", nativeQuery = true)
 	List<Frequency> getActiveFrequency();
+	
+	Frequency findByFrequencyId(int frequencyId);
 
 }

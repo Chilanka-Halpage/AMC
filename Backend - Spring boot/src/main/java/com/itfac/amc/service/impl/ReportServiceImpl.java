@@ -126,5 +126,11 @@ public class ReportServiceImpl implements ReportService {
 	public BigDecimal getRevanue(LocalDate date1, LocalDate date2) {
 		return amcSerialRepository.getRevanue(date1, date2);
 	}
+    
+	//renewel amc count
+	@Override
+	public String getRenewalAmc(LocalDate Date1, LocalDate Date2, String user_id) {
+		return  amcSerialRepository.getRenewalAmc(Date1, Date2, user_id);
+	}
 
 }

@@ -1,3 +1,4 @@
+import { Currency } from './../../currency';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -105,6 +106,18 @@ export class AmcSerialListComponent implements OnInit {
       }
     };
     this.router.navigate([`clients/amc-list/${row.amc_serial_no}/full`], navigationExtras);
+  }
+
+  gotoinvoice(amc_no: String): void {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "data": JSON.stringify({
+          "id": this.departmentId, 
+        })
+      }
+    };
+    console.log(this.departmentId)
+    this.router.navigate(['invoicelist',amc_no],navigationExtras);
   }
 
 }

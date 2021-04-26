@@ -5,8 +5,6 @@
   </div>
 </div>
 <section>
-  
-
   <mat-card>
     <mat-card-content>
 
@@ -29,14 +27,17 @@
 
           <mat-form-field class="full-width" appearance="outline" style="margin-top: 15px;">
             <mat-label>Password</mat-label>
-            <input formControlName="password" matInput type="password" />
-         
+            <input formControlName="password" matInput [type]=" hide ? 'password' : 'text'" required />
+            <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+            [attr.aria-pressed]="hide">
+        </button>
             <mat-error *ngIf="!loginForm.controls['password'].valid">
               Password is required
             </mat-error>
+
           </mat-form-field>
 
-          <a class="text-link" class="aLink" routerLink="forgetPassword" routerLinkActive="active">Forgot Password?</a>
+          <a class="text-link" class="aLink" (click)="forgotpassword()" >Forgot Password?</a>
 
         </div>
         <div class="button">

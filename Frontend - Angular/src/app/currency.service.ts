@@ -28,4 +28,7 @@ export class CurrencyService {
   getactiveCurrency(): Observable<Currency[]>{
     return this.HttpClient.get<Currency[]>(`${this.baseURL}Currency/findactivecurrencies`);
   }
+  doesCurrencyExists(currencyName: string): Observable<boolean> {
+    return this.HttpClient.get<boolean>(`${this.baseURL}Currency/exists/${currencyName}`);
+  }
 }

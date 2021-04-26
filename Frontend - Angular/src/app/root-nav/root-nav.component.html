@@ -11,8 +11,8 @@
       <a mat-list-item [routerLink]="" (click)="dashboardcheck()" ><mat-icon>home</mat-icon><span class="button-text">Home</span></a>     
       <a mat-list-item [matMenuTriggerFor]="payment">
         <mat-icon >payment</mat-icon><span class="button-text">Payment</span>
-         <mat-menu #payment="matMenu">
-            <button mat-menu-item [routerLink]="['createReceipt']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">New Receipt</button>
+         <mat-menu #payment="matMenu" class="width">
+            <button mat-menu-item [routerLink]="['/client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">New Receipt</button>
             <button mat-menu-item [routerLink]="['invoicelist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'" >Proforma Invoice</button>
             <button mat-menu-item [routerLink]="['dueinvoice']"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Due Invoice</button>
             <button mat-menu-item [routerLink]="['taxlist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Tax</button>
@@ -23,7 +23,7 @@
       </a>  
       <a mat-list-item [matMenuTriggerFor]="Reports">
         <mat-icon>article</mat-icon> <span class="button-text">Reports</span>
-           <mat-menu #Reports="matMenu">
+           <mat-menu #Reports="matMenu" class="width">
             <button mat-menu-item  (click)="AllAMCDetailsFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">All AMC</button>
             <button mat-menu-item  (click)="ClientsDetailsFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">All client details</button>
             <button mat-menu-item  (click)="RenewalAmcsFilter()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Renewal AMCs</button>
@@ -37,8 +37,8 @@
            </mat-menu> <!--*ngIf="_authentication.role === 'ROLE_admin'" -->
       </a> 
       <a mat-list-item [matMenuTriggerFor]="AMC">
-        <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
-          <mat-menu #AMC="matMenu">
+        <mat-icon>assignment</mat-icon> <span class="button-text" >AMC</span>
+          <mat-menu #AMC="matMenu" class="width">
             <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Create New AMC </button>
             <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">AMC Renew</button>
             <button mat-menu-item [routerLink]="['clients/'+ _authentication.userId +'/amc-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">AMC List</button>
@@ -52,7 +52,7 @@
       </a>         
       <a mat-list-item [matMenuTriggerFor]="client" *ngIf="_authentication.role === 'ROLE_ADMIN'">
         <mat-icon>supervisor_account</mat-icon><span class="button-text">Users</span>
-          <mat-menu #client="matMenu">
+          <mat-menu #client="matMenu" class="width">
             <button mat-menu-item [routerLink]="['user']" *ngIf="_authentication.role === 'ROLE_ADMIN'">New User</button>
             <button mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' " >Clients</button>
             <button mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' ">New client</button>
@@ -63,7 +63,7 @@
       </a>      
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content >
     <mat-toolbar class="bg-primary">
       <button
         type="button"
@@ -83,7 +83,7 @@
         <mat-icon style="color: #ffffff;" (click)="notification()"
         [matBadge]="notificationNo" [matBadgeHidden]="hidden">notifications</mat-icon>
       </button>
-      <img class="avatar" alt="image" src="{{imageSrc}}" *ngIf="_authentication.loggedIn()">
+      <img class="avatar" alt="" src="{{imageSrc}}" *ngIf="_authentication.loggedIn()" >
       <button  mat-button [matMenuTriggerFor]="profile" *ngIf="_authentication.loggedIn()">
        <span class="button-text "   style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>
       </button>      

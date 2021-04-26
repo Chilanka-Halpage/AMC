@@ -4,3 +4,10 @@ body{
   .fixed-height-chart{
   height: 200px;
 }
+
+.example-card {
+  height: 400px;
+  width: 700px;
+  border-radius: 5px;
+  background: transparent;
+}

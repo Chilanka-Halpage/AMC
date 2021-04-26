@@ -5,23 +5,18 @@
     <h2>Password Reset form</h2>
         </div>
 
-        <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        <!-- <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
           <strong>Success!</strong> you change your password successfully !..
           <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-
-
+        </div> -->
     <form name="addForm" [formGroup]="passwordAddForm">
-    
-      <br> 
-      
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Enter New Password</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" formControlName="passwordOne">
         <mat-error *ngIf="passwordAddForm.get('passwordOne').hasError('required')">
-          Password is required and must have more than 8 characters!
+          Password is required and must have at least 8 characters!
         </mat-error>
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -30,21 +25,17 @@
       <br>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Confirm Password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" formControlName="passwordTwo">
+        <input matInput [type]="hide1 ? 'password' : 'text'" formControlName="passwordTwo">
         <mat-error *ngIf="passwordAddForm.get('passwordTwo').hasError('required')">
          Confirm Password is required !
         </mat-error>
          <mat-error *ngIf="passwordAddForm.get('passwordTwo').errors.confirmedValidator">Password and Confirm Password must be match.</mat-error>
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide1">
+        <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
       <br>
       <button type="button" mat-flat-button color="primary" (click)="ResetPassword(passwordAddForm)">Verify</button>
- 
-      
-
-  
     </form>
     </mat-card-content>
 </mat-card>

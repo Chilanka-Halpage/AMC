@@ -43,9 +43,14 @@ public class ProductController {
 	}
 
 	@DeleteMapping("deleteProduct/{id}")
-	public ResponseEntity<String> deleteProduct(@PathVariable("id") int productId) {
-		
-		return ResponseEntity.badRequest().body("not deleted");
+	public ResponseEntity<String> deleteProduct(@PathVariable("id") int productId) throws Exception {
+		try {
+		productservice.deleteProduct(productId);
+		return ResponseEntity.ok().body("delete done");
+		}
+		catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 	@PostMapping("AddProduct") 
@@ -57,8 +62,7 @@ public class ProductController {
 
 	@PutMapping("updateProduct/{id}")
 	public ResponseEntity<String> updateProduct(@PathVariable("id") int productId,@Validated @RequestBody Product product) {
-		product.setProductId(productId);
-		productservice.updateProduct(product);
+		productservice.updateProduct(product,productId);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}
 

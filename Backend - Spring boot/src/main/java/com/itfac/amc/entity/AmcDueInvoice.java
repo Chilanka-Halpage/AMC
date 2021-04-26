@@ -60,7 +60,6 @@ public class AmcDueInvoice {
 	
 	@ManyToOne()
 	@JoinColumn(name = "currency_id", nullable = false, foreignKey = @ForeignKey(name = "amc_due_fk4"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Currency currency;
 
 

@@ -181,4 +181,12 @@ public class ReportController {
 		List<RenewedAmcs> count = reportService.getRenewedAmcs(Date1, Date2);
 		return count.size();
 	}
+	//renewel amc for clinet
+	@GetMapping("/RenewelAmccountC/{id}/{Date1}/{Date2}")
+	public String getRenewalAmc(
+			@PathVariable("id") String id,
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
+		return reportService.getRenewalAmc(Date2,Date1, id);
+	}
 }

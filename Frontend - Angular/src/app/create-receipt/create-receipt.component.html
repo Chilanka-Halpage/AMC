@@ -16,11 +16,14 @@
                 <div class="row px-0">
                     <mat-form-field appearance="outline" class="col-6">
                       <mat-label>recNo:</mat-label>
-                      <input type="text" matInput formControlName="recNo" >   
+                      <input type="text" matInput formControlName="recNo" >  
+                      <mat-error *ngIf="addReceiptForm.controls['recNo'].errors?.taxNameExists">recNo already exists </mat-error> 
+                      <mat-error *ngIf="addReceiptForm.controls['recNo'].touched && addReceiptForm.controls['recNo'].errors?.required">recNo required </mat-error> 
                     </mat-form-field>             
                       <mat-form-field appearance="outline"  class="col pl-2">
                         <mat-label>recDate</mat-label>
-                        <input matInput formControlName="recDate" [matDatepicker]="start_date" />
+                        <input matInput formControlName="recDate" [matDatepicker]="start_date" />                       
+                      <mat-error *ngIf="addReceiptForm.controls['recDate'].touched">Rec Date required </mat-error>                  
                         <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
                         <mat-datepicker #start_date></mat-datepicker>
                     </mat-form-field>
@@ -61,13 +64,6 @@
                         <input type="number" matInput formControlName="balanceLkr" >   
                     </mat-form-field>                  
                   </div>
-                  <div class="row px-0">
-                    <mat-checkbox formControlName="cancel" class="col-md-4" (click)="Showtoggle()">cancel or not</mat-checkbox>                 
-                    <mat-form-field *ngIf="showme" class="col-md-8">
-                    <mat-label>cancel reason</mat-label>
-                    <input matInput formControlName="cancelReason">
-                  </mat-form-field>
-                  </div>
                   <br>
                   <h5>Other Details</h5>
                  <!--  details for joined tables -->
@@ -84,11 +80,7 @@
                   <div formGroupName="currency">        
                     <mat-form-field appearance="outline" class="col pl-2">
                       <mat-label>Currency</mat-label>
-                      <mat-select formControlName="currencyId">
-                          <mat-option *ngFor="let currency of currencyList" [value]="currency.currencyId">
-                              {{currency.currencyName}}
-                          </mat-option>
-                      </mat-select>  
+                      <input type="number" matInput formControlName="currencyId" > 
                     </mat-form-field>
                   </div>
                   <div formGroupName="clientDepartment">
@@ -102,26 +94,18 @@
                     <div formGroupName="category">
                     <mat-form-field appearance="outline" class="col-12">
                       <mat-label>Category</mat-label>
-                            <mat-select formControlName="categoryId">
-                                <mat-option *ngFor="let category of categoryList" [value]="category.categoryId">
-                                    {{category.categoryName}}
-                                </mat-option>
-                            </mat-select>  
+                      <input type="number" matInput formControlName="categoryId" >  
                     </mat-form-field> 
                   </div> 
                   <div formGroupName="invoice">          
                     <mat-form-field appearance="outline" class="col-12">
                       <mat-label>Invoice No</mat-label>
-                      <mat-select formControlName="piNo">
-                          <mat-option *ngFor="let invoice of invoiceList" [value]="invoice.piNo">
-                              {{invoice.pi_no}}
-                          </mat-option>
-                      </mat-select>   
+                      <input type="text" matInput formControlName="piNo" > 
                     </mat-form-field>  
                   </div>          
                   </div>
                   <div class="d-flex flex-row-reverse my-0">
-                    <button class="btn btn-success mb-3" type="submit">submit</button>
+                    <button class="btn btn-success mb-3" type="submit" [disabled]="isDesabled"><span *ngIf="receiptProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
                    </div>
             </form>
         </div>    

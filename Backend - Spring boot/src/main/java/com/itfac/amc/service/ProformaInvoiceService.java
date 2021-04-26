@@ -22,8 +22,10 @@ public interface ProformaInvoiceService {
 
 	Map<String, BigDecimal> totalPaybleAmount(String idname);
 	
-	List<ProformaInvoiceDto> getActiveinvoices();
+	 List<ProformaInvoiceDto> getActiveinvoicesById(String amcNo);
 
 	void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice);
+
+	boolean doesInvoiceExists(String piNo);
 
 }

@@ -67,27 +67,27 @@ public class AmcMasterController {
 		return ResponseEntity.status(HttpStatus.OK).body(allAmc);
 	}
 
-	@GetMapping("activeAmcCount")
+	@GetMapping("dashboard/activeAmcCount")
 	public String countActiveAmc() {
 		return amcService.countActiveAmc();
 	}
 
-	@GetMapping("inactiveAmcCount")
+	@GetMapping("dashboard/inactiveAmcCount")
 	public String countInactiveAmc() {
 		return amcService.countInactiveAmc();
 	}
 
-	@GetMapping("totalAmc")
+	@GetMapping("dashboard/totalAmc")
 	public String countAmc() {
 		return amcService.countAmc();
 	}
 
-	@GetMapping("AmcCountforclient/{userId}")
+	@GetMapping("dashboard/AmcCountforclient/{userId}")
 	public String countAmcByClient(@PathVariable("userId") String userId) {
 		return amcService.countAmcByClient(userId);
 	}
 
-	@GetMapping("AmcActiveCountforclient/{userId}")
+	@GetMapping("dashboard/AmcActiveCountforclient/{userId}")
 	public String countActiveAmcByClient(@PathVariable("userId") String userId) {
 		return amcService.countActiveAmcByClient(userId);
 	}

@@ -1,7 +1,13 @@
 import { InvoiceService } from './../invoice.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
+import { delay } from 'rxjs/internal/operators/delay';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { map } from 'rxjs/internal/operators/map';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-create-invoice',
@@ -20,15 +26,21 @@ export class CreateInvoiceComponent implements OnInit {
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public errorMessage = "Unknown Error"
+  
+  private invoiceForm$: Observable<any>;
+  public isDesabled = false;
+  public type: any;
+  public invoiceSavingProgress = false;
 
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
     private router: Router,
+    private notificationService: NotificationService,
   ) { }
 
   addinvoiceForm = this.fb.group({
-    piNo:[''],
+    piNo:['',[Validators.required],[this.existInvoiceValidator()], blur],
     piDate:[''],
     exchageRate:[''],
     totalTax:[''],
@@ -57,6 +69,7 @@ export class CreateInvoiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSelectionData()
+    this.checkStatus()
   }
 
   onSubmit(){
@@ -70,14 +83,13 @@ export class CreateInvoiceComponent implements OnInit {
 
   saveInvoice(){ 
     this.invoiceService.createInvoice(this.addinvoiceForm.value).subscribe(data =>{
-      console.log(data);
-    this.goToInvoiceList();  
-   },
-      error => console.log(error));    
-  }
-
-  goToInvoiceList(){
-    this.router.navigate(['/invoicelist']);
+      this.invoiceSavingProgress = true; 
+       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/invoicelist']) });
+       
+    },
+      error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+                  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+      );
   }
 
   private loadSelectionData() {
@@ -108,5 +120,34 @@ export class CreateInvoiceComponent implements OnInit {
       this.errorMessage = error;
     });
   }
+
+  private checkStatus(): void {
+    this.invoiceForm$ = this.addinvoiceForm.statusChanges;
+    this.invoiceForm$.subscribe(response => {
+      if (response === 'PENDING') {
+        setTimeout(() => {
+          console.log("gg");
+          this.addinvoiceForm.updateValueAndValidity();
+        }, 2000);
+      }
+    })
+  }
+
+  private existInvoiceValidator():AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!this.type) {
+        return of(control.value).pipe(
+          delay(500),
+          switchMap((piNo: string) => this.invoiceService.doesInvoiceExists(piNo)),
+          map(response => {
+            this.isDesabled = response;
+            return response ? { invoiceExists: true } : null
+          })
+        )
+      }
+      return of(null);
+    };
+  }
 }
+
  

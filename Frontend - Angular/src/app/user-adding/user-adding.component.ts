@@ -53,7 +53,7 @@ export class UserAddingComponent implements OnInit {
         this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.navigateTouserList()});
       },
       (error) => {
-        let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+        let message = (error.status === 501) ? error.error.message : 'User already exist.'
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
       }
       ).add(() => this.userSavingProgress = false);
