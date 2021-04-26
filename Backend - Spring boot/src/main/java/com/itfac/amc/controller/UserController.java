@@ -69,9 +69,8 @@ public class UserController {
 		return userservice.addUser(user);
 	}
 
-
 	@PutMapping("admin/updateUser/{id}")
-	User updateUsers(@PathVariable("id") String userId,@RequestBody User user) {
+	User updateUsers(@PathVariable("id") String userId, @Validated @RequestBody User user) {
 		user.setUserId(userId);
 		return userservice.updateUser(user);
 	}
@@ -147,9 +146,9 @@ public class UserController {
 		}
 
 	}
-	
+
 	@GetMapping("getlast7logdetails")
-	public List<logindetailsDTo> logindetailslist(){
+	public List<logindetailsDTo> logindetailslist() {
 		return loginDetailsService.logindetailslist();
 	}
 

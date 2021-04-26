@@ -19,7 +19,7 @@ public interface AmcFullDataDto {
 	Date getMtc_end_date();
 	Date getRenewal();
 	String getFrequency();
-	BigDecimal getExchage_rate();
+	BigDecimal getExchange_rate();
 	BigDecimal getTotal_value();
 	BigDecimal getTotal_value_lkr();
 	BigDecimal getMtc_amount_for_given_annum();

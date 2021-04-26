@@ -8,7 +8,7 @@ public interface ClientPaymentsDetails {
 	public String getproduct_name(); 
 	public String getamc_serial_no();
 	public String getcurrency_name(); 
-	public BigDecimal getexchage_rate(); 
+	public BigDecimal getexchange_rate(); 
 	public BigDecimal gettotal();
 	public BigDecimal gettotal_lkr();
 	public String getuser_id();
