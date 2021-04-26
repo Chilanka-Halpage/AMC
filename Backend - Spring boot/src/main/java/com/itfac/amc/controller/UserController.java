@@ -77,7 +77,6 @@ public class UserController {
 		}
 	}
 
-
 	@PutMapping("admin/updateUser/{id}")
 	public ResponseEntity<String> updateUsers(@PathVariable("id") String userId,@RequestBody User user) {
 		userservice.updateUser(user,userId);
@@ -155,9 +154,9 @@ public class UserController {
 		}
 
 	}
-	
+
 	@GetMapping("getlast7logdetails")
-	public List<logindetailsDTo> logindetailslist(){
+	public List<logindetailsDTo> logindetailslist() {
 		return loginDetailsService.logindetailslist();
 	}
 
