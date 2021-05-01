@@ -13,12 +13,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.itfac.amc.util.Auditable;
+import com.itfac.amc.validation.OnCreate;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,27 +41,42 @@ public class AmcMaster extends Auditable{
 	@Column(name = "amc_no", length = 10, nullable = false)
 	private String amcNo;
 
+	@NotNull(message = "Start date connot be null", groups = OnCreate.class)
 	@Temporal(TemporalType.DATE)
 	@Column(name = "start_date", nullable = false)
 	private Date startDate;
 
 	private boolean active;
 
+	@NotEmpty(message = "Frequency connot be empty", groups = OnCreate.class)
+	@Size(min = 7, max = 10, message = "Length must be between 7 and 10", groups = OnCreate.class)
 	@Column(length = 10, nullable = false)
 	private String frequency;
 
-	@Column(name = "exchage_rate", precision = 5, scale = 2, nullable = false)
+	@NotNull(message = "Exchange rate connot be null", groups = OnCreate.class)
+	@DecimalMax(value = "1000", inclusive = false, message = "Value must be less than 1000", groups = OnCreate.class)
+	@Positive(message = "Value must be Positive", groups = OnCreate.class)
+	@Digits(integer = 3, fraction = 2, message = "Value can have maximum 3 integral and 2 fractional digits", groups = OnCreate.class)
+	@Column(name = "exchange_rate", precision = 5, scale = 2, nullable = false)
 	private BigDecimal exchangeRate;
 
+	@NotNull(message = "Total value connot be null", groups = OnCreate.class)
+	@Positive(message = "Value must be Positive", groups = OnCreate.class)
 	@Column(name = "total_value", columnDefinition = "decimal(10,2) default 0.0")
 	private BigDecimal totalValue = new BigDecimal(0.0);
 
+	@NotNull(message = "Total value LKR connot be null", groups = OnCreate.class)
+	@Positive(message = "Value must be Positive", groups = OnCreate.class)
 	@Column(name = "total_value_lkr", columnDefinition = "decimal(10,2) default 0.0")
 	private BigDecimal totalValueLkr = new BigDecimal(0.0);
 
+	@NotEmpty(message = "Remark connot be empty", groups = OnCreate.class)
+	@Size(max = 100, message = "Maximum length must be 100", groups = OnCreate.class)
 	@Column(length = 100, nullable = false)
 	private String remark;
 
+	@NotEmpty(message = "Invoice description connot be empty", groups = OnCreate.class)
+	@Size(max = 200, message = "Maximum length must be 200", groups = OnCreate.class)
 	@Column(name = "inv_desc", length = 200)
 	private String invDesc;
 

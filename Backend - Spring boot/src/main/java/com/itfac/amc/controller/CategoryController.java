@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,6 @@ import com.itfac.amc.entity.Category;
 import com.itfac.amc.service.CategoryService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("category/")
 public class CategoryController {
 
@@ -46,8 +44,14 @@ public class CategoryController {
 	}
 
 	@DeleteMapping("deleteCategory/{id}")
-	public ResponseEntity<String> deleteCategory(@PathVariable("id") int categoryId) {
-		return ResponseEntity.badRequest().body("not deleted");
+	public ResponseEntity<String> deleteCategory(@PathVariable("id") int categoryId) throws Exception {
+		try {
+			categoryservice.deleteCategory(categoryId);
+		    return ResponseEntity.ok().body("delete done");
+		}
+		catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 	@PostMapping("AddCategory")
@@ -60,7 +64,7 @@ public class CategoryController {
 	@PutMapping("UpdateCategory/{id}")
 	public ResponseEntity<String> updateCategory(@PathVariable("id") int categoryId, @RequestBody Category category) {
 		category.setCategoryId(categoryId);
-		categoryservice.updateCategory(category);
+		categoryservice.updateCategory(category,categoryId);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}
 

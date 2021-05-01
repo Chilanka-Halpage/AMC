@@ -17,15 +17,15 @@ export class HomedetailsService {
   }
 
   getActiveAmcCount(): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/activeAmcCount`, { responseType: 'text' as 'json' })
+    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/dashboard/activeAmcCount`, { responseType: 'text' as 'json' })
   }
 
   getTotalAmc(): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/totalAmc`, { responseType: 'text' as 'json' })
+    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/dashboard/totalAmc`, { responseType: 'text' as 'json' })
   }
 
   getInactiveAmcCount(): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/inactiveAmcCount`, { responseType: 'text' as 'json' })
+    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/dashboard/inactiveAmcCount`, { responseType: 'text' as 'json' })
   }
 
   Amcreminders(Date1 ,Date2): Observable<any>{
@@ -65,15 +65,19 @@ export class HomedetailsService {
   }
 
   gettotalAmcforclient(userId: String): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/AmcCountforclient/${userId}`, { responseType: 'text' as 'json' })
+    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/dashboard/AmcCountforclient/${userId}`, { responseType: 'text' as 'json' })
   }
 
   getActiveAmcforclient(userId: String): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/AmcActiveCountforclient/${userId}`, { responseType: 'text' as 'json' })
+    return this.HttpClient.get<any>(`${this.baseURL}amcMaster/dashboard/AmcActiveCountforclient/${userId}`, { responseType: 'text' as 'json' })
   }
 
   getdepartmentcount(userId: String): Observable<any> {
     return this.HttpClient.get<any>(`${this.baseURL}clientDept/departmetncount/${userId}`, { responseType: 'text' as 'json' })
+  }
+
+  gterenevelAMCforClient(Date1, Date2, id): Observable<any> {
+    return this.HttpClient.get<any>(`${this.baseURL}report/dashboard/RenewelAmccountC/${id}/${Date1}/${Date2}`, { responseType: 'text' as 'json' });
   }
 
   public getImage(imgName): Observable<any> {

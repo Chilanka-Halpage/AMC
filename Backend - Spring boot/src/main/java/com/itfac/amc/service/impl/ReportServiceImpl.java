@@ -141,6 +141,7 @@ public class ReportServiceImpl implements ReportService {
 	public BigDecimal getRevanue(LocalDate date1, LocalDate date2) {
 		return amcSerialRepository.getRevanue(date1, date2);
 	}
+
 	@Override
 	public List<Map<String, Object>> QuarterWiseRevenue(LocalDate date1){
 		LocalDate date2 = date1.plusMonths(3);
@@ -163,5 +164,10 @@ public class ReportServiceImpl implements ReportService {
 		List<Map<String, Object>> revenue=new ArrayList<>();
 		revenue.add(parameters);
 		return revenue;
+	}
+	//renewel amc count
+	@Override
+	public String getRenewalAmc(LocalDate Date1, LocalDate Date2, String user_id) {
+		return  amcSerialRepository.getRenewalAmc(Date1, Date2, user_id);
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.itfac.amc.dto.ProformaInvoiceDto;
@@ -58,8 +59,8 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 	}
 
 	@Override
-	public List<ProformaInvoiceDto> getActiveinvoices() {
-		List<ProformaInvoiceDto> proformaInvoice = proformaInvoiceRepository.getActiveinvoices();
+	public List<ProformaInvoiceDto> getActiveinvoicesById(String amcNo) {
+		List<ProformaInvoiceDto> proformaInvoice = proformaInvoiceRepository.getActiveinvoicesById(amcNo);
 		return proformaInvoice;
 	}
 
@@ -67,5 +68,10 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 	public void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice) {
 		proformaInvoiceRepository.save(proformaInvoice);
 		
+	}
+
+	@Override
+	public boolean doesInvoiceExists(String piNo) {
+		return proformaInvoiceRepository.existsById(piNo);
 	}
 }

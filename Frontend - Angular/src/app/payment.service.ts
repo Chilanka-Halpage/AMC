@@ -30,4 +30,8 @@ export class PaymentService {
   getActiveInvoices(): Observable<any>{
     return this.HttpClient.get<any>(`${this.baseURL}invoice/activeinvoices`) 
   }
+  doesReceiptExists(recNo: string): Observable<boolean> {
+    return this.HttpClient.get<boolean>(`${this.baseURL}receipt/exists/${recNo}`);
+  }
+
 }

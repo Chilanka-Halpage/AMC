@@ -32,7 +32,7 @@ export class TaxService {
    return this.HttpClient.put(`${this.baseURL}tax/updateTax/${taxId}`,tax)
   }
 
-  doesTaxExists(name: string): Observable<boolean> {
-    return this.HttpClient.get<boolean>(`${this.baseURL}tax/exists/${name}`);
+  doesTaxExists(taxName: string): Observable<boolean> {
+    return this.HttpClient.get<boolean>(`${this.baseURL}tax/exists/${taxName}`);
   }
 }

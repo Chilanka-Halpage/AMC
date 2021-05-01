@@ -99,7 +99,7 @@ export class AmcFullDataComponent implements OnInit {
   }
 
   //renew amc
-  onSelect(): void {
+  onRenew(): void {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "data": JSON.stringify({

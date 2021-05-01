@@ -134,7 +134,7 @@ export class AmcRenewEditComponent implements OnInit {
     const formData = new FormData();
     formData.append("data", JSON.stringify(this.amcFullDataForm.value));
     formData.append("file", this.amcFile);
-    this.amcService.renewAmcByClientId(formData, this.data.amc_no).subscribe(response => {
+    this.amcService.renewAmcByClientId(formData, this.data.amc_no, this.data.amc_serial_no).subscribe(response => {
       console.log(response);
     }, error => {
       console.log(error);

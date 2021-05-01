@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../alert/alert.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -16,15 +17,17 @@ export class LoginComponent implements OnInit {
   userId : String
   hide = false;
   error: any;
-
   isLoadingResults = false;
   isRateLimitReached = false;
   errorMessage = "Unknown Error"
 
   loginForm: FormGroup = this.fb.group({
     userId: ['', [Validators.required]],
-    password: ['', [Validators.minLength(8)]]
+    password: ['', [Validators.required,Validators.minLength(8)]]
   });
+
+  
+  private baseURL = environment.baseServiceUrl;
 
   constructor(
     private fb: FormBuilder,
@@ -48,8 +51,9 @@ export class LoginComponent implements OnInit {
     */
   
     this.error = '';
-    if (this.loginForm.valid) {
-      this.http.post<any>('http://localhost:8080/authenticate', this.loginForm.value).subscribe(
+    if (this.loginForm.valid) {      
+      this.isLoadingResults=true  
+      this.http.post<any>(`${this.baseURL}authenticate`,this.loginForm.value).subscribe(
         response => {            
             const currentUser = {
               token: response.jwt,
@@ -74,6 +78,11 @@ export class LoginComponent implements OnInit {
       );
     }
   }
-
+  
+  forgotpassword(){
+    this.router.navigate(['login/forgetPassword'])
+  }
 
 }
+
+/* ('http://localhost:8080/authenticate', this.loginForm.value) */

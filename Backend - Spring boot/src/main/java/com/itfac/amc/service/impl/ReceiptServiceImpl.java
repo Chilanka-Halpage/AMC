@@ -85,4 +85,9 @@ public class ReceiptServiceImpl implements ReceiptService {
 		
 	}
 
+	@Override
+	public boolean doesReceiptExists(String recNo) {
+		return receiptRepository.existsById(recNo);
+	}
+
 }

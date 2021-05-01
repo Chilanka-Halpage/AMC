@@ -11,4 +11,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query(value = "SELECT * FROM product where active = true", nativeQuery = true)
 	List<Product> getActiveProduct();
+	
+	Product findByProductId(int productId);
 }

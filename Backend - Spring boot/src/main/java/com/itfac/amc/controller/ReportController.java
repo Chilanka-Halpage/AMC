@@ -2,10 +2,8 @@ package com.itfac.amc.controller;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +32,6 @@ import com.itfac.amc.service.ReportService;
 
 import net.sf.jasperreports.engine.JRException;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/report")
 public class ReportController {
@@ -175,5 +171,13 @@ public class ReportController {
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
 		List<RenewedAmcs> count = reportService.getRenewedAmcs(Date1, Date2);
 		return count.size();
+	}
+	//renewel amc for clinet
+	@GetMapping("/RenewelAmccountC/{id}/{Date1}/{Date2}")
+	public String getRenewalAmc(
+			@PathVariable("id") String id,
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
+		return reportService.getRenewalAmc(Date2,Date1, id);
 	}
 }

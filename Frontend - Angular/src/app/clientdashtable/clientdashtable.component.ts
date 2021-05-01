@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { HomedetailsService } from '../homedetails.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { subscribeOn } from 'rxjs/operators';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-clientdashtable',
@@ -18,9 +19,13 @@ export class ClientdashtableComponent implements OnInit {
   amcCount;
   Activeamc;
   department
+  amcreminder;
+  date=new Date();
+  id
 
   constructor( private homedetails: HomedetailsService,
-               private _authservice: AuthenticationService) { }
+               private _authservice: AuthenticationService,
+               private datePipe: DatePipe,) { }
 
   displayedColumns:string[] = ['recNo','recDate','payMode','balance','Category','pi_no'];
 
@@ -32,10 +37,10 @@ export class ClientdashtableComponent implements OnInit {
   this.getAmcCount()
   this.getActiveAmc()
   this.departmentcount()
+  this.gterenevelAMCforClient()
   }
 
   getclienthome(){
-   
     this.homedetails.getclienthome(this._authservice.userId).subscribe(data =>{
       this.clientdetails = new MatTableDataSource(data);
       this.clientdetails.sort = this.sort;
@@ -58,6 +63,15 @@ export class ClientdashtableComponent implements OnInit {
   departmentcount(){
     this.homedetails.getdepartmentcount(this._authservice.userId).subscribe(data =>{
       this.department =data
+    })
+  }
+  gterenevelAMCforClient(){
+    let formatteddate1 = this.datePipe.transform(this.date, "yyyy-MM-dd");
+    this.date.setMonth(this.date.getMonth() + 1);
+    let formatteddate2 = this.datePipe.transform(this.date, "yyyy-MM-dd");
+    this._authservice.userId
+    this.homedetails.gterenevelAMCforClient(formatteddate1,formatteddate2,this._authservice.userId).subscribe(data=>{
+     this.amcreminder=data
     })
   }
 }

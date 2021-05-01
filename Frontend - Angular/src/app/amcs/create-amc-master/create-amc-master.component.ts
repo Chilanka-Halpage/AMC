@@ -1,3 +1,6 @@
+import { FrequencyserviceService } from './../../frequencyservice.service';
+import { frequency } from './../../frequencyy';
+import { CurrencyService } from './../../currency.service';
 import { NotificationService } from './../../shared/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { AmcMasterService } from './../../shared/amc-master.service';
@@ -39,6 +42,8 @@ export class CreateAmcMasterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private amcMasterservice: AmcMasterService,
     private notificationService: NotificationService,
+    private currencyService: CurrencyService,
+    private frequencyService: FrequencyserviceService,
     private elementRef: ElementRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -86,7 +91,7 @@ export class CreateAmcMasterComponent implements OnInit {
   //Get frequency and currency data from backend
   private loadSelectionData() {
     let currencListLoad = false, frequencyListLoad = false;
-    this.amcMasterservice.getCurrency().subscribe(response => {
+    this.currencyService.getactiveCurrency().subscribe(response => {
       this.currencyList = response;
       this.isLoadingResults = ((currencListLoad = true) && frequencyListLoad) ? false : true;
     }, error => {

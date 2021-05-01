@@ -36,6 +36,8 @@ public interface ProformaInvoiceRepository extends JpaRepository<ProformaInvoice
 	BigDecimal getAmountById(@Param("userId") String userId);
 
 	//get active invoices-------------------------------------------
-	@Query(value = "select * from proforma_invoice where cancel = false", nativeQuery = true)
-	List<ProformaInvoiceDto> getActiveinvoices();
+	@Query(value = "select * from proforma_invoice where cancel = false and amc_no = :amcNo", nativeQuery = true)
+	List<ProformaInvoiceDto> getActiveinvoicesById(@Param("amcNo") String amc_no);
+	
+	boolean existsById(String piNo);
 }

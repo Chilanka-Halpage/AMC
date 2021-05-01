@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +25,6 @@ import com.itfac.amc.service.ReceiptService;
 
 @RestController
 @RequestMapping("/receipt")
-@CrossOrigin("*")
 public class ReceiptController {
 
 	@Autowired
@@ -98,6 +96,12 @@ public class ReceiptController {
 	@GetMapping("findreceiptsforclient/{id}")
 	public List<clinetpaymentDto> getReceiptByClientId(@PathVariable("id") String userId) {
 		return receiptService.getReceiptbyClientId(userId);
+	}
+	
+	@GetMapping("exists/{recNo}")
+	public ResponseEntity<Boolean> existsReceipt(@PathVariable("recNo") String recNo) {
+		boolean result = receiptService.doesReceiptExists(recNo);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 }

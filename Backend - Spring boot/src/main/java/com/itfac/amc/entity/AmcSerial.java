@@ -14,9 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +27,7 @@ public class AmcSerial {
 
 	@Id
 	@Column(name = "amc_serial_no", length = 15)
-	private String amcSerialNo = "default";
+	private String amcSerialNo;
 
 	private boolean active;
 
@@ -84,27 +81,22 @@ public class AmcSerial {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk1"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AmcMaster amcMaster;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_product_id", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk2"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AmcProduct amcProduct;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_dept_id", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk3"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private ClientDepartment clientDepartment;
 
 	@ManyToOne()
 	@JoinColumn(name = "currency_id", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk4"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Currency currency;
 
 	@ManyToOne()
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "amc_serial_fk5"))
-//	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Category category;
 
 }

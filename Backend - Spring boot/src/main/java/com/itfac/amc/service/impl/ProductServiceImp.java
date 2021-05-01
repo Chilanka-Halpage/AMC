@@ -40,8 +40,11 @@ public class ProductServiceImp implements ProductService {
 	}
 
 	@Override
-	public Product updateProduct(Product product) {
-		return productrepo.save(product);
+	public void updateProduct(Product product,int productId) {
+		Product productt=productrepo.findByProductId(productId);
+		productt.setProductName(product.getProductName());
+		productt.setActive(product.isActive());
+	    productrepo.save(productt);
 	}
 
 	@Override
