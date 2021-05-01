@@ -6,7 +6,7 @@
       [opened]="(isHandset$ | async) === true"
       [hidden]="!_authentication.loggedIn()"
       >
-    <mat-toolbar ><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
+    <mat-toolbar><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
     <mat-nav-list >
       <a mat-list-item [routerLink]="" (click)="dashboardcheck()" ><mat-icon>home</mat-icon><span class="button-text">Home</span></a>     
       <a mat-list-item [matMenuTriggerFor]="payment">

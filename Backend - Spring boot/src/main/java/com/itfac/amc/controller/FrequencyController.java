@@ -3,6 +3,8 @@ package com.itfac.amc.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.entity.Frequency;
 import com.itfac.amc.service.FrequencyService;
+import com.itfac.amc.validation.OnCreate;
+import com.itfac.amc.validation.OnUpdate;
 
 @RestController
 @RequestMapping("frequency/")
@@ -54,13 +58,13 @@ public class FrequencyController {
 	}
 
 	@PostMapping("AddFrequency")
-	public ResponseEntity<String> addFrequency(@Validated @RequestBody Frequency frequency) {
-		frequencyservice.addFrequency(frequency);
+	public ResponseEntity<String> addFrequency(@Validated(OnCreate.class) @RequestBody Frequency frequency,HttpServletRequest httpServletRequest) {
+		frequencyservice.addFrequency(frequency,httpServletRequest);
 		return ResponseEntity.status(HttpStatus.OK).body("added successfull"); 
 	}
 
 	@PutMapping("updateFrequency/{id}")
-	public ResponseEntity<String> updateFrequency(@PathVariable("id") int frequencyId,@Validated @RequestBody Frequency frequency) {
+	public ResponseEntity<String> updateFrequency(@PathVariable("id") int frequencyId,@Validated(OnUpdate.class) @RequestBody Frequency frequency) {
 		 frequencyservice.updateFrequency(frequency,frequencyId);
 		 return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}

@@ -3,6 +3,8 @@ package com.itfac.amc.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.entity.Product;
 import com.itfac.amc.service.ProductService;
+import com.itfac.amc.validation.OnCreate;
+import com.itfac.amc.validation.OnUpdate;
 
 @RestController
 @RequestMapping("Product/")
@@ -54,14 +58,14 @@ public class ProductController {
 	}
 
 	@PostMapping("AddProduct") 
-	public ResponseEntity<String> addProduct(@Validated @RequestBody Product product) {
-		productservice.addProduct(product);
+	public ResponseEntity<String> addProduct(@Validated(OnCreate.class) @RequestBody Product product,HttpServletRequest httpServletRequest) {
+		productservice.addProduct(product,httpServletRequest);
 		return ResponseEntity.status(HttpStatus.OK).body("added successfull");
 
 	}
 
 	@PutMapping("updateProduct/{id}")
-	public ResponseEntity<String> updateProduct(@PathVariable("id") int productId,@Validated @RequestBody Product product) {
+	public ResponseEntity<String> updateProduct(@PathVariable("id") int productId,@Validated(OnUpdate.class) @RequestBody Product product) {
 		productservice.updateProduct(product,productId);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}

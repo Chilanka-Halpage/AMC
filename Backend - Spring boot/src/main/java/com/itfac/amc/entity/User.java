@@ -10,6 +10,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.itfac.amc.util.Auditable;
+import com.itfac.amc.validation.OnCreate;
+import com.itfac.amc.validation.OnUpdate;
 
 //import org.hibernate.annotations.GenericGenerator;
 
@@ -28,8 +30,8 @@ public class User extends Auditable{
 	private String userId;
 	//columnDefinition = "TEXT", 
 
-	
-	@Size(max = 50, message = "User name must be 50 characters")
+	@NotEmpty(message = "user name cannot be Empty",groups = OnCreate.class)
+	@Size(max = 50, message = "User name must be 50 characters",groups = OnCreate.class)
 	@Column(length = 50, nullable = false)
 	private String uname;
 
@@ -38,21 +40,21 @@ public class User extends Auditable{
 	@Column(length = 200, nullable = false)
 	private String password;
 
-	@NotEmpty(message = "Role cannot be Empty")
-	@Size(max = 20, message = "Role must be 20 characters")
+	@NotEmpty(message = "Role cannot be Empty",groups = {OnCreate.class,OnUpdate.class})
+	@Size(max = 20, message = "Role must be 20 characters",groups = {OnCreate.class,OnUpdate.class})
 	@Column(length = 20, nullable = false)
 	private String role;
 
 	private boolean active;
 
-	
-	@Size(max = 100, message = "User name must be 100 characters")
+	@NotEmpty(message = "Email cannot be Empty",groups = OnCreate.class)
+	@Size(max = 100, message = "User name must be 100 characters",groups = OnCreate.class)
 	@Email(message = "Email should be valid")
 	@Column(length = 100, nullable = false)
 	private String email;
 
-	
-	@Size(max = 60, message = "Contact number must be 60 characters")
+	@NotEmpty(message = "CantactNo cannot be Empty",groups = OnCreate.class)
+	@Size(max = 60, message = "Contact number must be 60 characters",groups = OnCreate.class)
 	@Column(name = "contact_no")
 	private String contactNo;
 
