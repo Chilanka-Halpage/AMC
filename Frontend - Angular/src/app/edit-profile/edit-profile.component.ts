@@ -19,6 +19,7 @@ import { Location } from '@angular/common';
 export class EditProfileComponent implements OnInit {
 
   panelOpenState = false;
+  hide = true;
 
   constructor(
     private http: HttpClient,
@@ -73,6 +74,7 @@ export class EditProfileComponent implements OnInit {
     },
       error => {console.log("Error!", error)
     })
+    //this.panelOpenState=false
   }
 
   ngOnInit(): void {

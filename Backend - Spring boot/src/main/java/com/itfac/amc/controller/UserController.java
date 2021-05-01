@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -109,8 +110,8 @@ public class UserController {
 
 	// get login details
 	@GetMapping("/loginDetails")
-	public List<viewLoginDetails> LoginDetail() {
-		return loginDetailsService.loginDetails();
+	public List<viewLoginDetails> LoginDetail(Pageable pageable) {
+		return loginDetailsService.loginDetails(pageable);
 	}
 
 	// get user name to dashboard---------------------
@@ -161,5 +162,11 @@ public class UserController {
 	public List<logindetailsDTo> logindetailslist() {
 		return loginDetailsService.logindetailslist();
 	}
-
+	
+	//logout details
+	@PutMapping("logoutDetails/{userId}")
+	public void logoutDetails(HttpServletRequest httpServletRequest,@PathVariable("userId") String userId){
+		System.out.println(userId);
+		loginDetailsService.logOutDetails(httpServletRequest, userId);
+	}
 }

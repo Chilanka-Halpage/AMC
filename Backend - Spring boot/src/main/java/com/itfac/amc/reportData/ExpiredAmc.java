@@ -12,5 +12,5 @@ public interface ExpiredAmc {
 	public String getfrequency();
 	public BigDecimal getinvoice_amount();
 	public BigDecimal gettotal_value_lkr();
-	public Date getdue_date();
+	public Date getmtc_end_date();
 }

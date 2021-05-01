@@ -22,6 +22,10 @@ export class AllAmcReportComponent implements OnInit {
   public filterValue: string;
   date1: any;
   date2: any;
+  category: any;
+  public isLoadingResults = true;
+  public resultsLength = 0;
+  
 
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
@@ -37,16 +41,19 @@ export class AllAmcReportComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.date1 = params.get('date1');
       this.date2 = params.get('date2');
+      this.category = params.get('category')
       console.log(this.date1);
       console.log(this.date2)
-      this.getAmcDetails(this.date1, this.date2);
+      this.getAmcDetails(this.date1, this.date2, this.category);
     });
   }
   //Data for the table-----------------------------------------
-  getAmcDetails(date1, date2) {
-    this.reportDetailsService.getAllAmcs(date1, date2).subscribe(
+  getAmcDetails(date1, date2, category) {
+    this.reportDetailsService.getAllAmcs(date1, date2, category).subscribe(
       data => {
         this.allAmcs = new MatTableDataSource(data);
+        this.isLoadingResults=false;
+        this.resultsLength = this.allAmcs.data.length;
       })
   }
   applyFilter(event: Event): void {

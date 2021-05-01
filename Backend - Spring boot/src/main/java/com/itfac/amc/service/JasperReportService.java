@@ -17,6 +17,8 @@ public interface JasperReportService {
 	public ResponseEntity<Resource> viewPdf(String userId, HttpServletRequest request)throws Exception;
 	//all amcs report
 	public ResponseEntity<String> AllAmcsJr( LocalDate Date1,LocalDate Date2, String userId) throws FileNotFoundException, JRException; 
+	//all amcs category wise report
+	public ResponseEntity<String> getAllAmcCtgWiseJr(LocalDate date1,LocalDate date2,String category, String userId) throws FileNotFoundException, JRException;
 	//renewal amcs report
 	public ResponseEntity<String> RenewalAmcsJr(LocalDate Date1,LocalDate Date2, String userId) throws FileNotFoundException, JRException;
 	//renewed amcs report
@@ -28,7 +30,7 @@ public interface JasperReportService {
 	//client details
 	public ResponseEntity<String> ClientDetailsJr(LocalDate Date1,LocalDate Date2, String userId) throws FileNotFoundException, JRException, IOException;
 	//Payments Report
-	public ResponseEntity<String> PaymentReportJr(LocalDate Date1,LocalDate Date2, String userId) throws FileNotFoundException, JRException;
+	public ResponseEntity<String> PaymentReportJr(LocalDate Date1,LocalDate Date2,String category, String userId) throws FileNotFoundException, JRException;
 	//AMC report for client
 	public ResponseEntity<String> ClientAmc(String userId) throws FileNotFoundException, JRException;
 	//Client Payment Report

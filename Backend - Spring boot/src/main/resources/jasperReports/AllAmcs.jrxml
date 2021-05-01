@@ -5,6 +5,7 @@
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="353"/>
 	<parameter name="date1" class="java.time.LocalDate"/>
 	<parameter name="date2" class="java.time.LocalDate"/>
+	<parameter name="category" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -54,6 +55,13 @@
 					</textElement>
 					<text><![CDATA[From:]]></text>
 				</staticText>
+				<staticText>
+					<reportElement x="194" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Category:]]></text>
+				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement x="649" y="73" width="180" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
@@ -67,6 +75,13 @@
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{date2}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="380" y="73" width="180" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<textElement textAlignment="Left">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{category}]]></textFieldExpression>
 				</textField>
 				<rectangle>
 					<reportElement x="10" y="10" width="70" height="70" uuid="0be16801-5521-4d9a-9f0d-aa234b5b8152"/>

@@ -15,7 +15,9 @@ import { ExpiredAmcs } from '../../data/ExpiredAmcs/expired-amcs';
 export class ExpiredAmcsReportComponent implements OnInit {
 
   expiredAmcs : MatTableDataSource<ExpiredAmcs>;
-  
+  public isLoadingResults = true;
+  public resultsLength = 0;
+
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
     public _authentication: AuthenticationService,
@@ -44,6 +46,8 @@ export class ExpiredAmcsReportComponent implements OnInit {
     this.reportDetailsService.ExpiredAmcsDetails(date1,date2).subscribe(
       data=>{
       this.expiredAmcs = new MatTableDataSource(data);
+      this.isLoadingResults=false;
+      this.resultsLength = this.expiredAmcs.data.length;
     })
   }
   viewPdf() {
@@ -55,6 +59,6 @@ export class ExpiredAmcsReportComponent implements OnInit {
       });
   }
 
-  displayedColumns: string[] = [ 'amc_no','due_date','category_name','client_name','contact_no','frequency',
+  displayedColumns: string[] = [ 'amc_no','mtc_end_date','category_name','client_name','contact_no','frequency',
     'invoice_amount','total_value_lkr',];
 }

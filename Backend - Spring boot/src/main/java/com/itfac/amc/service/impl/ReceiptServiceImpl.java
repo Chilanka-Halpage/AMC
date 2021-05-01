@@ -1,5 +1,6 @@
 package com.itfac.amc.service.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,8 @@ public class ReceiptServiceImpl implements ReceiptService {
 
 	@Autowired
 	private ReceiptRepository receiptRepository;
+	@Autowired
+	private NotificationServiceImpl notificationServiceImpl;
 
 	@Override
 	public List<recieptDto> getAllReceipt() {
@@ -30,6 +33,12 @@ public class ReceiptServiceImpl implements ReceiptService {
 
 	public void addReceipt(HttpServletRequest httpServletRequest, Receipt receipt) {
 		receiptRepository.save(receipt);
+		BigDecimal total = receipt.getTotal();
+		String amcNo = receipt.getAmcMaster().getAmcNo();
+		int deptId = receipt.getClientDepartment().getDeptId();
+		int currencyId = receipt.getCurrency().getCurrencyId();
+		//String piNo = receipt.getInvoice().getPiNo();
+		notificationServiceImpl.paymentNotification(deptId, currencyId, total, amcNo);
 	}
 
 	@Override

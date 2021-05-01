@@ -5,19 +5,20 @@
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="353"/>
 	<parameter name="date1" class="java.time.LocalDate"/>
 	<parameter name="date2" class="java.time.LocalDate"/>
+	<parameter name="category" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
 	<field name="amc_no" class="java.lang.String"/>
-	<field name="user_id" class="java.lang.String"/>
+	<field name="department_name" class="java.lang.String"/>
 	<field name="client_name" class="java.lang.String"/>
 	<field name="product_name" class="java.lang.String"/>
 	<field name="rec_date" class="java.sql.Date"/>
 	<field name="currency_name" class="java.lang.String"/>
 	<field name="exchage_rate" class="java.math.BigDecimal"/>
-	<field name="mtc_amount_per_product" class="java.math.BigDecimal"/>
-	<field name="mtc_amount_per_product_lkr" class="java.math.BigDecimal"/>
-	<field name="total" class="java.math.BigDecimal"/>
+	<field name="mtc_amount_for_given_frequency_lkr" class="java.math.BigDecimal"/>
+	<field name="rec_no" class="java.lang.String"/>
+	<field name="pay_mode" class="java.lang.String"/>
 	<field name="total_lkr" class="java.math.BigDecimal"/>
 	<background>
 		<band/>
@@ -41,32 +42,46 @@
 					<text><![CDATA[Payments report]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="553" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="569" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[To:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="359" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="397" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[From:]]></text>
 				</staticText>
+				<staticText>
+					<reportElement x="156" y="70" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Category:]]></text>
+				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="542" y="73" width="180" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<reportElement x="581" y="73" width="180" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{date1}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="737" y="73" width="180" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<reportElement x="756" y="73" width="154" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{date2}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="337" y="73" width="180" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<textElement textAlignment="Left">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{category}]]></textFieldExpression>
 				</textField>
 				<rectangle>
 					<reportElement x="10" y="10" width="70" height="70" uuid="0be16801-5521-4d9a-9f0d-aa234b5b8152"/>
@@ -93,16 +108,16 @@
 				<text><![CDATA[AMC No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="80" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="403061c4-bc35-4a99-b266-c3e6638ab38a">
+				<reportElement mode="Opaque" x="160" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="403061c4-bc35-4a99-b266-c3e6638ab38a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dc0d59-4e2d-42ab-aec3-abb79e62ca6d"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[User Id]]></text>
+				<text><![CDATA[Department Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="160" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="2bc9f444-871e-4ba6-b2d8-5c0e301325af">
+				<reportElement mode="Opaque" x="80" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="2bc9f444-871e-4ba6-b2d8-5c0e301325af">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="527abf0f-a370-40aa-b1c0-b743ae7bff60"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -153,16 +168,16 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Mtc Amount Per Product]]></text>
+				<text><![CDATA[Mtc Amount for given frequency(lkr)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="640" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
+				<reportElement mode="Opaque" x="639" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a12d9db6-5d8a-4f38-9dc6-871807718384"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Mtc Amount Per Product(LKR)]]></text>
+				<text><![CDATA[Receipt no]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="720" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="85f45384-4c40-4913-ac42-b37dae70af1c">
@@ -171,7 +186,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Total]]></text>
+				<text><![CDATA[Pay Mode]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="800" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="85f45384-4c40-4913-ac42-b37dae70af1c">
@@ -196,16 +211,16 @@
 				<textFieldExpression><![CDATA[$F{amc_no}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="MM/dd/yyyy">
-				<reportElement mode="Opaque" x="80" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="478e8bca-53e7-4f40-b092-c9d2cd62f258">
+				<reportElement mode="Opaque" x="160" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="478e8bca-53e7-4f40-b092-c9d2cd62f258">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dc0d59-4e2d-42ab-aec3-abb79e62ca6d"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{user_id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{department_name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="160" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">
+				<reportElement mode="Opaque" x="80" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="527abf0f-a370-40aa-b1c0-b743ae7bff60"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -256,16 +271,16 @@
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{mtc_amount_per_product}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{mtc_amount_for_given_frequency_lkr}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="640" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
+				<reportElement mode="Opaque" x="639" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a12d9db6-5d8a-4f38-9dc6-871807718384"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{mtc_amount_per_product_lkr}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{rec_no}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="720" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
@@ -274,7 +289,7 @@
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{pay_mode}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="800" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">

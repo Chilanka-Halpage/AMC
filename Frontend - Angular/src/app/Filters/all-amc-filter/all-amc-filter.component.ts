@@ -8,6 +8,9 @@ import { JrReportDetailsService } from '../../data/jr-report-details.service';
 import { Users } from '../../data/Users/users'
 import { from } from 'rxjs';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
+import { MatDialogRef } from '@angular/material/dialog';
+
+
 
 @Component({
   selector: 'app-all-amc-filter',
@@ -18,7 +21,7 @@ export class AllAmcFilterComponent implements OnInit {
   allAmcs: AllAmcs;
   users : Users;
   isLoadingResults ;
-  closeDialog=false;
+  
   constructor(
     public _authentication: AuthenticationService,
     private jrReportDetailsService: JrReportDetailsService,
@@ -26,11 +29,13 @@ export class AllAmcFilterComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private datePipe: DatePipe,
+    public dialogRef: MatDialogRef<AllAmcFilterComponent>
     ) { } 
 
       allAmcFilter = this.fb.group({
       date1: [''],
-      date2: ['']
+      date2: [''],
+      category: ['']
     },{
       validator: ConfirmedValidator('date1', 'date2')
     } );
@@ -44,15 +49,16 @@ export class AllAmcFilterComponent implements OnInit {
     let date2 = this.allAmcFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
+     let category = this.allAmcFilter.value.category;
     console.log(formatteddate1);
     console.log(formatteddate2);
     //generate All AMCs jasper report
-    this.jrReportDetailsService.AllAmcPdfReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
+    this.jrReportDetailsService.AllAmcPdfReport(formatteddate1,formatteddate2,category,this._authentication.userId).subscribe(
       Response => {
         console.log("success", Response)
-        this.router.navigate(['allAmcReport',formatteddate1,formatteddate2]);
         this.isLoadingResults=false;
-       // this.closeDialog=true;
+        this.dialogRef.close();
+        this.router.navigate(['allAmcReport',formatteddate1,formatteddate2,category]);
     },
       error => {console.log("Error!", error)
     }

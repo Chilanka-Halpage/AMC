@@ -16,6 +16,10 @@ import { ReportDetailsService } from '../../data/report-details.service'
 export class FullDetailsComponent implements OnInit {
 
   fullDetails: MatTableDataSource<FullDetails>;
+  public isLoadingResults = true;
+  public resultsLength = 0;
+  date1
+  date2
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
     public _authentication: AuthenticationService,
@@ -23,8 +27,7 @@ export class FullDetailsComponent implements OnInit {
     private reportDetailsService: ReportDetailsService,
     private datePipe: DatePipe,
   ) { }
-  date1
-  date2
+
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
       this.date1 = params.get('date1');
@@ -43,6 +46,8 @@ export class FullDetailsComponent implements OnInit {
      .subscribe(
       data=>{
       this.fullDetails = new MatTableDataSource(data);
+      this.isLoadingResults=false;
+      this.resultsLength = this.fullDetails.data.length;
      })
 
   };

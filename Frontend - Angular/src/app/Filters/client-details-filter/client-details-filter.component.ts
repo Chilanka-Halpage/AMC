@@ -7,6 +7,7 @@ import { from } from 'rxjs';
 import { JrReportDetailsService } from '../../data/jr-report-details.service'
 import { ClientDetails } from 'src/app/data/client-details/client-details';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-client-details-filter',
@@ -14,7 +15,8 @@ import { AuthenticationService } from 'src/app/_helpers/authentication.service';
   styleUrls: ['./client-details-filter.component.scss']
 })
 export class ClientDetailsFilterComponent implements OnInit {
-  clientDetails: ClientDetails
+  clientDetails: ClientDetails;
+  isLoadingResults ;
   
   constructor(
     public _authentication: AuthenticationService,
@@ -24,6 +26,7 @@ export class ClientDetailsFilterComponent implements OnInit {
     private clientDetailsService: ClientDetailsService,
     private fb: FormBuilder,
     private datePipe: DatePipe,
+    public dialogRef: MatDialogRef<ClientDetailsFilterComponent>
     ) { } 
 
     clientDetailsFilter = this.fb.group({
@@ -37,7 +40,7 @@ export class ClientDetailsFilterComponent implements OnInit {
  
   }
   onSubmit(){
-
+    this.isLoadingResults=true;
     let date1 = this.clientDetailsFilter.value.date1;
     let date2 = this.clientDetailsFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
@@ -45,6 +48,8 @@ export class ClientDetailsFilterComponent implements OnInit {
     //this.router.navigate(['clientDetails',formatteddate1,formatteddate2]);
     this.jrReportDetailsService.ClientDetailsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.isLoadingResults=false;
+      this.dialogRef.close();
       this.router.navigate(['clientDetails',formatteddate1,formatteddate2]);
     },
       error => {console.log("Error!", error)

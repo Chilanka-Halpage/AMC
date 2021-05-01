@@ -13,6 +13,6 @@ public interface RenewedAmcs {
 	public String getfrequency();
 	public String getcurrency_name();
 	public BigDecimal getexchage_rate();
-	public BigDecimal getinvoice_amount();
+	public String getdepartment_name();
 	public BigDecimal gettotal_value_lkr();
 }

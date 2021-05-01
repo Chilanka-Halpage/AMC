@@ -2,7 +2,7 @@
     <h3 class="">Quarter wise revenue report</h3>
     <h5><b> From :</b> {{date1}} &nbsp; <b>To : </b>{{date2}}</h5>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
-  class="mat-elevation-z8, table table-striped table-hover ">
+  class="mat-elevation-z8, table table-striped table-hover">
   
       <ng-container matColumnDef="quarter1">
         <th mat-header-cell *matHeaderCellDef class="align-middle">Quarter1</th>
@@ -26,6 +26,13 @@
       <tr mat-header-row class="p-3 mb-2 bg-primary text-white align-middle" *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <div class="font-italic d-flex justify-content-center" *ngIf="isLoadingResults">
+      Loading data...
+  </div>
+  <div class="font-italic d-flex justify-content-center"
+              *ngIf="!isLoadingResults && !resultsLength">
+              No data
+  </div>
     <br>
-  <button (click)="viewPdf()" mat-raised-button color="primary">view PDF</button>
+  <button (click)="viewPdf()" [disabled]="!resultsLength" mat-raised-button color="primary">view PDF</button>
   </div>
