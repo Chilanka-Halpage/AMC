@@ -45,6 +45,13 @@
         <tr mat-header-row class="p-3 mb-2 bg-primary text-white align-middle" *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <div class="font-italic d-flex justify-content-center" *ngIf="isLoadingResults">
+        Loading data...
+    </div>
+    <div class="font-italic d-flex justify-content-center"
+                *ngIf="!isLoadingResults && !resultsLength">
+                No data
+    </div>
     <br>
-    <button (click)="viewPdf()" mat-raised-button color="primary">view PDF</button>
+    <button (click)="viewPdf()"  [disabled]="!resultsLength" mat-raised-button color="primary">view PDF</button>
 </div>

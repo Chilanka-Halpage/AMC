@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
@@ -13,8 +14,11 @@ import { ClientPaymentDetails } from '../../data/ClientPaymentDetails/client-pay
 })
 export class ClientPaymentDetailsComponent implements OnInit {
 
-  clientPaymentDetails: ClientPaymentDetails;
-  cId 
+  clientPaymentDetails: MatTableDataSource<ClientPaymentDetails>;
+  cId;
+  public isLoadingResults = true;
+  public resultsLength = 0;
+  
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
     public _authentication: AuthenticationService,
@@ -32,7 +36,9 @@ export class ClientPaymentDetailsComponent implements OnInit {
   ClientPaymentDetails(cId){
     this.reportDetailsService.ClientPayment(cId).subscribe(
       data=>{
-      this.clientPaymentDetails = data;
+      this.clientPaymentDetails = new MatTableDataSource(data);
+      this.isLoadingResults=false;
+      this.resultsLength = this.clientPaymentDetails.data.length;
     });
   }
 
@@ -44,6 +50,6 @@ export class ClientPaymentDetailsComponent implements OnInit {
         URL.revokeObjectURL(url);
       });
   }
-  displayedColumns: string[] = ['amc_no','amc_serial_no', 'rec_date', 'product_name','currency_name',
-  'exchage_rate','total','total_lkr'];
+  displayedColumns: string[] = ['amc_no','amc_serial_no', 'department_name', 'rec_date','rec_no',
+  'product_name','currency_name','exchage_rate','total','balance'];
 }

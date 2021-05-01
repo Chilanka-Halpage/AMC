@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { LoginDetails } from '../data/loginDetails/login-details'
+import { AuthenticationService } from '../_helpers/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +12,19 @@ import { LoginDetails } from '../data/loginDetails/login-details'
 export class LoginDetailsService {
 
   private baseURL =environment.baseServiceUrl;
-  constructor( private httpClient: HttpClient ) { }
+  constructor( 
+    private httpClient: HttpClient,
+    public _authentication: AuthenticationService,
+    ) { }
 
-  getLoginDetails(): Observable<LoginDetails[]>{
-    return this.httpClient.get<LoginDetails[]>(`${this.baseURL}User/loginDetails`);
+  getLoginDetails(page: number, size: number): Observable<LoginDetails[]>{
+    return this.httpClient.get<LoginDetails[]>(`${this.baseURL}User/loginDetails?page=${page}&size=${size}`);
+  }
+  logoutDetails(): Observable<object>{
+    delay(3000);
+    let userId = this._authentication.userId;
+    this._authentication.logoutUser();
+    console.log(userId);
+    return this.httpClient.put(`${this.baseURL}User/logoutDetails/${userId}`,null);
   }
 }

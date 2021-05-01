@@ -86,6 +86,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/tax/**").hasAnyRole("ADMIN", "AMC_COORDINATOR", "ACCOUNTANT")
 			.antMatchers("/User/admin/**").hasRole("ADMIN")
 			.antMatchers("/User/getUname/{idname}").hasRole("CLIENT")
+			.antMatchers("/User/logoutDetails/{userId}").permitAll()
 			.antMatchers("/User/**").authenticated()
 			.antMatchers("/notification/**").authenticated()
 			.antMatchers("/authenticate").permitAll()

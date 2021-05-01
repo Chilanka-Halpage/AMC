@@ -10,6 +10,13 @@
             </tr>         
           </tbody>
       </table>
+      <div class="font-italic d-flex justify-content-center" *ngIf="isLoadingResults">
+        Loading data...
+    </div>
+    <div class="font-italic d-flex justify-content-center"
+                *ngIf="!isLoadingResults && !resultsLength">
+                No data
+    </div>
       </div>
   </div>
   

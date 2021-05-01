@@ -15,6 +15,11 @@ import { MatTableDataSource } from '@angular/material/table';
 export class PaymentsDetailsComponent implements OnInit {
 
 paymentsDetails : MatTableDataSource<PaymentsDetails>;
+public isLoadingResults = true;
+public resultsLength = 0;
+date1 : any
+date2 : any
+category : String
 
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
@@ -23,25 +28,27 @@ paymentsDetails : MatTableDataSource<PaymentsDetails>;
     private activatedRoute: ActivatedRoute,
   ) { }
 
-  date1 : any
-  date2 : any
+
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
       this.date1 = params.get('date1');
       this.date2 = params.get('date2');
+      this.category = params.get('category');
       console.log(this.date1);
       console.log(this.date2)
-      this.getPaymentDetails(this.date1,this.date2);
+      this.getPaymentDetails(this.date1,this.date2,this.category);
   });
 }
 applyFilter(event: Event): void {
   const filterValue = (event.target as HTMLInputElement).value;
   this.paymentsDetails.filter = filterValue.trim().toLowerCase();
 }
-getPaymentDetails(date1,date2){
-  this.allAmcsService.PaymentDetails(date1,date2).subscribe(
+getPaymentDetails(date1,date2,category){
+  this.allAmcsService.PaymentDetails(date1,date2,category).subscribe(
     data=>{
     this.paymentsDetails = new MatTableDataSource(data);
+    this.isLoadingResults=false;
+    this.resultsLength = this.paymentsDetails.data.length;
   })
 }
 viewPdf() {
@@ -52,6 +59,6 @@ viewPdf() {
       URL.revokeObjectURL(url);
     });
 }
-displayedColumns: string[] = ['amc_no', 'client_id', 'client_name', 'product_name','frequency','currency_name',
-'exchage_rate','mtc_amount_per_product','mtc_amount_per_product_lkr','total','total_lkr'];
+displayedColumns: string[] = ['amc_no', 'client_name', 'department_name', 'product_name','frequency','currency_name',
+'exchage_rate','mtc_amount_for_given_frequency_lkr','rec_no','pay_mode','total_lkr'];
 }

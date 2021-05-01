@@ -1,4 +1,6 @@
-
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <mat-sidenav-container class="sidenav-container" >
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
@@ -78,7 +80,6 @@
       <button  mat-button  *ngIf="!_authentication.loggedIn()" (click)="gotolog()">
         <span style="-webkit-text-fill-color:#ffffff">Login</span>
       </button> 
-      
       <button mat-icon-button *ngIf="_authentication.loggedIn()">
         <mat-icon style="color: #ffffff;" (click)="notification()"
         [matBadge]="notificationNo" [matBadgeHidden]="hidden">notifications</mat-icon>

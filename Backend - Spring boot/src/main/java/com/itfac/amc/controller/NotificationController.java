@@ -24,7 +24,7 @@ public class NotificationController {
 	private NotificationService notificationService;
 	
 	@GetMapping("/getNotification/{userId}")
-	public List<NotificationView> getNotification(@PathVariable(value = "userId") String userId){
+	public List<Notification> getNotification(@PathVariable(value = "userId") String userId){
 		return notificationService.getNotification(userId);
 	}
 	
@@ -39,7 +39,8 @@ public class NotificationController {
 	}
 	
 	@PostMapping("/test/{userId}")
-	public void test(@PathVariable(value = "userId") String userId) {
-		notificationService.test(userId);
+	public void test(@PathVariable(value = "userId") String userId,
+			@PathVariable(value = "userId") String notifications) {
+		notificationService.test(userId ,notifications);
 	}
 }

@@ -8,6 +8,6 @@ export class RenewedAmcs {
 	frequency : String
 	currency_name : String
 	exchage_rate : number
-	invoice_amount : number
+	department_name : String
 	total_value_lkr : number
 }

@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
@@ -13,6 +14,7 @@ import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 export class ExpiredAmcsFilterComponent implements OnInit {
 
   date=new Date();
+  isLoadingResults ;
 
   constructor(
     public _authentication: AuthenticationService,
@@ -20,7 +22,9 @@ export class ExpiredAmcsFilterComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private datePipe: DatePipe,) { }
+    private datePipe: DatePipe,
+    public dialogRef: MatDialogRef<ExpiredAmcsFilterComponent>
+    ) { }
 
     expiredAmcsFilter = this.fb.group({
       date1: [''],
@@ -31,6 +35,7 @@ export class ExpiredAmcsFilterComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit(){
+    this.isLoadingResults=true;
     let date1 = this.expiredAmcsFilter.value.date1;
     let date2 = this.expiredAmcsFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
@@ -38,6 +43,8 @@ export class ExpiredAmcsFilterComponent implements OnInit {
      //this.router.navigate(['expiredAmcs',formatteddate1,formatteddate2]);
     this.jrReportDetailsService.ExpiredAmcsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.isLoadingResults=false;
+      this.dialogRef.close();
       this.router.navigate(['expiredAmcs',formatteddate1,formatteddate2]);
     },
       error => {console.log("Error!", error)

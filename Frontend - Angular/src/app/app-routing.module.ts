@@ -93,7 +93,7 @@ const routes: Routes = [
   { path: 'taxlist', component:TaxListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'invoicelist',component:InvoiceListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'createincoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard,ClientGuard,AmccordinatorGuard]},
-  { path: 'allAmcReport/:date1/:date2', component: AllAmcReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater 
+  { path: 'allAmcReport/:date1/:date2/:category', component: AllAmcReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater 
   { path: 'catogerylist', component:ListcategoryComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'currencylist', component:CurrencyListComponent,canActivate: [AuthenticationGuard]},
   { path: 'paymentHlist', component:PaymentListComponent,canActivate: [AuthenticationGuard]} ,
@@ -113,7 +113,7 @@ const routes: Routes = [
   { path: 'renewalAmcs/:date1/:date2', component: RenewalAmcsReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater
   { path: 'renewedAmcs/:date1/:date2', component: RenewedAmcsReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater
   { path: 'expiredAmcs/:date1/:date2', component: ExpiredAmcsReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater
-  { path: 'paymentDetails/:date1/:date2', component: PaymentsDetailsComponent,canActivate: [AuthenticationGuard,ClientGuard]},//admin,amc cordinater,accountant
+  { path: 'paymentDetails/:date1/:date2/:category', component: PaymentsDetailsComponent,canActivate: [AuthenticationGuard,ClientGuard]},//admin,amc cordinater,accountant
   { path: 'clientAmc/:cId', component: ClientAmcComponent,canActivate: [AuthenticationGuard,AccountantGuard,AmccordinatorGuard ]},//client
   { path: 'list/:id',component: ListcategoryComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'frequency/:id',component: FrequencyComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},

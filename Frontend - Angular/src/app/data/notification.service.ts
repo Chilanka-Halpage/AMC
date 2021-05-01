@@ -11,8 +11,8 @@ export class NotificationService {
   private baseURL =environment.baseServiceUrl;
   constructor( private httpClient: HttpClient ) { }
 
-  getNotification(userId): Observable<Notification>{
-    return this.httpClient.get<Notification>(`${this.baseURL}notification/getNotification/${userId}`);
+  getNotification(userId): Observable<Notification[]>{
+    return this.httpClient.get<Notification[]>(`${this.baseURL}notification/getNotification/${userId}`);
   }
   getNotificationNo(userId): Observable<any>{
     return this.httpClient.get<any>(`${this.baseURL}notification/getNotificationNo/${userId}`);

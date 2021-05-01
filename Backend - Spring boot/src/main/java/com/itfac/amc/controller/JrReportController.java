@@ -37,104 +37,105 @@ public class JrReportController {
 	private JasperReportService jasperReportService;
 	@Autowired
 	AmcSerialRepository amcSerialRepository;
-	
+
 	@GetMapping("/viewPdf/{userId}")
-	public ResponseEntity<Resource> viewPdf(@PathVariable(value = "userId") String userId, HttpServletRequest request)throws Exception {
-		return jasperReportService.viewPdf(userId,request);
+	public ResponseEntity<Resource> viewPdf(@PathVariable(value = "userId") String userId, HttpServletRequest request)
+			throws Exception {
+		return jasperReportService.viewPdf(userId, request);
 	}
 
-	
-	//All AMCs report
+	// All AMCs report
 	@GetMapping("/AllAmcsJrReport/{Date1}/{Date2}/{userId}")
 	public ResponseEntity<String> AllAmcsJr(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable(value = "userId") String userId)
-			throws FileNotFoundException, JRException {
+			@PathVariable(value = "userId") String userId) throws FileNotFoundException, JRException {
 		return jasperReportService.AllAmcsJr(Date1, Date2, userId);
 	}
-	
-	//Renewal AMCs report
+
+	// All AMCs report
+	@GetMapping("/allAmcCtgWiseJr/{Date1}/{Date2}/{category}/{userId}")
+	public ResponseEntity<String> getAllAmcCtgWiseJr(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
+			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
+			@PathVariable(value = "category") String category,
+			@PathVariable(value = "userId") String userId) throws FileNotFoundException, JRException {
+		return jasperReportService.getAllAmcCtgWiseJr(Date1, Date2, category, userId);
+	}
+
+	// Renewal AMCs report
 	@GetMapping("/RenewalAmcsJrReport/{Date1}/{Date2}/{userId}")
 	public ResponseEntity<String> RenewalAmcsJr(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable(value = "userId") String userId)
-			throws FileNotFoundException, JRException {
+			@PathVariable(value = "userId") String userId) throws FileNotFoundException, JRException {
 		return jasperReportService.RenewalAmcsJr(Date1, Date2, userId);
 	}
-	
-	//Renewed AMCs report
+
+	// Renewed AMCs report
 	@GetMapping("/RenewedAmcsJrReport/{Date1}/{Date2}/{userId}")
 	public ResponseEntity<String> RenewedAmcsJr(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable(value = "userId") String userId)
-			throws FileNotFoundException, JRException {
+			@PathVariable(value = "userId") String userId) throws FileNotFoundException, JRException {
 		return jasperReportService.RenewedAmcsJr(Date1, Date2, userId);
 	}
-	
-	//Expired AMCs report
+
+	// Expired AMCs report
 	@GetMapping("/ExpiredAmcsJrReport/{Date1}/{Date2}/{userId}")
 	public ResponseEntity<String> ExpiredAmcsJr(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable(value = "userId") String userId)
-			throws FileNotFoundException, JRException {
+			@PathVariable(value = "userId") String userId) throws FileNotFoundException, JRException {
 		return jasperReportService.ExpiredAmcsJr(Date1, Date2, userId);
 	}
-	
-	//Full Details Report
+
+	// Full Details Report
 	@GetMapping("/FullDetailsJrReport/{Date1}/{Date2}/{userId}")
 	public ResponseEntity<String> FullDetailsJr(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable(value = "userId") String userId)
-			throws JRException, IOException {
+			@PathVariable(value = "userId") String userId) throws JRException, IOException {
 		return jasperReportService.FullDetailsJr(Date1, Date2, userId);
 	}
-	
-	//Client Details Report
+
+	// Client Details Report
 	@GetMapping("/ClientDetailsJrReport/{Date1}/{Date2}/{userId}")
 	public ResponseEntity<String> ClientDetailsJr(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable(value = "userId") String userId)
-			throws JRException, IOException {
+			@PathVariable(value = "userId") String userId) throws JRException, IOException {
 		return jasperReportService.ClientDetailsJr(Date1, Date2, userId);
 	}
-	
-	//Payment Report
-	@GetMapping("/PaymentsJrReport/{Date1}/{Date2}/{userId}")
+
+	// Payment Report
+	@GetMapping("/PaymentsJrReport/{Date1}/{Date2}/{category}/{userId}")
 	public ResponseEntity<String> PaymentReportJr(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable(value = "userId") String userId)
-			throws FileNotFoundException, JRException {
-		return jasperReportService.PaymentReportJr(Date1, Date2, userId);
+			@PathVariable(value = "category") String category,
+			@PathVariable(value = "userId") String userId) throws FileNotFoundException, JRException {
+		return jasperReportService.PaymentReportJr(Date1, Date2,category, userId);
 	}
-	
-	//AMC Report for client
+
+	// AMC Report for client
 	@GetMapping("/client/ClientAmcReport/{userId}")
-	public ResponseEntity<String> ClientAmc(
-			@PathVariable(value = "userId") String userId)
+	public ResponseEntity<String> ClientAmc(@PathVariable(value = "userId") String userId)
 			throws FileNotFoundException, JRException {
 		return jasperReportService.ClientAmc(userId);
 	}
-	
-	//Payment report for client
+
+	// Payment report for client
 	@GetMapping("/client/ClientPaymentsJrReport/{userId}")
-	public ResponseEntity<String> ClientPaymentReport(
-			@PathVariable(value = "userId") String userId)
+	public ResponseEntity<String> ClientPaymentReport(@PathVariable(value = "userId") String userId)
 			throws FileNotFoundException, JRException {
 		return jasperReportService.ClientPaymentReport(userId);
 	}
-	
+
 	@GetMapping("/QuarterWiseRevenueJrReport/{date1}/{userId}")
 	public ResponseEntity<String> QuarterWiseReport(
 			@PathVariable(value = "date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date1,
-			@PathVariable(value = "userId") String userId)
-			throws FileNotFoundException, JRException {
+			@PathVariable(value = "userId") String userId) throws FileNotFoundException, JRException {
 		return jasperReportService.QuarterWiseRevenueJrReport(date1, userId);
 	}
 }

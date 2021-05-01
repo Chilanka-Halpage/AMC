@@ -10,7 +10,9 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class LogDetailsComponent implements OnInit {
 
-  loginDetails: LoginDetails[] = []
+  loginDetails: MatTableDataSource<LoginDetails[]>
+  public isLoadingResults = true;
+  public resultsLength = 0;
 
   constructor(
              private homedetalis: HomedetailsService
@@ -23,6 +25,8 @@ export class LogDetailsComponent implements OnInit {
   getLogindetails(){
     this.homedetalis.logdetails().subscribe(data =>{
       this.loginDetails = data  
+      this.isLoadingResults=false;
+      this.resultsLength = this.loginDetails.data.length;
   });
 }
   

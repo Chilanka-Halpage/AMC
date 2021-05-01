@@ -1,8 +1,12 @@
+
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <div style="background-color: rgb(255, 255, 255);">
   <div class="container" class="class1">
     <div>
       <h2>All Client Details Report</h2>
-      <form [formGroup]="clientDetailsFilter" (ngSubmit)="onSubmit()">
+      <form [formGroup]="clientDetailsFilter">
         <b>From Date:</b>
         <div>
           <mat-form-field appearance="outline">
@@ -32,7 +36,7 @@
            </mat-error>
         </div>
         <br>
-        <button class="btn btn-primary" type="submit" [disabled]="!clientDetailsFilter.valid"  mat-dialog-close>Generate Report</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!clientDetailsFilter.valid" (click)="onSubmit()">Generate Report</button>
       </form>
     </div>
   </div>
