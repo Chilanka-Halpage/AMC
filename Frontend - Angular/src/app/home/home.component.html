@@ -1,94 +1,95 @@
-<div class="100%">
-  <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="4" rowHeight="200px">
-    <!--mini cards-->
-    <mat-grid-tile>
-      <mat-card class="dashboard-card " style=" background: rgb(255,210,141);
-      background: linear-gradient(0deg, rgba(255,210,141,1) 0%, rgba(255,189,45,1) 100%);  ">
-          <mat-card-title >         
-            <div><h3>Total AMC</h3></div>
-            <label class="value col-6">{{TotalAmc}}</label>
-          </mat-card-title>
-      <mat-card-content >
-        </mat-card-content>       
-      </mat-card>
-    </mat-grid-tile>     
-    <mat-grid-tile>
-      <mat-card class="dashboard-card" style="  background: rgb(176,255,141);
-      background: linear-gradient(0deg, rgba(176,255,141,1) 0%, rgba(0,228,3,1) 100%);  ">
-          <mat-card-title >         
-            <div><h3>Active AMC</h3></div>
-            <label class="value col-6">{{ActiveAmcCount}} </label>
-          </mat-card-title>
-          <mat-card-content>
-          </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-card class="dashboard-card" style="background: rgb(141,255,244);
-      background: linear-gradient(0deg, rgba(141,255,244,1) 0%, rgba(17,182,255,.8) 100%); " >
-          <mat-card-title >         
-            <div><h3>AMC Reminders</h3></div>
-            <label class="value col-6">{{AmcReminders}}</label>
-          </mat-card-title>
-      </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-card class="dashboard-card" style=" background: rgb(141,147,255);
-      background: linear-gradient(0deg, rgba(141,147,255,1) 0%, rgba(17,102,255,.8) 100%); " >
-          <mat-card-title >         
-            <div><h3>Total Active Clients</h3></div>
-            <label class="value col-6" >{{TotalActiveClients}}</label>
-          </mat-card-title>
-        <mat-card-content >
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>   
-  </mat-grid-list>
-</div>
- 
 
-      
-
-<!-- <div class="row">
-  <div class="col-md-6 ">
-    <app-sales></app-sales>
-  </div>
-  <div class="col-md-6">
-    <app-revalue></app-revalue>
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      {{errorMessage}}
   </div>
 </div>
-<div class="row">
-  <div class="col-6 ">
-    <app-amcstatus></app-amcstatus>
-  </div>
-  <div class="col-lg-6">
-    <app-log-details></app-log-details>
-  </div>
-</div> -->
-
-
-<mat-grid-list cols = "4" rowHeight = "100px">
+<br>
+<div class="pl-5">
+<h2>Over View</h2>  </div>
+<mat-grid-list cols="4" rowHeight="fit" style="height: 170px" gutterSize="40px" class=" mt-0 ml-5 mr-5">
+  <mat-grid-tile  class="content" >       
+      <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">TOTAL AMCs</h1></mat-grid-tile-header>
+      <h1 class="col align-left ml-3 mt-3" style="font-size: 40px">{{TotalAmc}}</h1>
+      <mat-icon class=" mr-5 mb-5 pr-5">content_copy</mat-icon>
+      <mat-grid-tile-footer style="height: 30px;" >
+        <span mat-menu-item (click)="gotoclientlist()" >See More</span>
+      </mat-grid-tile-footer>
+  </mat-grid-tile>
+  <mat-grid-tile class="content"> 
+    <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">ACTIVE AMCs</h1></mat-grid-tile-header>
+    <h1 class="col align-left ml-3 mt-3" style="font-size: 40px;">{{ActiveAmcCount}}</h1>
+    <mat-icon class=" mr-5 mb-5 pr-5">assignment</mat-icon>
+    <mat-grid-tile-footer style="height: 30px;" >
+      <span mat-menu-item (click)="gotoclientlist()" >See More</span>
+    </mat-grid-tile-footer>
+  </mat-grid-tile>
+  <mat-grid-tile class="content"> 
+    <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">AMC Reminders</h1></mat-grid-tile-header>
+    <h1 class="col align-left ml-3 mt-3" style="font-size: 40px;">{{AmcReminders}}</h1>
+    <mat-icon class=" mr-5 mb-5 pr-5">update</mat-icon>
+    <mat-grid-tile-footer style="height: 30px;">
+      <span mat-menu-item (click)="gotoclientlist()" >See More</span>
+    </mat-grid-tile-footer>
+  </mat-grid-tile>
+  <mat-grid-tile class="content">
+    <mat-grid-tile-header style="background-color: transparent;"><h1 style="color: black;font-size: 15px;">TOTAL ACTIVE CLIENT</h1></mat-grid-tile-header>
+    <h1 class="col align-left ml-3 mt-3" style="font-size: 40px;">{{TotalActiveClients}}</h1>
+    <mat-icon class=" mr-5 mb-5 pr-5">person</mat-icon>
+    <mat-grid-tile-footer style="height: 30px;" >
+      <span mat-menu-item (click)="gotoclientlist()" >See More</span>
+    </mat-grid-tile-footer>
+  </mat-grid-tile>
+</mat-grid-list>
+<mat-grid-list cols = "8" gutterSize="40px" class="m-5">
   <mat-grid-tile 
-  [colspan] = "2"
-  [rowspan] = "4">
-       <app-sales></app-sales>
+  [colspan] = "6"
+  [rowspan] = "2" class="content" >
+  <mat-grid-tile-header style="background-color: transparent;"><h1 style="color: black;font-size: 15px;">Revanue</h1></mat-grid-tile-header>
+  <div class="chart-container" ><canvas id="bar" ></canvas>
+  </div>
   </mat-grid-tile>
   <mat-grid-tile 
   [colspan] = "2"
-  [rowspan] = "4">   
-  
-    <app-revalue></app-revalue>
-      
+  [rowspan] = "4" class="content mr-5" style="border-radius: 10px">
+  <mat-grid-tile-header style="background-color: transparent;"><h1 style="color: black;font-size: 15px;">Log Details</h1></mat-grid-tile-header>
+  <div class="w-100 mb-2 h-100">
+  <table mat-table class="mat-elevation-z8, table table-striped table-hover" matSort [dataSource]="loginDetails" [hidden]="!isAuthorized">
+    <ng-container matColumnDef="user_id">
+      <td *matHeaderCellDef class="align-middle" [hidden]="true">log details</td>
+      <td mat-cell *matCellDef="let element" class="align-middle w-80">{{element.user_id}}</td>
+    </ng-container>     
+    <ng-container matColumnDef="loged_ip">
+      <th mat-header-cell *matHeaderCellDef class="align-middle" [hidden] = "true"></th>
+      <td mat-cell *matCellDef="let element" class="align-middle" [hidden]="!isAuthorized">{{element.loged_datetime | date: 'short'}}</td>
+    </ng-container>
+    <tr mat-header-row class="p-3 mb-2"  *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>  
+  <table mat-table class="mat-elevation-z8, table table-striped table-hover" matSort [dataSource]="loginDetail" [hidden]="isAuthorized">
+    <ng-container matColumnDef="user_id">
+      <td *matHeaderCellDef class="align-middle" [hidden]="true">log details</td>
+      <td mat-cell *matCellDef="let element" class="align-middle w-80">{{element.logedTime | date: 'short'}}</td>
+    </ng-container>     
+    <ng-container matColumnDef="loged_ip">
+      <th mat-header-cell *matHeaderCellDef class="align-middle" [hidden] = "true"></th>
+      <td mat-cell *matCellDef="let element" class="align-middle" >{{element.logoutTime  | date: 'short'}}</td>
+    </ng-container>
+    <tr mat-header-row class="p-3 mb-2"  *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>  
+  </div>
   </mat-grid-tile>
-  <mat-grid-tile
-  [colspan] = "2"
-  [rowspan] = "4">   
-        <app-amcstatus></app-amcstatus>
+  <mat-grid-tile 
+  [colspan] = "3"
+  [rowspan] = "2" class="content">
+  <mat-grid-tile-header style="background-color: transparent;"><h1 style="color: black;font-size: 15px;">AMC Status</h1></mat-grid-tile-header>
+  <canvas id="pie"></canvas>
   </mat-grid-tile>
-  <mat-grid-tile
-  [colspan] = "2"
-  [rowspan] = "4">
-        <app-log-details></app-log-details>
+  <mat-grid-tile 
+  [colspan] = "3"
+  [rowspan] = "2"class="content"><canvas id="doughnut"></canvas>
   </mat-grid-tile>
-</mat-grid-list>  
+</mat-grid-list>
+

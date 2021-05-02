@@ -26,6 +26,7 @@ import {ImageService} from '../data/image-service.service';
 })
 export class RootNavComponent {
   
+  
   userId : String
   imgSource : String
   public imageSrc: string;
@@ -43,8 +44,7 @@ export class RootNavComponent {
     private dialog: MatDialog,
     public _authentication: AuthenticationService,
     private router: Router,
-    private homedetalis: HomedetailsService,
-    
+    private homedetalis: HomedetailsService, 
     private notificationService:NotificationService,
     private imageService: ImageService
   ) { }
@@ -55,8 +55,9 @@ export class RootNavComponent {
 
   logout() {
     this._authentication.logoutUser();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']); 
     this.logoutmessage();
+     window.location.reload()
   }
   logedin() {
     this._authentication.loggedIn();

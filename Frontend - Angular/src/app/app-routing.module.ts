@@ -92,7 +92,7 @@ const routes: Routes = [
   { path: 'generatereport', component: GenerateReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'taxlist', component:TaxListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'invoicelist/:amc_no',component:InvoiceListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'createincoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard,ClientGuard,AmccordinatorGuard]},
+  { path: 'createinvoice/:amc_no', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard,ClientGuard,AmccordinatorGuard]},
   { path: 'allAmcReport/:date1/:date2', component: AllAmcReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater 
   { path: 'catogerylist', component:ListcategoryComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'currencylist', component:CurrencyListComponent,canActivate: [AuthenticationGuard]},

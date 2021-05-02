@@ -40,24 +40,8 @@ export class HomedetailsService {
   return this.HttpClient.get<any>(`${this.baseURL}report/dashboard/ExpiredAmcscount/${Date1}/${Date2}`,{responseType : 'text' as 'json'});
  }
 
-  lastyearrevanue(Date1, Date2): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}receipt/lastyearrevanue/${Date1}/${Date2}`, { responseType: 'text' as 'json' });
-  }
-
-  last2yearrevanue(Date1, Date2): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}receipt/last2yearrevanue/${Date1}/${Date2}`, { responseType: 'text' as 'json' });
-  }
-
-  last3yearrevanue(Date1, Date2): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}receipt/last3yearrevanue/${Date1}/${Date2}`, { responseType: 'text' as 'json' });
-  }
-
-  last4yearrevanue(Date1, Date2): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}receipt/last4yearrevanue/${Date1}/${Date2}`, { responseType: 'text' as 'json' });
-  }
-
-  last5yearrevanue(Date1, Date2): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}receipt/last5yearrevanue/${Date1}/${Date2}`, { responseType: 'text' as 'json' });
+  lastyearrevanue(Date1): Observable<any> {
+    return this.HttpClient.get<any>(`${this.baseURL}receipt/lastyearrevanue/${Date1}`);
   }
 
   getclienthome(userId: String): Observable<any> {
@@ -93,5 +77,7 @@ export class HomedetailsService {
   logdetails(): Observable<any> {
     return this.HttpClient.get<any>(`${this.baseURL}User/getlast7logdetails`);
   }
-
+  logdetail(userId): Observable<any> {
+    return this.HttpClient.get<any>(`${this.baseURL}User/getlast15logdetails/${userId}`);
+  }
 }
