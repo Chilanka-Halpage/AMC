@@ -51,4 +51,11 @@ public class CurrencyserviseIml implements Currencyservice{
 		return currencyRepository.existsByCurrencyName(currencyName);
 	}
 
+	@Override
+	public Currency updateCurrency(HttpServletRequest httpServletRequest, Currency currency) {
+		String ipAddress = httpServletRequest.getRemoteAddr();
+		currency.setSavedIp(ipAddress);
+		return currencyRepository.save(currency);
+	}
+
 }

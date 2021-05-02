@@ -49,4 +49,9 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
 	public List<logindetailsDTo> logindetailslist() {
 		return loginDtailsRepository.logindetailslist();
 	}
+
+	@Override
+	public List<LoginDetails> logindetailslistbyId(String userId) {
+		return loginDtailsRepository.logindetailslistbyId(userId);
+	}
 }

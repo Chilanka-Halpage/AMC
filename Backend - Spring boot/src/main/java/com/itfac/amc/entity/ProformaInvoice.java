@@ -56,6 +56,12 @@ public class ProformaInvoice extends Auditable {
 	@Column(name = "total_amount_lkr")
 	private BigDecimal totalAmtLkr;
 	
+	@Column(name = "total_payble")
+	private BigDecimal totalPayble;
+	
+	@Column(name = "total_payble_lkr")
+	private BigDecimal totalPaybleLkr;
+	
 	@Column(length = 100, nullable = false)
 	private String remark;
 	
@@ -70,27 +76,26 @@ public class ProformaInvoice extends Auditable {
 	
 	@ManyToOne()
 	@JoinColumn(name = "frequency_id", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk1"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Frequency frequency;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_dept_id", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk2"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private ClientDepartment clientDepartment;
 	
 	@ManyToOne()
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk3"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Category category;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk4"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AmcMaster amcMaster;
 	
 	@ManyToOne()
 	@JoinColumn(name = "currency_id", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk5"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Currency currency;
+	
+	@ManyToOne()
+	@JoinColumn(name = "tax_id", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk6"))
+	private Tax tax;
 
 }

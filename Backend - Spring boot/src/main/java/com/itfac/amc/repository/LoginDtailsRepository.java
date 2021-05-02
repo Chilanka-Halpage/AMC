@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.itfac.amc.dto.logindetailsDTo;
@@ -18,6 +19,10 @@ public interface LoginDtailsRepository extends JpaRepository<LoginDetails, Integ
 	@Query(value = "Select u.user_id, u.uname, ld.loged_ip, ld.loged_datetime from user u, login_details ld where u.user_id = ld.user_id" , nativeQuery = true)
 	List<viewLoginDetails> loginDetails();
 
-	@Query(value = "SELECT * FROM login_details ORDER BY logno DESC LIMIT 7", nativeQuery = true)
+	@Query(value = "Select u.user_id, u.uname, ld.loged_ip, ld.loged_datetime from user u, login_details ld where u.user_id = ld.user_id ORDER BY logno DESC LIMIT 15", nativeQuery = true)
 	List<logindetailsDTo> logindetailslist();
+	
+	@Query(value = "Select * from  login_details where user_id=:user_id ORDER BY logno DESC LIMIT 15", nativeQuery = true)
+	List<LoginDetails> logindetailslistbyId(@Param("user_id") String userId);
+	
 }

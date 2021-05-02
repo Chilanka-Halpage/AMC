@@ -1,8 +1,12 @@
 package com.itfac.amc.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,39 +62,9 @@ public class ReceiptController {
 		return ResponseEntity.status(HttpStatus.OK).body(receiptDate);
 	}
 
-	@GetMapping("/lastyearrevanue/{Date1}/{Date2}")
-	public String TotalrevanuelastYear(
-			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
-			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
-		return receiptService.TotalrevanuelastYear(Date1, Date2);
-	}
-
-	@GetMapping("/last2yearrevanue/{Date1}/{Date2}")
-	public String Totalrevanuelast2Year(
-			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
-			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
-		return receiptService.Totalrevanuelast2Year(Date1, Date2);
-	}
-
-	@GetMapping("/last3yearrevanue/{Date1}/{Date2}")
-	public String Totalrevanuelast3Year(
-			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
-			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
-		return receiptService.Totalrevanuelast3Year(Date1, Date2);
-	}
-
-	@GetMapping("/last4yearrevanue/{Date1}/{Date2}")
-	public String Totalrevanuelast4Year(
-			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
-			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
-		return receiptService.Totalrevanuelast4Year(Date1, Date2);
-	}
-
-	@GetMapping("/last5yearrevanue/{Date1}/{Date2}")
-	public String Totalrevanuelast5Year(
-			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
-			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
-		return receiptService.Totalrevanuelast5Year(Date1, Date2);
+	@GetMapping("/lastyearrevanue/{Date1}")
+	public List<BigDecimal> TotalrevanuelastYear(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1) {
+		return receiptService.TotalrevanuelastYear(Date1);
 	}
 
 	@GetMapping("findreceiptsforclient/{id}")

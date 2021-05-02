@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
+import com.itfac.amc.dto.addRecieptDto;
+import com.itfac.amc.dto.recieptDto;
 import com.itfac.amc.entity.AmcSerial;
 import com.itfac.amc.reportData.AllAmcs;
 import com.itfac.amc.reportData.ClientAmc;
@@ -86,4 +88,12 @@ public interface AmcSerialRepository extends JpaRepository<AmcSerial, String> {
 	// renevel amc counnt for client home
 	@Query(value = "select count(*) from renewal_amc where user_id = :user_id and renewal BETWEEN :Date1 AND :Date2", nativeQuery = true)
 	String getRenewalAmc(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2, @Param("user_id") String user_id );
+	
+	//receipt detaisl
+	@Query(value = "select ct.category_name, sa.category_id,sa.client_dept_id , cn.currency_name,  cn.currency_id from amc_serial sa, category ct, currency cn where sa.category_id = ct.category_id and sa.currency_id = cn.currency_id and amc_no=amc_no", nativeQuery = true)
+	addRecieptDto getdetalis(@Param("amc_no") String amc_no );
+
 }
+
+
+

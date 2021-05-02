@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.dto.logindetailsDTo;
+import com.itfac.amc.entity.LoginDetails;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.reportData.viewLoginDetails;
 import com.itfac.amc.service.LoginDetailsService;
@@ -160,5 +161,12 @@ public class UserController {
 	public List<logindetailsDTo> logindetailslist(){
 		return loginDetailsService.logindetailslist();
 	}
+	
+	@GetMapping("getlast15logdetails/{userId}")
+	public List<LoginDetails> logindetailslistbyId(	@PathVariable("userId") String userId){
+		return loginDetailsService.logindetailslistbyId(userId);
+		
+	}
+	
 
 }

@@ -154,6 +154,7 @@ public class ReportController {
 			List<Map<String, Object>> revenue=new ArrayList<>();
 			revenue.add(parameters);
 			return revenue;
+			
 	}
 
 	// amc reminder for dashboard-----------------------------------
@@ -182,7 +183,7 @@ public class ReportController {
 		return count.size();
 	}
 	//renewel amc for clinet
-	@GetMapping("/RenewelAmccountC/{id}/{Date1}/{Date2}")
+	@GetMapping("/dashboard/RenewelAmccountC/{id}/{Date1}/{Date2}")
 	public String getRenewalAmc(
 			@PathVariable("id") String id,
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
