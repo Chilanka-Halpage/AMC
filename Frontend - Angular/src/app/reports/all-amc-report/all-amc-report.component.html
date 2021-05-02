@@ -62,6 +62,13 @@ class="mat-elevation-z8, table table-striped table-hover ">
       <td *ngIf="resultsLength" class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
   </tr>
   </table>
+<div class="font-italic d-flex justify-content-center" *ngIf="isLoadingResults">
+    Loading data...
+</div>
+<div class="font-italic d-flex justify-content-center"
+            *ngIf="!isLoadingResults && !resultsLength">
+            No data
+</div>
   <br>
-<button (click)="viewPdf()" mat-raised-button color="primary">view PDF</button>
+<button (click)="viewPdf()" [disabled]="!resultsLength" mat-raised-button color="primary">view PDF</button>
 </div>

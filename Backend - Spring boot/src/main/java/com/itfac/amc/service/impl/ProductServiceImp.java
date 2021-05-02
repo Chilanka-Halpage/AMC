@@ -3,6 +3,8 @@ package com.itfac.amc.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +37,9 @@ public class ProductServiceImp implements ProductService {
 	}
 
 	@Override
-	public Product addProduct(Product product) {
+	public Product addProduct(Product product,HttpServletRequest httpServletRequest) {
+		String ipAddress = httpServletRequest.getRemoteAddr();
+		product.setSavedIp(ipAddress);
 		return productrepo.save(product);
 	}
 

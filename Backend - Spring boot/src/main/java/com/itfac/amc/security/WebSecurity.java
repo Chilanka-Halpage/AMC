@@ -87,6 +87,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/tax/deleteTax/{id}").hasRole("ADMIN")
 			.antMatchers("/User/admin/**").hasRole("ADMIN")
 			.antMatchers("/User/getUname/{idname}").hasRole("CLIENT")
+			.antMatchers("/User/forgot_password").permitAll()
+			.antMatchers("/User/logoutDetails/{userId}").permitAll()
 			.antMatchers("/User/**").authenticated()
 			.antMatchers("/notification/**").authenticated()
 			.antMatchers("/authenticate").permitAll()

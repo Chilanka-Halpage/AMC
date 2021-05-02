@@ -37,7 +37,7 @@ public class AmcSerialController {
 	@Autowired
 	FileStorageService fileStorageService;
 
-	@RequestMapping("add/{amcNo}")
+	@PostMapping("add/{amcNo}")
 	public ResponseEntity<String> addNewAmcSerial(@RequestParam("data") String amcSerial,
 			@RequestParam("file") MultipartFile file, @PathVariable(value = "amcNo") String amcNo)
 			throws JsonMappingException, JsonProcessingException {

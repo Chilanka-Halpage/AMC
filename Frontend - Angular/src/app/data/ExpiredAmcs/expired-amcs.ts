@@ -1,6 +1,6 @@
 export class ExpiredAmcs {
     amc_no : String
-	due_date : Date
+	mtc_end_date : Date
 	category_name : String
 	client_name : String
 	contact_no : String

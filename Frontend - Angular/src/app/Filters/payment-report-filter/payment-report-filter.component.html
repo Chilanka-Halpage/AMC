@@ -1,9 +1,11 @@
-
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <div style="background-color: rgb(255, 255, 255);">
     <div class="container" class="class1">
       <div>
         <h2>AMC Payment Details Report</h2>
-        <form [formGroup]="paymentReportsFilter" (ngSubmit)="onSubmit()">
+        <form [formGroup]="paymentReportsFilter">
           <b>From Date:</b>
           <div>
             <mat-form-field appearance="outline">
@@ -32,8 +34,20 @@
               <mat-error *ngIf="f.date2.errors.confirmedValidator"><h5>"From date" should be before than "to date".</h5></mat-error> 
              </mat-error>
           </div>
+          <b>Category:</b>
+          <div>
+          <mat-form-field appearance="outline" class="col-15 col-md-auto">
+           <mat-label>Choose an option</mat-label>
+           <mat-select formControlName="category" required>
+             <mat-option value="all" selected="true">All</mat-option>
+             <mat-option value="software">Software</mat-option>
+             <mat-option value="hardware">Hardware</mat-option>
+           </mat-select>
+           <mat-error *ngIf="paymentReportsFilter.get('category').hasError('required')">Category is required</mat-error>
+         </mat-form-field>
+       </div>
           <br>
-          <button class="btn btn-primary" type="submit" [disabled]="!paymentReportsFilter.valid"  mat-dialog-close>Generate Report</button>
+          <button class="btn btn-primary" type="submit" [disabled]="!paymentReportsFilter.valid" (click)="onSubmit()">Generate Report</button>
         </form>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { ReportDetailsService } from 'src/app/data/report-details.service';
@@ -12,8 +13,10 @@ import { ClientAmc } from '../../data/ClientAmc/client-amc';
 })
 export class ClientAmcComponent implements OnInit {
 
-  clientAmc : ClientAmc;
+  clientAmc : MatTableDataSource<ClientAmc>;
   cId : any
+  public isLoadingResults = true;
+  public resultsLength = 0;
 
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
@@ -32,7 +35,9 @@ export class ClientAmcComponent implements OnInit {
   ClientAmc(cId){
     this.reportDetailsService.ClientAmc(cId).subscribe(
       data=>{
-      this.clientAmc = data;
+      this.clientAmc = new MatTableDataSource(data);
+      this.isLoadingResults=false;
+      this.resultsLength = this.clientAmc.data.length;
     });
   }
 

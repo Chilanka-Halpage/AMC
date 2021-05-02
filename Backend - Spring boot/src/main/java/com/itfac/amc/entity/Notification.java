@@ -41,8 +41,8 @@ public class Notification {
 	@JsonIgnore
 	private User user;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "amc_serial_no", foreignKey = @ForeignKey(name = "user_fk2"))
-	@JsonIgnore
-	private AmcSerial amcSerial;
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "amc_serial_no", foreignKey = @ForeignKey(name = "user_fk2"))
+//	@JsonIgnore
+//	private AmcSerial amcSerial;
 }

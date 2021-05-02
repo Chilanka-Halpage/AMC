@@ -9,7 +9,7 @@
 		<![CDATA[]]>
 	</queryString>
 	<field name="amc_no" class="java.lang.String"/>
-	<field name="due_date" class="java.sql.Date"/>
+	<field name="mtc_end_date" class="java.sql.Date"/>
 	<field name="client_name" class="java.lang.String"/>
 	<field name="category_name" class="java.lang.String"/>
 	<field name="contact_no" class="java.lang.String"/>
@@ -96,7 +96,7 @@
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Due Date]]></text>
+				<text><![CDATA[Expired date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="160" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="2bc9f444-871e-4ba6-b2d8-5c0e301325af">
@@ -175,7 +175,7 @@
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{due_date}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{mtc_end_date}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="160" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">

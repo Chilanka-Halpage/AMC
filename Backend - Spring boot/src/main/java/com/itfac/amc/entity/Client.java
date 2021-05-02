@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.itfac.amc.util.Auditable;
+import com.itfac.amc.validation.OnCreate;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,24 +29,24 @@ public class Client extends Auditable {
 	@Column(name = "client_id")
 	private int clientId;
 
-	@NotEmpty(message = "Client name cannot be empty")
-	@Size(max = 100, message = "Client name must be maximum 100 characters")
+	@NotEmpty(message = "Client name cannot be empty", groups = OnCreate.class)
+	@Size(max = 100, message = "Client name must be maximum 100 characters", groups = OnCreate.class)
 	@Column(name = "client_name", length = 100, nullable = false)
 	private String clientName;
 
 	private boolean active;
 
-	@NotEmpty(message = "Contact number cannot be empty")
-	@Size(min = 10, max = 60, message = "Contact number must be between 10 and 60 characters")
+	@NotEmpty(message = "Contact number cannot be empty", groups = OnCreate.class)
+	@Size(min = 10, max = 60, message = "Contact number must be between 10 and 60 characters", groups = OnCreate.class)
 	@Column(name = "contact_no", length = 60, nullable = false)
 	private String contactNo;
 
-	@NotEmpty(message = "Contact person cannot be empty")
-	@Size(max = 100, message = "Contact person must be maximum 100 characters")
+	@NotEmpty(message = "Contact person cannot be empty", groups = OnCreate.class)
+	@Size(max = 100, message = "Contact person must be maximum 100 characters", groups = OnCreate.class)
 	@Column(name = "contact_person", length = 100, nullable = false)
 	private String contactPerson;
 
-	@NotEmpty(message = "Contact person cannot be empty")
+	@NotEmpty(message = "Address cannot be empty", groups = OnCreate.class)
 	@Column(nullable = false)
 	private String address;
 

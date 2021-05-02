@@ -1,10 +1,12 @@
 
-  
+ <div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div> 
 <div style="background-color: rgb(255, 255, 255);">
     <div class="container" class="class1">
       <div>
         <h2>Quarter Wise Revenue Report</h2>
-        <form [formGroup]="quarterWiseReport" (ngSubmit)="onSubmit()">
+        <form [formGroup]="quarterWiseReport">
           <div>
             <mat-form-field appearance="outline" style="width: 300px;">
               <mat-label>Choose a year</mat-label>
@@ -37,7 +39,7 @@
               </mat-form-field>
           </div>
           <br>
-          <button type="submit" mat-raised-button color="primary" mat-dialog-close>Generate Report</button>
+          <button type="submit" mat-raised-button color="primary" (click)="onSubmit()">Generate Report</button>
         </form>
       </div>
     </div>

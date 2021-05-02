@@ -1,11 +1,13 @@
-
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <mat-sidenav-container class="sidenav-container" >
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async ) === true"
-      [hidden]="!_authentication.loggedIn()" >
-    <mat-toolbar ><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 55px;"></mat-toolbar>
+      [opened]="(isHandset$ | async) === true"
+      [hidden]="!_authentication.loggedIn()">
+    <mat-toolbar><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 30px;"></mat-toolbar>
     <mat-nav-list >
         <mat-accordion>
           <mat-expansion-panel>

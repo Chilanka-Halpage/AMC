@@ -6,7 +6,7 @@
   <div class="container" class="class1">
     <div>
       <h2>All AMC Details Report</h2>
-      <form [formGroup]="allAmcFilter" (ngSubmit)="onSubmit()">
+      <form [formGroup]="allAmcFilter" >
         <b>From Date:</b>
         <div>
           <mat-form-field appearance="outline">
@@ -27,16 +27,25 @@
             <input matInput [matDatepicker]="picker2" formControlName="date2" required>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
-            
             <mat-error *ngIf="allAmcFilter.get('date2').hasError('required')">to date is required</mat-error>
             </mat-form-field>
+            </div>
            <br>
-         <mat-error *ngIf="f.date2.invalid">
-           <mat-error *ngIf="f.date2.errors.confirmedValidator"><h5>"From date" should be less than "to date".</h5></mat-error> 
-          </mat-error>
+           <b>Category:</b>
+           <div>
+           <mat-form-field appearance="outline" class="col-15 col-md-auto">
+            <mat-label>Choose an option</mat-label>
+            <mat-select formControlName="category" required>
+              <mat-option value="all" selected="true">All</mat-option>
+              <mat-option value="software">Software</mat-option>
+              <mat-option value="hardware">Hardware</mat-option>
+            </mat-select>
+            <mat-error *ngIf="allAmcFilter.get('category').hasError('required')">Category is required</mat-error>
+          </mat-form-field>
         </div>
-        <button class="btn btn-primary" type="submit" [disabled]="!allAmcFilter.valid" mat-dialog-close="closeDialog">Generate Report</button>
-      </form>
+        <br>
+        <button class="btn btn-primary" type="submit" [disabled]="!allAmcFilter.valid" (click)="onSubmit()">Generate Report</button>
+    </form>
     </div>
   </div>
   </div>
