@@ -88,9 +88,6 @@ export class DepartmentListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.resultsLength = this.dataSource.data.length;
     }, error => {
-      if(error.status === 403){
-        
-      }
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
     })
