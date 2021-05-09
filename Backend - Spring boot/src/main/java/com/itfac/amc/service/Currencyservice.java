@@ -21,4 +21,6 @@ public interface Currencyservice {
 
 	boolean doesCurrencyExists(String name);
 
+	Currency updateCurrency(HttpServletRequest httpServletRequest, Currency currency);
+
 }

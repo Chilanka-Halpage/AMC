@@ -17,7 +17,7 @@
                     <mat-form-field appearance="outline" class="col-6">
                       <mat-label>recNo:</mat-label>
                       <input type="text" matInput formControlName="recNo" >  
-                      <mat-error *ngIf="addReceiptForm.controls['recNo'].errors?.taxNameExists">recNo already exists </mat-error> 
+                      <mat-error *ngIf="addReceiptForm.controls['recNo'].errors?.receiptExists">recNo already exists </mat-error> 
                       <mat-error *ngIf="addReceiptForm.controls['recNo'].touched && addReceiptForm.controls['recNo'].errors?.required">recNo required </mat-error> 
                     </mat-form-field>             
                       <mat-form-field appearance="outline"  class="col pl-2">
@@ -30,23 +30,24 @@
                   </div>
                   <div class="row px-0">
                     <mat-form-field appearance="outline" class="col-6">
-                      <mat-label>exchageRate:</mat-label>
-                      <input type="number" matInput formControlName="exchageRate" >   
+                      <mat-label>paymode:</mat-label>
+                      <input type="text" matInput formControlName="payMode">   
+                    
                     </mat-form-field>             
                     <mat-form-field appearance="outline" class="col pl-2">
                         <mat-label>description:</mat-label>
                         <input type="text" matInput formControlName="description">   
-                      </mat-form-field>
+                    </mat-form-field>
                   </div>
                   <br>
                   <div class="row px-0">
                     <mat-form-field appearance="outline" class="col-4">
-                      <mat-label>paymode:</mat-label>
-                      <input type="text" matInput formControlName="payMode">   
+                      <mat-label>exchageRate:</mat-label>
+                      <input type="number" matInput formControlName="exchageRate" >   
                     </mat-form-field>             
                     <mat-form-field appearance="outline" class="col pl-2">
-                        <mat-label>total:</mat-label>
-                        <input type="number" matInput formControlName="total" >   
+                      <mat-label>totalLkr:</mat-label>
+                      <input type="text" matInput formControlName="totalLkr" >   
                     </mat-form-field>
                     <mat-form-field appearance="outline" class="col pl-2">
                         <mat-label>balance:</mat-label>
@@ -55,9 +56,9 @@
                   </div>
                   <br>
                   <div class="row px-0">
-                    <mat-form-field appearance="outline" class="col-6">
-                      <mat-label>totalLkr:</mat-label>
-                      <input type="text" matInput formControlName="totalLkr" >   
+                    <mat-form-field appearance="outline" class="col-6">                    
+                      <mat-label>total:</mat-label>
+                      <input type="number" matInput formControlName="total" >  
                     </mat-form-field>             
                     <mat-form-field appearance="outline" class="col pl-2">
                         <mat-label>balanceLkr:</mat-label>
@@ -80,13 +81,14 @@
                   <div formGroupName="currency">        
                     <mat-form-field appearance="outline" class="col pl-2">
                       <mat-label>Currency</mat-label>
-                      <input type="number" matInput formControlName="currencyId" > 
+                      <input type="text" matInput formControlName="currencyId" > 
                     </mat-form-field>
                   </div>
                   <div formGroupName="clientDepartment">
                     <mat-form-field appearance="outline" class="col pl-3">
                         <mat-label>deptId:</mat-label>
-                        <input type="number" matInput formControlName="deptId" >   
+                        <input type="number" matInput formControlName="deptId">
+                     <!--     {{deptName}}  need to edit -->
                     </mat-form-field> 
                   </div>                  
                   </div>
@@ -94,7 +96,7 @@
                     <div formGroupName="category">
                     <mat-form-field appearance="outline" class="col-12">
                       <mat-label>Category</mat-label>
-                      <input type="number" matInput formControlName="categoryId" >  
+                      <input type="number" matInput formControlName="categoryId"> 
                     </mat-form-field> 
                   </div> 
                   <div formGroupName="invoice">          
@@ -105,7 +107,7 @@
                   </div>          
                   </div>
                   <div class="d-flex flex-row-reverse my-0">
-                    <button class="btn btn-success mb-3" type="submit" [disabled]="isDesabled"><span *ngIf="receiptProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
+                    <button class="btn btn-success mb-3" type="submit" [disabled]="isDesabled"><span *ngIf="ReceiptSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
                    </div>
             </form>
         </div>    

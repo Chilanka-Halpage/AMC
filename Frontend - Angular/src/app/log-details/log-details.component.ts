@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HomedetailsService } from '../homedetails.service';
 import { LoginDetails } from '../data/loginDetails/login-details';
 import { MatTableDataSource } from '@angular/material/table';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-log-details',
@@ -9,8 +10,10 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./log-details.component.scss']
 })
 export class LogDetailsComponent implements OnInit {
+  
+  loginDetails: MatTableDataSource<any>;
 
-  loginDetails: LoginDetails[] = []
+  displayedColumns:string[] = ['user_id','uname','loged_ip','loged_datetime'];
 
   constructor(
              private homedetalis: HomedetailsService
@@ -22,9 +25,7 @@ export class LogDetailsComponent implements OnInit {
 
   getLogindetails(){
     this.homedetalis.logdetails().subscribe(data =>{
-      this.loginDetails = data  
+      this.loginDetails = new MatTableDataSource(data)
   });
 }
-  
-
 }

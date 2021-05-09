@@ -4,6 +4,7 @@ import { Payment } from './payment';
 
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,21 @@ export class PaymentService {
   }
   doesReceiptExists(recNo: string): Observable<boolean> {
     return this.HttpClient.get<boolean>(`${this.baseURL}receipt/exists/${recNo}`);
+  }
+
+  getAMcSerialdetails(amcNo: String): Observable<any> {
+    return this.HttpClient.get<any>(`${this.baseURL}amcSerial/get/recietde/${amcNo}`);
+  }
+  
+  calculateAmcValueByExRate(form: FormGroup) {
+    form.get('exchageRate').valueChanges.subscribe((value: number) => {
+      const total = form.get('totalLkr').value * value
+      form.patchValue({ total: total });
+    });
+    form.get('totalLkr').valueChanges.subscribe((value: number) => {
+      const total = form.get('exchageRate').value * value;
+      form.patchValue({ total: total });
+    })
   }
 
 }

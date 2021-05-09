@@ -16,7 +16,7 @@
 	<field name="frequency" class="java.lang.String"/>
 	<field name="currency_name" class="java.lang.String"/>
 	<field name="exchage_rate" class="java.math.BigDecimal"/>
-	<field name="invoice_amount" class="java.math.BigDecimal"/>
+	<field name="department_name" class="java.lang.String"/>
 	<field name="total_value_lkr" class="java.math.BigDecimal"/>
 	<field name="mtc_qty" class="java.lang.Integer"/>
 	<background>
@@ -120,7 +120,7 @@
 				<text><![CDATA[Client Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="320" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="858ec9fc-7602-4d1e-848d-6d3f7c99dfcd">
+				<reportElement mode="Opaque" x="400" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="858ec9fc-7602-4d1e-848d-6d3f7c99dfcd">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5e90b6b1-e94a-4b79-a3db-0002b3c06db0"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -129,7 +129,7 @@
 				<text><![CDATA[Category Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="480" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="fe85a7bb-c51e-4cae-a0b4-1a83ab7cd660">
+				<reportElement mode="Opaque" x="560" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="fe85a7bb-c51e-4cae-a0b4-1a83ab7cd660">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b356be95-e9bd-44e5-a657-7680af79c061"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -138,16 +138,16 @@
 				<text><![CDATA[Frequency]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="560" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="b89feb6f-abd0-4683-a54a-46cf23477489">
+				<reportElement mode="Opaque" x="640" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="b89feb6f-abd0-4683-a54a-46cf23477489">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b973823-28f4-457c-a398-e0af49dab8da"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Currency Name]]></text>
+				<text><![CDATA[Currency]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="640" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="b89feb6f-abd0-4683-a54a-46cf23477489">
+				<reportElement mode="Opaque" x="720" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="b89feb6f-abd0-4683-a54a-46cf23477489">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b973823-28f4-457c-a398-e0af49dab8da"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -156,13 +156,13 @@
 				<text><![CDATA[Exchage Rate]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="720" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
+				<reportElement mode="Opaque" x="320" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a12d9db6-5d8a-4f38-9dc6-871807718384"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Invoice Amount]]></text>
+				<text><![CDATA[Department Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="800" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="85f45384-4c40-4913-ac42-b37dae70af1c">
@@ -174,7 +174,7 @@
 				<text><![CDATA[Total Value Lkr]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="400" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="85f45384-4c40-4913-ac42-b37dae70af1c">
+				<reportElement mode="Opaque" x="480" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="85f45384-4c40-4913-ac42-b37dae70af1c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9630fc95-03cb-4dbf-8ed1-6c10873a3a90"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -214,7 +214,7 @@
 				<textFieldExpression><![CDATA[$F{client_name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="320" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="83c37a2c-5284-4eb0-95c9-92f15cbae8be">
+				<reportElement mode="Opaque" x="400" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="83c37a2c-5284-4eb0-95c9-92f15cbae8be">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5e90b6b1-e94a-4b79-a3db-0002b3c06db0"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -223,7 +223,7 @@
 				<textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="480" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="c1e27979-0d66-4be8-8afd-85e786232622">
+				<reportElement mode="Opaque" x="560" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="c1e27979-0d66-4be8-8afd-85e786232622">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b356be95-e9bd-44e5-a657-7680af79c061"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -232,7 +232,7 @@
 				<textFieldExpression><![CDATA[$F{frequency}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="560" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="f284a51b-31b4-483a-9fb5-4787b1048dbb">
+				<reportElement mode="Opaque" x="640" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="f284a51b-31b4-483a-9fb5-4787b1048dbb">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b973823-28f4-457c-a398-e0af49dab8da"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -241,7 +241,7 @@
 				<textFieldExpression><![CDATA[$F{currency_name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="640" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="f284a51b-31b4-483a-9fb5-4787b1048dbb">
+				<reportElement mode="Opaque" x="720" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="f284a51b-31b4-483a-9fb5-4787b1048dbb">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b973823-28f4-457c-a398-e0af49dab8da"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -250,13 +250,13 @@
 				<textFieldExpression><![CDATA[$F{exchage_rate}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="720" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
+				<reportElement mode="Opaque" x="320" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a12d9db6-5d8a-4f38-9dc6-871807718384"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{invoice_amount}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{department_name}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="800" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
@@ -268,7 +268,7 @@
 				<textFieldExpression><![CDATA[$F{total_value_lkr}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="400" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
+				<reportElement mode="Opaque" x="480" y="-18" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9630fc95-03cb-4dbf-8ed1-6c10873a3a90"/>
 				</reportElement>
 				<textElement textAlignment="Center">

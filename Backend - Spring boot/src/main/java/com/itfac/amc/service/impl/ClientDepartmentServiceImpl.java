@@ -73,7 +73,7 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 		user.setEmail(department.getEmail());
 		user.setRole("CLIENT");
 		user.setUname(client.getClientName());
-		user = userService.addUser(user);
+		user = userService.addUser(user, httpServletRequest);
 
 		client.setUser(user);
 		department.setLastModifiedIp(ipAddress);

@@ -125,7 +125,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{q1}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" pattern="MM/dd/yyyy">
+			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="130" y="5" width="150" height="30" backcolor="#E0FFFF" uuid="478e8bca-53e7-4f40-b092-c9d2cd62f258">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dc0d59-4e2d-42ab-aec3-abb79e62ca6d"/>
 				</reportElement>

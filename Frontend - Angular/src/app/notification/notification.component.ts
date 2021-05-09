@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { from } from 'rxjs';
 import { NotificationService } from '../data/notification.service';
 import { Notification } from '../data/notification/notification'
@@ -11,8 +12,10 @@ import { AuthenticationService } from '../_helpers/authentication.service';
 })
 export class NotificationComponent implements OnInit {
 
-  notifications: Notification;
+  notifications: MatTableDataSource<Notification>;
   userId :any
+  public isLoadingResults = true;
+  public resultsLength = 0;
   constructor(
     private notificationService: NotificationService,
     public _authentication: AuthenticationService,
@@ -26,7 +29,11 @@ export class NotificationComponent implements OnInit {
   getNotifications() {
     this.notificationService.getNotification(this._authentication.userId).subscribe(
       data => {
-        this.notifications = data;
+        this.notifications = new MatTableDataSource(data);
+        console.log(data)
+        this.isLoadingResults=false;
+        this.resultsLength = this.notifications.data.length;
+       // this.a=data.is_read
       })
   }
 
@@ -34,6 +41,6 @@ export class NotificationComponent implements OnInit {
     //this.notifications.is_read==false
   }
 
-displayedColumns: string[] = ['saved_date', 'notification'];
+displayedColumns: string[] = ['savedDate', 'notification'];
 
 }

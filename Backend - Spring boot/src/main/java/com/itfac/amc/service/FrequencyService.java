@@ -3,6 +3,8 @@ package com.itfac.amc.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.itfac.amc.entity.Frequency;
 
 public interface FrequencyService {
@@ -13,10 +15,10 @@ public interface FrequencyService {
 
 	Optional<Frequency> getFrequencyById(int id);
 
-	Frequency addFrequency(Frequency frequency);
-
 	List<Frequency> getActiveFrequency();
 
 	void updateFrequency(Frequency frequency, int frequencyId);
+
+	Frequency addFrequency(Frequency frequency, HttpServletRequest httpServletRequest);
 
 }

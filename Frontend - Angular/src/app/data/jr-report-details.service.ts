@@ -19,8 +19,8 @@ export class JrReportDetailsService {
   constructor( private httpClient: HttpClient ) { }
 
   //All AMCs jasper report
-  AllAmcPdfReport(Date1 ,Date2, userId): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseURL}jrReport/AllAmcsJrReport/${Date1}/${Date2}/${userId}`,
+  AllAmcPdfReport(date1 ,date2,category, userId): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseURL}jrReport/allAmcCtgWiseJr/${date1}/${date2}/${category}/${userId}`,
     {
       responseType : 'text' as 'json'
     });
@@ -67,8 +67,8 @@ export class JrReportDetailsService {
   }
 
   //Payments Details jasper report
-  PaymentsDetailsJrReport(Date1 ,Date2, userId): Observable<PaymentsDetails>{
-    return this.httpClient.get<PaymentsDetails>(`${this.baseURL}jrReport/PaymentsJrReport/${Date1}/${Date2}/${userId}`,
+  PaymentsDetailsJrReport(Date1 ,Date2,category, userId): Observable<PaymentsDetails>{
+    return this.httpClient.get<PaymentsDetails>(`${this.baseURL}jrReport/PaymentsJrReport/${Date1}/${Date2}/${category}/${userId}`,
     {
       responseType : 'text' as 'json'
     });

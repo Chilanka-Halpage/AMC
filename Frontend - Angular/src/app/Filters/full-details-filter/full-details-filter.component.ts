@@ -6,6 +6,7 @@ import { from } from 'rxjs';
 import { JrReportDetailsService } from '../../data/jr-report-details.service';
 import { FullDetails } from '../../data/FullDetails/full-details'
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-full-details-filter',
@@ -15,6 +16,7 @@ import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 export class FullDetailsFilterComponent implements OnInit {
 
   FullDetails: FullDetails;
+  isLoadingResults ;
 
   constructor(
     public _authentication: AuthenticationService,
@@ -23,6 +25,7 @@ export class FullDetailsFilterComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private datePipe: DatePipe,
+    public dialogRef: MatDialogRef<FullDetailsFilterComponent>
     ) { } 
 
       fullDetailsFilter = this.fb.group({
@@ -37,15 +40,18 @@ export class FullDetailsFilterComponent implements OnInit {
   }
  
   onSubmit(){
-
+    this.isLoadingResults=true;
     let date1 = this.fullDetailsFilter.value.date1;
     let date2 = this.fullDetailsFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
-    this.router.navigate(['fullDetails',formatteddate1,formatteddate2]);
+    
 
     this.jrReportDetailsService.FullDetailsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
         Response => {console.log("success", Response)
+        this.isLoadingResults=false;
+        this.dialogRef.close();
+        this.router.navigate(['fullDetails',formatteddate1,formatteddate2]);
       },
         error => {console.log("Error!", error)
       });   

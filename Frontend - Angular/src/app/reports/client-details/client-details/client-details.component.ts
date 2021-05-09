@@ -17,7 +17,10 @@ import { MatTableDataSource } from '@angular/material/table';
 export class ClientDetailsComponent implements OnInit {
 
   clientDetails: MatTableDataSource<ClientDetails>
-  
+  public isLoadingResults = true;
+  public resultsLength = 0;
+  date1
+  date2
   constructor(
     public _authentication: AuthenticationService,
     private reportDetailsService: ReportDetailsService,
@@ -25,8 +28,7 @@ export class ClientDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private clientDetailsService: ClientDetailsService,
   ) { }
-  date1
-  date2
+
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
       this.date1 = params.get('date1');
@@ -42,21 +44,15 @@ export class ClientDetailsComponent implements OnInit {
     this.reportDetailsService.ClientDetails(date1,date2).subscribe(
       Response=>{
       this.clientDetails = new MatTableDataSource(Response) ;
+      this.isLoadingResults=false;
+      this.resultsLength = this.clientDetails.data.length;
     })
   }
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.clientDetails.filter = filterValue.trim().toLowerCase();
   }
-  //generate jasper report
-  ClientDetailsJrReport(date1,date2){
-    this.jrReportDetailsService.AllAmcPdfReport(date1,date2,this._authentication.userId).subscribe(
-      Response => {console.log("success", Response)
-    },
-      error => {console.log("Error!", error)
-    }
-    )
-  }
+  
   viewPdf() {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
       response => {

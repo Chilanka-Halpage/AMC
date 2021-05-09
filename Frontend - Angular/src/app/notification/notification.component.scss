@@ -37,3 +37,11 @@ table{
 .mat-column-notification {
   width: 75% !important;
 }
+.not_read {
+  background-color: rgb(181, 191, 255);
+  font-weight: bold;
+}
+
+.read {
+  background-color: rgb(255, 255, 255);
+}

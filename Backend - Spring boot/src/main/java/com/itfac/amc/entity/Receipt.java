@@ -72,26 +72,21 @@ public class Receipt extends Auditable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "receipt_fk1"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AmcMaster amcMaster;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_dept_id", nullable = false, foreignKey = @ForeignKey(name = "receipt_fk2"))
-	@OnDelete(action = OnDeleteAction.CASCADE)	
 	private ClientDepartment clientDepartment;
 	
 	@ManyToOne()
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "receipt_fk3"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Category category;
 	
 	@ManyToOne()
 	@JoinColumn(name = "currency_id", nullable = false, foreignKey = @ForeignKey(name = "receipt_fk4"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Currency currency;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pi_no", nullable = false, foreignKey = @ForeignKey(name = "receipt_fk5"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private ProformaInvoice invoice;
 }

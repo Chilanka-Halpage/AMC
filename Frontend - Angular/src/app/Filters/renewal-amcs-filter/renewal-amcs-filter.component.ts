@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
@@ -15,7 +16,7 @@ import { RenewalAmcs } from '../../data/RenewalAmcs/renewal-amcs'
 export class RenewalAmcsFilterComponent implements OnInit {
 
   renewalAmcs:RenewalAmcs;
-
+  isLoadingResults ;
   date=new Date();
 
   constructor(
@@ -25,6 +26,7 @@ export class RenewalAmcsFilterComponent implements OnInit {
     private jrReportDetailsService:JrReportDetailsService,
     private fb: FormBuilder,
     private datePipe: DatePipe,
+    public dialogRef: MatDialogRef<RenewalAmcsFilterComponent>
     ) { }
 
   RenewalAmcsFilter = this.fb.group({
@@ -35,6 +37,7 @@ export class RenewalAmcsFilterComponent implements OnInit {
   }
   
   onSubmit(){
+    this.isLoadingResults=true;
     let a = this.RenewalAmcsFilter.value.num;
     let formatteddate1 = this.datePipe.transform(this.date, "yyyy-MM-dd");
     console.log(formatteddate1);
@@ -43,9 +46,10 @@ export class RenewalAmcsFilterComponent implements OnInit {
     let formatteddate2 = this.datePipe.transform(this.date, "yyyy-MM-dd");
     console.log(formatteddate2);
     //this.router.navigate(['renewalAmcs',formatteddate1,formatteddate2]);
-  
     this.jrReportDetailsService.RenewalAmcsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.isLoadingResults=false;
+      this.dialogRef.close();
       this.router.navigate(['renewalAmcs',formatteddate1,formatteddate2]);
     },
       error => {console.log("Error!", error)

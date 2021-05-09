@@ -3,6 +3,8 @@ package com.itfac.amc.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,9 @@ public class FrequencyServiceImp implements FrequencyService {
 	}
 
 	@Override
-	public Frequency addFrequency(Frequency frequency) {
+	public Frequency addFrequency(Frequency frequency,HttpServletRequest httpServletRequest) {
+		String ipAddress = httpServletRequest.getRemoteAddr();
+		frequency.setSavedIp(ipAddress);
 		return frequencyrepo.save(frequency);
 	}
 

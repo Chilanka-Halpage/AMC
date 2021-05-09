@@ -30,7 +30,7 @@ mat-footer-row mat-footer-cell{
     position: absolute;
     top: 0;
     left: 0;
-    bottom: 56px;
+    bottom: 0px;
     right: 0;
     background: rgba(0, 0, 0, 0.15);
     z-index: 1;
@@ -53,3 +53,4 @@ mat-footer-row mat-footer-cell{
     background: #00CC00;
     color: white;
 }
+

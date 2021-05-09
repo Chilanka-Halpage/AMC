@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
@@ -14,7 +15,10 @@ import { ReportDetailsService } from '../../data/report-details.service'
 })
 export class RenewalAmcsReportComponent implements OnInit {
 
-  renewalAmcs: RenewalAmcs;
+  renewalAmcs: MatTableDataSource<RenewalAmcs>;
+  public isLoadingResults = true;
+  public resultsLength = 0;
+
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
     public _authentication: AuthenticationService,
@@ -36,7 +40,9 @@ export class RenewalAmcsReportComponent implements OnInit {
   RenewalAmcsDetails(date1,date2){
     this.reportDetailsService.RenewalAmcsDetails(date1,date2).subscribe(
       data=>{
-      this.renewalAmcs = data;
+      this.renewalAmcs =new MatTableDataSource(data);
+      this.isLoadingResults=false;
+      this.resultsLength = this.renewalAmcs.data.length;
     })
   }
   viewPdf() {
@@ -47,6 +53,6 @@ export class RenewalAmcsReportComponent implements OnInit {
         URL.revokeObjectURL(url);
       });
   }
-  displayedColumns: string[] = [ 'amc_no','amc_serial_no','renewal','user_id','client_name',
-  'category_name','frequency','currency_name','invoice_amount','total_value_lkr','mtc_qty', ];
+  displayedColumns: string[] = [ 'amc_no','amc_serial_no','renewal','client_name','department_name','conatact_no',
+  'category_name','frequency','currency_name','total_value_lkr','mtc_qty', ];
 }

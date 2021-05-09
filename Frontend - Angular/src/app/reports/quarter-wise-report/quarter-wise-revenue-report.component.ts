@@ -13,7 +13,10 @@ import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 })
 export class QuarterWiseRevenueReportComponent implements OnInit {
 
-  dataSource:any[];
+  dataSource:MatTableDataSource<any[]>;
+  public isLoadingResults = true;
+  public resultsLength = 0;
+
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
     public _authentication: AuthenticationService,
@@ -28,18 +31,15 @@ export class QuarterWiseRevenueReportComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.date1 = params.get('date1');
       console.log(this.date1); 
-      this.date2.setMonth(this.date1.getMonth() + 12);
       this.QuarterWiseRevenue(this.date1);
-     
     });
   }
   QuarterWiseRevenue(date1) {
     this.reportDetailsService.QuarterWiseRevenue(date1).subscribe(
       data => {
-        this.dataSource=data;
-        console.log(data)
-        
-        console.log(this.dataSource[0])
+        this.dataSource=new MatTableDataSource(data);
+        this.isLoadingResults=false;
+        this.resultsLength = this.dataSource.data.length;
       })
   }
   viewPdf() {

@@ -1,5 +1,6 @@
 package com.itfac.amc.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,11 +39,6 @@ public class TaxController {
 		return ResponseEntity.ok(newTax);
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "deleteTax/{id}")
-	public void deleteTax(@PathVariable("id") int taxId) {
-		taxService.deleteTax(taxId);
-	}
-
 	@GetMapping("findTax/{id}")
 	ResponseEntity<Optional<Tax>> getTaxById(@PathVariable("id") int taxId) {
 		Optional<Tax> taxByIdd = taxService.getTaxById(taxId);
@@ -69,5 +65,24 @@ public class TaxController {
 		boolean result = taxService.doesTaxExists(taxName);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+	
+	@RequestMapping(method = RequestMethod.DELETE, value = "deleteTax/{id}")
+	public ResponseEntity<String> deleteTax(@PathVariable("id") int taxId)throws Exception {
+		try {  taxService.deleteTax(taxId);
+		       return ResponseEntity.ok().body("succesfully delete");
+		}
+		catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		
+	}
+	
+	@RequestMapping("taxRate/{taxId}")
+	public ResponseEntity<BigDecimal> gettaxRate(@PathVariable("taxId") int taxId) {
+	  BigDecimal rate = taxService.gettaxRate(taxId);
+	  return ResponseEntity.status(HttpStatus.OK).body(rate);
+	}
 
 }
+
+

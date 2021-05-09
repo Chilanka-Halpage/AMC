@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { AuthenticationService } from '../_helpers/authentication.service';
 
 @Component({
   selector: 'app-listcategory',
@@ -22,11 +22,10 @@ export class ListcategoryComponent implements OnInit {
     private router: Router, 
     private formBuilder: FormBuilder, 
     private route: ActivatedRoute,
-    private location:Location) {}
+    private authService: AuthenticationService) {}
 
-    public  categoryAddForm: FormGroup;
+    public categoryAddForm: FormGroup;
     public submitted = false;
-    public id: number;
     public searchKey: string;
     public showMyMessage = false;
     public edit = false;
@@ -38,6 +37,7 @@ export class ListcategoryComponent implements OnInit {
     public cancelClicked = false;
     listData: MatTableDataSource<any>;
     categoryId:number;
+    public isAuthorized: boolean;
     
 
   displayedColumns: string[] = [
@@ -55,6 +55,7 @@ export class ListcategoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
     this._service.getCategoryList().subscribe(
       list => {
         this.listData = new MatTableDataSource(list);
@@ -70,11 +71,8 @@ export class ListcategoryComponent implements OnInit {
 
   }
  
-
   editCategoryListe(row) {
-   //this.router.navigate(['list', row.categoryId]);
    this.categoryId=row.categoryId;
-    console.log(row);
     this.edit = true;
 
     this.categoryAddForm.patchValue({
@@ -87,7 +85,7 @@ export class ListcategoryComponent implements OnInit {
     console.log(id);
     this._service.deleteCategory(id).subscribe(
       data => {
-        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()}); 
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {window.location.reload()}); 
       },
       error => {
         console.log(error);
@@ -99,7 +97,7 @@ export class ListcategoryComponent implements OnInit {
     this.dataSavingProgress = true;
     this._service
       .createCategory(this.categoryAddForm.value).subscribe(data => {
-        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload() });
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
         this.dataSavingProgress = false;
         console.log(data)
       },
@@ -121,7 +119,7 @@ export class ListcategoryComponent implements OnInit {
     console.log(this.route.snapshot.params.id);
     this._service.updateCategory(this.categoryId, this.categoryAddForm.value).subscribe(
       (result) => {
-        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {});
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {window.location.reload()});
         this.dataSavingProgress = false;
       }, error => {
         console.log(error);
@@ -130,26 +128,11 @@ export class ListcategoryComponent implements OnInit {
       }).add(()=>this.dataSavingProgress=false)
     }
 
-  reload() {
-    this.edit = false;
-    this.resetForm();
-    this._service.getCategoryList().subscribe(
-      list => {
-        this.listData = new MatTableDataSource(list);
-        this.listData.sort = this.sort;
-        this.listData.paginator = this.paginator;
-      });
-    //this.resetForm();
-  }
-
-  resetForm(): void {
-    this.categoryAddForm.reset();
-  }
-
   onSearchClear() {
     this.searchKey = "";
     this.applyFilter();
   }
+
   applyFilter() {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }

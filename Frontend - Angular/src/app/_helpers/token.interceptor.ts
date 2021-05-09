@@ -3,7 +3,8 @@ import { Injectable, Injector, Pipe } from '@angular/core';
 import {HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {AuthenticationService} from './authentication.service';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
+import { LoginDetailsService } from '../data/login-details.service'
+import { from, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   constructor(
     private injector: Injector,
-    private router: Router,
-    private authService: AuthenticationService
+    private loginDetailsService:LoginDetailsService
   ) { }
 
   intercept(request: HttpRequest<any>, next: any): any {
@@ -27,14 +27,24 @@ export class TokenInterceptor implements HttpInterceptor {
         }
       });
     }
-    return next.handle(request).pipe(catchError(err => {
-      if(err.status === 0) return throwError('Network connection failure');
-      else if (err.status === 403) {
-        this.authService.logoutUser();
-        this.router.navigate(['/login']);
-        return throwError(err.message);
-      }
-      return throwError(err);
-    }))
+    // return next.handle(request).pipe(catchError(err => {
+    //   if(err.status === 0) return throwError('Network connection failure');
+    //   else if (err.status === 403) {
+    //     this.authService.logoutUser();
+    //     this.router.navigate(['/login']);
+    //     return throwError(err.message);
+    //   }
+    //   return throwError(err);
+    // }))
+    return next.handle(request)
+    // .pipe(catchError(err => {
+    //   if(err.status === 0) return throwError('Network connection failure');
+    //   else if (err.status === 403) {
+    //     console.log("hello")
+    //     this.loginDetailsService.logoutDetails();
+    //     return throwError(err.message);
+    //   }
+    //   return throwError(err);
+    // }))
   }
 }

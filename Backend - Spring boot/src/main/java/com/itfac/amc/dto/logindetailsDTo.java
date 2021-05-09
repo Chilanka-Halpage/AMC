@@ -8,5 +8,6 @@ public interface logindetailsDTo {
 	public String getuname();
 	public String getloged_ip();
 	public Date getloged_datetime();
-
+    public Date getlogout_datetime();
+	
 }

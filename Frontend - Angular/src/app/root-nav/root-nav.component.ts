@@ -17,7 +17,9 @@ import { HomedetailsService } from '../homedetails.service';
 import { QuarterWiseReportComponent } from '../Filters/quarter-wise-report/quarter-wise-report.component';
 import { JrReportDetailsService } from '../data/jr-report-details.service';
 import { NotificationService } from '../data/notification.service';
-import {ImageService} from '../data/image-service.service';
+import { ImageService } from '../data/image-service.service';
+import { LoginDetailsService } from '../data/login-details.service'
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-root-nav',
@@ -26,10 +28,12 @@ import {ImageService} from '../data/image-service.service';
 })
 export class RootNavComponent {
   
+  
   userId : String
   imgSource : String
   public imageSrc: string;
-  notificationNo
+  notificationNo;
+  isLoadingResults;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -44,7 +48,7 @@ export class RootNavComponent {
     public _authentication: AuthenticationService,
     private router: Router,
     private homedetalis: HomedetailsService,
-    
+    private loginDetailsService : LoginDetailsService,
     private notificationService:NotificationService,
     private imageService: ImageService
   ) { }
@@ -54,9 +58,12 @@ export class RootNavComponent {
   }
 
   logout() {
-    this._authentication.logoutUser();
-    this.router.navigate(['/login']);
-    this.logoutmessage();
+    this.loginDetailsService.logoutDetails().subscribe(
+      Responce =>{
+        this.router.navigate(['/login']);
+        this.logoutmessage();
+      }
+    )
   }
   logedin() {
     this._authentication.loggedIn();
@@ -68,6 +75,7 @@ export class RootNavComponent {
   logoutmessage() {
     this.dialog.open(MessageComponent);
   }
+
   ngOnInit(): void {
     this.notificationCount()
     this.imageSrc= this.imageService.Image(this._authentication.userId);
@@ -101,13 +109,12 @@ export class RootNavComponent {
     this.dialog.open(QuarterWiseReportComponent)
   }
 
-
-
   //Client AMC
   ClientAmc(){
-    //this.router.navigate([`clientAmc/${this._authentication.userId}`]);
+    this.isLoadingResults=true;
     this.jrReportDetailsService.ClientAmcJrReport(this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.isLoadingResults=false;
       this.router.navigate([`clientAmc/${this._authentication.userId}`]);
     },
       error => {console.log("Error!", error)
@@ -117,9 +124,10 @@ export class RootNavComponent {
 
   //Client Payment report
   ClientPayment(){
-    //this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
+    this.isLoadingResults=true;
     this.jrReportDetailsService.ClientPaymentJrReport(this._authentication.userId).subscribe(
       Response => {console.log("success", Response)
+      this.isLoadingResults=false;
       this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
     },
       error => {console.log("Error!", error)

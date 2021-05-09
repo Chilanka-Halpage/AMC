@@ -4,10 +4,11 @@ import { product } from '../product';
 import { Observable } from 'rxjs';
 import { ActivatedRoute,Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import {FormGroup,FormControl,FormBuilder, Validators} from '@angular/forms';
+import {FormGroup,FormBuilder, Validators} from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { AuthenticationService } from '../_helpers/authentication.service';
 
 @Component({
   selector: 'app-productlist',
@@ -20,12 +21,12 @@ export class ProductlistComponent implements OnInit {
     private router: Router,
     private formBuilder:FormBuilder,
     private route: ActivatedRoute,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthenticationService
     ) { }
     public products: Observable<product[]>;
     public productAddForm: FormGroup;
     public submitted = false;
-    //public id: number;
     public edit=false;
     public filterValue: string;
     listData: MatTableDataSource<any>;
@@ -39,6 +40,7 @@ export class ProductlistComponent implements OnInit {
     public confirmClicked = false;
     public cancelClicked = false;
     productId:number;
+    public isAuthorized: boolean;
 
   displayedColumns: string[] = [
     'id',
@@ -56,7 +58,7 @@ export class ProductlistComponent implements OnInit {
   @ViewChild(MatPaginator) paginator:MatPaginator;
 
   ngOnInit() {
-
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
     this.productAddForm=this.formBuilder.group(
       {
         productName:['',[Validators.required]],
@@ -87,7 +89,7 @@ export class ProductlistComponent implements OnInit {
     this._service.deleteProduct(id)
       .subscribe(
         data => {
-          this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});  
+          this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});  
         },
         error => {
           console.log(error);
@@ -98,7 +100,7 @@ export class ProductlistComponent implements OnInit {
     this.dataSavingProgress = true;
     this._service
     .createProduct(this.productAddForm.value).subscribe(data => {
-      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
+      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
       this.dataSavingProgress = false;
       console.log(data) 
     }, 
@@ -114,25 +116,11 @@ export class ProductlistComponent implements OnInit {
     this.submitted = true;
     this.save();    
   }
-  reload(){
-    this.edit=false;
-    this._service.getProductList().subscribe(
-      list => {
-       this.listData = new MatTableDataSource(list);
-       this.listData.sort= this.sort;
-       this.listData.paginator=this.paginator;
-        
-      });
-      this.resetForm();
-  }
-  resetForm(): void {
-    this.productAddForm.reset();
-  }
   onEdit(){
     this.dataSavingProgress = true;
     this._service.updateProduct(this.productId,this. productAddForm.value).subscribe(
       (result)=>{
-        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
         this.dataSavingProgress = false;
         console.log(result);
       }, error => {

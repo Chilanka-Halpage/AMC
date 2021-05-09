@@ -11,7 +11,7 @@
 	<field name="mtc_start_date" class="java.sql.Date"/>
 	<field name="mtc_end_date" class="java.sql.Date"/>
 	<field name="frequency" class="java.lang.String"/>
-	<field name="mtc_amt_for_frequency" class="java.math.BigDecimal"/>
+	<field name="mtc_amount_for_given_frequency" class="java.math.BigDecimal"/>
 	<field name="total_value_lkr" class="java.math.BigDecimal"/>
 	<field name="active" class="java.lang.Boolean"/>
 	<background>
@@ -251,7 +251,7 @@
 				<textElement textAlignment="Center">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{mtc_amt_for_frequency}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{mtc_amount_for_given_frequency}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="800" y="-17" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">

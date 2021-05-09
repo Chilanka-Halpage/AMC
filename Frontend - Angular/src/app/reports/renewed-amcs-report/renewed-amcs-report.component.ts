@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
@@ -13,7 +14,10 @@ import {RenewedAmcs} from '../../data/RenewedAmcs/renewed-amcs'
 })
 export class RenewedAmcsReportComponent implements OnInit {
 
-renewedAmcs : RenewedAmcs;
+renewedAmcs : MatTableDataSource<RenewedAmcs>;
+public isLoadingResults = true;
+public resultsLength = 0;
+
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
     public _authentication: AuthenticationService,
@@ -34,7 +38,9 @@ renewedAmcs : RenewedAmcs;
   renewedAmcsDetails(date1,date2){
     this.reportDetailsService.RenewedAmcsDetails(date1,date2).subscribe(
       data=>{
-      this.renewedAmcs = data;
+      this.renewedAmcs = new MatTableDataSource(data);
+      this.isLoadingResults=false;
+      this.resultsLength = this.renewedAmcs.data.length;
     })
   }
   viewPdf() {
@@ -45,7 +51,7 @@ renewedAmcs : RenewedAmcs;
         URL.revokeObjectURL(url);
       });
   }
-  displayedColumns: string[] = [    'amc_no','amc_serial_no','mtc_start_date','client_name',
-  'category_name','mtc_qty','frequency','currency_name','exchage_rate','invoice_amount','total_value_lkr', ];
+  displayedColumns: string[] = [    'amc_no','amc_serial_no','mtc_start_date','client_name','department_name',
+  'category_name','mtc_qty','frequency','currency_name','exchage_rate','total_value_lkr', ];
 
 }

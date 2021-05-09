@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import com.itfac.amc.reportData.AllAmcs;
 import com.itfac.amc.reportData.ClientAmc;
@@ -22,7 +23,7 @@ public interface ReportService {
 
 	public List<ClientDetails> getAllClientDetails(LocalDate date1, LocalDate date2);
 
-	public List<AllAmcs> getAllAmc(LocalDate Date1, LocalDate Date2);
+	//public List<AllAmcs> getAllAmc(LocalDate Date1, LocalDate Date2);
 
 	public List<RenewedAmcs> getRenewedAmcs(LocalDate Date1, LocalDate Date2);
 
@@ -34,11 +35,14 @@ public interface ReportService {
 
 	public List<ClientAmc> clientAmcReport(String user_id);
 
-	public List<PaymentReport> paymentReport(LocalDate Date1, LocalDate Date2);
+	public List<PaymentReport> paymentReport(LocalDate Date1, LocalDate Date2, String category);
 
 	public List<ClientPaymentsDetails> ClientPaymentsReport(String user_id);
 
-	public List<viewLoginDetails> loginDetails();
+	public List<Map<String, Object>> QuarterWiseRevenue(LocalDate date1);
+	
+	//all amcs ctegory wise report
+	public List<AllAmcs> getAllAmcCtgWise(LocalDate Date1, LocalDate Date2,String category);
 
 	List<GetClientAmc> getclientAmc(String amc_no) throws Exception;
 

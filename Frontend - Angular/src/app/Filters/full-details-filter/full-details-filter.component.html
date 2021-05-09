@@ -1,8 +1,11 @@
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <div style="background-color: rgb(255, 255, 255);">
     <div class="container" class="class1">
       <div>
         <h2>Full AMC Details Report</h2>
-        <form [formGroup]="fullDetailsFilter" (ngSubmit)="onSubmit()">
+        <form [formGroup]="fullDetailsFilter">
           <b>From Date:</b>
           <div>
             <mat-form-field appearance="outline">
@@ -32,7 +35,7 @@
              </mat-error>
           </div>
           <br>
-          <button class="btn btn-primary" type="submit" [disabled]="!fullDetailsFilter.valid"  mat-dialog-close>Generate Report</button>
+          <button class="btn btn-primary" type="submit" [disabled]="!fullDetailsFilter.valid" (click)="onSubmit()">Generate Report</button>
         </form>
       </div>
     </div>

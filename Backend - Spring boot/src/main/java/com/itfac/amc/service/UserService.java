@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
@@ -13,8 +15,6 @@ public interface UserService {
 	Optional<User> getUserById(String id);
 
 	void deleteUser(String id);
-
-	User addUser(User user);
 
 	public User getUser(String userId);
 
@@ -37,5 +37,7 @@ public interface UserService {
 	User getByUserName(User user);
 
 	void updateUser(User user, String userId);
+
+	User addUser(User user, HttpServletRequest httpServletRequest);
 
 }

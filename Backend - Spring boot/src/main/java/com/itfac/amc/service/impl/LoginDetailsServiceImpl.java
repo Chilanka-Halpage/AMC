@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.itfac.amc.dto.logindetailsDTo;
@@ -23,11 +24,9 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
 	@Autowired
 	private LoginDtailsRepository loginDtailsRepository;
 
-	// login details---------------------------------
-	// get from userdetailscontroller-----------------------
 	@Override
-	public List<viewLoginDetails> loginDetails() {
-		return loginDtailsRepository.loginDetails();
+	public List<viewLoginDetails> loginDetails(Pageable pageable) {
+		return loginDtailsRepository.loginDetails(pageable);
 	}
 
 	@Override
@@ -40,13 +39,25 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
 		loginDetails.setUser(user);
 		Date date = new Date();
 		loginDetails.setLogedTime(date);
-		loginDetails.setLogoutIp(ipAddress);
-		loginDetails.setLogoutTime(date);
 		return loginDtailsRepository.save(loginDetails);
+	}
+	
+	@Override
+	public void logOutDetails(HttpServletRequest httpServletRequest, String userId) {
+		String ipAddress = httpServletRequest.getRemoteAddr();
+		Date logoutDate = new Date();
+		System.out.println(ipAddress);
+		System.out.println(logoutDate);
+		loginDtailsRepository.updateLogoutDetails(ipAddress,logoutDate,userId);
 	}
 
 	@Override
 	public List<logindetailsDTo> logindetailslist() {
 		return loginDtailsRepository.logindetailslist();
+	}
+
+	@Override
+	public List<LoginDetails> logindetailslistbyId(String userId) {
+		return loginDtailsRepository.logindetailslistbyId(userId);
 	}
 }

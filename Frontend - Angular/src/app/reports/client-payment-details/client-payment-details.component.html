@@ -1,7 +1,7 @@
 <div class="container mt-2">
     <h3 class="">AMC Report</h3>
     <table mat-table [dataSource]="clientPaymentDetails" class="mat-elevation-z8"
-        class="mat-elevation-z8, table table-striped table-hover ">
+        class="mat-elevation-z8, table table-striped table-hover">
         <ng-container matColumnDef="amc_no">
             <th mat-header-cell *matHeaderCellDef class="align-middle"> AMC No </th>
             <td mat-cell *matCellDef="let element" class="align-middle"> {{element.amc_no}} </td>
@@ -10,13 +10,21 @@
             <th mat-header-cell *matHeaderCellDef class="align-middle">Amc Serial No</th>
             <td mat-cell *matCellDef="let element" class="align-middle"> {{element.amc_serial_no}} </td>
         </ng-container>
+        <ng-container matColumnDef="department_name">
+            <th mat-header-cell *matHeaderCellDef class="align-middle">department_name</th>
+            <td mat-cell *matCellDef="let element" class="align-middle"> {{element.department_name}} </td>
+        </ng-container>
         <ng-container matColumnDef="rec_date">
             <th mat-header-cell *matHeaderCellDef class="align-middle">rec_date</th>
-            <td mat-cell *matCellDef="let element" class="align-middle"> {{element.rec_date}} </td>
+            <td mat-cell *matCellDef="let element" class="align-middle">{{element.rec_date}} </td>
+        </ng-container>
+        <ng-container matColumnDef="rec_no">
+            <th mat-header-cell *matHeaderCellDef class="align-middle">rec_no</th>
+            <td mat-cell *matCellDef="let element" class="align-middle"> {{element.rec_no}} </td>
         </ng-container>
         <ng-container matColumnDef="product_name">
             <th mat-header-cell *matHeaderCellDef class="align-middle">product_name</th>
-            <td mat-cell *matCellDef="let element" class="align-middle">{{element.product_name}} </td>
+            <td mat-cell *matCellDef="let element" class="align-middle"> {{element.product_name}} </td>
         </ng-container>
         <ng-container matColumnDef="currency_name">
             <th mat-header-cell *matHeaderCellDef class="align-middle">currency_name</th>
@@ -30,13 +38,20 @@
             <th mat-header-cell *matHeaderCellDef class="align-middle">total</th>
             <td mat-cell *matCellDef="let element" class="align-middle"> {{element.total}} </td>
         </ng-container>
-        <ng-container matColumnDef="total_lkr">
-            <th mat-header-cell *matHeaderCellDef class="align-middle">total_lkr</th>
-            <td mat-cell *matCellDef="let element" class="align-middle"> {{element.total_lkr}} </td>
+        <ng-container matColumnDef="balance">
+            <th mat-header-cell *matHeaderCellDef class="align-middle">balance</th>
+            <td mat-cell *matCellDef="let element" class="align-middle"> {{element.balance}} </td>
         </ng-container>
         <tr mat-header-row class="p-3 mb-2 bg-primary text-white align-middle" *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <div class="font-italic d-flex justify-content-center" *ngIf="isLoadingResults">
+        Loading data...
+    </div>
+    <div class="font-italic d-flex justify-content-center"
+                *ngIf="!isLoadingResults && !resultsLength">
+                No data
+    </div>
     <br>
-    <button (click)="viewPdf()" mat-raised-button color="primary">view PDF</button>
+    <button (click)="viewPdf()"  [disabled]="!resultsLength"  mat-raised-button color="primary">view PDF</button>
 </div>
