@@ -32,8 +32,8 @@ public class AmcMasterController {
 	@PostMapping("add/{clientId}")
 	public ResponseEntity<String> addNewAmc(@Validated(OnCreate.class) @RequestBody AmcMaster amcMaster,
 			@PathVariable("clientId") int clientId, HttpServletRequest httpServletRequest) {
-		//String result = amcService.addNewAmcByClientId(httpServletRequest, amcMaster, clientId);
-		return ResponseEntity.status(HttpStatus.OK).body("");
+		String result = amcService.addNewAmcByClientId(httpServletRequest, amcMaster, clientId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("get/amcs/{amcNo}")

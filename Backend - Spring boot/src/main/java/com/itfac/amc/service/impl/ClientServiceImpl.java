@@ -27,10 +27,11 @@ public class ClientServiceImpl implements ClientService {
 	public void updateClient(HttpServletRequest httpServletRequest, Client client) {
 		String ipAddress = httpServletRequest.getRemoteAddr();
 		client.setLastModifiedIp(ipAddress);
-
-		if (clientRepository.existsById(client.getClientId()))
+		Client existingClient = clientRepository.findById(client.getClientId()).orElse(null);
+		if (existingClient != null) {
+			client.setUser(existingClient.getUser());
 			clientRepository.save(client);
-		else
+		} else
 			throw new ResourceNotFoundException("No record for client ID: " + client.getClientId());
 
 	}

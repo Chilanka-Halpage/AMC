@@ -63,12 +63,12 @@ public class AmcMaster extends Auditable{
 	@NotNull(message = "Total value connot be null", groups = OnCreate.class)
 	@Positive(message = "Value must be Positive", groups = OnCreate.class)
 	@Column(name = "total_value", columnDefinition = "decimal(10,2) default 0.0")
-	private BigDecimal totalValue = new BigDecimal(0.0);
+	private BigDecimal totalValue;
 
 	@NotNull(message = "Total value LKR connot be null", groups = OnCreate.class)
 	@Positive(message = "Value must be Positive", groups = OnCreate.class)
 	@Column(name = "total_value_lkr", columnDefinition = "decimal(10,2) default 0.0")
-	private BigDecimal totalValueLkr = new BigDecimal(0.0);
+	private BigDecimal totalValueLkr;
 
 	@NotEmpty(message = "Remark connot be empty", groups = OnCreate.class)
 	@Size(max = 100, message = "Maximum length must be 100", groups = OnCreate.class)
@@ -83,12 +83,14 @@ public class AmcMaster extends Auditable{
 	@Column(name = "last_modified_ip", length = 20)
 	private String lastModifiedIp;
 
+	//@NotNull(message = "Client connot be null in AMC master", groups = OnCreate.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_id", nullable = false, foreignKey = @ForeignKey(name = "amc_master_fk1"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private Client client;
 
+	@NotNull(message = "Currency connot be null in AMC master", groups = OnCreate.class)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "currency_id", nullable = false, foreignKey = @ForeignKey(name = "amc_master_fk2"))
 	@OnDelete(action = OnDeleteAction.CASCADE)

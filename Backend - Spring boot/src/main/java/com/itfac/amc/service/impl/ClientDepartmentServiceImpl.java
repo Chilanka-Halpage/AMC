@@ -71,7 +71,7 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 		user.setActive(true);
 		user.setContactNo(client.getContactNo());
 		user.setEmail(department.getEmail());
-		user.setRole("client");
+		user.setRole("CLIENT");
 		user.setUname(client.getClientName());
 		user = userService.addUser(user);
 
