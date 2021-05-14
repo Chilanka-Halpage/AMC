@@ -27,9 +27,13 @@ public interface LoginDtailsRepository extends JpaRepository<LoginDetails, Integ
 	@Query(value = "Select * from viewlogindetails" , nativeQuery = true)
 	List<viewLoginDetails> loginDetails(Pageable pageable);
 
-	@Query(value = "SELECT * FROM login_details ORDER BY logno DESC LIMIT 7", nativeQuery = true)
+	@Query(value = "Select u.user_id, u.uname, ld.loged_ip, ld.loged_datetime from user u, login_details ld where u.user_id = ld.user_id ORDER BY logno DESC LIMIT 15", nativeQuery = true)
 	List<logindetailsDTo> logindetailslist();
 	
+	@Query(value = "Select * from  login_details where user_id=:user_id ORDER BY logno DESC LIMIT 15", nativeQuery = true)
+	List<LoginDetails> logindetailslistbyId(@Param("user_id") String userId);
+	
+
 	@Modifying
 	@Transactional
 	@Query(value = "update login_details set logout_ip= :logout_ip, logout_datetime = :logout_datetime Where user_id = :user_id ORDER BY loged_datetime DESC LIMIT 1", nativeQuery = true)

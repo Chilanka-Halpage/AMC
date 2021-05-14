@@ -24,7 +24,6 @@ export class TaxFComponent implements OnInit {
     private notificationService: NotificationService,
   ) { }
 
-  tax: Tax = new Tax();
   taxId: number;
   private taxForm$: Observable<any>;
   public isDesabled = false;
@@ -46,7 +45,8 @@ export class TaxFComponent implements OnInit {
   }
 
   saveTax() {
-    this.taxService.createTax(this.tax).subscribe(data => {
+    if(this.addtaxForm.valid){
+    this.taxService.createTax(this.addtaxForm.value).subscribe(data => {
       this.TaxSavingProgress = true; 
        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/taxlist']) });
        
@@ -54,12 +54,14 @@ export class TaxFComponent implements OnInit {
       error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
                   this.notificationService.showNoitfication(message, 'OK', 'error', null); }
       );
+    }else{
+      this.TaxSavingProgress = false; 
+    }
   }
   goToTaxList() {
     this.router.navigate(['/taxlist']);
   }
   onSubmit() {
-    console.log(this.addtaxForm.value);
     this.saveTax();
   }
   private checkStatus(): void {
@@ -67,7 +69,6 @@ export class TaxFComponent implements OnInit {
     this.taxForm$.subscribe(response => {
       if (response === 'PENDING') {
         setTimeout(() => {
-          console.log("gg");
           this.addtaxForm.updateValueAndValidity();
         }, 2000);
       }

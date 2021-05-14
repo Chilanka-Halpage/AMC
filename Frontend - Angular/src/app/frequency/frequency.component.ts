@@ -2,10 +2,11 @@ import { FrequencyserviceService } from './../frequencyservice.service';
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import {FormGroup,FormControl,FormBuilder, Validators} from '@angular/forms';
+import {FormGroup,FormBuilder, Validators} from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { AuthenticationService } from '../_helpers/authentication.service';
 
 @Component({
   selector: 'app-frequency',
@@ -19,11 +20,10 @@ export class FrequencyComponent implements OnInit {
     private router: Router,
     private formBuilder:FormBuilder,
     private notificationService: NotificationService,
-    private route: ActivatedRoute) { }
+    private authService: AuthenticationService) { }
 
     public frequencyAddForm: FormGroup;
     public submitted = false;
-    //public id: number;
     public searchKey:string;
     public edit=false;
     public dataSavingProgress = false;
@@ -36,6 +36,7 @@ export class FrequencyComponent implements OnInit {
     public cancelClicked = false;
     listData: MatTableDataSource<any>;
     frequencyId:number;
+    public isAuthorized: boolean;
 
   displayedColumns: string[] = [
     'id', 
@@ -52,6 +53,7 @@ export class FrequencyComponent implements OnInit {
   @ViewChild(MatPaginator) paginator:MatPaginator;
 
   ngOnInit(){
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
     this.frequencyAddForm=this.formBuilder.group(
       {
         frequency:['',[Validators.required]],
@@ -84,7 +86,7 @@ deleteFrequencyList(id: number) {
 console.log(id);
 this._service.deleteFrequency(id).subscribe(
     data => {
-      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()}); 
+      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()}); 
     },
     error => {
       console.log(error);
@@ -96,7 +98,7 @@ save() {
 this.dataSavingProgress = true;
 this._service
 .createFrequency(this.frequencyAddForm.value).subscribe(data => {
-  this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
+  this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
   this.dataSavingProgress = false;
   console.log(data)
  
@@ -109,7 +111,6 @@ error => {
 }
 
 onSubmit() {
-console.log(this.frequencyAddForm);
 this.submitted = true;
 this.save();    
 }
@@ -118,7 +119,7 @@ onEdit(){
   this.dataSavingProgress = true;
   this._service.updateFrequency(this.frequencyId,this.frequencyAddForm.value).subscribe(
     (result)=>{
-      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.reload()});
+      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
       this.dataSavingProgress = false;
     }, error => {
     console.log(error);
@@ -127,20 +128,6 @@ onEdit(){
   }).add(()=>this.dataSavingProgress=false)
   
 }
-reload(){
-  this._service.getFrequencyList().subscribe(
-    list => {
-  
-      this.listData = new MatTableDataSource(list);
-      this.listData.sort= this.sort;
-      this.listData.paginator=this.paginator;
-      this.resetForm();
-    });
-}
-resetForm(): void {
-  this.frequencyAddForm.reset();
-}
-
 onSearchClear(){
   this.searchKey="";
   this.applyFilter();
@@ -151,7 +138,7 @@ applyFilter(){
 }
 
 }
-function add(arg0: () => boolean) {
-  throw new Error('Function not implemented.');
-}
+// function add(arg0: () => boolean) {
+//   throw new Error('Function not implemented.');
+// }
 

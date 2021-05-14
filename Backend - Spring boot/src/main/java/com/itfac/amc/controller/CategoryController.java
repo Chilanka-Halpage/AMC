@@ -3,6 +3,8 @@ package com.itfac.amc.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.entity.Category;
 import com.itfac.amc.service.CategoryService;
+import com.itfac.amc.validation.OnCreate;
+import com.itfac.amc.validation.OnUpdate;
 
 @RestController
 @RequestMapping("category/")
@@ -55,14 +59,14 @@ public class CategoryController {
 	}
 
 	@PostMapping("AddCategory")
-	public ResponseEntity<String> AddCategory(@Validated @RequestBody Category category) {
-		categoryservice.AddCategory(category);
+	public ResponseEntity<String> AddCategory(@Validated(OnCreate.class) @RequestBody Category category,HttpServletRequest httpServletRequest) {
+		categoryservice.AddCategory(category,httpServletRequest);
 		return ResponseEntity.status(HttpStatus.OK).body("added successfull");
 
 	}
 
 	@PutMapping("UpdateCategory/{id}")
-	public ResponseEntity<String> updateCategory(@PathVariable("id") int categoryId, @RequestBody Category category) {
+	public ResponseEntity<String> updateCategory(@PathVariable("id") int categoryId,@Validated(OnUpdate.class) @RequestBody Category category) {
 		category.setCategoryId(categoryId);
 		categoryservice.updateCategory(category,categoryId);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");

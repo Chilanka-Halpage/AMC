@@ -17,5 +17,6 @@ public interface ProformaInvoiceDto {
 	int getcurrency_id();
 	int getclient_dept_id();
 	String getremark();
+	String getsaved_by();
 
 }

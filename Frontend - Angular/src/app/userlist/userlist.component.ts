@@ -30,9 +30,10 @@ export class UserlistComponent implements OnInit {
   isEdit=false;
   userEditForm:FormGroup;
   public dataSavingProgress = false;
+  userId:number;
   
 
-  displayedColumns: string[] = ['userId', 'uname','role', 'active', 'email','contactNo','action'];
+  displayedColumns: string[] = ['userId', 'uname','role', 'active', 'email','contactNo','savedIp','savedBy','savedOn','lastModifiedBy','lastModifiedOn','action'];
   
   @ViewChild(MatSort) sort:MatSort;
   @ViewChild(MatPaginator) paginator:MatPaginator;
@@ -62,9 +63,9 @@ export class UserlistComponent implements OnInit {
  
      onEdit(){
       this.dataSavingProgress = true;
-       this._service.updateUser(this.route.snapshot.params.id,this.userEditForm.value).subscribe(
+       this._service.updateUser(this.userId,this.userEditForm.value).subscribe(
         (result)=>{
-          this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.ngOnInit() });
+          this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
           this.dataSavingProgress = false;
           console.log(result,"data update successfull")
         }, error => {
@@ -77,16 +78,14 @@ export class UserlistComponent implements OnInit {
        
   editUserList(row) {
     this.isEdit=true;
-    this.router.navigate(['userList',row.userId]);
+    //this.router.navigate(['userList',row.userId]);
+    this.userId=row.userId;
     this.userEditForm.patchValue({
       role:row.role,
       active:row.active
-    });
-    
+    });  
    }
   
-   
-
    deleteUserList(id: number) {
     console.log(id);
     this._service.deleteUser(id).subscribe(
@@ -107,13 +106,8 @@ export class UserlistComponent implements OnInit {
     this.searchKey="";
     this.applyFilter();
   }
+
   applyFilter() {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
-
-  
-
-
-
-
 }

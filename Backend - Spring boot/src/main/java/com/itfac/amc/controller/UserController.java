@@ -24,11 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.dto.logindetailsDTo;
+import com.itfac.amc.entity.LoginDetails;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.reportData.viewLoginDetails;
 import com.itfac.amc.service.LoginDetailsService;
 import com.itfac.amc.service.UserService;
 import com.itfac.amc.service.impl.UserNotFoundException;
+import com.itfac.amc.validation.OnCreate;
+import com.itfac.amc.validation.OnUpdate;
 
 import net.bytebuddy.utility.RandomString;
 
@@ -67,20 +70,19 @@ public class UserController {
 	}
 
 	@PostMapping("admin/AddUser")
-	public ResponseEntity<String> addUser(@Validated @RequestBody User user) {
+	public ResponseEntity<String> addUser(@Validated(OnCreate.class) @RequestBody User user,HttpServletRequest httpServletRequest) {
 		User userr =userservice.getByUserName(user);
 		if(userr==null) {
-		 userservice.addUser(user);
+		 userservice.addUser(user,httpServletRequest);
 		 return ResponseEntity.ok().body("succefully added.");
 		}
 		else {
-			userservice.addUser(user);
 			return ResponseEntity.badRequest().body("User already exist.");
 		}
 	}
 
 	@PutMapping("admin/updateUser/{id}")
-	public ResponseEntity<String> updateUsers(@PathVariable("id") String userId,@RequestBody User user) {
+	public ResponseEntity<String> updateUsers(@PathVariable("id") String userId,@Validated(OnUpdate.class) @RequestBody User user) {
 		userservice.updateUser(user,userId);
 		return ResponseEntity.ok().body("succefully updated");
 	}
@@ -162,8 +164,14 @@ public class UserController {
 	@GetMapping("getlast7logdetails")
 	public List<logindetailsDTo> logindetailslist() {
 		return loginDetailsService.logindetailslist();
-	}
-	
+	}	
+
+	@GetMapping("getlast15logdetails/{userId}")
+	public List<LoginDetails> logindetailslistbyId(	@PathVariable("userId") String userId){
+		return loginDetailsService.logindetailslistbyId(userId);
+		
+	}	
+
 	//logout details
 	@PutMapping("logoutDetails/{userId}")
 	public void logoutDetails(HttpServletRequest httpServletRequest,@PathVariable("userId") String userId){

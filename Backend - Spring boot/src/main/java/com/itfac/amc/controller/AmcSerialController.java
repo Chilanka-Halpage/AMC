@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
+import com.itfac.amc.dto.addRecieptDto;
 import com.itfac.amc.service.AmcSerialService;
 import com.itfac.amc.service.FileStorageService;
 
@@ -86,5 +87,10 @@ public class AmcSerialController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
 
 	}
-
+	
+	@GetMapping("get/recietde/{amc_No}")
+	public ResponseEntity<addRecieptDto> getdetalis(@PathVariable(value = "amc_No") String amcNo) {
+		addRecieptDto receiptde = amcSerialService.getdetalis(amcNo);
+		return ResponseEntity.status(HttpStatus.OK).body(receiptde);
+	}
 }

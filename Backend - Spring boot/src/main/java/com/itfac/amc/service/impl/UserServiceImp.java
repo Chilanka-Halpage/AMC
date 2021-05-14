@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.Random;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,13 +49,11 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-
-	public User addUser(User user) {
+	public User addUser(User user,HttpServletRequest httpServletRequest) {
 		
-	
-
-		String Password = user.getUname();
+		String uName = user.getUname().toLowerCase();
 		String userId = genarateUserId();
+		String Password=uName+"@"+userId;
 		user.setUserId(userId);
 		user.setPassword(encoder.encode(Password));
 		String Email = user.getEmail();
@@ -68,6 +68,8 @@ public class UserServiceImp implements UserService {
 			System.out.println(e);
 			e.printStackTrace();
 		}
+		String ipAddress = httpServletRequest.getRemoteAddr();
+		user.setSavedIp(ipAddress);
 		return userRepository.save(user);
 
 	}

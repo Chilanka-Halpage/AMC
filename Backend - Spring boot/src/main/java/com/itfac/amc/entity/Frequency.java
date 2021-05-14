@@ -9,6 +9,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.itfac.amc.util.Auditable;
+import com.itfac.amc.validation.OnCreate;
+import com.itfac.amc.validation.OnUpdate;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,8 +24,8 @@ public class Frequency extends Auditable {
 	@Column(name = "frequency_id")
 	private int frequencyId;
 
-	@NotEmpty(message = "Frequency cannot be Empty")
-	@Size(max = 100, message = "Frequecny must be 100 characters")
+	@NotEmpty(message = "Frequency cannot be Empty",groups = {OnCreate.class,OnUpdate.class})
+	@Size(max = 100, message = "Frequecny must be 100 characters",groups = {OnCreate.class,OnUpdate.class})
 	@Column(nullable = false, length = 100)
 	private String frequency;
 

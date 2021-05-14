@@ -59,6 +59,9 @@
                     <button mat-icon-button color="accent" (click)="gotoinvoice(element.amc_no)">
                         <mat-icon>select_all</mat-icon>
                     </button>
+                    <button mat-icon-button color="accent" (click)="createinvoice(element.amc_no)">
+                        <mat-icon>view_list</mat-icon>
+                    </button>
                 </td>
             </ng-container>
             <tr mat-header-row class="bg-primary" *matHeaderRowDef="displayedColumns"></tr>

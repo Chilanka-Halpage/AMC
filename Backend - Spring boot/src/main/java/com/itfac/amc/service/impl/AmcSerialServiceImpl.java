@@ -17,6 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
+import com.itfac.amc.dto.addRecieptDto;
+import com.itfac.amc.dto.recieptDto;
 import com.itfac.amc.entity.AmcMaster;
 import com.itfac.amc.entity.AmcProduct;
 import com.itfac.amc.entity.AmcSerial;
@@ -139,6 +141,11 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 		amcSerial.setAmcMaster(amcMaster);
 		amcSerial.setContractUrl(contractUrl);
 		amcSerialRepository.save(amcSerial);
+	}
+
+	@Override
+	public addRecieptDto getdetalis(String amc_no) {
+		return amcSerialRepository.getdetalis(amc_no);
 	}
 
 }

@@ -1,3 +1,4 @@
+import { Invoice } from './../invoice';
 import { AmcMaster } from './../Model/amc-master.model';
 import { Category } from './../Model/category';
 import { PaymentService } from './../payment.service';
@@ -26,15 +27,15 @@ export class CreateReceiptComponent implements OnInit {
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public errorMessage = "Unknown Error"
-  receiptProgress = false
+  ReceiptSavingProgress = false
  
   private deptId: number;
-  private amc_no: number;
+  private amc_no: String;
+  private deptName:String
   pi_no: number; 
   private receiptForm$: Observable<any>;
   public isDesabled = false;
   public type: any;
-  public ReceiptSavingProgress = false;
 
   constructor(
     private fb: FormBuilder,
@@ -48,14 +49,14 @@ export class CreateReceiptComponent implements OnInit {
     recNo: ['', [Validators.required],[this.existReceiptValidator()], blur],
     recDate: ['',[Validators.required]],
     cancel: false,
-    cancelReason: ['', [Validators.required]],
-    exchageRate: [''],
+    cancelReason: [''],
+    exchageRate: ['',[Validators.required]],
     description: ['', [Validators.required]],
     payMode: ['',[Validators.required]],
     total: ['',[Validators.required]],
-    balance: [''],
-    totalLkr: [''],
-    balanceLkr: [''],
+    balance: ['',[Validators.required]],
+    totalLkr: ['',[Validators.required]],
+    balanceLkr: ['',[Validators.required]],
     savedIp: [''],
     canceledBy: [''],
     canceledOn: [''],
@@ -78,27 +79,42 @@ export class CreateReceiptComponent implements OnInit {
 
   ngOnInit(): void { 
     this.checkStatus()
+    this.calculate()
+    this.pi_no = this.route.snapshot.params['pi_no'];
     this.route.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
       this.deptId = value.id;
       this.amc_no = value.amcno;
+      this.deptName = value.dname
       this.addReceiptForm.patchValue({ 
-        invoice:{ piNo:this.pi_no},
         amcMaster:{ amcNo:this.amc_no },
-        clientDepartment:{deptId:this.deptId}
+        clientDepartment:{deptId:this.deptId},
+        invoice:{piNo:this.pi_no}
        })
     });
-    console.log(this.pi_no)
+    this.paymentService.getAMcSerialdetails(this.amc_no).subscribe(data=>{
+      this.addReceiptForm.patchValue({ 
+        currency:{ currencyId:data.currency_id},
+        category:{ categoryId:data.category_id}
+       })
+       console.log(data)
+       },
+    error => console.log(error));
   }
 
   saveReceipt() {
+    if(this.addReceiptForm.valid){
     this.paymentService.createReceipt(this.addReceiptForm.value).subscribe(data => {
-      this.receiptProgress = true
+      this.ReceiptSavingProgress = true
       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {this.goTopaymentlist(); });  
     },
     error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
                 this.notificationService.showNoitfication(message, 'OK', 'error', null); }
     );
+  }else{
+    this.ReceiptSavingProgress = false; 
+  }
+   
   }
 
   goTopaymentlist() {
@@ -108,34 +124,6 @@ export class CreateReceiptComponent implements OnInit {
   onSubmit() {
     console.log(this.addReceiptForm.value);
     this.saveReceipt();
-  }
-  private loadSelectionData() {
-    let currencListLoad = false,categoryListLoad = false, invoiceListLoad = false;
-    this.paymentService.getactiveCurrency().subscribe(response => {
-      this.currencyList = response;
-      this.isLoadingResults = ((currencListLoad = true) &&  categoryListLoad && invoiceListLoad) ? false : true  ;
-    }, error => {
-      this.isLoadingResults = false;
-      this.isRateLimitReached = true;
-      this.errorMessage = error;
-    });
-    this.paymentService.getCategory().subscribe(response => {
-      this.categoryList = response;
-      this.isLoadingResults = ((categoryListLoad = true) && currencListLoad) ? false : true;
-    }, error => {
-      this.isLoadingResults = false;
-      this.isRateLimitReached = true;
-      this.errorMessage = error;
-    });
-    this.paymentService.getActiveInvoices().subscribe(response => {
-      this.invoiceList = response;
-      this.isLoadingResults = ((invoiceListLoad = true) && currencListLoad) ? false : true;
-    }, error => {
-      this.isLoadingResults = false;
-      this.isRateLimitReached = true;
-      this.errorMessage = error;
-    });  
-    console.log(this.pi_no)
   }
 
   private checkStatus(): void {
@@ -149,6 +137,7 @@ export class CreateReceiptComponent implements OnInit {
       }
     })
   }
+
   private existReceiptValidator():AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       if (!this.type) {
@@ -164,4 +153,9 @@ export class CreateReceiptComponent implements OnInit {
       return of(null);
     };
   }
+  
+  calculate(): void{
+    this.paymentService.calculateAmcValueByExRate(this.addReceiptForm)
+  }
+  
 }

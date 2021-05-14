@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,8 +43,13 @@ public class CurrencyController {
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "deleteCurrency/{id}")
-	public void deleteCurrency(@PathVariable("id") int currencyId) {
-		currencyservice.deleteCurrency(currencyId);
+	public ResponseEntity<String> deleteCurrency(@PathVariable("id") int currencyId)throws Exception {
+	   try {	currencyservice.deleteCurrency(currencyId);
+	          return ResponseEntity.ok().body("succesfully delete");
+	          }
+	   catch(Exception e) {
+		   return ResponseEntity.badRequest().body(e.getMessage());
+	   }
 	}
 
 	@PostMapping("/add")
@@ -58,11 +64,18 @@ public class CurrencyController {
 	public List<Currency> getActivecurrencies() {
 		return currencyservice.getActivecurrencies();
 	}
-	
+
 	@GetMapping("exists/{name}")
 	public ResponseEntity<Boolean> existsCurrency(@PathVariable("name") String currencyName) {
 		boolean result = currencyservice.doesCurrencyExists(currencyName);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+	
+	@PutMapping("updateCurrency/{id}")
+	public Currency updateCurrency(HttpServletRequest httpServletRequest, @RequestBody Currency currency) {
+		return currencyservice.updateCurrency(httpServletRequest, currency);
+	}
 
 }
+
+

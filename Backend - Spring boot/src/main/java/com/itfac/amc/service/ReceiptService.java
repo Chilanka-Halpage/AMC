@@ -1,8 +1,10 @@
 package com.itfac.amc.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,15 +23,7 @@ public interface ReceiptService {
 
 	List<Date> getDate(String user_id) throws Exception;
 
-	String TotalrevanuelastYear(LocalDate Date1, LocalDate Date2);
-	
-	String Totalrevanuelast2Year(LocalDate Date1, LocalDate Date2);
-	
-	String Totalrevanuelast3Year(LocalDate Date1, LocalDate Date2);
-		
-	String Totalrevanuelast4Year(LocalDate Date1, LocalDate Date2);
-	
-	String Totalrevanuelast5Year(LocalDate Date1, LocalDate Date2);
+	List<BigDecimal> TotalrevanuelastYear(LocalDate Date1);
 	
 	List<clinetpaymentDto> getReceiptbyClientId(String userId);
 

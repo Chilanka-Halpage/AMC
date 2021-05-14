@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
@@ -19,6 +20,8 @@ public interface LoginDetailsService {
 
 	List<logindetailsDTo> logindetailslist();
 	
+	List<LoginDetails> logindetailslistbyId(String userId);
+
 	public void  logOutDetails(HttpServletRequest httpServletRequest, String userId);
 
 }

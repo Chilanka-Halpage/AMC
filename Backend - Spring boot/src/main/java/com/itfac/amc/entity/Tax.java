@@ -14,8 +14,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@Entity
 @EqualsAndHashCode(callSuper = false)
+@Entity
 public class Tax extends Auditable {
 
 	@Id
