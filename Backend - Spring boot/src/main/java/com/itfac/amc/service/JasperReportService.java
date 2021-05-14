@@ -36,7 +36,7 @@ public interface JasperReportService {
 	//Client Payment Report
 	public ResponseEntity<String> ClientPaymentReport(String userId) throws FileNotFoundException, JRException;
 	//Quarter wise revenue Report
-	public ResponseEntity<String> QuarterWiseRevenueJrReport(LocalDate date1,String userId) throws FileNotFoundException, JRException;
+	public ResponseEntity<String> QuarterWiseRevenueJrReport(LocalDate date1, String categoty, String userId) throws FileNotFoundException, JRException;
 
 
 }

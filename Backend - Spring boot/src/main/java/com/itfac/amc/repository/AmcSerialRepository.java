@@ -89,6 +89,9 @@ public interface AmcSerialRepository extends JpaRepository<AmcSerial, String> {
 	// Quarter wise report
 	@Query(value = "Call getTotal(:date1,:date2);", nativeQuery = true)
 	BigDecimal getRevanue(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2);
+	
+	@Query(value = "Call getTotalCtgWise(:date1,:date2,:category);", nativeQuery = true)
+	BigDecimal getRevanueCtgWise(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2,@Param("category") String category);
 
 	// renevel amc counnt for client home
 	@Query(value = "select count(*) from renewal_amc where user_id = :user_id and renewal BETWEEN :Date1 AND :Date2", nativeQuery = true)

@@ -1,6 +1,8 @@
 package com.itfac.amc.service.impl;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -53,12 +55,6 @@ public class ReportServiceImpl implements ReportService {
 	public List<ClientDetails> getAllClientDetails(LocalDate date1, LocalDate date2) {
 		return clientRepository.getAllClientDetails(date1, date2);
 	}
-
-//	// All AMC details report
-//	@Override
-//	public List<AllAmcs> getAllAmc(LocalDate Date1, LocalDate Date2) {
-//		
-//	}
 	
 	// All AMC details category wise report
 	@Override
@@ -141,30 +137,72 @@ public class ReportServiceImpl implements ReportService {
 	public BigDecimal getRevanue(LocalDate date1, LocalDate date2) {
 		return amcSerialRepository.getRevanue(date1, date2);
 	}
+	public BigDecimal getRevanueCtgWise(LocalDate date1, LocalDate date2, String category) {
+		return amcSerialRepository.getRevanueCtgWise(date1, date2, category);
+	}
 
 	@Override
-	public List<Map<String, Object>> QuarterWiseRevenue(LocalDate date1){
+	public List<Map<String, Object>> QuarterWiseRevenue(LocalDate date1, String category){
 		LocalDate date2 = date1.plusMonths(3);
-		BigDecimal q1 = getRevanue(date1,date2);
 		LocalDate date3 = date2.plusMonths(3);
-		BigDecimal q2 = getRevanue(date2,date3);
 		LocalDate date4 = date3.plusMonths(3);
-		BigDecimal q3 = getRevanue(date3,date4);
 		LocalDate date5 = date4.plusMonths(3);
+		if(category.equals("all")) {
+		BigDecimal q1 = getRevanue(date1,date2);
+		BigDecimal q2 = getRevanue(date2,date3);
+		BigDecimal q3 = getRevanue(date3,date4);
 		BigDecimal q4 = getRevanue(date4,date5);
-		System.out.println(q1);
-		System.out.println(q2);
-		System.out.println(q3);
-		System.out.println(q4);
+		if(q1==null) {
+			q1=BigDecimal.ZERO;
+		}
+		if(q2==null) {
+			q2=BigDecimal.ZERO;
+		}
+		if(q3==null) {
+			q3=BigDecimal.ZERO;
+		}
+		if(q4==null) {
+			q4=BigDecimal.ZERO;
+		}
+		BigDecimal total = q1.add(q2).add(q3).add(q4);
 		Map<String, Object> parameters = new HashMap<>();	
 		parameters.put("quarter1", q1);
 		parameters.put("quarter2", q2);
 		parameters.put("quarter3", q3);
 		parameters.put("quarter4", q4);
+		parameters.put("total", total);
 		List<Map<String, Object>> revenue=new ArrayList<>();
 		revenue.add(parameters);
-		return revenue;
-	}
+		return revenue;}
+		else {
+			BigDecimal q1 = getRevanueCtgWise(date1,date2,category);
+			BigDecimal q2 = getRevanueCtgWise(date2,date3,category);
+			BigDecimal q3 = getRevanueCtgWise(date3,date4,category);
+			BigDecimal q4 = getRevanueCtgWise(date4,date5,category);
+			if(q1==null) {
+				q1=BigDecimal.ZERO;
+			}
+			if(q2==null) {
+				q2=BigDecimal.ZERO;
+			}
+			if(q3==null) {
+				q3=BigDecimal.ZERO;
+			}
+			if(q4==null) {
+				q4=BigDecimal.ZERO;
+			}
+			BigDecimal total = q1.add(q2).add(q3).add(q4);
+			Map<String, Object> parameters = new HashMap<>();	
+			parameters.put("quarter1", q1);
+			parameters.put("quarter2", q2);
+			parameters.put("quarter3", q3);
+			parameters.put("quarter4", q4);
+			parameters.put("total", total);
+			List<Map<String, Object>> revenue=new ArrayList<>();
+			revenue.add(parameters);
+			return revenue;}
+		}
+
 	//renewel amc count
 	@Override
 	public String getRenewalAmc(LocalDate Date1, LocalDate Date2, String user_id) {

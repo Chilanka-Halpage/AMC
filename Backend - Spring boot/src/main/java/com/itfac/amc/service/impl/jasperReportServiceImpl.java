@@ -273,37 +273,92 @@ public class jasperReportServiceImpl implements JasperReportService {
 	}
 
 	@Override
-	public ResponseEntity<String> QuarterWiseRevenueJrReport(LocalDate date1, String userId)
+	public ResponseEntity<String> QuarterWiseRevenueJrReport(LocalDate date1, String category, String userId)
 			throws FileNotFoundException, JRException {
 		LocalDate date2 = date1.plusMonths(3);
-		BigDecimal q1 = amcSerialRepository.getRevanue(date1, date2);
 		LocalDate date3 = date2.plusMonths(3);
-		BigDecimal q2 = amcSerialRepository.getRevanue(date2, date3);
 		LocalDate date4 = date3.plusMonths(3);
-		BigDecimal q3 = amcSerialRepository.getRevanue(date3, date4);
 		LocalDate date5 = date4.plusMonths(3);
-		BigDecimal q4 = amcSerialRepository.getRevanue(date4, date5);
-		System.out.println(date1);
-		System.out.println(date2);
-		System.out.println(date3);
-		System.out.println(date4);
-		System.out.println(date5);
-//		List<Map<String, Object>> report = new ArrayList<>();
-		Map<String, Object> parameter = new HashMap<>();
-		parameter.put("q1", q1);
-		parameter.put("q2", q2);
-		parameter.put("q3", q3);
-		parameter.put("q4", q4);
-		List<Map<String, Object>> revenue = new ArrayList<>();
-		revenue.add(parameter);
-		File file = ResourceUtils.getFile("classpath:jasperReports/QuarterWiseReport.jrxml");
-		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(revenue);
-		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("createdBy", "Java");
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
-		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
+		if(category.equals("all")) {
+			BigDecimal q1 = amcSerialRepository.getRevanue(date1, date2);
+			BigDecimal q2 = amcSerialRepository.getRevanue(date2, date3);
+			BigDecimal q3 = amcSerialRepository.getRevanue(date3, date4);
+			BigDecimal q4 = amcSerialRepository.getRevanue(date4, date5);
+			if(q1==null) {
+				q1=BigDecimal.ZERO;
+			}
+			if(q2==null) {
+				q2=BigDecimal.ZERO;
+			}
+			if(q3==null) {
+				q3=BigDecimal.ZERO;
+			}
+			if(q4==null) {
+				q4=BigDecimal.ZERO;
+			}
+			BigDecimal total = q1.add(q2).add(q3).add(q4);
+//			List<Map<String, Object>> report = new ArrayList<>();
+			Map<String, Object> parameter = new HashMap<>();
+			parameter.put("date1", date1);
+			parameter.put("date5", date5);
+			parameter.put("category", category);
+			parameter.put("q1", q1);
+			parameter.put("q2", q2);
+			parameter.put("q3", q3);
+			parameter.put("q4", q4);
+			parameter.put("total", total);
+			System.out.println(category);
+			List<Map<String, Object>> revenue = new ArrayList<>();
+			revenue.add(parameter);
+			File file = ResourceUtils.getFile("classpath:jasperReports/QuarterWiseReport.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(revenue);
+			Map<String, Object> parameters = new HashMap<>();
+			parameters.put("createdBy", "Java");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
+		}
+		else {
+			BigDecimal q1 = amcSerialRepository.getRevanueCtgWise(date1, date2, category);
+			BigDecimal q2 = amcSerialRepository.getRevanueCtgWise(date2, date3, category);
+			BigDecimal q3 = amcSerialRepository.getRevanueCtgWise(date3, date4, category);
+			BigDecimal q4 = amcSerialRepository.getRevanueCtgWise(date4, date5, category);
+			if(q1==null) {
+				q1=BigDecimal.ZERO;
+			}
+			if(q2==null) {
+				q2=BigDecimal.ZERO;
+			}
+			if(q3==null) {
+				q3=BigDecimal.ZERO;
+			}
+			if(q4==null) {
+				q4=BigDecimal.ZERO;
+			}
+			BigDecimal total = q1.add(q2).add(q3).add(q4);
+//			List<Map<String, Object>> report = new ArrayList<>();
+			Map<String, Object> parameter = new HashMap<>();
+			parameter.put("date1", date1);
+			parameter.put("date5", date5);
+			parameter.put("category", category);
+			parameter.put("q1", q1);
+			parameter.put("q2", q2);
+			parameter.put("q3", q3);
+			parameter.put("q4", q4);
+			parameter.put("total", total);
+			System.out.println(category);
+			List<Map<String, Object>> revenue = new ArrayList<>();
+			revenue.add(parameter);
+			File file = ResourceUtils.getFile("classpath:jasperReports/QuarterWiseReport.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(revenue);
+			Map<String, Object> parameters = new HashMap<>();
+			parameters.put("createdBy", "Java");
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
+		}
 	}
 
 }

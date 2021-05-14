@@ -61,11 +61,9 @@ public class ReportController {
 	public List<AllAmcs> getAllAmcCtgWise(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable("category") String category)
-			throws FileNotFoundException, JRException {
+			@PathVariable("category") String category) throws FileNotFoundException, JRException {
 		return reportService.getAllAmcCtgWise(Date1, Date2, category);
 	}
-
 
 	// Renewed AMCs
 	@GetMapping("/RenewedAmcs/{Date1}/{Date2}")
@@ -108,9 +106,8 @@ public class ReportController {
 	public List<PaymentReport> paymentReport(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable("category") String category)
-			throws FileNotFoundException, JRException {
-		return reportService.paymentReport(Date1, Date2,category);
+			@PathVariable("category") String category) throws FileNotFoundException, JRException {
+		return reportService.paymentReport(Date1, Date2, category);
 	}
 
 	// Client AMC Report
@@ -140,11 +137,13 @@ public class ReportController {
 		List<GetInvoice> invoice = reportService.getInvoiceById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(invoice);
 	}
-	
+
 	// Quarter wise report
-	@GetMapping("/QuarterWiseRevenue/{Date1}")
-	public List<Map<String, Object>> QuarterWiseRevenue(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date1)throws FileNotFoundException, JRException {
-		return reportService.QuarterWiseRevenue(date1);
+	@GetMapping("/QuarterWiseRevenue/{Date1}/{category}")
+	public List<Map<String, Object>> QuarterWiseRevenue(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date1,
+			@PathVariable("category") String category) throws FileNotFoundException, JRException {
+		return reportService.QuarterWiseRevenue(date1, category);
 	}
 
 	// amc reminder for dashboard-----------------------------------
@@ -172,12 +171,12 @@ public class ReportController {
 		List<RenewedAmcs> count = reportService.getRenewedAmcs(Date1, Date2);
 		return count.size();
 	}
-	//renewel amc for clinet
+
+	// renewel amc for clinet
 	@GetMapping("/RenewelAmccountC/{id}/{Date1}/{Date2}")
-	public String getRenewalAmc(
-			@PathVariable("id") String id,
+	public String getRenewalAmc(@PathVariable("id") String id,
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
-		return reportService.getRenewalAmc(Date2,Date1, id);
+		return reportService.getRenewalAmc(Date2, Date1, id);
 	}
 }

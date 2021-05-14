@@ -96,9 +96,11 @@ public class UserController {
 	}
 
 	// update user's password
-	@PutMapping(path = "/updatePassword/{id}")
-	public ResponseEntity<String> updatePassword(@PathVariable(value = "id") String userId, @RequestBody User user) {
-		return userservice.updatePassword(userId, user);
+	@PutMapping(path = "/updatePassword/{current_password}/{id}")
+	public ResponseEntity<String> updatePassword(
+			@PathVariable(value = "current_password") String current_password,@PathVariable(value = "id") String userId, 
+			@RequestBody User user) {
+		return userservice.updatePassword(current_password,userId, user);
 	}
 
 	// update User's email and contact No
