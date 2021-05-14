@@ -16,6 +16,7 @@ export class RenewedAmcsReportComponent implements OnInit {
 
 renewedAmcs : MatTableDataSource<RenewedAmcs>;
 public isLoadingResults = true;
+public isRateLimitReached =false;
 public resultsLength = 0;
 
   constructor(
@@ -41,8 +42,24 @@ public resultsLength = 0;
       this.renewedAmcs = new MatTableDataSource(data);
       this.isLoadingResults=false;
       this.resultsLength = this.renewedAmcs.data.length;
+    },
+    error =>{
+      this.isRateLimitReached=true;
     })
   }
+
+  renewedAmcsJrReport(){
+    this.isLoadingResults=true;
+    this.jrReportDetailsService.RenewedAmcsJrReport(this.date1,this.date2,this._authentication.userId).subscribe(
+      Response => {console.log("success", Response)
+      this.isLoadingResults=false;
+      this.viewPdf()
+    },
+      error => {console.log("Error!", error)
+    }
+    )
+  }
+
   viewPdf() {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
       response => {
@@ -51,6 +68,12 @@ public resultsLength = 0;
         URL.revokeObjectURL(url);
       });
   }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.renewedAmcs.filter = filterValue.trim().toLowerCase();
+  }
+  
   displayedColumns: string[] = [    'amc_no','amc_serial_no','mtc_start_date','client_name','department_name',
   'category_name','mtc_qty','frequency','currency_name','exchage_rate','total_value_lkr', ];
 

@@ -17,9 +17,10 @@ export class LoginDetailsService {
     public _authentication: AuthenticationService,
     ) { }
 
-  getLoginDetails(page: number, size: number): Observable<LoginDetails[]>{
-    return this.httpClient.get<LoginDetails[]>(`${this.baseURL}User/loginDetails?page=${page}&size=${size}`);
+  getLoginDetails(page: number, size: number, sort: string, ord: string): Observable<LoginDetails[]>{
+    return this.httpClient.get<LoginDetails[]>(`${this.baseURL}User/loginDetails?page=${page}&size=${size}&sort=${sort},${ord}`);
   }
+
   logoutDetails(): Observable<object>{
     delay(3000);
     let userId = this._authentication.userId;

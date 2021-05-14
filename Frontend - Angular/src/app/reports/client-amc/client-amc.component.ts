@@ -16,6 +16,7 @@ export class ClientAmcComponent implements OnInit {
   clientAmc : MatTableDataSource<ClientAmc>;
   cId : any
   public isLoadingResults = true;
+  public isRateLimitReached =false;
   public resultsLength = 0;
 
   constructor(
@@ -38,8 +39,24 @@ export class ClientAmcComponent implements OnInit {
       this.clientAmc = new MatTableDataSource(data);
       this.isLoadingResults=false;
       this.resultsLength = this.clientAmc.data.length;
+    },
+    error =>{
+      this.isRateLimitReached=true;
     });
   }
+
+  ClientAmcJrReport(){
+    this.isLoadingResults=true;
+    this.jrReportDetailsService.ClientAmcJrReport(this._authentication.userId).subscribe(
+      Response => {console.log("success", Response)
+      this.isLoadingResults=false;
+      this.viewPdf()
+    },
+      error => {console.log("Error!", error)
+    }
+    )
+  }
+
 
   viewPdf() {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
