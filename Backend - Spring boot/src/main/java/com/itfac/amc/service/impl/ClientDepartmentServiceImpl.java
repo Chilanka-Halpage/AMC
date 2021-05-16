@@ -56,7 +56,13 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 
 		department.setLastModifiedIp(ipAddress);
 		department.setClient(client);
-		clientDepartmentRepository.save(department);
+		try {
+			clientDepartmentRepository.save(department);
+		} catch (Exception ex) {
+			throw new ResourceCreationFailedException("Error occurred while department data are being saved to database",
+					ex);
+		}
+
 	}
 
 	@Override
@@ -78,19 +84,20 @@ public class ClientDepartmentServiceImpl implements ClientDepartmentService {
 		client.setUser(user);
 		department.setLastModifiedIp(ipAddress);
 		client.setLastModifiedIp(ipAddress);
-		client = clientRepository.save(client);
-		ClientDepartment clientDepartment = clientDepartmentRepository.save(department);
-
-		if (client != null && clientDepartment != null) {
+		
+		try {
+			client = clientRepository.save(client);
+			ClientDepartment clientDepartment = clientDepartmentRepository.save(department);
 			HashMap<String, String> map = new HashMap<>();
 			map.put("clientId", String.valueOf(client.getClientId()));
 			map.put("clientName", client.getClientName());
 			map.put("deptId", String.valueOf(clientDepartment.getDeptId()));
 			map.put("deptName", clientDepartment.getDepartmentName());
 			return map;
+		} catch (Exception ex) {
+			throw new ResourceCreationFailedException("Error occurred while the data are being saved to database",
+					ex);
 		}
-
-		throw new ResourceCreationFailedException("Failed to insert data to the system");
 	}
 
 	@Override

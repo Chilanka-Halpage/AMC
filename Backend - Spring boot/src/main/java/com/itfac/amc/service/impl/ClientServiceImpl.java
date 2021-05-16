@@ -38,9 +38,7 @@ public class ClientServiceImpl implements ClientService {
 
 	@Override
 	public Client getClientById(int clientId) {
-		return clientRepository.findById(clientId).map(client -> {
-			return client;
-		}).orElseThrow(() -> new ResourceNotFoundException("Clent Id " + clientId + " not found"));
+		return clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Clent Id " + clientId + " not found"));
 	}
 
 	@Override

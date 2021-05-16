@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ExceptionHandling{
+public class ExceptionHandling {
 
 	@ExceptionHandler(BadCredentialsException.class)
 	public ResponseEntity<Object> myExceptionHandler(Exception ex) {
@@ -31,10 +31,15 @@ public class ExceptionHandling{
 		});
 		return errors;
 	}
-	
-//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//	@ExceptionHandler(RuntimeException.class)
-//	public String runtimeExceptionHandler(Exception ex) {
-//		return ex.getMessage();
-//	}
+
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<Object> resourceNotFoundExceptionHandler(Exception ex) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	}
+
+	@ExceptionHandler(ResourceCreationFailedException.class)
+	public ResponseEntity<Object> resourceCreationFailedExceptionHandler(Exception ex) {
+		return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(ex.getMessage());
+	}
+
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.entity.Notification;
-import com.itfac.amc.reportData.NotificationView;
 import com.itfac.amc.service.NotificationService;
 
 @RestController

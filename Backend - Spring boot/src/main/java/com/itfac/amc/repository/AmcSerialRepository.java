@@ -1,7 +1,6 @@
 package com.itfac.amc.repository;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -9,14 +8,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
 import com.itfac.amc.dto.addRecieptDto;
-import com.itfac.amc.dto.recieptDto;
 import com.itfac.amc.entity.AmcSerial;
 import com.itfac.amc.reportData.AllAmcs;
 import com.itfac.amc.reportData.ClientAmc;
