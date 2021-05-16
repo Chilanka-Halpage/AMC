@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,7 +100,7 @@ public class UserController {
 
 	// update user's password
 	@PutMapping(path = "/updatePassword/{current_password}/{id}")
-	public ResponseEntity<String> updatePassword(
+	public Boolean updatePassword(
 			@PathVariable(value = "current_password") String current_password,@PathVariable(value = "id") String userId, 
 			@RequestBody User user) {
 		return userservice.updatePassword(current_password,userId, user);
@@ -113,7 +114,7 @@ public class UserController {
 
 	// get login details
 	@GetMapping("/loginDetails")
-	public List<viewLoginDetails> LoginDetail(Pageable pageable) {
+	public Page<viewLoginDetails> LoginDetail(Pageable pageable) {
 		return loginDetailsService.loginDetails(pageable);
 	}
 

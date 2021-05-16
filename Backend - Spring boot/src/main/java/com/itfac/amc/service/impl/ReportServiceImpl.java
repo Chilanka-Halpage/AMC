@@ -13,6 +13,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itfac.amc.Exception.ResourceNotFoundException;
+import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.reportData.AllAmcs;
 import com.itfac.amc.reportData.ClientAmc;
 import com.itfac.amc.reportData.ClientDetails;
@@ -53,7 +55,8 @@ public class ReportServiceImpl implements ReportService {
 	// All client details report between two dates
 	@Override
 	public List<ClientDetails> getAllClientDetails(LocalDate date1, LocalDate date2) {
-		return clientRepository.getAllClientDetails(date1, date2);
+		List<ClientDetails> clientDetailsReport= clientRepository.getAllClientDetails(date1, date2);
+		return clientDetailsReport;
 	}
 	
 	// All AMC details category wise report

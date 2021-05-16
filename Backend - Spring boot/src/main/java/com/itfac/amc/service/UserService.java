@@ -22,7 +22,7 @@ public interface UserService {
 
 	public ResponseEntity<String> updateUser(String userId, User user);
 
-	public ResponseEntity<String> updatePassword(String current_password,String userId, User user);
+	public Boolean updatePassword(String current_password,String userId, User user);
 
 	List<User> getAllUser();
 
