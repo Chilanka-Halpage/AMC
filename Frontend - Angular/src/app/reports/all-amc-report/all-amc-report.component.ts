@@ -9,6 +9,7 @@ import { ReportDetailsService } from '../../data/report-details.service'
 import { JrReportDetailsService } from '../../data/jr-report-details.service'
 import { Users } from 'src/app/data/Users/users';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-all-amc-report',
@@ -24,6 +25,7 @@ export class AllAmcReportComponent implements OnInit {
   date2: any;
   category: any;
   public isLoadingResults = true;
+  public isRateLimitReached =false;
   public resultsLength = 0;
   
 
@@ -54,13 +56,32 @@ export class AllAmcReportComponent implements OnInit {
         this.allAmcs = new MatTableDataSource(data);
         this.isLoadingResults=false;
         this.resultsLength = this.allAmcs.data.length;
+      },
+      error =>{
+        this.isRateLimitReached=true;
       })
   }
+
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.allAmcs.filter = filterValue.trim().toLowerCase();
   }
-
+//------------------------------------
+  allAmcJrReport(){
+    this.isLoadingResults=true;
+    this.jrReportDetailsService.AllAmcPdfReport(this.date1,this.date2,this.category,this._authentication.userId).subscribe(
+      Response => {
+        console.log("success", Response)
+        this.isLoadingResults=false;
+        this.viewPdf()
+       // this.dialogRef.close();
+        //this.router.navigate(['allAmcReport',formatteddate1,formatteddate2,category]);
+    },
+      error => {console.log("Error!", error)
+    }
+    )
+  }
+//-------------------------------------------
 
   viewPdf() {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(

@@ -28,7 +28,7 @@ import { error } from '@angular/compiler/src/util';
 })
 export class RootNavComponent {
   
-  
+  hidden:boolean;
   userId : String
   imgSource : String
   public imageSrc: string;
@@ -111,28 +111,28 @@ export class RootNavComponent {
 
   //Client AMC
   ClientAmc(){
-    this.isLoadingResults=true;
-    this.jrReportDetailsService.ClientAmcJrReport(this._authentication.userId).subscribe(
-      Response => {console.log("success", Response)
-      this.isLoadingResults=false;
-      this.router.navigate([`clientAmc/${this._authentication.userId}`]);
-    },
-      error => {console.log("Error!", error)
-    }
-    )
+    // this.isLoadingResults=true;
+    // this.jrReportDetailsService.ClientAmcJrReport(this._authentication.userId).subscribe(
+    //   Response => {console.log("success", Response)
+    //   this.isLoadingResults=false;
+       this.router.navigate([`clientAmc/${this._authentication.userId}`]);
+    // },
+    //   error => {console.log("Error!", error)
+    // }
+    // )
   }
 
   //Client Payment report
   ClientPayment(){
-    this.isLoadingResults=true;
-    this.jrReportDetailsService.ClientPaymentJrReport(this._authentication.userId).subscribe(
-      Response => {console.log("success", Response)
-      this.isLoadingResults=false;
+    //this.isLoadingResults=true;
+    //this.jrReportDetailsService.ClientPaymentJrReport(this._authentication.userId).subscribe(
+     // Response => {console.log("success", Response)
+    //  this.isLoadingResults=false;
       this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
-    },
-      error => {console.log("Error!", error)
-    }
-    )
+    //},
+    //  error => {console.log("Error!", error)
+   // }
+   // )
   }
 
   dashboardcheck(){
@@ -157,20 +157,17 @@ export class RootNavComponent {
     this.updateIsRead()
  }
 
- hidden;
-
  notificationCount(){
-  console.log(this._authentication.userId)
-  this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
+  this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
     data => {
       this.notificationNo = data;
-      if(this.notificationNo==0)
-      {this.hidden=true;}
-      else
-      {this.hidden=false;}
+      if(data==0)
+      {
+        this.hidden=true;
+      }else{
+        this.hidden=false;
+      }
     }
     );
-  }
-
-  
+ }
 }

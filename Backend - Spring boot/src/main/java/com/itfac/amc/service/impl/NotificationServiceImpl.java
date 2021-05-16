@@ -1,6 +1,8 @@
 package com.itfac.amc.service.impl;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +11,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +34,8 @@ public class NotificationServiceImpl implements NotificationService{
 	UserRepository userRepository;
 	
 	@Override
-	public List<Notification> getNotification(String user_id){
-		return notificationRepository.getNotification(user_id);
+	public List<Notification> getNotifications(Pageable pageable,String user_id){
+		return notificationRepository.getNotifications(pageable,user_id);
 	}
 	
 	@Override
@@ -59,16 +63,13 @@ public class NotificationServiceImpl implements NotificationService{
 	
 	//renewal notification
 	//@Scheduled(fixedRate = 20000)
-	//@Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
+	@Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
 	public void renewalNotificationSave() {
 		List<RenewalAmcsNotificationDto> test1 = renewalNotification();
 		System.out.println(test1);
 		for (int i = 0; i < test1.size(); i++) { 
 			Notification notification = new Notification();
 			User user = userRepository.findById(test1.get(i).getuser_id()).orElseThrow(() -> new ResourceNotFoundException("Not fount user ID"));
-			System.out.println(test1.get(i).getuser_id());
-			System.out.println(test1.get(i).getamc_no());
-			System.out.println(test1.get(i).getrenewal());
 			notification.setNotification("AMC No. " + test1.get(i).getamc_no() + " is to be renewed on " + test1.get(i).getrenewal());
 			notification.setIsRead(true);
 			notification.setUser(user);
@@ -103,13 +104,11 @@ public class NotificationServiceImpl implements NotificationService{
 		calendar.add(Calendar.DAY_OF_YEAR, 7);//next week date
 		Date date = calendar.getTime();
 		System.out.println(date);
-		return notificationRepository.renewalNotification("2021-04-29");
+		String pattern = "yyyy/MM/dd";
+	    SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+	    String nextDate = dateFormat.format(date);
+		return notificationRepository.renewalNotification(nextDate);
 	}
-	
-	//@Scheduled(fixedRate = 20000)
-	public void test() {
-		paymentNotification(1,11,new BigDecimal(2000),"1");
-	};
 	
 	//payment notification
 	public void paymentNotification(int dept_id, int currency_id,BigDecimal total,String amcNo) {

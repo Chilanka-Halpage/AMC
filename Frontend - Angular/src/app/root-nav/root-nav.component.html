@@ -103,9 +103,9 @@
       <span class="example-spacer"></span>
       <button  mat-button  *ngIf="!_authentication.loggedIn()" (click)="gotolog()">
         <span style="-webkit-text-fill-color:#ffffff">Login</span>
-      </button>     
-      <button mat-icon-button *ngIf="_authentication.loggedIn()">
-        <mat-icon style="color: #ffffff;" (click)="notification()"
+      </button> 
+      <button mat-icon-button *ngIf="_authentication.loggedIn()" (click)="notification()" >
+        <mat-icon style="color: #ffffff;" *ngIf="_authentication.loggedIn()"
         [matBadge]="notificationNo" [matBadgeHidden]="hidden">notifications</mat-icon>
       </button>
       <img class="avatar" alt="" src="{{imageSrc}}" *ngIf="_authentication.loggedIn()" >

@@ -140,7 +140,7 @@ const routes: Routes = [
   { path: 'userList/:id',component: UserlistComponent,canActivate: [AuthenticationGuard]},
   { path: 'notification/:userId', component: NotificationComponent,canActivate: [AuthenticationGuard]},//all
   { path: 'clientPaymentReport/:userId', component: ClientPaymentDetailsComponent,canActivate: [AuthenticationGuard,AccountantGuard,AmccordinatorGuard] },//client
-  { path: 'quarterWiseRevenueReport/:date1', component: QuarterWiseRevenueReportComponent,canActivate: [AuthenticationGuard,ClientGuard]},//admin,amc cordinater,accountant
+  { path: 'quarterWiseRevenueReport/:date1/:category', component: QuarterWiseRevenueReportComponent,canActivate: [AuthenticationGuard,ClientGuard]},//admin,amc cordinater,accountant
   { path: 'loginDetails', component:LoginDetailsComponent,canActivate: [AuthenticationGuard]},
   { path: 'edit-Invoice/:piNo',component: EditInvoiceComponent,canActivate: [AuthenticationGuard,AccountantGuard]}
 ];

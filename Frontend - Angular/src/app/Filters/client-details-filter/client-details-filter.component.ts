@@ -45,21 +45,14 @@ export class ClientDetailsFilterComponent implements OnInit {
     let date2 = this.clientDetailsFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
-    //this.router.navigate(['clientDetails',formatteddate1,formatteddate2]);
-    this.jrReportDetailsService.ClientDetailsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
-      Response => {console.log("success", Response)
-      this.isLoadingResults=false;
-      this.dialogRef.close();
       this.router.navigate(['clientDetails',formatteddate1,formatteddate2]);
-    },
-      error => {console.log("Error!", error)
-    }
-    )
 }
+
 get f(){
   return this.clientDetailsFilter.controls;
 }
 }
+
 export function ConfirmedValidator(fromDate: string, toDate: string) {
   return (formGroup: FormGroup) => {
     const control = formGroup.controls[fromDate];

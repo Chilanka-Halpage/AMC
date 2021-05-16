@@ -16,6 +16,7 @@ export class PaymentsDetailsComponent implements OnInit {
 
 paymentsDetails : MatTableDataSource<PaymentsDetails>;
 public isLoadingResults = true;
+public isRateLimitReached =false;
 public resultsLength = 0;
 date1 : any
 date2 : any
@@ -49,7 +50,20 @@ getPaymentDetails(date1,date2,category){
     this.paymentsDetails = new MatTableDataSource(data);
     this.isLoadingResults=false;
     this.resultsLength = this.paymentsDetails.data.length;
+  },
+  error =>{
+    this.isRateLimitReached=true;
   })
+}
+PaymentsDetailsJrReport(){
+  this.isLoadingResults=true;
+  this.jrReportDetailsService.PaymentsDetailsJrReport(this.date1,this.date2,this.category,this._authentication.userId).subscribe(
+  Response => {console.log("success", Response)
+  this.isLoadingResults=false;
+  this.viewPdf()
+},
+  error => {console.log("Error!", error)
+});
 }
 viewPdf() {
   this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(

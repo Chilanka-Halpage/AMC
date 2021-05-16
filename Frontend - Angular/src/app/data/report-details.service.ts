@@ -56,8 +56,8 @@ export class ReportDetailsService {
   }
 
   //Quarter wise revenue report
-  QuarterWiseRevenue(date1): Observable<any[]>{
-    return this.httpClient.get<any[]>(`${this.baseURL}report/QuarterWiseRevenue/${date1}`);
+  QuarterWiseRevenue(date1,category): Observable<any[]>{
+    return this.httpClient.get<any[]>(`${this.baseURL}report/QuarterWiseRevenue/${date1}/${category}`);
   }
 
   //Amc report for client

@@ -91,8 +91,8 @@ export class JrReportDetailsService {
   }
 
   //Quarter wise revenue report
-  QuarterWiseRevenueJrReport(date1, userId): Observable<ClientPaymentDetails>{
-    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}jrReport/QuarterWiseRevenueJrReport/${date1}/${userId}`,
+  QuarterWiseRevenueJrReport(date1, category, userId): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseURL}jrReport/QuarterWiseRevenueJrReport/${date1}/${category}/${userId}`,
     {
       responseType : 'text' as 'json'
     });

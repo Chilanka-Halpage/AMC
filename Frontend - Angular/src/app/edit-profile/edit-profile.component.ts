@@ -33,6 +33,7 @@ export class EditProfileComponent implements OnInit {
     //this.
   }
   form = this.fb.group({
+    current_password: ['', [Validators.required]],
     password: ['', [Validators.required]],
     confirm_password: ['', [Validators.required]]
   }, {
@@ -69,10 +70,13 @@ export class EditProfileComponent implements OnInit {
   //reset password----------------------------
   SubmitPassword(){
     console.log(this.form.value);
-    this.usersService.updatePassword(this.userId, this.form.value).subscribe(
+    this.usersService.updatePassword(this.userId,this.form.value.current_password, this.form.value).subscribe(
+      
       Response => {console.log("success", Response)
+      console.log(this.form.value.current_password);
     },
       error => {console.log("Error!", error)
+      console.log(this.form.value.current_password);
     })
     //this.panelOpenState=false
   }
@@ -86,7 +90,8 @@ export class EditProfileComponent implements OnInit {
           email: data.email,
         })
       }
-    ), console.error("error");
+    ), 
+    error => console.error("error");
   }
 
 

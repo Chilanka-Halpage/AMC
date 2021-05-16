@@ -61,11 +61,9 @@ public class ReportController {
 	public List<AllAmcs> getAllAmcCtgWise(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable("category") String category)
-			throws FileNotFoundException, JRException {
+			@PathVariable("category") String category) throws FileNotFoundException, JRException {
 		return reportService.getAllAmcCtgWise(Date1, Date2, category);
 	}
-
 
 	// Renewed AMCs
 	@GetMapping("/RenewedAmcs/{Date1}/{Date2}")
@@ -108,9 +106,8 @@ public class ReportController {
 	public List<PaymentReport> paymentReport(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable("category") String category)
-			throws FileNotFoundException, JRException {
-		return reportService.paymentReport(Date1, Date2,category);
+			@PathVariable("category") String category) throws FileNotFoundException, JRException {
+		return reportService.paymentReport(Date1, Date2, category);
 	}
 
 	// Client AMC Report
@@ -140,36 +137,13 @@ public class ReportController {
 		List<GetInvoice> invoice = reportService.getInvoiceById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(invoice);
 	}
-	
+
 	// Quarter wise report
-	@GetMapping("/QuarterWiseRevenue/{Date1}")
-	public List<Map<String, Object>> QuarterWiseRevenue1(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1)throws FileNotFoundException, JRException {
-			
-			LocalDate Date2 = Date1.plusMonths(3);
-			BigDecimal q1 = reportService.getRevanue(Date1,Date2);
-			LocalDate Date3 = Date2.plusMonths(3);
-			BigDecimal q2 = reportService.getRevanue(Date2,Date3);
-			LocalDate Date4 = Date3.plusMonths(3);
-			BigDecimal q3 = reportService.getRevanue(Date3,Date4);
-			LocalDate Date5 = Date4.plusMonths(3);
-			BigDecimal q4 = reportService.getRevanue(Date4,Date5);
-			System.out.println(Date1);
-			System.out.println(Date2);
-			System.out.println(Date3);
-			System.out.println(Date4);
-			System.out.println(Date5);
-			Map<String, Object> parameters = new HashMap<>();	
-			parameters.put("quarter1", q1);
-			parameters.put("quarter2", q2);
-			parameters.put("quarter3", q3);
-			parameters.put("quarter4", q4);
-			List<Map<String, Object>> revenue=new ArrayList<>();
-			revenue.add(parameters);
-			return revenue;
-	}
-	
-	public List<Map<String, Object>> QuarterWiseRevenue(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date1)throws FileNotFoundException, JRException {
-		return reportService.QuarterWiseRevenue(date1);
+	@GetMapping("/QuarterWiseRevenue/{Date1}/{category}")
+	public List<Map<String, Object>> QuarterWiseRevenue(
+			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date1,
+			@PathVariable("category") String category) throws FileNotFoundException, JRException {
+		return reportService.QuarterWiseRevenue(date1, category);
 	}
 
 	// amc reminder for dashboard-----------------------------------
@@ -197,12 +171,13 @@ public class ReportController {
 		List<RenewedAmcs> count = reportService.getRenewedAmcs(Date1, Date2);
 		return count.size();
 	}
+	
 	//renewel amc for clinet
 	@GetMapping("/dashboard/RenewelAmccountC/{id}/{Date1}/{Date2}")
 	public String getRenewalAmc(
 			@PathVariable("id") String id,
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
-		return reportService.getRenewalAmc(Date2,Date1, id);
+		return reportService.getRenewalAmc(Date2, Date1, id);
 	}
 }
