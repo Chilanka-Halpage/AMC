@@ -111,28 +111,12 @@ export class RootNavComponent {
 
   //Client AMC
   ClientAmc(){
-    // this.isLoadingResults=true;
-    // this.jrReportDetailsService.ClientAmcJrReport(this._authentication.userId).subscribe(
-    //   Response => {console.log("success", Response)
-    //   this.isLoadingResults=false;
        this.router.navigate([`clientAmc/${this._authentication.userId}`]);
-    // },
-    //   error => {console.log("Error!", error)
-    // }
-    // )
   }
 
   //Client Payment report
   ClientPayment(){
-    //this.isLoadingResults=true;
-    //this.jrReportDetailsService.ClientPaymentJrReport(this._authentication.userId).subscribe(
-     // Response => {console.log("success", Response)
-    //  this.isLoadingResults=false;
       this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
-    //},
-    //  error => {console.log("Error!", error)
-   // }
-   // )
   }
 
   dashboardcheck(){
