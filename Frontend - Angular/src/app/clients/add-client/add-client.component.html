@@ -11,6 +11,9 @@
     </div>
     <br />
     <div class="card">
+        <div class="card-header">
+            <h4>Client and department details form for new AMC</h4>
+        </div>
         <div class="card-body background-color">
             <form [formGroup]="clientForm">
                 <div formGroupName="client" *ngIf="type !='%DE3%'">
@@ -24,6 +27,10 @@
                             <input type="text" matInput formControlName="clientName" placeholder="client name">
                             <mat-error *ngIf="clientName.errors?.clientExists">Client already exists </mat-error>
                             <mat-error *ngIf="clientName.touched && clientName.errors?.required">This field is required
+                            </mat-error>
+                            <mat-error
+                                *ngIf="clientName.touched && !clientName.errors?.required && clientName.errors?.pattern">
+                                Required minimum 3 characters
                             </mat-error>
                         </mat-form-field>
                     </div>
@@ -39,6 +46,10 @@
                                 placeholder="contact person name">
                             <mat-error *ngIf="clientContactPerson.touched && clientContactPerson.errors?.required">
                                 This field is required</mat-error>
+                            <mat-error
+                                *ngIf="clientContactPerson.touched && !clientContactPerson.errors?.required && clientContactPerson.errors?.pattern">
+                                Invalid Input
+                            </mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="col pl-2">
@@ -88,6 +99,10 @@
                             <mat-error *ngIf="departmentName.touched && departmentName.errors?.required">This field is
                                 required
                             </mat-error>
+                            <mat-error
+                                *ngIf="departmentName.touched && !departmentName.errors?.required && departmentName.errors?.pattern">
+                                Invalid input
+                            </mat-error>
                         </mat-form-field>
                     </div>
 
@@ -105,6 +120,10 @@
                                 *ngIf="departmentContactPerson.touched && departmentContactPerson.errors?.required">This
                                 field is required
                             </mat-error>
+                            <mat-error
+                            *ngIf="departmentContactPerson.touched && !departmentContactPerson.errors?.required && departmentContactPerson.errors?.pattern">
+                            Invalid input
+                        </mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="col pl-2">

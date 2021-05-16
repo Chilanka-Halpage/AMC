@@ -43,25 +43,25 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 		Client client = clientRepository.findById(clientId)
 				.orElseThrow(() -> new ResourceNotFoundException("Client Id: " + clientId + " not found"));
 		String ipAddress = httpServletRequest.getRemoteAddr();
+		try {
+			// calculate amcNo
+			String currentYear = String.valueOf(Year.now().getValue());
+			String receivedLastNo = amcMasterRepository.getAmcLastNo(currentYear);
+			int lastNo = (receivedLastNo != null) ? (Integer.parseInt(receivedLastNo)) + 1 : 1;
+			String amcNo = currentYear + lastNo;
 
-		// calculate amcNo
-		String currentYear = String.valueOf(Year.now().getValue());
-		String receivedLastNo = amcMasterRepository.getAmcLastNo(currentYear);
-		int lastNo = (receivedLastNo != null) ? (Integer.parseInt(receivedLastNo)) + 1 : 1;
-		String amcNo = currentYear + lastNo;
+			amc.setClient(client);
+			amc.setAmcNo(amcNo);
+			amc.setLastModifiedIp(ipAddress);
 
-		amc.setClient(client);
-		amc.setAmcNo(amcNo);
-		amc.setLastModifiedIp(ipAddress);
+			// update amc_number table by inserting new last_no
+			amcMasterRepository.setAmcNo(currentYear, lastNo);
+			AmcMaster returnedAmc = amcMasterRepository.save(amc);
 
-		// update amc_number table by inserting new last_no
-		amcMasterRepository.setAmcNo(currentYear, lastNo);
-		AmcMaster returnedAmc = amcMasterRepository.save(amc);
-
-		if (returnedAmc != null)
 			return returnedAmc.getAmcNo();
-
-		throw new ResourceCreationFailedException("Cannot save data in the system");
+		} catch (Exception ex) {
+			throw new ResourceCreationFailedException("Cannot save data in the system", ex);
+		}
 
 	}
 
@@ -76,10 +76,11 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 	public List<AmcMasterDto> getAmcByClient(int clientId) {
 		return amcMasterRepository.findByClientClientId(clientId);
 	}
-	
+
 	@Override
 	public List<AmcMasterDto> getAmcListByUserId(String userId) {
-		int clientId = clientRepository.getClientIdByUserId(userId).orElseThrow(() -> new ResourceNotFoundException("Client not found for user ID: " + userId));
+		int clientId = clientRepository.getClientIdByUserId(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("Client not found for user ID: " + userId));
 		return getAmcByClient(clientId);
 	}
 
@@ -138,10 +139,10 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 	public String countAmcByClient(String userId) {
 		return amcMasterRepository.countAmcByClient(userId);
 	}
-	
+
 	@Override
 	public String countActiveAmcByClient(String userId) {
 		return amcMasterRepository.countActiveAmcByClient(userId);
 	}
-     
+
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
-import com.itfac.amc.Exception.JwtException;
 import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.security.MyUserDetails;
 

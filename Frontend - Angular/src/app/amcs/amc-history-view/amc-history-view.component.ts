@@ -11,11 +11,12 @@ import { Component, OnInit } from '@angular/core';
 export class AmcHistoryViewComponent implements OnInit {
 
   public list: any[];
-  public clientName;
-  public amcNo;
+  public clientName: string;
+  public amcNo: string;
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public errorMessage = "Unknown Error";
+  public isListEmpty = false;
 
   constructor(
     private amcService: AmcMasterService,
@@ -35,8 +36,8 @@ export class AmcHistoryViewComponent implements OnInit {
   private loadData(amcNo: string){
     this.amcService.getAmcHistoryData(amcNo).subscribe(response => {
       this.list = response;
+      if(!this.list.length) this.isListEmpty = true;
     }, (error) => {
-      console.log(error)
       this.errorMessage = 'Cannot proceed the request.Try again';
       this.isRateLimitReached = true;
     }).add(() => this.isLoadingResults = false);

@@ -22,7 +22,6 @@ export class LoginDetailsService {
   }
 
   logoutDetails(): Observable<object>{
-    delay(3000);
     let userId = this._authentication.userId;
     this._authentication.logoutUser();
     console.log(userId);
