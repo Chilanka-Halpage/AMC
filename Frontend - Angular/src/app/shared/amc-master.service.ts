@@ -174,13 +174,18 @@ export function DateValidator(controlName1: string, controlName2: string) {
   return (formGroup: FormGroup) => {
     const formControl1 = formGroup.controls[controlName1];
     const formControl2 = formGroup.controls[controlName2];
-    if (!formControl2.value || !formControl2.value) return;
-    if (formControl1.value > formControl2.value) {
+
+    if (!formControl1.value || !formControl2.value) return;
+
+    const formControl1Value = new Date(formControl1.value);
+    const formControl2Value = new Date(formControl2.value);
+
+    if (formControl1Value > formControl2Value) {
       formControl1.setErrors({ invalidDate: true });
       formControl2.setErrors({ invalidDate: true });
     } else {
-      formControl1.setErrors(null);
-      formControl2.setErrors(null);
+      (formControl1.errors?.required) ? formControl1.setErrors({ invalidDate: false }) : formControl1.setErrors(null);
+      (formControl2.errors?.required) ? formControl2.setErrors({ invalidDate: false }) : formControl2.setErrors(null);
     }
   }
 }

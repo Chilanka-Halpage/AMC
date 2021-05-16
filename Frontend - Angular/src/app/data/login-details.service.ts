@@ -21,7 +21,6 @@ export class LoginDetailsService {
     return this.httpClient.get<LoginDetails[]>(`${this.baseURL}User/loginDetails?page=${page}&size=${size}`);
   }
   logoutDetails(): Observable<object>{
-    delay(3000);
     let userId = this._authentication.userId;
     this._authentication.logoutUser();
     console.log(userId);

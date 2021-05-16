@@ -159,7 +159,7 @@ export class AddClientComponent implements OnInit {
   // when department creation requset for existing client comes, set existing client data to form fields
   loadClientDataForNewDept(cid: number): void {
     this.clientForm.get('client').disable();
-    this.clientService.getClientByClientId(cid).subscribe(response => {
+    this.clientService.getClientByClientId(100).subscribe(response => {
       this.clientForm.patchValue({
         client: {
           clietnID: response.clientId,
@@ -170,8 +170,9 @@ export class AddClientComponent implements OnInit {
           active: response.active
         }
       });
-    }, () => {
-      let message = 'Cannot proceed the request. Try again'
+    }, (error) => {
+      console.log(error);
+      let message = (error.status===404)? error.error.message:'Cannot load client data. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);
     });
   }

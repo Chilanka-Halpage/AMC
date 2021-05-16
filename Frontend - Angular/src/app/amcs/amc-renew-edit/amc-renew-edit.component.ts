@@ -98,7 +98,7 @@ export class AmcRenewEditComponent implements OnInit {
         deptId: [this.data.client_dept_id]
       })
     }, {
-      validator: [DateValidator('mtcStartDate', 'mtcEndDate'), DateValidator('mtcEndDate', 'renewalDate')]
+      validator: [DateValidator('mtcEndDate', 'renewalDate'), DateValidator('mtcStartDate', 'mtcEndDate')]
     });
   }
 
