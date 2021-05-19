@@ -87,6 +87,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/User/admin/**").hasRole("ADMIN")
 			.antMatchers("/User/getUname/{idname}").hasRole("CLIENT")
 			.antMatchers("/User/forgot_password").permitAll()
+			.antMatchers("/User/change_password/{token}").permitAll()
 			.antMatchers("/User/logoutDetails/{userId}").permitAll()
 			.antMatchers("/User/**").authenticated()
 			.antMatchers("/notification/**").authenticated()

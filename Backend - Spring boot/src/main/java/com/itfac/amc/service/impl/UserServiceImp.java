@@ -191,8 +191,8 @@ public class UserServiceImp implements UserService {
 
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
-			user.setResetPasswordToken(token);
-			userRepository.save(user);
+			//user.setResetPasswordToken(token);
+			userRepository.updateResetToken(token, email);
 		} else {
 			throw new UserNotFoundException();
 		}
@@ -211,10 +211,13 @@ public class UserServiceImp implements UserService {
 	public void updatePassword(User user, String newPassword) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String encodedPassword = passwordEncoder.encode(newPassword);
-		user.setPassword(encodedPassword);
+		String userId=user.getUserId();
+		userRepository.updatePassword(encodedPassword, userId);
+		//String resetPasswordToken=user.getResetPasswordToken();
+		//user.setPassword(encodedPassword);
 
-		user.setResetPasswordToken(null);
-		userRepository.save(user);
+		//user.setResetPasswordToken(null);
+		//userRepository.save(user);
 	}
 
 }
