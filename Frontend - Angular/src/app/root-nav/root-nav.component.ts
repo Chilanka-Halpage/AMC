@@ -28,12 +28,15 @@ import { error } from '@angular/compiler/src/util';
 })
 export class RootNavComponent {
   
-  
   userId : String
   imgSource : String
   public imageSrc: string;
   notificationNo;
-  isLoadingResults;
+  isLoadingResults = true;
+  isRateLimitReached = false;
+  errorMessage = "Unknown Error"
+  imageload = false;
+  notificationLoad = false;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -53,6 +56,13 @@ export class RootNavComponent {
     private imageService: ImageService
   ) { }
 
+   ngOnInit(): void {
+   // this.notificationCount()
+  // this.getImage() 
+   // this.imageSrc= this.homedetalis.Image(this._authentication.userId);
+   this.loadselectdata()
+  }
+
   AllAMCDetailsFilter() {
     this.dialog.open(AllAmcFilterComponent)
   }
@@ -62,6 +72,7 @@ export class RootNavComponent {
       Responce =>{
         this.router.navigate(['/login']);
         this.logoutmessage();
+        window.location.reload()
       }
     )
   }
@@ -76,16 +87,7 @@ export class RootNavComponent {
     this.dialog.open(MessageComponent);
   }
 
-  ngOnInit(): void {
-    this.notificationCount()
-    this.imageSrc= this.imageService.Image(this._authentication.userId);
-    this.homedetalis.getImage(this._authentication.userId).subscribe(
-      Response =>{
-        this.imgSource = Response;
-      }
-    )
-    this.imageSrc= this.homedetalis.Image(this._authentication.userId);
-  }
+ 
 
   ClientsDetailsFilter() {
     this.dialog.open(ClientDetailsFilterComponent)
@@ -157,10 +159,17 @@ export class RootNavComponent {
     this.updateIsRead()
  }
 
+  /* getImage(){
+    this.imageService.getImage(this.userId).subscribe(
+      Response =>{
+        this.imgSource = Response;
+      }
+    )
+ }  */
+
  hidden;
 
- notificationCount(){
-  console.log(this._authentication.userId)
+ /* notificationCount(){
   this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
     data => {
       this.notificationNo = data;
@@ -168,9 +177,23 @@ export class RootNavComponent {
       {this.hidden=true;}
       else
       {this.hidden=false;}
-    }
-    );
+    });
   }
+   */
+loadselectdata(){
+  if(this._authentication.userId){
+  let imageload = false, notificationLoad = false;
+  this.imageSrc= this.imageService.Image(this._authentication.userId);
 
-  
+  this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
+    data => {this.notificationNo = data;
+     this.isLoadingResults = false;
+      if(this.notificationNo==0)
+          {this.hidden=true;}
+      else
+         {this.hidden=false;}
+         
+      });
+}
+}
 }

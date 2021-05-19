@@ -48,13 +48,13 @@ doesInvoiceExists(piNo: string): Observable<boolean> {
 }
 
 calculateTaxValueByTaxRate(form: FormGroup) {
-  form.get('totalAmtLkr').valueChanges.subscribe((value: number) => {
-    const totalTax = form.get('taxRate').value * value
+  form.get('totalAmt').valueChanges.subscribe((value: number) => {
+    const totalTax = form.get('tax.taxRate').value * value
     form.patchValue({ totalTax: totalTax });
   });
-  form.get('taxRate').valueChanges.subscribe((value: number) => {
-    const totalTax = form.get('totalAmtLkr').value * value;
-    form.patchValue({ totalAmtLkr: totalTax });
+  form.get('tax.taxRate').valueChanges.subscribe((value: number) => {
+    const totalTax = form.get('totalAmt').value * value;
+    form.patchValue({ totalTax: totalTax });
   })
 }
 
@@ -75,4 +75,19 @@ findactiveTax(): Observable<any>{
 getTaxRate(id: number): Observable<any>{
   return this.HttpClient.get<any>(`${this.baseURL}tax/taxRate/${id}`);
 }
+totalpayble(form: FormGroup){
+  form.get('totalAmt').valueChanges.subscribe((value: number) => {
+    const totalpayble = form.get('totalTax').value + value
+    form.patchValue({ totalpayble: totalpayble });
+    const totalpayblelkr = form.get('exchageRate').value * totalpayble
+    form.patchValue({ totalpayblelkr: totalpayblelkr });
+  });
+  form.get('totalTax').valueChanges.subscribe((value: number) => {
+    const totalpayble = form.get('totalAmt').value + value;
+    form.patchValue({ totalpayble: totalpayble });
+    const totalpayblelkr = form.get('exchageRate').value * totalpayble
+    form.patchValue({ totalpayblelkr: totalpayblelkr });
+  })
+}
+
 }  
