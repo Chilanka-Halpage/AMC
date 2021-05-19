@@ -1,8 +1,8 @@
 import { AuthenticationService } from './../_helpers/authentication.service';
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms'
-import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../alert/alert.component';
 import { environment } from 'src/environments/environment';
@@ -15,11 +15,12 @@ import { HomedetailsService } from '../homedetails.service';
 })
 export class LoginComponent implements OnInit {
 
-  imgSource : String
-  public imageSrc: string;
   loginForm: FormGroup;
   userId : String
   hide = true;
+  private redirectURL: any;
+ 
+ 
   error: any;
   public isDesabled = false;
   isLoadingResults = false;
@@ -34,8 +35,8 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     private router: Router,    
     private dialog:MatDialog,
+    private activatedRoute: ActivatedRoute,
     private _authservice: AuthenticationService,
-    private homedetalis: HomedetailsService,
   ) {}
 
   ngOnInit(): void {
@@ -58,39 +59,53 @@ export class LoginComponent implements OnInit {
       role: admin/user
     }
     */
-  
+
     this.error = '';
-    if (this.loginForm.valid) {      
-      this.isLoadingResults=true  
-      this.http.post<any>(`${this.baseURL}authenticate`,this.loginForm.value).subscribe(
-        response => {            
-            const currentUser = {
-              token: response.jwt,
-              role: response.role,
-              username: response.username,
-              userId: response.userId
-            }
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            if (response.role == "ROLE_ADMIN" || response.role == "ROLE_AMC_COORDINATOR" || response.role == "ROLE_ACCOUNTANT") {
-              this.router.navigate(['/adminhome'])           
-             } else if(response.role == "ROLE_CLIENT"){
-              this.router.navigate(['/clienthome']);   
-             } else{
-               this.dialog.open(AlertComponent);
-             }
+    if (this.loginForm.valid) {
+      this.isLoadingResults = true
+      this.http.post<any>(`${this.baseURL}authenticate`, this.loginForm.value).subscribe(
+        response => {
+          const currentUser = {
+            token: response.jwt,
+            role: response.role,
+            username: response.username,
+            userId: response.userId
+          }
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          let params = this.activatedRoute.snapshot.queryParams;
+          if (params['redirectURL'])
+            this.redirectURL = params['redirectURL'];
+          if (this.redirectURL) {
+            this.router.navigateByUrl(this.redirectURL).catch(() => {
+              this.navigatePage(response);
+            })
+          } else {
+            this.navigatePage(response);
+          }
         }, error => {
           this.error = error;
           this.dialog.open(AlertComponent);
-          this.isLoadingResults=false
+          this.isLoadingResults = false
         }
       );
     }this.isDesabled = true; 
   }
-  
-  forgotpassword(){
+
+  forgotpassword() {
     this.router.navigate(['login/forgetPassword'])
   }
 
-  
+  navigatePage(response: any) {
+    if (response.role == "ROLE_ADMIN" || response.role == "ROLE_AMC_COORDINATOR" || response.role == "ROLE_ACCOUNTANT") {
+      this.router.navigate(['/adminhome']);
+    } else if (response.role == "ROLE_CLIENT") {
+      this.router.navigate(['/clienthome']);
+    } else {
+      this.dialog.open(AlertComponent);
+    }
+  }
+
 
 }
+
+

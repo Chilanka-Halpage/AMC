@@ -1,7 +1,6 @@
 package com.itfac.amc.repository;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -9,14 +8,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
 import com.itfac.amc.dto.addRecieptDto;
-import com.itfac.amc.dto.recieptDto;
 import com.itfac.amc.entity.AmcSerial;
 import com.itfac.amc.reportData.AllAmcs;
 import com.itfac.amc.reportData.ClientAmc;
@@ -91,6 +88,9 @@ public interface AmcSerialRepository extends JpaRepository<AmcSerial, String> {
 	// Quarter wise report
 	@Query(value = "Call getTotal(:date1,:date2);", nativeQuery = true)
 	BigDecimal getRevanue(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2);
+	
+	@Query(value = "Call getTotalCtgWise(:date1,:date2,:category);", nativeQuery = true)
+	BigDecimal getRevanueCtgWise(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2,@Param("category") String category);
 
 	// renevel amc counnt for client home
 	@Query(value = "select count(*) from renewal_amc where user_id = :user_id and renewal BETWEEN :Date1 AND :Date2", nativeQuery = true)

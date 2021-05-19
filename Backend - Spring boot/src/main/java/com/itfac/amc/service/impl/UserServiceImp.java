@@ -22,6 +22,9 @@ import com.itfac.amc.service.UserService;
 @Service
 public class UserServiceImp implements UserService {
 
+	//-----------------------------------------------
+	private static BCryptPasswordEncoder passwordEcorder = new BCryptPasswordEncoder();
+	
 	@Autowired
 	UserRepository userRepository;
 
@@ -156,12 +159,29 @@ public class UserServiceImp implements UserService {
 	
 	//update user's password
 	@Override
-	public ResponseEntity<String> updatePassword(String userId,User user) {
+	public Boolean updatePassword(String current_password,String userId,User user) {
 		User resultUser = getUser(userId);
-		resultUser.setPassword(encoder.encode(user.getPassword()));
-		userRepository.save(resultUser);
-		return ResponseEntity.status(HttpStatus.OK).body("Modified Successfully");
+		//System.out.println(resultUser);
+		String encodedCurrentPassword = encoder.encode(current_password);
+		System.out.println(encodedCurrentPassword);
+		System.out.println(resultUser.getPassword());
+		Boolean doPasswordsMatch = doPasswordsMatch(current_password, resultUser.getPassword());
+		if(doPasswordsMatch==true) {
+			String encodedPassword = encoder.encode(user.getPassword());
+			resultUser.setPassword(encodedPassword);
+			userRepository.save(resultUser);
+			return true;
+			//return ResponseEntity.status(HttpStatus.OK).body("Modified Successfully");
+		}
+		else {
+			return false;
+			//return ResponseEntity.status(HttpStatus.OK).body("current pasword is wrong");
+		}
 	}
+	//
+	   public Boolean doPasswordsMatch(String current_password,String encodedPassword) {
+	      return passwordEcorder.matches(current_password, encodedPassword);
+	   }
 
 	@Override
 	public void sendEmail(String recipientEmail, String link) throws MessagingException, UnsupportedEncodingException {

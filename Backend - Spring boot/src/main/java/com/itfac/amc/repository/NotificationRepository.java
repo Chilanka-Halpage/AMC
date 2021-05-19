@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,7 @@ import com.itfac.amc.reportData.NotificationView;
 public interface NotificationRepository  extends JpaRepository<Notification, Integer> {
 
 	@Query(value = "SELECT * FROM notification WHERE user_id= :user_id ORDER BY saved_date DESC", nativeQuery = true)
-	List<Notification> getNotification(@Param("user_id") String user_id);
+	List<Notification> getNotifications(Pageable pageable, @Param("user_id") String user_id);
 	
 	@Query(value = "SELECT count(*) FROM notification WHERE user_id=:user_id And is_read=true", nativeQuery = true)
 	 List<String> getNotificationNo(@Param("user_id") String user_id);
@@ -45,4 +46,8 @@ public interface NotificationRepository  extends JpaRepository<Notification, Int
 	
 	@Query(value = "select c.client_name from client c, client_department cd where cd.client_id=c.client_id AND cd.dept_id= :dept_id", nativeQuery = true)
 	String getClientName(@Param("dept_id") int dept_id);
+
+	//List<Notification> findById(Pageable pageable, String user_id);
+
+	
 }

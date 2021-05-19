@@ -35,20 +35,11 @@ export class ExpiredAmcsFilterComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit(){
-    this.isLoadingResults=true;
     let date1 = this.expiredAmcsFilter.value.date1;
     let date2 = this.expiredAmcsFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
-     //this.router.navigate(['expiredAmcs',formatteddate1,formatteddate2]);
-    this.jrReportDetailsService.ExpiredAmcsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
-      Response => {console.log("success", Response)
-      this.isLoadingResults=false;
-      this.dialogRef.close();
       this.router.navigate(['expiredAmcs',formatteddate1,formatteddate2]);
-    },
-      error => {console.log("Error!", error)
-    });
 }
 get f(){
   return this.expiredAmcsFilter.controls;

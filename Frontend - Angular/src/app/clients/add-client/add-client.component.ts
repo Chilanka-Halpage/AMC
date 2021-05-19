@@ -55,17 +55,17 @@ export class AddClientComponent implements OnInit {
     this.clientForm = this.formBuilder.group({
       client: this.formBuilder.group({
         clientId: [''],
-        clientName: ['', Validators.required, [this.clientExistsValidator()]],
+        clientName: ['', [Validators.required, Validators.pattern(/^.{3,}$/)], [this.clientExistsValidator()]],
         contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
-        contactPerson: ['', [Validators.required]],
+        contactPerson: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s.]+$/)]],
         address: ['', [Validators.required]],
         active: [true]
       }),
       deptId: [''],
-      departmentName: ['', Validators.required, [this.deptExistsValidator()]],
+      departmentName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s.]+$/)], [this.deptExistsValidator()]],
       email: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
       contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
-      contactPerson: ['', [Validators.required]],
+      contactPerson: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s.]+$/)]],
       active: [true]
     });
   }
@@ -77,7 +77,6 @@ export class AddClientComponent implements OnInit {
           delay(500),
           switchMap((clientName: string) => this.clientService.doesClientExists(clientName)),
           map(response => {
-            console.log(response);
             this.isDesabled = response;
             return response ? { clientExists: true } : null
           })
@@ -107,7 +106,6 @@ export class AddClientComponent implements OnInit {
 
   //According to request type, data is set to the form fields
   private setForm(type: any): void {
-    console.log("djhdhb")
     if (type === '%CE2%') { // request type -> client edit
       this.heading = 'Edit Client';
       this.description = 'Client details modification';
@@ -161,7 +159,7 @@ export class AddClientComponent implements OnInit {
   // when department creation requset for existing client comes, set existing client data to form fields
   loadClientDataForNewDept(cid: number): void {
     this.clientForm.get('client').disable();
-    this.clientService.getClientByClientId(cid).subscribe(response => {
+    this.clientService.getClientByClientId(100).subscribe(response => {
       this.clientForm.patchValue({
         client: {
           clietnID: response.clientId,
@@ -172,8 +170,9 @@ export class AddClientComponent implements OnInit {
           active: response.active
         }
       });
-    }, () => {
-      let message = 'Cannot proceed the request. Try again'
+    }, (error) => {
+      console.log(error);
+      let message = (error.status===404)? error.error.message:'Cannot load client data. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);
     });
   }
@@ -268,7 +267,6 @@ export class AddClientComponent implements OnInit {
     this.clientForm$.subscribe(response => {
       if (response === 'PENDING') {
         setTimeout(() => {
-          console.log("gg");
           this.clientForm.updateValueAndValidity();
         }, 2000);
       }

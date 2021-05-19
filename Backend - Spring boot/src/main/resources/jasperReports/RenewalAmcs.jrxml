@@ -87,7 +87,7 @@
 				<reportElement mode="Opaque" x="80" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="e4e75b6c-4d85-4c02-b9ff-4de20e81f679">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2fb979a4-6eb0-44e2-85e6-6cd632e58509"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AMC Serial No]]></text>
@@ -96,7 +96,7 @@
 				<reportElement mode="Opaque" x="0" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="403061c4-bc35-4a99-b266-c3e6638ab38a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dc0d59-4e2d-42ab-aec3-abb79e62ca6d"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AMC No]]></text>
@@ -105,7 +105,7 @@
 				<reportElement mode="Opaque" x="160" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="2bc9f444-871e-4ba6-b2d8-5c0e301325af">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="527abf0f-a370-40aa-b1c0-b743ae7bff60"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Renewal Date]]></text>
@@ -114,7 +114,7 @@
 				<reportElement mode="Opaque" x="320" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="80ad5faa-a96f-4e8e-9ebd-964c54abd7b5">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bad068e8-bdfc-4712-8abe-275fe6f51b96"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Department Name]]></text>
@@ -123,7 +123,7 @@
 				<reportElement mode="Opaque" x="240" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="4855a4f2-f8e9-40d2-a9c3-9532a467b584">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="55b15126-8082-4f4e-9cad-04eba8699773"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Client Name]]></text>
@@ -132,7 +132,7 @@
 				<reportElement mode="Opaque" x="480" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="858ec9fc-7602-4d1e-848d-6d3f7c99dfcd">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5e90b6b1-e94a-4b79-a3db-0002b3c06db0"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Category Name]]></text>
@@ -141,7 +141,7 @@
 				<reportElement mode="Opaque" x="560" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="fe85a7bb-c51e-4cae-a0b4-1a83ab7cd660">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b356be95-e9bd-44e5-a657-7680af79c061"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Frequency]]></text>
@@ -150,7 +150,7 @@
 				<reportElement mode="Opaque" x="640" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="b89feb6f-abd0-4683-a54a-46cf23477489">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b973823-28f4-457c-a398-e0af49dab8da"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Currency]]></text>
@@ -159,7 +159,7 @@
 				<reportElement mode="Opaque" x="400" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a12d9db6-5d8a-4f38-9dc6-871807718384"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Contact no]]></text>
@@ -168,7 +168,7 @@
 				<reportElement mode="Opaque" x="720" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="85f45384-4c40-4913-ac42-b37dae70af1c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9630fc95-03cb-4dbf-8ed1-6c10873a3a90"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total Value Lkr]]></text>
@@ -177,7 +177,7 @@
 				<reportElement mode="Opaque" x="800" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="85f45384-4c40-4913-ac42-b37dae70af1c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9630fc95-03cb-4dbf-8ed1-6c10873a3a90"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Mtc Qty]]></text>
@@ -190,7 +190,7 @@
 				<reportElement mode="Opaque" x="0" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="478e8bca-53e7-4f40-b092-c9d2cd62f258">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dc0d59-4e2d-42ab-aec3-abb79e62ca6d"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amc_no}]]></textFieldExpression>
@@ -199,7 +199,7 @@
 				<reportElement mode="Opaque" x="160" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="527abf0f-a370-40aa-b1c0-b743ae7bff60"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{renewal}]]></textFieldExpression>
@@ -208,7 +208,7 @@
 				<reportElement mode="Opaque" x="320" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="5c2030f3-ca3e-4200-86f9-a9555a25d5bd">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bad068e8-bdfc-4712-8abe-275fe6f51b96"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{department_name}]]></textFieldExpression>
@@ -217,7 +217,7 @@
 				<reportElement mode="Opaque" x="240" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="7e85ebf9-1c78-42d8-93cf-73ea31cd3408">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="55b15126-8082-4f4e-9cad-04eba8699773"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{client_name}]]></textFieldExpression>
@@ -226,7 +226,7 @@
 				<reportElement mode="Opaque" x="480" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="83c37a2c-5284-4eb0-95c9-92f15cbae8be">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5e90b6b1-e94a-4b79-a3db-0002b3c06db0"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{category_name}]]></textFieldExpression>
@@ -235,7 +235,7 @@
 				<reportElement mode="Opaque" x="560" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="c1e27979-0d66-4be8-8afd-85e786232622">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b356be95-e9bd-44e5-a657-7680af79c061"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{frequency}]]></textFieldExpression>
@@ -244,7 +244,7 @@
 				<reportElement mode="Opaque" x="640" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="f284a51b-31b4-483a-9fb5-4787b1048dbb">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6b973823-28f4-457c-a398-e0af49dab8da"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{currency_name}]]></textFieldExpression>
@@ -253,7 +253,7 @@
 				<reportElement mode="Opaque" x="400" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a12d9db6-5d8a-4f38-9dc6-871807718384"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{conatact_no}]]></textFieldExpression>
@@ -262,7 +262,7 @@
 				<reportElement mode="Opaque" x="720" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9630fc95-03cb-4dbf-8ed1-6c10873a3a90"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total_value_lkr}]]></textFieldExpression>
@@ -271,7 +271,7 @@
 				<reportElement mode="Opaque" x="800" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="b0ef1d7f-3776-4358-8a6d-de98d1f79d68">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9630fc95-03cb-4dbf-8ed1-6c10873a3a90"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{mtc_qty}]]></textFieldExpression>
@@ -280,7 +280,7 @@
 				<reportElement mode="Opaque" x="80" y="-20" width="80" height="30" backcolor="#E0FFFF" uuid="285142c1-c2d7-4c4a-a95f-8cb43cf9d8ee">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2fb979a4-6eb0-44e2-85e6-6cd632e58509"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amc_serial_no}]]></textFieldExpression>

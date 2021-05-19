@@ -18,9 +18,11 @@ export class ClientDetailsComponent implements OnInit {
 
   clientDetails: MatTableDataSource<ClientDetails>
   public isLoadingResults = true;
+  public isRateLimitReached =false;
   public resultsLength = 0;
   date1
   date2
+
   constructor(
     public _authentication: AuthenticationService,
     private reportDetailsService: ReportDetailsService,
@@ -46,12 +48,27 @@ export class ClientDetailsComponent implements OnInit {
       this.clientDetails = new MatTableDataSource(Response) ;
       this.isLoadingResults=false;
       this.resultsLength = this.clientDetails.data.length;
-    })
+    },
+      error =>{
+        this.isRateLimitReached=true;
+      })
   }
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.clientDetails.filter = filterValue.trim().toLowerCase();
   }
+
+ClientDetailsJrReport(){
+  this.isLoadingResults = true;
+  this.jrReportDetailsService.ClientDetailsJrReport(this.date1,this.date2,this._authentication.userId).subscribe(
+    Response => {console.log("success", Response)
+    this.isLoadingResults=false;
+    this.viewPdf();
+  },
+    error => {console.log("Error!", error)
+  }
+  )
+}
   
   viewPdf() {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(

@@ -17,6 +17,7 @@ export class RenewalAmcsReportComponent implements OnInit {
 
   renewalAmcs: MatTableDataSource<RenewalAmcs>;
   public isLoadingResults = true;
+  public isRateLimitReached =false;
   public resultsLength = 0;
 
   constructor(
@@ -43,8 +44,24 @@ export class RenewalAmcsReportComponent implements OnInit {
       this.renewalAmcs =new MatTableDataSource(data);
       this.isLoadingResults=false;
       this.resultsLength = this.renewalAmcs.data.length;
+    },
+    error =>{
+      this.isRateLimitReached=true;
     })
   }
+
+  RenewalAmcsJrReport(){
+    this.isLoadingResults=true;
+    this.jrReportDetailsService.RenewalAmcsJrReport(this.date1,this.date2,this._authentication.userId).subscribe(
+      Response => {console.log("success", Response)
+      this.isLoadingResults=false;
+      this.viewPdf();
+    },
+      error => {console.log("Error!", error)
+    }
+    )
+  }
+
   viewPdf() {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
       response => {
@@ -52,7 +69,13 @@ export class RenewalAmcsReportComponent implements OnInit {
         window.open(url, '_blank');
         URL.revokeObjectURL(url);
       });
+  }  
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.renewalAmcs.filter = filterValue.trim().toLowerCase();
   }
+
   displayedColumns: string[] = [ 'amc_no','amc_serial_no','renewal','client_name','department_name','conatact_no',
   'category_name','frequency','currency_name','total_value_lkr','mtc_qty', ];
 }

@@ -31,6 +31,8 @@
                     *ngIf="!isLoadingResults && !resultsLength">
                     No data
         </div>
+        <mat-paginator class="text-primary" [length]="resultsLength" [pageSize]="pagesize" showFirstLastButtons>
+        </mat-paginator>
         </div>
       </div>
     </div>

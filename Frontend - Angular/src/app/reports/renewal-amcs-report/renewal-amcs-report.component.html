@@ -1,6 +1,19 @@
-<div class="container mt-2">
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+    Unknown Error
+  </div>
+</div>
+<div class="background-color">
+  <div class="col-6 pt-2 pb-0 my-0 ">
     <h3 class="">Renewal AMCs Report</h3>
-    <!-- <h5><b> From :</b> {{date1}} &nbsp; <b>To : </b>{{date2}}</h5> -->
+    <h5><b> From :</b> {{date1}} &nbsp; <b>To : </b>{{date2}}</h5>
+  </div>
+  <div class="px-3">
+  <mat-form-field class="px-3">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Client Name" #input>
+  </mat-form-field>
   <table mat-table [dataSource]="renewalAmcs" class="mat-elevation-z8, table table-striped table-hover">
       <ng-container matColumnDef="amc_no">
         <th mat-header-cell *matHeaderCellDef  class="align-middle">AMC No</th>
@@ -52,6 +65,9 @@
           </ng-container>
       <tr mat-header-row class="p-3 mb-2 bg-primary text-white" *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td *ngIf="resultsLength" class="mat-cell align-middle" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
     </table>
     <div class="font-italic d-flex justify-content-center" *ngIf="isLoadingResults">
       Loading data...
@@ -60,5 +76,8 @@
               *ngIf="!isLoadingResults && !resultsLength">
               No data
   </div>
-    <button (click)="viewPdf()" [disabled]="!resultsLength" mat-raised-button color="primary">view PDF</button>
+</div>
+<div class="col-6 pt-2 pb-4 my-0 ">
+    <button (click)="RenewalAmcsJrReport()" [disabled]="!resultsLength" mat-raised-button color="primary">view PDF</button>
+  </div>
   </div>

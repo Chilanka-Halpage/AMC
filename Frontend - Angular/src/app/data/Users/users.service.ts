@@ -22,8 +22,11 @@ export class UsersService {
   updateUser(userId : String, value:any): Observable<object>{
     return this.httpClient.put(`${this.baseURL}User/update/${userId}`,value);
   }
-  updatePassword(userId : String, value:any): Observable<object>{
-    return this.httpClient.put(`${this.baseURL}User/updatePassword/${userId}`,value);
+  updatePassword(userId : String, current_password : String, value:any): Observable<object>{
+    return this.httpClient.put(`${this.baseURL}User/updatePassword/${current_password}/${userId}`,value, {
+      responseType: 'text' as 'json'
+    }
+    );
   }
 }
 

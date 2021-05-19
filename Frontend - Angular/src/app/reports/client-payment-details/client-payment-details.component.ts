@@ -17,6 +17,7 @@ export class ClientPaymentDetailsComponent implements OnInit {
   clientPaymentDetails: MatTableDataSource<ClientPaymentDetails>;
   cId;
   public isLoadingResults = true;
+  public isRateLimitReached =false;
   public resultsLength = 0;
   
   constructor(
@@ -39,7 +40,22 @@ export class ClientPaymentDetailsComponent implements OnInit {
       this.clientPaymentDetails = new MatTableDataSource(data);
       this.isLoadingResults=false;
       this.resultsLength = this.clientPaymentDetails.data.length;
+    },
+    error =>{
+      this.isRateLimitReached=true;
     });
+  }
+
+  ClientPaymentJrReport(){
+    this.isLoadingResults=true;
+    this.jrReportDetailsService.ClientPaymentJrReport(this._authentication.userId).subscribe(
+      Response => {console.log("success", Response)
+      this.isLoadingResults=false;
+      this.viewPdf()
+    },
+      error => {console.log("Error!", error)
+    }
+    )
   }
 
   viewPdf() {

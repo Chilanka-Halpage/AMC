@@ -15,5 +15,9 @@ public class ResourceCreationFailedException extends RuntimeException {
 	public ResourceCreationFailedException(String message) {
 		super(message);
 	}
+	
+	public ResourceCreationFailedException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }
