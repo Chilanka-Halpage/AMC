@@ -197,7 +197,7 @@ public class ReportController {
 		List<RenewedAmcs> count = reportService.getRenewedAmcs(Date1, Date2);
 		return count.size();
 	}
-	//renewel amc for clinet
+	// renewel amc for clinet
 	@GetMapping("/dashboard/RenewelAmccountC/{id}/{Date1}/{Date2}")
 	public String getRenewalAmc(
 			@PathVariable("id") String id,
