@@ -1,6 +1,7 @@
 package com.itfac.amc.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,5 +28,7 @@ public interface ProformaInvoiceService {
 	void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice);
 
 	boolean doesInvoiceExists(String piNo);
+	
+	void checkdueInvoice();
 
 }

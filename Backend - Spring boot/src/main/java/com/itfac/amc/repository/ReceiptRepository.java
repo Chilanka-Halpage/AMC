@@ -1,5 +1,6 @@
 package com.itfac.amc.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +30,7 @@ public interface ReceiptRepository extends JpaRepository<Receipt, String> {
 	
 	//Total revanue of last year
 	@Query(value = "SELECT sum(total_lkr) FROM receipt WHERE rec_date BETWEEN :Date1 and :Date2", nativeQuery = true)
-	String TotalrevanuelastYear(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
+	BigDecimal TotalrevanuelastYear(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
     
 	//find detail by clientId
 	@Query(value = "SELECT r.rec_no,r.balance,r.pay_mode,c.category_name,r.pi_no,d.dept_id,t.client_id,r.rec_date from receipt r,client_department d,category c,client t  where r.client_dept_id = d.client_id and d.client_id = t.client_id and r.category_id = c.category_id and user_id = :client_id", nativeQuery = true)

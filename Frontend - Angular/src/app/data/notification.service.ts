@@ -14,6 +14,10 @@ export class NotificationService {
   getNotification(userId): Observable<Notification[]>{
     return this.httpClient.get<Notification[]>(`${this.baseURL}notification/getNotification/${userId}`);
   }
+  getNotifications(page: number, size: number, sort: string, ord: string, userId): Observable<Notification[]>{
+    return this.httpClient.get<Notification[]>(`${this.baseURL}notification/getNotification?page=${page}&size=${size}&sort=${sort},${ord}/${userId}`);
+  }
+
   getNotificationNo(userId): Observable<any>{
     return this.httpClient.get<any>(`${this.baseURL}notification/getNotificationNo/${userId}`);
   }

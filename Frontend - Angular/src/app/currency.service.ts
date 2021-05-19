@@ -31,4 +31,7 @@ export class CurrencyService {
   doesCurrencyExists(currencyName: string): Observable<boolean> {
     return this.HttpClient.get<boolean>(`${this.baseURL}Currency/exists/${currencyName}`);
   }
+  updatecurrency(currencyId: number, currency): Observable<Object>{
+    return this.HttpClient.put(`${this.baseURL}Currency/updateCurrency/${currencyId}`,currency)
+   }
 }

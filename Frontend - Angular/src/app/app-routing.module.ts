@@ -92,7 +92,8 @@ const routes: Routes = [
   { path: 'generatereport', component: GenerateReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'taxlist', component:TaxListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
   { path: 'invoicelist/:amc_no',component:InvoiceListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'createincoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard,ClientGuard,AmccordinatorGuard]},
+  { path: 'createinvoice/:amc_no', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard,ClientGuard,AmccordinatorGuard]},
+  { path: 'allAmcReport/:date1/:date2', component: AllAmcReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater 
   { path: 'allAmcReport/:date1/:date2/:category', component: AllAmcReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater 
   { path: 'catogerylist', component:ListcategoryComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'currencylist', component:CurrencyListComponent,canActivate: [AuthenticationGuard]},
@@ -139,7 +140,7 @@ const routes: Routes = [
   { path: 'userList/:id',component: UserlistComponent,canActivate: [AuthenticationGuard]},
   { path: 'notification/:userId', component: NotificationComponent,canActivate: [AuthenticationGuard]},//all
   { path: 'clientPaymentReport/:userId', component: ClientPaymentDetailsComponent,canActivate: [AuthenticationGuard,AccountantGuard,AmccordinatorGuard] },//client
-  { path: 'quarterWiseRevenueReport/:date1', component: QuarterWiseRevenueReportComponent,canActivate: [AuthenticationGuard,ClientGuard]},//admin,amc cordinater,accountant
+  { path: 'quarterWiseRevenueReport/:date1/:category', component: QuarterWiseRevenueReportComponent,canActivate: [AuthenticationGuard,ClientGuard]},//admin,amc cordinater,accountant
   { path: 'loginDetails', component:LoginDetailsComponent,canActivate: [AuthenticationGuard]},
   { path: 'edit-Invoice/:piNo',component: EditInvoiceComponent,canActivate: [AuthenticationGuard,AccountantGuard]}
 ];

@@ -5,10 +5,11 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class AuthenticationService {
+
   static userId: any;
 
   constructor(
-    private _router: Router
+    private _router: Router,
   ) {
   }
 
@@ -58,6 +59,7 @@ export class AuthenticationService {
 
   logoutUser(){
    return localStorage.removeItem('currentUser');
+  
   }
 
   get username(): string | null {
@@ -77,5 +79,5 @@ export class AuthenticationService {
       return null;
     }
   }
- 
+    
 }

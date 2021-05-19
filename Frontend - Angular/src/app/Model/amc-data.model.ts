@@ -14,7 +14,7 @@ export class AmcData {
     mtc_end_date: Date;
     renewal: Date;
     frequency: string;
-    exchage_rate: number;
+    exchange_rate: number;
     total_value: number;
     total_value_lkr: number;
     mtc_amount_for_given_annum: number;

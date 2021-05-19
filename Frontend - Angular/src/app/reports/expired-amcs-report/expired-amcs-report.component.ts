@@ -16,6 +16,7 @@ export class ExpiredAmcsReportComponent implements OnInit {
 
   expiredAmcs : MatTableDataSource<ExpiredAmcs>;
   public isLoadingResults = true;
+  public isRateLimitReached =false;
   public resultsLength = 0;
 
   constructor(
@@ -27,13 +28,14 @@ export class ExpiredAmcsReportComponent implements OnInit {
 
     date1
     date2
+
     ngOnInit(): void {
       this.activatedRoute.paramMap.subscribe(params => {
         this.date1 = params.get('date1');
         this.date2 = params.get('date2');
         console.log(this.date1);
         console.log(this.date2)
-        this.RenewalAmcsDetails(this.date1,this.date2);
+        this.ExpiredAmcsDetails(this.date1,this.date2);
     });
   }
   
@@ -42,14 +44,29 @@ export class ExpiredAmcsReportComponent implements OnInit {
     this.expiredAmcs.filter = filterValue.trim().toLowerCase();
   }
 
-  RenewalAmcsDetails(date1,date2){
+  ExpiredAmcsDetails(date1,date2){
     this.reportDetailsService.ExpiredAmcsDetails(date1,date2).subscribe(
       data=>{
       this.expiredAmcs = new MatTableDataSource(data);
       this.isLoadingResults=false;
       this.resultsLength = this.expiredAmcs.data.length;
+    },
+    error =>{
+      this.isRateLimitReached=true;
     })
   }
+
+  ExpiredAmcJrReport(){
+    this.isLoadingResults = true;
+    this.jrReportDetailsService.ExpiredAmcsJrReport(this.date1,this.date2,this._authentication.userId).subscribe(
+      Response => {console.log("success", Response)
+      this.isLoadingResults=false;
+      this.viewPdf()
+    },
+      error => {console.log("Error!", error)
+    });
+  }
+  
   viewPdf() {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
       response => {

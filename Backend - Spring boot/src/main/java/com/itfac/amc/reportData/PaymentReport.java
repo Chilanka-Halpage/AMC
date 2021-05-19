@@ -10,6 +10,7 @@ public interface PaymentReport {
 	public String getproduct_name();
 	public String getfrequency();
 	public String getcurrency_name();
+
 	public BigDecimal getexchage_rate();
 	public BigDecimal getmtc_amount_for_given_frequency_lkr();
 	public String getrec_no();
@@ -18,7 +19,8 @@ public interface PaymentReport {
 	public BigDecimal getmtc_amount_per_product();
 	public BigDecimal getmtc_amount_per_product_lkr();
 	public BigDecimal gettotal();
-	public BigDecimal gettotal_lkr();
+
+    BigDecimal gettotal_lkr();
 	public Date getrec_date();
 	public String getcategory_name();
 }

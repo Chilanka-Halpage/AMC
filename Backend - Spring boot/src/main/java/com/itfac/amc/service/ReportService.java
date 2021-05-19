@@ -39,7 +39,7 @@ public interface ReportService {
 
 	public List<ClientPaymentsDetails> ClientPaymentsReport(String user_id);
 
-	public List<Map<String, Object>> QuarterWiseRevenue(LocalDate date1);
+	public List<Map<String, Object>> QuarterWiseRevenue(LocalDate date1, String caegory);
 	
 	//all amcs ctegory wise report
 	public List<AllAmcs> getAllAmcCtgWise(LocalDate Date1, LocalDate Date2,String category);

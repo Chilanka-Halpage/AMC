@@ -34,24 +34,8 @@
                     AMC number:  </mat-label>
                     <input type="text" matInput formControlName="amcNo" > 
                  </mat-form-field> 
-                </div>  
-                <div formGroupName="amcSerial">       
-                  <mat-form-field appearance="outline" class="col pl-2">
-                     <mat-label>
-                      amc_serialno:</mat-label>
-                      <input type="number" matInput formControlName="amcSerialNo" >     
-                  </mat-form-field> 
-                </div>  
-                <div formGroupName="product">
-                  <mat-form-field appearance="outline" class="col pl-2">
-                    <mat-label>Product</mat-label>
-                    <mat-select formControlName="productId">
-                        <mat-option *ngFor="let product of productList" [value]="product.productId">
-                            {{product.productName}}
-                        </mat-option>
-                    </mat-select>
-                   </mat-form-field> 
-                </div>
+                </div>   
+              
                 <div formGroupName="currency">
                  <mat-form-field appearance="outline" class="col-12">
                   <mat-label>Currency</mat-label>

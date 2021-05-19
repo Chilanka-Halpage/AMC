@@ -40,21 +40,11 @@ export class FullDetailsFilterComponent implements OnInit {
   }
  
   onSubmit(){
-    this.isLoadingResults=true;
     let date1 = this.fullDetailsFilter.value.date1;
     let date2 = this.fullDetailsFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
-    
-
-    this.jrReportDetailsService.FullDetailsJrReport(formatteddate1,formatteddate2,this._authentication.userId).subscribe(
-        Response => {console.log("success", Response)
-        this.isLoadingResults=false;
-        this.dialogRef.close();
-        this.router.navigate(['fullDetails',formatteddate1,formatteddate2]);
-      },
-        error => {console.log("Error!", error)
-      });   
+      this.router.navigate(['fullDetails',formatteddate1,formatteddate2]);
 }
 get f(){
   return this.fullDetailsFilter.controls;
@@ -69,8 +59,10 @@ export function ConfirmedValidator(fromDate: string, toDate: string) {
     }
     if (control.value > matchingControl.value) {
       matchingControl.setErrors({ confirmedValidator: true });
+      control.setErrors({ confirmedValidator: true });
     } else {
       matchingControl.setErrors(null);
+      control.setErrors(null);
     }
   }
 }

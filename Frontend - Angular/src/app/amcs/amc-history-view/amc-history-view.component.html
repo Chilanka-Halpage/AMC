@@ -18,6 +18,7 @@
                 updated {{ logData.fieldName }} from {{ logData.oldValue }} to {{ logData.newValue }}
                 <mat-divider class="mat-divider"></mat-divider>
             </div>
+            <div *ngIf="isListEmpty">History is not available</div>
         </div>
     </div>
 </div>

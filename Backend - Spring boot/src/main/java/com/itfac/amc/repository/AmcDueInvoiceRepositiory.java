@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itfac.amc.dto.DueInvoiceDto;
 import com.itfac.amc.entity.AmcDueInvoice;
+import com.itfac.amc.entity.Notification;
 
 @Repository
 public interface AmcDueInvoiceRepositiory extends JpaRepository<AmcDueInvoice, Integer> {
@@ -21,5 +22,7 @@ public interface AmcDueInvoiceRepositiory extends JpaRepository<AmcDueInvoice, I
 	
 	@Query(value = "SELECT * FROM amc_due_invoice where settle = true", nativeQuery = true)
 	List<DueInvoiceDto> settled();
+	
+	List save(List list);
 	
 }

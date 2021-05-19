@@ -16,9 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import lombok.Data;
 
 @Data
@@ -37,26 +34,14 @@ public class AmcDueInvoice {
 	@Column(name = "invoice_amount", nullable = false)
 	private BigDecimal invoiceAmt;
 	
-	@Column(name = "invoice_balance", nullable = false)
-	private BigDecimal invoiceBalance;
+	@Column(name = "invoice_payble_lkr", nullable = true)
+	private BigDecimal InvoicePaybleLkr;
 	
 	private boolean settle;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "amc_due_fk1"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private AmcMaster amcMaster;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "amc_serialno", nullable = false, foreignKey = @ForeignKey(name = "amc_due_fk2"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
-
-	private AmcSerial amcSerial;
-	
-	@ManyToOne()
-	@JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "amc_due_fk3"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Product product;
 	
 	@ManyToOne()
 	@JoinColumn(name = "currency_id", nullable = false, foreignKey = @ForeignKey(name = "amc_due_fk4"))

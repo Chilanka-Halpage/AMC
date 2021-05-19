@@ -14,12 +14,9 @@
             <input matInput [matDatepicker]="picker1" formControlName="date1" required>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
-            <mat-error *ngIf="allAmcFilter.get('date1').hasError('required')">
-              from date is required
-            </mat-error>
+            <mat-error *ngIf="allAmcFilter.get('date1').hasError('required')">from date is required</mat-error>
           </mat-form-field>
         </div>
-      <br>
         <b>To date:</b>
         <div>
           <mat-form-field appearance="outline">
@@ -29,22 +26,25 @@
             <mat-datepicker #picker2></mat-datepicker>
             <mat-error *ngIf="allAmcFilter.get('date2').hasError('required')">to date is required</mat-error>
             </mat-form-field>
+            <mat-error *ngIf="f.date2.invalid">
+              <mat-error *ngIf="f.date2.errors.confirmedValidator"><h5>"From date" should be before than "to date".</h5></mat-error> 
+             </mat-error>
             </div>
-           <br>
            <b>Category:</b>
            <div>
-           <mat-form-field appearance="outline" class="col-15 col-md-auto">
-            <mat-label>Choose an option</mat-label>
+          <mat-form-field appearance="outline" class="col-15 col-md-auto">
+            <mat-label>Category</mat-label>
             <mat-select formControlName="category" required>
-              <mat-option value="all" selected="true">All</mat-option>
-              <mat-option value="software">Software</mat-option>
-              <mat-option value="hardware">Hardware</mat-option>
+                <mat-option value="all">All</mat-option>
+                <mat-option *ngFor="let category of categoryList" [value]="category.categoryName">
+                    {{category.categoryName}}
+                </mat-option>
             </mat-select>
             <mat-error *ngIf="allAmcFilter.get('category').hasError('required')">Category is required</mat-error>
-          </mat-form-field>
+        </mat-form-field>
         </div>
         <br>
-        <button class="btn btn-primary" type="submit" [disabled]="!allAmcFilter.valid" (click)="onSubmit()">Generate Report</button>
+        <button class="btn btn-primary" mat-dialog-close type="submit" [disabled]="!allAmcFilter.valid" (click)="onSubmit()">Generate Report</button>
     </form>
     </div>
   </div>

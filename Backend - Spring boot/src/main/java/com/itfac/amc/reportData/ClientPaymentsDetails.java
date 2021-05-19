@@ -9,8 +9,12 @@ public interface ClientPaymentsDetails {
 	public String getdepartment_name(); 
 	public String getamc_serial_no();
 	public String getcurrency_name(); 
+
 	public BigDecimal getexchage_rate();
 	public BigDecimal getexchange_rate();   
+
+	
+
 	public BigDecimal gettotal();
 	public BigDecimal getbalance();
 	public String getuser_id();

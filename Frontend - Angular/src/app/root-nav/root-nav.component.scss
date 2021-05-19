@@ -3,7 +3,8 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 250px;
+  padding: 0px;
 }
 
 .sidenav .mat-toolbar {
@@ -22,7 +23,7 @@
 }
 
 .button-text {
-  padding-left: 10px;
+  padding-left: 20px;
 }
 
 .avatar {
@@ -31,9 +32,22 @@
   height: 30px;
   border-radius: 60%;
   margin-left: 30px;
+  background-image: url(../../assets/backgroundimage.jpg)
 }
 
 ::ng-deep .width {
   width: 200px;
 }
+.footer{
+ margin-bottom:0px;
+ text-align: center;
+ vertical-align:middle;
+}
+.active-list-item {
+  background-color: #3e59ec !important; /* Note: You could also use a custom theme */
+}
 
+mat-panel-title {
+  align-items: center;
+  padding-left: 30px;
+}

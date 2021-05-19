@@ -78,10 +78,7 @@ export class ClientListComponent implements OnInit, AfterViewInit {
           return data.content;
         }),
         catchError( error => {
-          if (error.status === 403) {
-            this.authService.logoutUser();
-            this.router.navigate(['/login']);
-          }
+          this.errorMessage = error;
           this.isLoadingResults = false;
           // set flag to identify that errors ocuured
           this.isRateLimitReached = true;

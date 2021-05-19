@@ -39,7 +39,21 @@
               </mat-form-field>
           </div>
           <br>
-          <button type="submit" mat-raised-button color="primary" (click)="onSubmit()">Generate Report</button>
+          <b>Category:</b>
+          <div>
+            <mat-form-field appearance="outline" class="col-15 col-md-auto">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category" required>
+                  <mat-option value="all">All</mat-option>
+                  <mat-option *ngFor="let category of categoryList" [value]="category.categoryName">
+                      {{category.categoryName}}
+                  </mat-option>
+              </mat-select>
+              <mat-error *ngIf="quarterWiseReport.get('category').hasError('required')">Category is required</mat-error>
+          </mat-form-field>
+          </div>
+          <br>
+          <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!quarterWiseReport.valid" (click)="onSubmit()">Generate Report</button>
         </form>
       </div>
     </div>

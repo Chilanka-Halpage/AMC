@@ -1,5 +1,6 @@
 package com.itfac.amc.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +62,11 @@ public class TaxServiceImpl implements TaxService{
 	@Override
 	public boolean doesTaxExists(String taxName) {
 		return taxRepository.existsByTaxName(taxName);
+	}
+
+	@Override
+	public BigDecimal gettaxRate(int taxId) {
+		return taxRepository.gettaxRate(taxId);
 	}
 }
 

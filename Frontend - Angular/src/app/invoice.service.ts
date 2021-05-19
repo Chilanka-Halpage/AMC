@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Invoice } from './invoice';
 import { environment } from 'src/environments/environment';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,49 @@ export class InvoiceService {
 }
 doesInvoiceExists(piNo: string): Observable<boolean> {
   return this.HttpClient.get<boolean>(`${this.baseURL}invoice/exists/${piNo}`);
+}
+
+calculateTaxValueByTaxRate(form: FormGroup) {
+  form.get('totalAmt').valueChanges.subscribe((value: number) => {
+    const totalTax = form.get('tax.taxRate').value * value
+    form.patchValue({ totalTax: totalTax });
+  });
+  form.get('tax.taxRate').valueChanges.subscribe((value: number) => {
+    const totalTax = form.get('totalAmt').value * value;
+    form.patchValue({ totalTax: totalTax });
+  })
+}
+
+calculateAmountValueByExRate(form: FormGroup) {
+  form.get('exchageRate').valueChanges.subscribe((value: number) => {
+    const totalAmtLkr = form.get('totalAmt').value * value
+    form.patchValue({ totalAmtLkr: totalAmtLkr });
+  });
+  form.get('totalAmt').valueChanges.subscribe((value: number) => {
+    const totalAmtLkr = form.get('exchageRate').value * value;
+    form.patchValue({ totalAmtLkr: totalAmtLkr });
+  })
+}
+
+findactiveTax(): Observable<any>{
+  return this.HttpClient.get<any>(`${this.baseURL}tax/findactivetaxes`);
+}
+getTaxRate(id: number): Observable<any>{
+  return this.HttpClient.get<any>(`${this.baseURL}tax/taxRate/${id}`);
+}
+totalpayble(form: FormGroup){
+  form.get('totalAmt').valueChanges.subscribe((value: number) => {
+    const totalpayble = form.get('totalTax').value + value
+    form.patchValue({ totalpayble: totalpayble });
+    const totalpayblelkr = form.get('exchageRate').value * totalpayble
+    form.patchValue({ totalpayblelkr: totalpayblelkr });
+  });
+  form.get('totalTax').valueChanges.subscribe((value: number) => {
+    const totalpayble = form.get('totalAmt').value + value;
+    form.patchValue({ totalpayble: totalpayble });
+    const totalpayblelkr = form.get('exchageRate').value * totalpayble
+    form.patchValue({ totalpayblelkr: totalpayblelkr });
+  })
 }
 
 }  

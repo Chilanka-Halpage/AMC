@@ -21,7 +21,7 @@ export class PaymentListComponent implements OnInit {
 
   constructor(private paymentService: PaymentService , private Router: Router) { }
 
-  displayedColumns:string[] = ['recNo','recDate','exchageRate','payMode','client_dept','balance','totalLkr','balanceLkr','category','Currency','pi_no'];
+  displayedColumns:string[] = ['recNo','recDate','exchageRate','payMode','client_dept','balance','totalLkr','balanceLkr','pi_no'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 

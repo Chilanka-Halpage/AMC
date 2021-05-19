@@ -8,9 +8,7 @@ public interface DueInvoiceDto {
 	Date getdue_date();
 	int getinvoice_amount();
 	String getamc_no();
-	int getproduct_id();
 	int getcurrency_id();
-	int getinvoice_balance();
-	String getamc_serialno();
+	int getinvoice_payble_lkr();
 	
 }

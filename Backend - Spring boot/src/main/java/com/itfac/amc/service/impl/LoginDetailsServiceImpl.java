@@ -7,10 +7,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.itfac.amc.dto.logindetailsDTo;
+import com.itfac.amc.entity.Client;
 import com.itfac.amc.entity.Currency;
 import com.itfac.amc.entity.LoginDetails;
 import com.itfac.amc.entity.User;
@@ -25,9 +27,15 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
 	private LoginDtailsRepository loginDtailsRepository;
 
 	@Override
-	public List<viewLoginDetails> loginDetails(Pageable pageable) {
+	public Page<viewLoginDetails> loginDetails(Pageable pageable) {
 		return loginDtailsRepository.loginDetails(pageable);
 	}
+	
+//	@Override
+//	public Page<LoginDetails> loginDetails(Pageable pageable) {
+//		return loginDtailsRepository.findAll(pageable);
+//	}
+
 
 	@Override
 	public LoginDetails loginDetails(HttpServletRequest httpServletRequest, String userId) {
@@ -54,5 +62,10 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
 	@Override
 	public List<logindetailsDTo> logindetailslist() {
 		return loginDtailsRepository.logindetailslist();
+	}
+
+	@Override
+	public List<LoginDetails> logindetailslistbyId(String userId) {
+		return loginDtailsRepository.logindetailslistbyId(userId);
 	}
 }

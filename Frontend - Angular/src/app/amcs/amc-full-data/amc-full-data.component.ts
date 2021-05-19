@@ -78,12 +78,8 @@ export class AmcFullDataComponent implements OnInit {
   }
 
   checkStatus(): void {
-    console.log(this.currentDate);
-    console.log(new Date(this.data.mtc_end_date));
     if (this.currentDate > new Date(this.data.mtc_end_date)) this.isExpired = true;
     if (!this.data.active) this.isInactive = true;
-    console.log(this.isExpired);
-    console.log(this.isInactive);
   }
 
   //Download scanned copy of amc

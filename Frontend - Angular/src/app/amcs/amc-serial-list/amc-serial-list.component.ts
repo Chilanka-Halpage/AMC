@@ -113,11 +113,23 @@ export class AmcSerialListComponent implements OnInit {
       queryParams: {
         "data": JSON.stringify({
           "id": this.departmentId, 
+          "name": this.departmentName
         })
       }
     };
-    console.log(this.departmentId)
     this.router.navigate(['invoicelist',amc_no],navigationExtras);
+  }
+
+  createinvoice(amc_no:String): void{
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "data": JSON.stringify({
+          "id": this.departmentId, 
+          "name": this.departmentName
+        })
+      }
+    };
+    this.router.navigate(['createinvoice/',amc_no],navigationExtras);
   }
 
 }

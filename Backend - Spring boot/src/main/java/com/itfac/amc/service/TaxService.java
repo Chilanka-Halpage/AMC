@@ -1,9 +1,12 @@
 package com.itfac.amc.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.data.repository.query.Param;
 
 import com.itfac.amc.entity.Tax;
 
@@ -22,4 +25,6 @@ public interface TaxService {
 	List<Tax> getActiveTax();
 	
 	boolean doesTaxExists(String taxName);
+	
+	BigDecimal gettaxRate(int taxId);
 }

@@ -123,10 +123,12 @@ public class JrReportController {
 		return jasperReportService.ClientPaymentReport(userId);
 	}
 
-	@GetMapping("/QuarterWiseRevenueJrReport/{date1}/{userId}")
+	//quarter wise revenue details
+	@GetMapping("/QuarterWiseRevenueJrReport/{date1}/{category}/{userId}")
 	public ResponseEntity<String> QuarterWiseReport(
 			@PathVariable(value = "date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date1,
+			@PathVariable(value = "category") String category,
 			@PathVariable(value = "userId") String userId) throws FileNotFoundException, JRException {
-		return jasperReportService.QuarterWiseRevenueJrReport(date1, userId);
+		return jasperReportService.QuarterWiseRevenueJrReport(date1, category, userId);
 	}
 }

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit ,ViewChild} from '@angular/core';
 import { TaxService } from '../tax.service';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-tax-list',
@@ -23,6 +24,7 @@ export class TaxListComponent implements OnInit {
  
   constructor(private taxService: TaxService , 
               private Router: Router,
+              private notificationService: NotificationService,
               private _authentication: AuthenticationService) { }
 
   displayedColumns:string[] = ['taxName','shortName','taxRate','active','savedOn','savedBy','savedIp','lastModifiedBy','Action'];
@@ -47,9 +49,12 @@ export class TaxListComponent implements OnInit {
   deleteTax(taxId: number){
       console.log(taxId);
     this.taxService.deleteTax(taxId).subscribe(data =>{
-      console.log(data);
-      this.getTax();
-    })
+       this.notificationService.showNoitfication('Successfully delete', 'OK', 'success', () => {  this.getTax();  });
+       
+    },
+      error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. The Tax Already in use'
+                  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+      );
   }
 
   updatetax(taxId: number){

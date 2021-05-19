@@ -14,9 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itfac.amc.Exception.ResourceCreationFailedException;
 import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
+import com.itfac.amc.dto.addRecieptDto;
 import com.itfac.amc.entity.AmcMaster;
 import com.itfac.amc.entity.AmcProduct;
 import com.itfac.amc.entity.AmcSerial;
@@ -43,30 +45,33 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 	public void addAmcSerialByAmcNo(String amcSerialData, MultipartFile file, String amcNo)
 			throws JsonMappingException, JsonProcessingException {
 		AmcMaster amcMaster = amcMasterRepository.findById(amcNo).orElse(null);
+		try {
+			if (amcMaster != null) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				AmcSerial amcSerial = objectMapper.readValue(amcSerialData, AmcSerial.class);
+				amcSerial.setAmcMaster(amcMaster);
+				AmcProduct amcProduct = amcSerial.getAmcProduct();
+				amcProduct.setAmcMaster(amcMaster);
+				amcProductRepository.save(amcProduct);
 
-		if (amcMaster != null) {
-			ObjectMapper objectMapper = new ObjectMapper();
-			AmcSerial amcSerial = objectMapper.readValue(amcSerialData, AmcSerial.class);
-			amcSerial.setAmcMaster(amcMaster);
-			AmcProduct amcProduct = amcSerial.getAmcProduct();
-			amcProduct.setAmcMaster(amcMaster);
-			amcProductRepository.save(amcProduct);
+				// calculate AMC serial no.
+				String receivedLastSerialNo = amcSerialRepository.getAmcLastSerialNo(amcNo);
+				int lastSerialNo = (receivedLastSerialNo != null) ? (Integer.parseInt(receivedLastSerialNo)) + 1 : 1;
+				String amcSerialNo = amcNo + lastSerialNo;
 
-			// calculate AMC serial no.
-			String receivedLastSerialNo = amcSerialRepository.getAmcLastSerialNo(amcNo);
-			int lastSerialNo = (receivedLastSerialNo != null) ? (Integer.parseInt(receivedLastSerialNo)) + 1 : 1;
-			String amcSerialNo = amcNo + lastSerialNo;
+				// update amc_number_serial table by inserting last_serial_no
+				amcSerialRepository.setAmcSerialNo(amcNo, lastSerialNo);
 
-			// update amc_number_serial table by inserting last_serial_no
-			amcSerialRepository.setAmcSerialNo(amcNo, lastSerialNo);
-
-			// save scanned copy of contract and get URL
-			String contractUrl = fileStorageService.storeFile(file, amcSerialNo);
-			amcSerial.setAmcSerialNo(amcSerialNo);
-			amcSerial.setContractUrl(contractUrl);
-			amcSerialRepository.save(amcSerial);
-		} else {
-			throw new ResourceNotFoundException("Amc not found for AmcNo: " + amcNo);
+				// save scanned copy of contract and get URL
+				String contractUrl = fileStorageService.storeFile(file, amcSerialNo);
+				amcSerial.setAmcSerialNo(amcSerialNo);
+				amcSerial.setContractUrl(contractUrl);
+				amcSerialRepository.save(amcSerial);
+			} else {
+				throw new ResourceNotFoundException("Amc not found for AmcNo: " + amcNo);
+			}
+		} catch (Exception ex) {
+			throw new ResourceCreationFailedException("Error occurred while data are being saved", ex);
 		}
 
 	}
@@ -81,22 +86,20 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 
 	@Override
 	public AmcFullDataDto getAmcFullDataByAmcNo(String amcNo) {
-		AmcFullDataDto amcFullData = amcSerialRepository.getAmcFullDataByAmcNo(amcNo)
+		return amcSerialRepository.getAmcFullDataByAmcNo(amcNo)
 				.orElseThrow(() -> new ResourceNotFoundException("Not Found Records For Amc No: " + amcNo));
-		return amcFullData;
 	}
 
 	@Override
 	public AmcFullDataDto getAmcFullDataByAmcSerialNo(String amcSerialNo) {
-		AmcFullDataDto amcFullData = amcSerialRepository.getAmcFullDataByAmcSerialNo(amcSerialNo).orElseThrow(
+		return amcSerialRepository.getAmcFullDataByAmcSerialNo(amcSerialNo).orElseThrow(
 				() -> new ResourceNotFoundException("Not Found Records For Amc Serial No: " + amcSerialNo));
-		return amcFullData;
 	}
 
 	@Override
 	@Transactional
-	public void renewAmc(HttpServletRequest request, String data, MultipartFile file, String amcNo, String oldAmcSerialNo)
-			throws JsonMappingException, JsonProcessingException {
+	public void renewAmc(HttpServletRequest request, String data, MultipartFile file, String amcNo,
+			String oldAmcSerialNo) throws JsonMappingException, JsonProcessingException {
 		String ipAddress = request.getRemoteAddr();
 		AmcSerial amcSerial = new ObjectMapper().readValue(data, AmcSerial.class);
 		int amcProdNo = amcSerial.getAmcProduct().getAmcProdNo();
@@ -112,33 +115,41 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 				() -> new ResourceNotFoundException("Record for AMC Serial No " + oldAmcSerialNo + " Not Found"));
 		AmcProduct amcProduct = amcProductRepository.findById(amcProdNo)
 				.orElseThrow(() -> new ResourceNotFoundException("Record for AMC Product Not Found"));
-		
-		//Old AMC Serial's status updates into inactive
-		oldamcSerial.setActive(false);
-		amcSerialRepository.save(oldamcSerial);
+		try {
+			// Old AMC Serial's status updates into inactive
+			oldamcSerial.setActive(false);
+			amcSerialRepository.save(oldamcSerial);
 
-		amcMaster.setFrequency(frequency);
-		amcMaster.setExchangeRate(exchangeRate);
-		amcMaster.setTotalValue(amcTotalValue);
-		amcMaster.setTotalValueLkr(amcTotalValueLkr);
-		amcMaster.setLastModifiedIp(ipAddress);
-		// Save updated AMC master inDB
-		amcMasterRepository.save(amcMaster);
+			amcMaster.setFrequency(frequency);
+			amcMaster.setExchangeRate(exchangeRate);
+			amcMaster.setTotalValue(amcTotalValue);
+			amcMaster.setTotalValueLkr(amcTotalValueLkr);
+			amcMaster.setLastModifiedIp(ipAddress);
+			// Save updated AMC master in DB
+			amcMasterRepository.save(amcMaster);
 
-		amcProduct.setLifeEndDate(lifeEndDate);
-		// save updated AMC product in DB
-		amcProductRepository.save(amcProduct);
+			amcProduct.setLifeEndDate(lifeEndDate);
+			// save updated AMC product in DB
+			amcProductRepository.save(amcProduct);
 
-		String receivedLastSerialNo = amcSerialRepository.getAmcLastSerialNo(amcNo);
-		int lastSerialNo = 0;
-		lastSerialNo = (receivedLastSerialNo != null) ? (Integer.parseInt(receivedLastSerialNo)) + 1 : 1;
-		String renewesAmcSerialNo = amcNo + lastSerialNo;
-		amcSerialRepository.setAmcSerialNo(amcNo, lastSerialNo);
-		String contractUrl = fileStorageService.storeFile(file, renewesAmcSerialNo);
-		amcSerial.setAmcSerialNo(renewesAmcSerialNo);
-		amcSerial.setAmcMaster(amcMaster);
-		amcSerial.setContractUrl(contractUrl);
-		amcSerialRepository.save(amcSerial);
+			String receivedLastSerialNo = amcSerialRepository.getAmcLastSerialNo(amcNo);
+			int lastSerialNo = 0;
+			lastSerialNo = (receivedLastSerialNo != null) ? (Integer.parseInt(receivedLastSerialNo)) + 1 : 1;
+			String renewesAmcSerialNo = amcNo + lastSerialNo;
+			amcSerialRepository.setAmcSerialNo(amcNo, lastSerialNo);
+			String contractUrl = fileStorageService.storeFile(file, renewesAmcSerialNo);
+			amcSerial.setAmcSerialNo(renewesAmcSerialNo);
+			amcSerial.setAmcMaster(amcMaster);
+			amcSerial.setContractUrl(contractUrl);
+			amcSerialRepository.save(amcSerial);
+		} catch (Exception ex) {
+			throw new ResourceCreationFailedException("Error occurred while data are being saved", ex);
+		}
+	}
+
+	@Override
+	public addRecieptDto getdetalis(String amc_no) {
+		return amcSerialRepository.getdetalis(amc_no);
 	}
 
 }

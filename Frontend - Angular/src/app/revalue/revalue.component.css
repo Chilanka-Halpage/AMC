@@ -1,13 +1,6 @@
-body{
-  margin: 3rem
-}
-  .fixed-height-chart{
-  height: 200px;
-}
 
-.example-card {
-  height: 400px;
-  width: 700px;
-  border-radius: 5px;
-  background: transparent;
+.chart-container {
+  margin-top: 0%;
+  width: 95%;
+  height:80%
 }

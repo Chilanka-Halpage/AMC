@@ -13,7 +13,7 @@
               <input matInput [matDatepicker]="picker1" formControlName="date1" required>
               <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
               <mat-datepicker #picker1></mat-datepicker>
-              <mat-error *ngIf="paymentReportsFilter.get('date2').hasError('required')">
+              <mat-error *ngIf="paymentReportsFilter.get('date1').hasError('required')">
                 from date is required
               </mat-error>
             </mat-form-field>
@@ -36,18 +36,19 @@
           </div>
           <b>Category:</b>
           <div>
-          <mat-form-field appearance="outline" class="col-15 col-md-auto">
-           <mat-label>Choose an option</mat-label>
-           <mat-select formControlName="category" required>
-             <mat-option value="all" selected="true">All</mat-option>
-             <mat-option value="software">Software</mat-option>
-             <mat-option value="hardware">Hardware</mat-option>
-           </mat-select>
-           <mat-error *ngIf="paymentReportsFilter.get('category').hasError('required')">Category is required</mat-error>
-         </mat-form-field>
-       </div>
-          <br>
-          <button class="btn btn-primary" type="submit" [disabled]="!paymentReportsFilter.valid" (click)="onSubmit()">Generate Report</button>
+            <mat-form-field appearance="outline" class="col-15 col-md-auto">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category" required>
+                  <mat-option value="all">All</mat-option>
+                  <mat-option *ngFor="let category of categoryList" [value]="category.categoryName">
+                      {{category.categoryName}}
+                  </mat-option>
+              </mat-select>
+              <mat-error *ngIf="paymentReportsFilter.get('category').hasError('required')">Category is required</mat-error>
+          </mat-form-field>
+          </div>
+          <br> 
+          <button class="btn btn-primary" mat-dialog-close type="submit" [disabled]="!paymentReportsFilter.valid" (click)="onSubmit()">Generate Report</button>
         </form>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
+import { AmcMasterService } from 'src/app/shared/amc-master.service';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
@@ -13,11 +14,14 @@ import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 })
 export class PaymentReportFilterComponent implements OnInit {
 
+  categoryList = [];
   isLoadingResults ;
+  public errorMessage = "Unknown Error"
 
   constructor(
     private jrReportDetailsService:JrReportDetailsService,
     public _authentication: AuthenticationService,
+    private amcMasterservice: AmcMasterService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
@@ -34,7 +38,21 @@ export class PaymentReportFilterComponent implements OnInit {
     validator: ConfirmedValidator('date1', 'date2')
   });
   
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadSelectionData();
+  }
+
+  private loadSelectionData(){
+    let categoryListLoad = false;
+    this.amcMasterservice.getCategory().subscribe(response => {
+      this.categoryList = response;
+      this.isLoadingResults = (categoryListLoad = true) ? false : true;
+    }, error => {
+      this.isLoadingResults = false;
+      this.errorMessage = error;
+    });
+  }
+
   onSubmit(){
     this.isLoadingResults=true;
     let date1 = this.paymentReportsFilter.value.date1;
@@ -45,14 +63,7 @@ export class PaymentReportFilterComponent implements OnInit {
     //this.router.navigate(['paymentDetails',formatteddate1,formatteddate2]);
     console.log(formatteddate1);
     console.log(formatteddate2);
-    this.jrReportDetailsService.PaymentsDetailsJrReport(formatteddate1,formatteddate2,category,this._authentication.userId).subscribe(
-      Response => {console.log("success", Response)
-      this.isLoadingResults=false;
-      this.dialogRef.close();
       this.router.navigate(['paymentDetails',formatteddate1,formatteddate2,category]);
-    },
-      error => {console.log("Error!", error)
-    });
   }
   get f(){
     return this.paymentReportsFilter.controls;

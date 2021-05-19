@@ -40,7 +40,7 @@
       <mat-checkbox formControlName="active" [(ngModel)]="tax.active" class="col-md-4">Active Tax</mat-checkbox>
      </div>
      <div class="d-flex flex-row-reverse my-0">
-      <button class="btn btn-success mb-3" type="submit">submit</button>
+      <button class="btn btn-success mb-3" type="submit"><span *ngIf="TaxSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
      </div>
     </form>
   </div>

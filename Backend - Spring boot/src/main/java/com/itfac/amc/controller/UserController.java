@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.dto.logindetailsDTo;
+import com.itfac.amc.entity.LoginDetails;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.reportData.viewLoginDetails;
 import com.itfac.amc.service.LoginDetailsService;
@@ -97,9 +99,11 @@ public class UserController {
 	}
 
 	// update user's password
-	@PutMapping(path = "/updatePassword/{id}")
-	public ResponseEntity<String> updatePassword(@PathVariable(value = "id") String userId, @RequestBody User user) {
-		return userservice.updatePassword(userId, user);
+	@PutMapping(path = "/updatePassword/{current_password}/{id}")
+	public Boolean updatePassword(
+			@PathVariable(value = "current_password") String current_password,@PathVariable(value = "id") String userId, 
+			@RequestBody User user) {
+		return userservice.updatePassword(current_password,userId, user);
 	}
 
 	// update User's email and contact No
@@ -110,7 +114,7 @@ public class UserController {
 
 	// get login details
 	@GetMapping("/loginDetails")
-	public List<viewLoginDetails> LoginDetail(Pageable pageable) {
+	public Page<viewLoginDetails> LoginDetail(Pageable pageable) {
 		return loginDetailsService.loginDetails(pageable);
 	}
 
@@ -161,8 +165,14 @@ public class UserController {
 	@GetMapping("getlast7logdetails")
 	public List<logindetailsDTo> logindetailslist() {
 		return loginDetailsService.logindetailslist();
-	}
-	
+	}	
+
+	@GetMapping("getlast15logdetails/{userId}")
+	public List<LoginDetails> logindetailslistbyId(	@PathVariable("userId") String userId){
+		return loginDetailsService.logindetailslistbyId(userId);
+		
+	}	
+
 	//logout details
 	@PutMapping("logoutDetails/{userId}")
 	public void logoutDetails(HttpServletRequest httpServletRequest,@PathVariable("userId") String userId){

@@ -17,6 +17,7 @@ export class FullDetailsComponent implements OnInit {
 
   fullDetails: MatTableDataSource<FullDetails>;
   public isLoadingResults = true;
+  public isRateLimitReached =false;
   public resultsLength = 0;
   date1
   date2
@@ -48,9 +49,23 @@ export class FullDetailsComponent implements OnInit {
       this.fullDetails = new MatTableDataSource(data);
       this.isLoadingResults=false;
       this.resultsLength = this.fullDetails.data.length;
+     },
+     error =>{
+       this.isRateLimitReached=true;
      })
+  }
 
-  };
+  FullDetailsJrReport(){
+    this.isLoadingResults=true;
+    this.jrReportDetailsService.FullDetailsJrReport(this.date1,this.date2,this._authentication.userId).subscribe(
+      Response => {console.log("success", Response)
+      this.isLoadingResults=false;
+      this.viewPdf();
+    },
+      error => {console.log("Error!", error)
+    });   
+  }
+
   viewPdf() {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
       response => {

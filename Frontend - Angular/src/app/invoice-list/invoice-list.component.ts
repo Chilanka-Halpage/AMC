@@ -5,6 +5,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-invoice-list',
@@ -17,7 +18,7 @@ export class InvoiceListComponent implements OnInit {
   clientId: number
 
   public isAuthorized: boolean;
-  private pi_no: number;
+  private deptName: String;
   private deptId: number;
   private amc_no: number;
   public isLoadingResults = true;
@@ -29,9 +30,10 @@ export class InvoiceListComponent implements OnInit {
   constructor(private invoiceService: InvoiceService,
               private router: Router,
               private _authentication: AuthenticationService,
+              private notificationService: NotificationService,
               private route: ActivatedRoute) { }
 
-  displayedColumns: string[] = ['piNo', 'piDate', 'exchageRate', 'totalTax', 'totalAmt', 'totalAmtLkr', 'remark', 'Action', 'update'];
+  displayedColumns: string[] = ['piNo', 'piDate', 'exchageRate', 'totalTax', 'totalAmt', 'totalAmtLkr','Saved By','remark', 'Action'];
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,8 +43,9 @@ export class InvoiceListComponent implements OnInit {
     this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
     this.route.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
+      this.deptName = value.name
       this.deptId = value.id;
-    });
+    });   
 }
 
   getInvoice() {
@@ -58,7 +61,7 @@ export class InvoiceListComponent implements OnInit {
   }
 
   createinvoice(): void {
-    this.router.navigate(['createincoice']);
+    this.router.navigate(['/client-list']);
   }
 
   applyFilter(filterValue: string) {
@@ -67,7 +70,13 @@ export class InvoiceListComponent implements OnInit {
 
   deleteinvoice(pi_no: number) {
     this.invoiceService.deleteinvoice(pi_no).subscribe(data => {
-    })
+      this.notificationService.showNoitfication('Successfully delete', 'OK', 'success', () => {  this.getInvoice();  });
+       
+    },
+      error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. The invoice Already in use'
+                  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+      );
+    
   }
 
   editinvoice(pi_no: number) {
@@ -79,7 +88,8 @@ export class InvoiceListComponent implements OnInit {
       queryParams: {
         "data": JSON.stringify({
           "id": this.deptId, 
-          "amcno": this.amc_no
+          "amcno": this.amc_no,
+          "dname": this.deptName
         })
       }
     };
