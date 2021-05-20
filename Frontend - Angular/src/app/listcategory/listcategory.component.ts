@@ -23,7 +23,9 @@ export class ListcategoryComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private route: ActivatedRoute,
     private authService: AuthenticationService) {}
-
+    public resultsLength = 0;
+    public isLoadingResults = true;
+    public isRateLimitReached = false;
     public categoryAddForm: FormGroup;
     public submitted = false;
     public searchKey: string;

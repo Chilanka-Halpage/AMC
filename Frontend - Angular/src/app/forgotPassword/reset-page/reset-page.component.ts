@@ -44,22 +44,12 @@ export class ResetPageComponent implements OnInit {
         validator: ConfirmedValidator('passwordOne', 'passwordTwo')
       });
 
-    // this.Init();
+    
   }
   ResetPassword(form) {
     let password1= form.get('passwordOne').value
      let password2=form.get('passwordTwo').value
-    // if(password1 == '')
-    // alert ("Please enter Password");
-
-    // else if (password2 == '')
-    //                 alert ("Please enter confirm password");
-    //                 else if (password1 != password2) {
-    //                   alert ("\nPassword did not match: Please try again...")
-    //                   return false;
-    //               }
-     // else if(password1==password2)  {           
-    //console.log(form.get('passwordTwo'));
+     console.log(form.get('passwordTwo'));
     
     this.dataSavingProgress = true;
       this._service.newPassword(password2,this.resetToken).subscribe(data => {
@@ -72,7 +62,6 @@ export class ResetPageComponent implements OnInit {
             this.notificationService.showNoitfication(message, 'OK', 'error', null);
           }).add(()=>this.dataSavingProgress=false)
         }
-  //}
 
       navigateToLoginPage(){
         this.router.navigate(['login']);

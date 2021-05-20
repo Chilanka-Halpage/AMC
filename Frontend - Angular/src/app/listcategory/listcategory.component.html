@@ -32,6 +32,13 @@
    </mat-card-content>
   </mat-card>
 
+  <div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      {{errorMessage}}
+    </div>
+  </div>
+
 <div class="background-color">
   <div class="col-6 pt-2 pb-0 my-0 ">
       <strong><h2>Category List</h2></strong>
@@ -109,6 +116,11 @@
       <tr mat-header-row class="p-3 mb-2 bg-primary text-white" *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <div class="font-italic d-flex justify-content-center" *ngIf="isLoadingResults">
+      Loading data...
+    </div>
+    <div class="font-italic d-flex justify-content-center"
+      *ngIf="!isLoadingResults && !isRateLimitReached && !resultsLength"></div>
   <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
 </div>
