@@ -340,12 +340,16 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <div class="row px-0">
-                    <div class="col-6">
-                        <mat-label>Scanned Copy of AMC</mat-label>
+                <div class="row px-0 mt-2 mb-3">
+                    <div class="col-3">
+                        <mat-label *ngIf="!(amcFile===null)">Scanned Copy of AMC</mat-label>
+                        <mat-label *ngIf="amcFile===null" class="text-danger">Scanned Copy of AMC</mat-label>
                     </div>
-                    <div class="col-6">
+                    <div class="col-3" >
                         <input type="file" (change)="onFileChanged($event)">
+                    </div>
+                    <div class="col-5" *ngIf="amcFile===null">
+                        <mat-label class="text-danger">Scanned copy is required</mat-label>
                     </div>
                 </div>
                 <div class="row px-0s">

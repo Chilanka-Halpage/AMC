@@ -11,7 +11,8 @@
 
       <div class="header">
         <h1><b>LOGIN</b></h1>
-      </div>  
+      </div>
+      <div class="error-message mb-2" *ngIf="showMessage">Token is expired</div> 
       <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
         <div class="UserIdInput">
           <mat-form-field class="full-width" appearance="outline">
