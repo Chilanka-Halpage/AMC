@@ -46,15 +46,15 @@ export class CreateInvoiceComponent implements OnInit {
 
   addinvoiceForm = this.fb.group({
     piNo:['',[Validators.required],[this.existInvoiceValidator()], blur],
-    piDate:[''],
-    exchageRate:[''],
+    piDate:['',[Validators.required]],
+    exchageRate:['',[Validators.required]],
     totalTax:[''],
-    totalAmt:[''],
-    totalAmtLkr:[''],
-    remark:[''],
+    totalAmt:['',[Validators.required]],
+    totalAmtLkr:['',[Validators.required]],
+    remark:['',[Validators.required]],
     taxApplicable:[''],
-    totalpayble:[''],
-    totalpayblelkr:[''],
+    totalpayble:['',[Validators.required]],
+    totalpayblelkr:['',[Validators.required]],
     cancel:[''],
     cancelReason:[''],
     clientDepartment:this.fb.group({
@@ -110,6 +110,7 @@ export class CreateInvoiceComponent implements OnInit {
   }
 
   saveInvoice(){ 
+    if(this.addinvoiceForm.valid){
     this.invoiceService.createInvoice(this.addinvoiceForm.value).subscribe(data =>{
       this.invoiceSavingProgress = true; 
        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/invoicelist']) });
@@ -118,6 +119,7 @@ export class CreateInvoiceComponent implements OnInit {
       error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
                   this.notificationService.showNoitfication(message, 'OK', 'error', null); }
       );
+    }
   }
 
   private loadSelectionData() {
@@ -170,8 +172,9 @@ export class CreateInvoiceComponent implements OnInit {
   }
 
   calculate(): void{
-    this.invoiceService.calculateAmountValueByExRate(this.addinvoiceForm)/* ,
-    this.invoiceService.calculateTaxValueByTaxRate(this.addinvoiceForm)  */
+    this.invoiceService.calculateAmountValueByExRate(this.addinvoiceForm),
+    this.invoiceService.calculateTaxValueByTaxRate(this.addinvoiceForm) ,
+    this.invoiceService.totalpayble(this.addinvoiceForm) 
   }
 
   findtaxRate(taxId){

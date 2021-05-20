@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,7 +26,7 @@ public interface LoginDtailsRepository extends JpaRepository<LoginDetails, Integ
 //	List<viewLoginDetails> loginDetails(Pageable pageable);
 	
 	@Query(value = "Select * from viewlogindetails" , nativeQuery = true)
-	List<viewLoginDetails> loginDetails(Pageable pageable);
+	Page<viewLoginDetails> loginDetails(Pageable pageable);
 
 	@Query(value = "Select u.user_id, u.uname, ld.loged_ip, ld.loged_datetime from user u, login_details ld where u.user_id = ld.user_id ORDER BY logno DESC LIMIT 15", nativeQuery = true)
 	List<logindetailsDTo> logindetailslist();

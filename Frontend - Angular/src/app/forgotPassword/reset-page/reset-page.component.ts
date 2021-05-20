@@ -38,7 +38,7 @@ export class ResetPageComponent implements OnInit {
 
     this.passwordAddForm = this.fb.group(
       { 
-        passwordOne: ['', [Validators.required, Validators.minLength(8)]],
+        passwordOne: ['', [Validators.required,Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&#])[A-Za-z\d$@$!%*?&#].{7,}')]],
         passwordTwo: ['', [Validators.required, Validators.minLength(8)]], 
       }, {
         validator: ConfirmedValidator('passwordOne', 'passwordTwo')

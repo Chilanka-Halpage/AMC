@@ -1,6 +1,8 @@
 package com.itfac.amc.repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.itfac.amc.dto.DueInvoicecheckDto;
 import com.itfac.amc.dto.ProformaInvoiceDto;
 import com.itfac.amc.entity.ProformaInvoice;
 import com.itfac.amc.reportData.GetInvoice;
@@ -40,4 +43,14 @@ public interface ProformaInvoiceRepository extends JpaRepository<ProformaInvoice
 	List<ProformaInvoiceDto> getActiveinvoicesById(@Param("amcNo") String amc_no);
 	
 	boolean existsById(String piNo);
+	
+	//dueinvoice check--------------------------------------------not finished
+	@Query(value = "select * from proforma_invoice where pi_no not in (select pi_no from receipt where rec_date = :date)", nativeQuery = true)
+    List<ProformaInvoiceDto> checkdueInvoice(@Param("date") LocalDate date);
+	
+	@Query(value = "SELECT p.pi_date, f.frequency from proforma_invoice p, frequency f where p.frequency_id = f.frequency_id", nativeQuery = true)
+	List<DueInvoicecheckDto> Proformainvoicecheck();
+
+	
 }
+

@@ -61,7 +61,7 @@ export class InvoiceListComponent implements OnInit {
   }
 
   createinvoice(): void {
-    this.router.navigate(['createincoice']);
+    this.router.navigate(['/client-list']);
   }
 
   applyFilter(filterValue: string) {

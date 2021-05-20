@@ -27,7 +27,7 @@ export class DuePaymentComponent implements OnInit {
     public _authentication: AuthenticationService
   ) { }
 
-  displayedColumns:string[] = ['id','dueDate','invoiceAmt','amc_no','product_id','currency_id','Action','update'];
+  displayedColumns:string[] = ['id','dueDate','invoiceAmt','amc_no','payblelkr','currency_id','Action'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

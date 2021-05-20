@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../alert/alert.component';
 import { environment } from 'src/environments/environment';
+import { HomedetailsService } from '../homedetails.service';
 
 @Component({
   selector: 'app-login',
@@ -14,41 +15,48 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginComponent implements OnInit {
 
+  loginForm: FormGroup;
+  userId : String
+  hide = true;
   private redirectURL: any;
   public showMessage = false;
-  userId: String
-  hide = false;
   error: any;
+  public isDesabled = false;
   isLoadingResults = false;
   isRateLimitReached = false;
   errorMessage = "Unknown Error"
 
-  loginForm: FormGroup = this.fb.group({
-    userId: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
-  });
-
-
+  
   private baseURL = environment.baseServiceUrl;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router,
+    private router: Router,    
+    private dialog:MatDialog,
     private activatedRoute: ActivatedRoute,
-    private dialog: MatDialog,
-    private _authservice: AuthenticationService
-  ) { }
+    private _authservice: AuthenticationService,
+  ) {}
 
   ngOnInit(): void {
+<<<<<<< HEAD
     let params = this.activatedRoute.snapshot.queryParams;
     if (params['redirectURL']) {
       this.showMessage = true;
       this.redirectURL = params['redirectURL'];
     }
+=======
+    this.loginForm = this.fb.group({
+    userId: ['', [Validators.required]],
+    password: ['', [Validators.required,
+                    Validators.minLength(8),]
+                  ]});
+>>>>>>> a8cdf8b10a731b2f03d8f899be2e86c590f45226
   }
-  onLogin(): void {
 
+  get f() { return this.loginForm.controls; }
+
+  onLogin(): void {
 
     /*
     response {
@@ -84,7 +92,7 @@ export class LoginComponent implements OnInit {
           this.isLoadingResults = false
         }
       );
-    }
+    }this.isDesabled = true; 
   }
 
   forgotpassword() {
@@ -104,4 +112,4 @@ export class LoginComponent implements OnInit {
 
 }
 
-/* ('http://localhost:8080/authenticate', this.loginForm.value) */
+

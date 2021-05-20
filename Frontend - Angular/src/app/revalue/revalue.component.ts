@@ -65,47 +65,4 @@ export class RevalueComponent implements OnInit {
       error => {console.log("Error!", error)
     })
   }
-
-
-
-
-
- /*  barchart(){
-    let date=new Date();
-    date.setFullYear(date.getFullYear() - 1);
-    let formatteddate1 = this.datePipe.transform(date, "yyyy");
-    date.setFullYear(date.getFullYear() - 1);
-    let formatteddate2 = this.datePipe.transform(date, "yyyy");
-    date.setFullYear(date.getFullYear() - 1);
-    let formatteddate3 = this.datePipe.transform(date, "yyyy");
-    date.setFullYear(date.getFullYear() - 1);
-    let formatteddate4 = this.datePipe.transform(date, "yyyy");
-    date.setFullYear(date.getFullYear() - 1);
-    let formatteddate5 = this.datePipe.transform(date, "yyyy");
-    console.log(this.revanue)
-    this.bar = new Chart("bar", {
-      type: 'bar',
-      data: {
-        labels: [formatteddate5, formatteddate4, formatteddate3, formatteddate2, formatteddate1],
-        datasets: [{
-          label: 'Revenue',
-          data: [1.12,23.34],
-          backgroundColor: ["#4265ff", "#4265ff", "#4265ff","#4265ff", "#4265ff"],
-        }] 
-      },
-      options: {
-        responsive: true,
-        
-        title: {
-          display: true,
-           
-        },
-        animation: {
-          animateRotate: true,
-          animateScale: true
-        }
-      }
-    });
-  }
- */
 }

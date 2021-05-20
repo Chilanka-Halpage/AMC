@@ -6,6 +6,8 @@ import { DatePipe } from '@angular/common';
 import * as Chart from 'chart.js';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, interval, Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { RenewalAmcsFilterComponent } from '../Filters/renewal-amcs-filter/renewal-amcs-filter.component';
 
 @Component({
   selector: 'app-home',
@@ -47,6 +49,7 @@ export class HomeComponent implements OnInit {
                private datePipe: DatePipe,
                private _authentication: AuthenticationService,
                private router: Router,
+               private dialog: MatDialog,
                ) { }
 
   ngOnInit(): void {
@@ -62,11 +65,8 @@ export class HomeComponent implements OnInit {
    this.monthcount();
    this.getlogDetails();
    this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
-   this.updateSubscription = interval(100000).subscribe(
-    (val) => { 
-      this.getActiveClient()
-  }
-);
+   this.getActiveClient()
+  
   }
 
   getActiveClient(){
@@ -89,7 +89,6 @@ export class HomeComponent implements OnInit {
     this.homedetails.getInactiveAmcCount().subscribe(data=>{
       this.isLoadingResults = (( this.inactiveLoad = true) && this.activeLoad ) ? false : true ;
       this.InactiveAmcCount=data  
-      console.log(data) 
       if(!this.isLoadingResults ){
         this.doughnutchart()
       }
@@ -111,7 +110,6 @@ export class HomeComponent implements OnInit {
 getlogDetails(){
   this.homedetails.logdetail(this._authentication.userId).subscribe(data =>{
     this.loginDetail = new MatTableDataSource(data)
-    console.log(data)
 });
 }
 
@@ -133,8 +131,7 @@ lastyearrevanu(){
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
-        
+        maintainAspectRatio: false,       
         animation: {
           animateRotate: true,
           animateScale: true
@@ -169,6 +166,7 @@ lastyearrevanu(){
     }
   });
 }
+
 RenewedAmcscount(){
   let date=new Date();
   let formatteddate1 = this.datePipe.transform(date, "yyyy-MM-dd");  
@@ -252,4 +250,9 @@ monthcount(){
 gotoclientlist(){
   this.router.navigate(['client-list']); 
 }
+
+RenewalAmcsFilter() {
+  this.dialog.open(RenewalAmcsFilterComponent);
+}
+
 }

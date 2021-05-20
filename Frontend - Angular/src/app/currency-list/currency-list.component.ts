@@ -144,7 +144,7 @@ editCurrencyList(row) {
  console.log(row.currencyId)
  }
  onEdit(){
-    if(this.addcurrencyForm.valid){
+    
     this.currencyService.updatecurrency(this.currencyId,this.addcurrencyForm.value).subscribe(data =>{
     this.getCurrency();  
     this.notificationService.showNoitfication('Successfully edited', 'OK', 'success', () => { window.location.reload()});
@@ -154,10 +154,7 @@ editCurrencyList(row) {
       this.notificationService.showNoitfication(message, 'OK', 'error', null);}
       
       );
-      
-    }else{
-  this.isDesabled = true;
-    }    
+     
  }
 
 }

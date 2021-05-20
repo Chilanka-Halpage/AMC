@@ -62,7 +62,7 @@ public class ReceiptController {
 		return ResponseEntity.status(HttpStatus.OK).body(receiptDate);
 	}
 
-	@GetMapping("/lastyearrevanue/{Date1}")
+	@GetMapping("/dashboard/lastyearrevanue/{Date1}")
 	public List<BigDecimal> TotalrevanuelastYear(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1) {
 		return receiptService.TotalrevanuelastYear(Date1);
 	}
