@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 export class LoginComponent implements OnInit {
 
   private redirectURL: any;
+  public showMessage = false;
   userId: String
   hide = false;
   error: any;
@@ -40,7 +41,11 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    let params = this.activatedRoute.snapshot.queryParams;
+    if (params['redirectURL']) {
+      this.showMessage = true;
+      this.redirectURL = params['redirectURL'];
+    }
   }
   onLogin(): void {
 
@@ -66,9 +71,6 @@ export class LoginComponent implements OnInit {
             userId: response.userId
           }
           localStorage.setItem('currentUser', JSON.stringify(currentUser));
-          let params = this.activatedRoute.snapshot.queryParams;
-          if (params['redirectURL'])
-            this.redirectURL = params['redirectURL'];
           if (this.redirectURL) {
             this.router.navigateByUrl(this.redirectURL).catch(() => {
               this.navigatePage(response);

@@ -27,10 +27,11 @@ import { error } from '@angular/compiler/src/util';
   styleUrls: ['./root-nav.component.scss']
 })
 export class RootNavComponent {
-  
-  hidden:boolean;
-  userId : String
-  imgSource : String
+
+  private linkColor: NodeListOf<Element>;
+  hidden: boolean;
+  userId: String
+  imgSource: String
   public imageSrc: string;
   notificationNo;
   isLoadingResults;
@@ -48,8 +49,8 @@ export class RootNavComponent {
     public _authentication: AuthenticationService,
     private router: Router,
     private homedetalis: HomedetailsService,
-    private loginDetailsService : LoginDetailsService,
-    private notificationService:NotificationService,
+    private loginDetailsService: LoginDetailsService,
+    private notificationService: NotificationService,
     private imageService: ImageService
   ) { }
 
@@ -59,7 +60,7 @@ export class RootNavComponent {
 
   logout() {
     this.loginDetailsService.logoutDetails().subscribe(
-      Responce =>{
+      Responce => {
         this.router.navigate(['/login']);
         this.logoutmessage();
       }
@@ -77,97 +78,103 @@ export class RootNavComponent {
   }
 
   ngOnInit(): void {
+    this.linkColor = document.getElementsByName('nav-link');
     this.notificationCount()
-    this.imageSrc= this.imageService.Image(this._authentication.userId);
+    this.imageSrc = this.imageService.Image(this._authentication.userId);
     this.homedetalis.getImage(this._authentication.userId).subscribe(
-      Response =>{
+      Response => {
         this.imgSource = Response;
       }
     )
-    this.imageSrc= this.homedetalis.Image(this._authentication.userId);
+    this.imageSrc = this.homedetalis.Image(this._authentication.userId);
+  }
+  colorLink(event) {
+    this.linkColor.forEach(element => element.classList.remove('active'))
+    event.srcElement.classList.add('active');
   }
 
-  ClientsDetailsFilter() {
+  colorLink2(id) {
+    const elements = document.getElementsByTagName('mat-expansion-panel-header');
+    for (let index = 0; index < elements.length; index++) {
+      elements[index].classList.remove('selected');
+    }
+    document.getElementById(id).classList.add('selected');
+    
+  }
+
+  ClientsDetailsFilter(event) {
+    this.colorLink(event)
     this.dialog.open(ClientDetailsFilterComponent)
   }
-  FullDetailsFilter() {
+  FullDetailsFilter(event) {
+    this.colorLink(event)
     this.dialog.open(FullDetailsFilterComponent)
   }
-  RenewalAmcsFilter() {
+  RenewalAmcsFilter(event) {
+    this.colorLink(event)
     this.dialog.open(RenewalAmcsFilterComponent)
   }
-  RenewedAmcsFilter() {
+  RenewedAmcsFilter(event) {
+    this.colorLink(event)
     this.dialog.open(RenewedAmcsFilterComponent)
   }
-  ExpiredAmcsFilter() {
+  ExpiredAmcsFilter(event) {
+    this.colorLink(event)
     this.dialog.open(ExpiredAmcsFilterComponent)
   }
-  PaymentReportFilter() {
+  PaymentReportFilter(event) {
+    this.colorLink(event)
     this.dialog.open(PaymentReportFilterComponent)
   }
-  QuarterWiseReport(){
+  QuarterWiseReport(event) {
+    this.colorLink(event)
     this.dialog.open(QuarterWiseReportComponent)
   }
 
   //Client AMC
-  ClientAmc(){
-    // this.isLoadingResults=true;
-    // this.jrReportDetailsService.ClientAmcJrReport(this._authentication.userId).subscribe(
-    //   Response => {console.log("success", Response)
-    //   this.isLoadingResults=false;
-       this.router.navigate([`clientAmc/${this._authentication.userId}`]);
-    // },
-    //   error => {console.log("Error!", error)
-    // }
-    // )
+  ClientAmc(event) {
+    this.colorLink(event)
+    this.router.navigate([`clientAmc/${this._authentication.userId}`]);
   }
 
   //Client Payment report
-  ClientPayment(){
-    //this.isLoadingResults=true;
-    //this.jrReportDetailsService.ClientPaymentJrReport(this._authentication.userId).subscribe(
-     // Response => {console.log("success", Response)
-    //  this.isLoadingResults=false;
-      this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
-    //},
-    //  error => {console.log("Error!", error)
-   // }
-   // )
+  ClientPayment(event) {
+    this.colorLink(event)
+    this.router.navigate([`clientPaymentReport/${this._authentication.userId}`]);
   }
 
-  dashboardcheck(){
-    if(this._authentication.role == "ROLE_CLIENT"){
+  dashboardcheck() {
+    if (this._authentication.role == "ROLE_CLIENT") {
       this.router.navigate(['/clienthome']);
-    }else{
+    } else {
       this.router.navigate(['/adminhome']);
     }
   }
-  profilepage(){
-     this.router.navigate([`/profile/${this._authentication.userId}`])
+  profilepage() {
+    this.router.navigate([`/profile/${this._authentication.userId}`])
   }
 
-    //notification
+  //notification
   updateIsRead() {
     this.notificationService.updateIsRead(this._authentication.userId).subscribe(
-        Response => {console.log("success", Response)}
-      )
+      Response => { console.log("success", Response) }
+    )
   }
-  notification(){
+  notification() {
     this.router.navigate([`/notification/${this._authentication.userId}`]);
     this.updateIsRead()
- }
+  }
 
- notificationCount(){
-  this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
-    data => {
-      this.notificationNo = data;
-      if(data==0)
-      {
-        this.hidden=true;
-      }else{
-        this.hidden=false;
+  notificationCount() {
+    this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
+      data => {
+        this.notificationNo = data;
+        if (data == 0) {
+          this.hidden = true;
+        } else {
+          this.hidden = false;
+        }
       }
-    }
     );
- }
+  }
 }

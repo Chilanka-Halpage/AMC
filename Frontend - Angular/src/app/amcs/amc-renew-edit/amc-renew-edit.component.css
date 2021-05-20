@@ -32,3 +32,8 @@ mat-label{
     max-width: 360px;
     text-align: center;
   }
+
+  .error-message{
+    background: red;
+    color: white;
+  }

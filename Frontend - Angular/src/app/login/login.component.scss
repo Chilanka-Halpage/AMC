@@ -38,6 +38,12 @@
   margin-bottom: 40px;
 }
 
+.error-message{
+  color: red;
+  font-weight: 600;
+  font-size: large;
+}
+
 section{
   width: 100%;
   height: 100%;
@@ -68,4 +74,6 @@ mat-card:hover{
 h1 {
   text-shadow: 0 0 4px #85858594;
 }
+
+
 
