@@ -16,7 +16,7 @@ import { HomedetailsService } from '../homedetails.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  userId : String
+  userId: String
   hide = true;
   private redirectURL: any;
   public showMessage = false;
@@ -26,32 +26,30 @@ export class LoginComponent implements OnInit {
   isRateLimitReached = false;
   errorMessage = "Unknown Error"
 
-  
+
   private baseURL = environment.baseServiceUrl;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router,    
-    private dialog:MatDialog,
+    private router: Router,
+    private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private _authservice: AuthenticationService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-<<<<<<< HEAD
     let params = this.activatedRoute.snapshot.queryParams;
     if (params['redirectURL']) {
       this.showMessage = true;
       this.redirectURL = params['redirectURL'];
     }
-=======
     this.loginForm = this.fb.group({
-    userId: ['', [Validators.required]],
-    password: ['', [Validators.required,
-                    Validators.minLength(8),]
-                  ]});
->>>>>>> a8cdf8b10a731b2f03d8f899be2e86c590f45226
+      userId: ['', [Validators.required]],
+      password: ['', [Validators.required,
+      Validators.minLength(8),]
+      ]
+    });
   }
 
   get f() { return this.loginForm.controls; }
@@ -92,7 +90,7 @@ export class LoginComponent implements OnInit {
           this.isLoadingResults = false
         }
       );
-    }this.isDesabled = true; 
+    } this.isDesabled = true;
   }
 
   forgotpassword() {
