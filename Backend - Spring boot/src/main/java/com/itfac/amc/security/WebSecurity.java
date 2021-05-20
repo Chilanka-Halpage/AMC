@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.itfac.amc.jwt.JwtAuthenticationEntryPoint;
 import com.itfac.amc.jwt.JwtFiter;
 
 @EnableWebSecurity()
@@ -21,6 +22,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	JwtFiter jwtFiter;
+	
+	@Autowired
+	JwtAuthenticationEntryPoint authenticationEntryPoint;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -94,6 +98,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/notification/**").authenticated()
 			.antMatchers("/authenticate").permitAll()
 			.anyRequest().authenticated()
+			.and().exceptionHandling()
+	        .authenticationEntryPoint(authenticationEntryPoint)
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtFiter, UsernamePasswordAuthenticationFilter.class).cors();
