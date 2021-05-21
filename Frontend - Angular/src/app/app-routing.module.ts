@@ -31,7 +31,7 @@ import { ReportComponent } from './report/report.component';
 import { GenerateReportComponent } from './generate-report/generate-report.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { AllAmcFilterComponent } from './Filters/all-amc-filter/all-amc-filter.component'
-import { AllAmcReportComponent } from './Reports/all-amc-report/all-amc-report.component';
+import { AllAmcReportComponent } from './reports/all-amc-report/all-amc-report.component';
 import { RootNavComponent } from './root-nav/root-nav.component';
 import { AuthenticationGuard } from './_helpers/authentication.guard';
 import { LoginComponent } from './login/login.component';

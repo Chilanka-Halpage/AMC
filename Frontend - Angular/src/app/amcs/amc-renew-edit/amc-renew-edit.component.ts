@@ -160,7 +160,7 @@ export class AmcRenewEditComponent implements OnInit {
         this.notificationService.showNoitfication(response, 'OK', 'success', () => this.router.navigate([`/clients/depts/${this.data.client_dept_id}/amc-list`], navigationExtras));
       }, error => {
         console.log(error);
-        let message = (error.status === 400) ? error.error.message || error.statusText : 'Cannot proceed the request. Try again'
+        let message = (error.status === 501) ? error.error : 'Cannot proceed the request. Try again'
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
       }).add(() => this.registerStudentProgress = false);
     } else {
