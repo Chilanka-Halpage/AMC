@@ -4,6 +4,7 @@
 
 .sidenav {
   width: 250px;
+  padding: 0px;
 }
 
 .sidenav .mat-toolbar {
@@ -23,6 +24,8 @@
 
 .button-text {
   padding-left: 30px;
+  margin-left: 0%;
+  font-size: larger;
 }
 
 .avatar {
@@ -37,4 +40,26 @@
 ::ng-deep .width {
   width: 200px;
 }
+.footer{
+ margin-bottom:0px;
+ text-align: center;
+ vertical-align:middle;
+}
+.active-list-item {
+  background-color: #3e59ec !important; /* Note: You could also use a custom theme */
+}
 
+.active{
+  color: #ffffff;
+  background-color: #0C5DF4;
+}
+
+.selected{
+  color: #ffffff;
+  background-color:lightgray;
+}
+
+mat-panel-title {
+  align-items: center;
+  padding-left: 30px;
+}

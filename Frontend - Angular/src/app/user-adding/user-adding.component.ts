@@ -24,7 +24,7 @@ export class UserAddingComponent implements OnInit {
   ngOnInit() {
     this.addForm = this.fb.group(
       {
-        uname: ['', [Validators.required]],
+        uname: ['', [Validators.required ,Validators.minLength(3)]],
         role: ['', [Validators.required]],
         active: ['',[Validators.required]],
         email: ['', [Validators.required,Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],

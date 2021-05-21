@@ -1,3 +1,4 @@
+
 <div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
   <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   <div class="rate-limit-reached" *ngIf="isRateLimitReached">
@@ -11,40 +12,33 @@
       <div class="header">
         <h1><b>LOGIN</b></h1>
       </div>
-      
+      <div class="error-message mb-2" *ngIf="showMessage">Token is expired</div> 
       <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
-
         <div class="UserIdInput">
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>UserId</mat-label>
             <input formControlName="userId" matInput placeholder="Enter UserId" required />
-            <mat-error *ngIf="!loginForm.controls['userId'].valid">
-              UserId is required
-            </mat-error>
+            <mat-error *ngIf="!loginForm.controls['userId'].valid"> UserId is required </mat-error>
           </mat-form-field>
         </div>
         <div>
-
           <mat-form-field class="full-width" appearance="outline" style="margin-top: 15px;">
             <mat-label>Password</mat-label>
             <input formControlName="password" matInput [type]=" hide ? 'password' : 'text'" required />
-            <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
-            [attr.aria-pressed]="hide">
-        </button>
-            <mat-error *ngIf="!loginForm.controls['password'].valid">
-              Password is required
-            </mat-error>
-
+           <mat-error *ngIf="loginForm.controls['password'].errors?.required ">Password is required</mat-error>
+           <mat-error *ngIf="!loginForm.controls['password'].valid && loginForm.controls['password'].touched">Password must be at least 8 characters</mat-error>         
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
           </mat-form-field>
-
           <a class="text-link" class="aLink" (click)="forgotpassword()" >Forgot Password?</a>
-
         </div>
         <div class="button">
-          <button mat-flat-button color="primary" style="border-radius:10px; width : 10em;">Login</button>
+          <button mat-flat-button color="primary" style="border-radius:10px; width : 10em;" (click)="onLogin()" >Login</button>
         </div>
       </form>
       <br>
     </mat-card-content>
   </mat-card>
 </section>
+

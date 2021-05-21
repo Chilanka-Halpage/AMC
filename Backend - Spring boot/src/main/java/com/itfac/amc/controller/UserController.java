@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -48,6 +49,8 @@ public class UserController {
 
 	@Autowired
 	LoginDetailsService loginDetailsService;
+	
+	private String password_Link;
 
 	@GetMapping("admin/findAllUser")
 	public ResponseEntity<List<User>> getAllUser() {
@@ -125,6 +128,11 @@ public class UserController {
 		return Uname;
 
 	}
+	
+	@Value("${password-link}")
+	public void setPasswordLink(String passwordLink) {
+		password_Link = passwordLink;
+	}
 
 	@PostMapping("forgot_password")
 	ResponseEntity<String> processForgotPassword(@RequestBody Map<String, Object> mail) {
@@ -133,7 +141,7 @@ public class UserController {
 
 		try {
 			userservice.updateResetPasswordToken(token, email);
-			String resetPasswordLink = "http://localhost:4200/ResetPassword?token=" + token;
+			String resetPasswordLink = password_Link + token;
 			userservice.sendEmail(email, resetPasswordLink);
 			return ResponseEntity.status(HttpStatus.OK).body("check email");
 

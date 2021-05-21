@@ -31,7 +31,7 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(catchError(err => {
         if (err.status === 0) return throwError('Network connection failure');
-        else if (err.status === 403) {
+        else if (err.status === 401 || err.status === 403) {
           const redirectURL = this.router.url;
           if (!redirectURL.startsWith('/login')) {
             this.loginDetailsService.logoutDetails().subscribe(

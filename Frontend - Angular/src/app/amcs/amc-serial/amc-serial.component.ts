@@ -23,10 +23,10 @@ export class AmcSerialComponent implements OnInit {
   private deptId: number;
   private deptName: string;
   private amcNo: string;
-  private amcFile: File;
+  public amcFile: File;
   public isLoadingResults = true;
   public isRateLimitReached = false;
-  public errorMessage = "Unknown Error"
+  public errorMessage = "Unknown Error";
 
   constructor(
     private formBuilder: FormBuilder,
@@ -172,6 +172,10 @@ export class AmcSerialComponent implements OnInit {
   }
 
   submitForm(): void {
+    if(!this.amcFile){
+      this.amcFile = null;
+      return;
+    }
     this.amcSerialProgress = true;
     if (this.amcSerialForm.valid) {
       const amcNo = this.amcSerialForm.get('amcMaster.amcNo').value;

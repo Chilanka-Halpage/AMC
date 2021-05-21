@@ -38,12 +38,6 @@ export class EditDueinvoiceComponent implements OnInit {
     amcMaster:this.fb.group({
       amcNo:['']
     }),
-    amcSerial:this.fb.group({
-      amcSerialNo:['']
-    }),
-    product:this.fb.group({
-      productId:['']
-    }),
     currency:this.fb.group({
       currencyId:['']
     })
@@ -55,12 +49,10 @@ export class EditDueinvoiceComponent implements OnInit {
       this.adddueinvoiceForm.patchValue({ 
         id:data.id,
         dueDate:data.due_date, 
-        invoiceBalance:data.invoice_balance,
+        invoiceBalance:data.invoice_payble_lkr,
         invoiceAmt:data.invoice_amount,
         amcMaster:{ amcNo:data.amc_no},
-        product:{ productId:data.product_id},
         currency:{ currencyId:data.currency_id},
-        amcSerial:{ amcSerialNo:data.amc_serialno}
        })
        },
     error => console.log(error));

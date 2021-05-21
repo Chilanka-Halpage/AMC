@@ -2,7 +2,9 @@
     max-width: 600px;
     margin: 2em auto;
     text-align: center;
-    max-height: 800px;
+    max-height: 900px;
+    padding:1 !important;
+    background-color: rgba(238, 245, 247, 0.801);
 
 }
 
@@ -12,4 +14,12 @@
 
 .full-width{
     width: 80%;
+}
+
+.mat-card-header{
+    background-color:red !important;
+    padding:4px !important;
+}
+p{
+  color: blue;  
 }
