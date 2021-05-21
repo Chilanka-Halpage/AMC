@@ -118,7 +118,6 @@ lastyearrevanu(){
   let formatteddate1 = this.datePipe.transform(date, "yyyy-MM-30");
   this.homedetails.lastyearrevanue(formatteddate1).subscribe( data1 => {   
     this.revanue = data1
-
     this.bar = new Chart("bar", {
       type: 'bar',
       data: {

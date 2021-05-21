@@ -58,10 +58,8 @@ export class RootNavComponent {
   ) { }
 
    ngOnInit(): void {
-   // this.notificationCount()
-  // this.getImage() 
-   // this.imageSrc= this.homedetalis.Image(this._authentication.userId);
    this.loadselectdata()
+   this.logedin()
   }
 
   AllAMCDetailsFilter() {
@@ -77,9 +75,12 @@ export class RootNavComponent {
       }
     )
   }
+
   logedin() {
-    this._authentication.loggedIn();
+    if(!this._authentication.loggedIn()){
+    console.log("loggedin")}
   }
+
   gotolog(): void {
     this.router.navigate(['/login']);
   }
@@ -87,8 +88,6 @@ export class RootNavComponent {
   logoutmessage() {
     this.dialog.open(MessageComponent);
   }
-
- 
 
   ClientsDetailsFilter() {
     this.dialog.open(ClientDetailsFilterComponent)
@@ -129,55 +128,31 @@ export class RootNavComponent {
       this.router.navigate(['/adminhome']);
     }
   }
+
   profilepage(){
      this.router.navigate([`/profile/${this._authentication.userId}`])
   }
 
-    //notification
+  //notification
   updateIsRead() {
     this.notificationService.updateIsRead(this._authentication.userId).subscribe(
         Response => {console.log("success", Response)}
       )
   }
+
   notification(){
     this.router.navigate([`/notification/${this._authentication.userId}`]);
     this.updateIsRead()
  }
 
-  /* getImage(){
-    this.imageService.getImage(this.userId).subscribe(
-      Response =>{
-        this.imgSource = Response;
-      }
-    )
- }  */
-
-
- /* notificationCount(){
-  this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
-    data => {
-      this.notificationNo = data;
-      if(this.notificationNo==0)
-      {this.hidden=true;}
-      else
-      {this.hidden=false;}
-    });
-  }
-   */
 loadselectdata(){
-  if(this._authentication.userId){
-  let imageload = false, notificationLoad = false;
-  this.imageSrc= this.imageService.Image(this._authentication.userId);
-
+    console.log("name")
   this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
     data => {this.notificationNo = data;
-     this.isLoadingResults = false;
       if(this.notificationNo==0)
           {this.hidden=true;}
       else
-         {this.hidden=false;}
-         
+         {this.hidden=false;}       
       });
-}
 }
 }

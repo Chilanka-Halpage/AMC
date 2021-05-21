@@ -28,26 +28,29 @@
 
 .avatar {
   vertical-align: middle;
-  width: 30px;
-  height: 30px;
-  border-radius: 60%;
+  width: 40px;
+  height: 40px;
+  border-radius: 70%;
   margin-left: 30px;
-  background-image: url(../../assets/backgroundimage.jpg)
+  background-image: url(../../assets/backgroundimage.jpg);
+    background-size: cover;
 }
 
 ::ng-deep .width {
   width: 200px;
 }
+
 .footer{
  margin-bottom:0px;
  text-align: center;
  vertical-align:middle;
 }
-.active-list-item {
-  background-color: #3e59ec !important; /* Note: You could also use a custom theme */
-}
 
 mat-panel-title {
   align-items: center;
   padding-left: 30px;
+}
+
+.active-list-item {
+  background-color: #a6b3ff !important;
 }
