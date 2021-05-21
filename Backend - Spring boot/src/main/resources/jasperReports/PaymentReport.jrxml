@@ -15,7 +15,7 @@
 	<field name="product_name" class="java.lang.String"/>
 	<field name="rec_date" class="java.sql.Date"/>
 	<field name="currency_name" class="java.lang.String"/>
-	<field name="exchage_rate" class="java.math.BigDecimal"/>
+	<field name="exchange_rate" class="java.math.BigDecimal"/>
 	<field name="mtc_amount_for_given_frequency_lkr" class="java.math.BigDecimal"/>
 	<field name="rec_no" class="java.lang.String"/>
 	<field name="pay_mode" class="java.lang.String"/>
@@ -262,7 +262,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{exchage_rate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{exchange_rate}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="560" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="f284a51b-31b4-483a-9fb5-4787b1048dbb">

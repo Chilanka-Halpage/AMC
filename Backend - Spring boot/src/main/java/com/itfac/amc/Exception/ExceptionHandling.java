@@ -1,5 +1,6 @@
 package com.itfac.amc.Exception;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,12 +13,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import net.sf.jasperreports.engine.JRException;
+
 @RestControllerAdvice
 public class ExceptionHandling {
 
 	@ExceptionHandler(BadCredentialsException.class)
 	public ResponseEntity<Object> myExceptionHandler(Exception ex) {
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
+	}
+	
+	@ExceptionHandler(FileNotFoundException.class)
+	public ResponseEntity<?> FileNotFoundExceptionHandler(Exception ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+	}
+	
+	@ExceptionHandler(JRException.class)
+	public ResponseEntity<?> JRExceptionHandler(Exception ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
