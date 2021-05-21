@@ -97,7 +97,7 @@ public interface AmcSerialRepository extends JpaRepository<AmcSerial, String> {
 	String getRenewalAmc(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2, @Param("user_id") String user_id );
 	
 	//receipt detaisl
-	@Query(value = "select ct.category_name, sa.category_id,sa.client_dept_id , cn.currency_name,  cn.currency_id from amc_serial sa, category ct, currency cn where sa.category_id = ct.category_id and sa.currency_id = cn.currency_id and amc_no=amc_no", nativeQuery = true)
+	@Query(value = "select ct.category_name, sa.category_id,sa.client_dept_id , cn.currency_name,  cn.currency_id from amc_serial sa, category ct, currency cn where sa.category_id = ct.category_id and sa.currency_id = cn.currency_id and amc_serial_no= :amc_no", nativeQuery = true)
 	addRecieptDto getdetalis(@Param("amc_no") String amc_no );
 
 }
