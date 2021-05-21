@@ -1,3 +1,9 @@
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+    Unknown Error
+  </div>
+</div>
 <div class="container-fluid div1 background-color">
   <!-- <h2 class="div3">Profile</h2> -->
   <div class="conntainer-fluid background-color">

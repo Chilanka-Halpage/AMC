@@ -54,7 +54,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	@Autowired
 	private ClientRepository clientRepository;
 
-	String storageDirectoryPath = "C:\\Users\\User\\Desktop\\New folder\\";
+	String storageDirectoryPath;
 
 	@Value("${report_path}")
 	public void setDirectoryPath(String storageDirectoryPath) {
@@ -64,7 +64,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	// view pdf
 	@Override
 	public ResponseEntity<Resource> viewPdf(String userId, HttpServletRequest request) throws Exception {
-		File file = new File(storageDirectoryPath + userId + ".pdf");
+		File file = new File(storageDirectoryPath +"\\" + userId + ".pdf");
 		Path path = Paths.get(file.getAbsolutePath());
 		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
@@ -84,7 +84,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "test");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
@@ -103,7 +103,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 			parameters.put("category", category);
 			parameters.put("createdBy", "test");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		} else {
 			List<AllAmcs> AllAmcs = amcSerialRepository.getAllAmcCtgWise(date1, date2, category);
@@ -116,7 +116,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 			parameters.put("category", category);
 			parameters.put("createdBy", "test");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		}
 	}
@@ -134,7 +134,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -152,7 +152,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -170,7 +170,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -188,7 +188,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -206,7 +206,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
@@ -226,7 +226,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 			parameters.put("category", category);
 			parameters.put("createdBy", "Java");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		} else {
 			List<PaymentReport> paymentReports = amcSerialRepository.paymentsReportCtgWise(date1, date2, category);
@@ -239,7 +239,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 			parameters.put("category", category);
 			parameters.put("createdBy", "Java");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		}
 	}
@@ -254,7 +254,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
@@ -268,7 +268,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
@@ -316,7 +316,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("createdBy", "Java");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		}
 		else {
@@ -356,7 +356,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("createdBy", "Java");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		}
 	}

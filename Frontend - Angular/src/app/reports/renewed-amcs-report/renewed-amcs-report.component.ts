@@ -75,6 +75,6 @@ public resultsLength = 0;
   }
   
   displayedColumns: string[] = [    'amc_no','amc_serial_no','mtc_start_date','client_name','department_name',
-  'category_name','mtc_qty','frequency','currency_name','exchage_rate','total_value_lkr', ];
+  'category_name','mtc_qty','frequency','currency_name','exchange_rate','total_value_lkr', ];
 
 }

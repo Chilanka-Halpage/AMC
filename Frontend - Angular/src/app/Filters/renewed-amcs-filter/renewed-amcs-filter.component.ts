@@ -28,7 +28,7 @@ export class RenewedAmcsFilterComponent implements OnInit {
     public dialogRef: MatDialogRef<RenewedAmcsFilterComponent>
   ) { }
 
-  RenewalAmcsFilter = this.fb.group({
+  RenewedAmcsFilter = this.fb.group({
     num: ['']
   });
 
@@ -37,7 +37,7 @@ export class RenewedAmcsFilterComponent implements OnInit {
 
   onSubmit(){
     this.isLoadingResults=true;
-    let a = this.RenewalAmcsFilter.value.num;
+    let a = this.RenewedAmcsFilter.value.num;
     let formatteddate1 = this.datePipe.transform(this.date, "yyyy-MM-dd");
     console.log(formatteddate1);
     let numberValue = Number(a);

@@ -7,7 +7,7 @@ export class RenewedAmcs {
 	mtc_qty : number
 	frequency : String
 	currency_name : String
-	exchage_rate : number
+	exchange_rate : number
 	department_name : String
 	total_value_lkr : number
 }

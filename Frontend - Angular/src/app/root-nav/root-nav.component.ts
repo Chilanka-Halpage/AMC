@@ -58,9 +58,6 @@ export class RootNavComponent {
     private imageService: ImageService
   ) { }
 
-  AllAMCDetailsFilter() {
-    this.dialog.open(AllAmcFilterComponent)
-  }
 
   logout() {
     this.loginDetailsService.logoutDetails().subscribe(
