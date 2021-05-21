@@ -143,6 +143,7 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 			amcSerial.setContractUrl(contractUrl);
 			amcSerialRepository.save(amcSerial);
 		} catch (Exception ex) {
+			System.out.println(ex);
 			throw new ResourceCreationFailedException("Error occurred while data are being saved", ex);
 		}
 	}
