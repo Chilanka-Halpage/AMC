@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router'
 import {Users } from '../data/Users/users'
 import { UsersService } from '../data/Users/users.service';
 import {ImageService} from '../data/image-service.service';
+import { error } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-profile',
@@ -14,6 +15,8 @@ export class ProfileComponent implements OnInit {
   userId : String
   users: Users
   imgSource : String
+  public isLoadingResults = true;
+  public isRateLimitReached =false;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,14 +32,21 @@ export class ProfileComponent implements OnInit {
     this.usersService.getUsersById(this.userId).subscribe(data =>{
       console.log(data);
       this.users=data;
+      this.imageSrc= this.imageService.Image(this.userId);
+      this.isLoadingResults = false;
+    },
+    error=>{
+      console.log("not found",error);
     })
     //get image--------------------
-    this.imageService.getImage(this.userId).subscribe(
-      Response =>{
-        this.imgSource = Response;
-      }
-    )
-    this.imageSrc= this.imageService.Image(this.userId);
+    // this.imageService.getImage(this.userId).subscribe(
+    //   data =>{
+    //     this.imageSrc = data;
+    //     console.log("ssssssssss")
+    //     console.log(data)
+    //   },
+    // )
+    // this.imageSrc= this.imageService.Image(this.userId);
   }
 
   editprofile (userId: String){

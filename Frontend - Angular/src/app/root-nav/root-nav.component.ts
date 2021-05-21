@@ -53,9 +53,6 @@ export class RootNavComponent {
     private imageService: ImageService
   ) { }
 
-  AllAMCDetailsFilter() {
-    this.dialog.open(AllAmcFilterComponent)
-  }
 
   logout() {
     this.loginDetailsService.logoutDetails().subscribe(
@@ -79,12 +76,10 @@ export class RootNavComponent {
   ngOnInit(): void {
     this.notificationCount()
     this.imageSrc= this.imageService.Image(this._authentication.userId);
-    this.homedetalis.getImage(this._authentication.userId).subscribe(
-      Response =>{
-        this.imgSource = Response;
-      }
-    )
-    this.imageSrc= this.homedetalis.Image(this._authentication.userId);
+  }
+  
+  AllAMCDetailsFilter() {
+    this.dialog.open(AllAmcFilterComponent)
   }
 
   ClientsDetailsFilter() {

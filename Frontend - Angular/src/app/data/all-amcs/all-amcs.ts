@@ -6,7 +6,7 @@ export class AllAmcs {
     category_name: String
     frequency: String
     currency_name: String
-    exchage_rate: String
+    exchange_rate: String
     mtc_qty: number
     total_value_lkr: number
     active: boolean

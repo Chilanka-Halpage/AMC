@@ -102,7 +102,7 @@ import { LoginDetailsComponent } from './login-details/login-details.component';
 import { QuarterWiseReportComponent } from './Filters/quarter-wise-report/quarter-wise-report.component';
 import { QuarterWiseRevenueReportComponent } from './reports/quarter-wise-report/quarter-wise-revenue-report.component';
 import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -211,6 +211,7 @@ import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ImageCropperModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger', 
     })

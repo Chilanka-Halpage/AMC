@@ -6,7 +6,7 @@ export class ClientPaymentDetails {
 	rec_no : String
 	product_name : String
     currency_name :String
-	exchage_rate : number
+	exchange_rate : number
 	total : number
 	balance : number
 	user_id : String

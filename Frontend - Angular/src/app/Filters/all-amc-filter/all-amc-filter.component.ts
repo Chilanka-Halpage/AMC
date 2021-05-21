@@ -79,8 +79,10 @@ export function ConfirmedValidator(fromDate: string, toDate: string) {
     }
     if (control.value > matchingControl.value) {
       matchingControl.setErrors({ confirmedValidator: true });
+      control.setErrors({ confirmedValidator: true });
     } else {
       matchingControl.setErrors(null);
+      control.setErrors(null);
     }
   }
 }
