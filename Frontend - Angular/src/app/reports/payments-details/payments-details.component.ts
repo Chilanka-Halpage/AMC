@@ -74,5 +74,5 @@ viewPdf() {
     });
 }
 displayedColumns: string[] = ['amc_no', 'client_name', 'department_name', 'product_name','frequency','currency_name',
-'exchage_rate','mtc_amount_for_given_frequency_lkr','rec_no','pay_mode','total_lkr'];
+'exchange_rate','mtc_amount_for_given_frequency_lkr','rec_no','pay_mode','total_lkr'];
 }

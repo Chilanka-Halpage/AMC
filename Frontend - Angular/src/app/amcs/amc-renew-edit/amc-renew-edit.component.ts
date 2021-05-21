@@ -15,17 +15,16 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class AmcRenewEditComponent implements OnInit {
 
-  frequencyList: Frequency[];
+  public data: AmcData;
   private isDesabled = true;
-  private amcFile: File = null;
-  amcFullDataForm: FormGroup;
-  clientName: string;
-  data: AmcData;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  errorMessage = "Unknown Error"
-  registerStudentProgress = false;
-
+  public amcFile: File;
+  public frequencyList: Frequency[];
+  public amcFullDataForm: FormGroup;
+  public clientName: string;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+  public registerStudentProgress = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -137,6 +136,11 @@ export class AmcRenewEditComponent implements OnInit {
   }
 
   submitForm(): void {
+    if (!this.amcFile) {
+      this.amcFile = null;
+      document.getElementById("invalidScannedCopy").scrollIntoView({behavior: 'smooth'});
+      return;
+    }
     if (this.amcFullDataForm.valid) {
       this.registerStudentProgress = true;
       const formData = new FormData();

@@ -1,3 +1,4 @@
+
 <div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
   <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   <div class="rate-limit-reached" *ngIf="isRateLimitReached">
@@ -6,6 +7,7 @@
 </div>
 <body>
     <div class="container" id="container" >
+      <div class="error-message mb-2" *ngIf="showMessage">Token is expired</div> 
     <div class="form-container sign-in-container">
       <form  name="loginForm" [formGroup]="loginForm" *ngIf="!_authentication.loggedIn()">
         <h1 style="margin-bottom: 50px;">Login</h1>

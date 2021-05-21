@@ -5,9 +5,9 @@
     <div class="container" class="class1">
         <div>
             <h2>Renewed AMCs Details Report</h2>
-            <form action="" [formGroup]="RenewalAmcsFilter">
-                <mat-selection-list #shoes [multiple]="false"  formControlName="num">
-                    <mat-list-option [value]="1"selected="true">within one month</mat-list-option>
+            <form action="" [formGroup]="RenewedAmcsFilter">
+                <mat-selection-list #shoes [multiple]="false"  formControlName="num" required>
+                    <mat-list-option [value]="1">within one month</mat-list-option>
                     <mat-divider></mat-divider>
                     <mat-list-option [value]="2">within two month</mat-list-option>
                     <mat-divider></mat-divider>
@@ -17,7 +17,7 @@
                   <p>
                     Option selected: {{shoes.selectedOptions.selected[0]?.value}}
                   </p>
-                <button type="submit" mat-dialog-close mat-raised-button color="primary" (click)="onSubmit()">Generate Report</button>
+                <button type="submit" mat-dialog-close mat-raised-button color="primary" [disabled]="RenewedAmcsFilter.get('num').errors?.required" RenewalAmcsFilter (click)="onSubmit()">Generate Report</button>
             </form>
         </div>
     </div>

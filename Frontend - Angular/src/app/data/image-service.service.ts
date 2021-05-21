@@ -19,10 +19,7 @@ export class ImageService {
 
     //get image-------------------------
     public getImage(imgName): Observable<any> {
-        return this.httpClient.get<any>(`${this.baseUrl}api/images/getImage/${imgName}.jpg`,
-        {
-          responseType : 'text' as 'json'
-        });
+        return this.httpClient.get<any>(`${this.baseUrl}api/images/getImage/${imgName}.jpg`, { responseType: 'text' as 'json' });
     }
     
     public Image(userId){

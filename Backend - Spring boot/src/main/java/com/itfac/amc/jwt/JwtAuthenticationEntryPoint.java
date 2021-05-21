@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
@@ -26,7 +28,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 		// If yes then use it to create the response message else use the authException
 		if (exception != null) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,exception.toString());
+
+			byte[] body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("error", exception.getMessage()));
+			response.getOutputStream().write(body);
 		} else {
 			if (authException.getCause() != null) {
 				message = authException.getCause().toString() + " " + authException.getMessage();

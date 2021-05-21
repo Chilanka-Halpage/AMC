@@ -161,21 +161,16 @@ public class UserServiceImp implements UserService {
 	@Override
 	public Boolean updatePassword(String current_password,String userId,User user) {
 		User resultUser = getUser(userId);
-		//System.out.println(resultUser);
-		String encodedCurrentPassword = encoder.encode(current_password);
-		System.out.println(encodedCurrentPassword);
-		System.out.println(resultUser.getPassword());
+		//String encodedCurrentPassword = encoder.encode(current_password);
 		Boolean doPasswordsMatch = doPasswordsMatch(current_password, resultUser.getPassword());
 		if(doPasswordsMatch==true) {
 			String encodedPassword = encoder.encode(user.getPassword());
 			resultUser.setPassword(encodedPassword);
 			userRepository.save(resultUser);
 			return true;
-			//return ResponseEntity.status(HttpStatus.OK).body("Modified Successfully");
 		}
 		else {
 			return false;
-			//return ResponseEntity.status(HttpStatus.OK).body("current pasword is wrong");
 		}
 	}
 	//
@@ -211,8 +206,8 @@ public class UserServiceImp implements UserService {
 
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
-			user.setResetPasswordToken(token);
-			userRepository.save(user);
+			//user.setResetPasswordToken(token);
+			userRepository.updateResetToken(token, email);
 		} else {
 			throw new UserNotFoundException();
 		}
@@ -231,10 +226,13 @@ public class UserServiceImp implements UserService {
 	public void updatePassword(User user, String newPassword) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String encodedPassword = passwordEncoder.encode(newPassword);
-		user.setPassword(encodedPassword);
+		String userId=user.getUserId();
+		userRepository.updatePassword(encodedPassword, userId);
+		//String resetPasswordToken=user.getResetPasswordToken();
+		//user.setPassword(encodedPassword);
 
-		user.setResetPasswordToken(null);
-		userRepository.save(user);
+		//user.setResetPasswordToken(null);
+		//userRepository.save(user);
 	}
 
 }

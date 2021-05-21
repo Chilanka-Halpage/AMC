@@ -23,7 +23,9 @@
 }
 
 .button-text {
-  padding-left: 20px;
+  padding-left: 30px;
+  margin-left: 0%;
+  font-size: larger;
 }
 
 .avatar {
@@ -44,6 +46,16 @@
  margin-bottom:0px;
  text-align: center;
  vertical-align:middle;
+}
+
+.active{
+  color: #ffffff;
+  background-color: #0C5DF4;
+}
+
+.selected{
+  color: #ffffff;
+  background-color:lightgray;
 }
 
 mat-panel-title {

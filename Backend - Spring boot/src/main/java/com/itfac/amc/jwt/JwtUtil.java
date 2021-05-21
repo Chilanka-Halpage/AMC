@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
-import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.security.MyUserDetails;
 
 import io.jsonwebtoken.Claims;
@@ -54,7 +53,7 @@ public class JwtUtil {
 		} catch (SignatureException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
 			throw new BadCredentialsException("INVALID_CREDENTIALS", ex);
 		} catch (ExpiredJwtException ex) {
-			throw new ResourceNotFoundException("Token is expired");
+			throw new ExpiredJwtException(ex.getHeader(), ex.getClaims(), "Token is expired", ex.getCause());
 		}
 	}
 

@@ -56,7 +56,7 @@ export class FrequencyComponent implements OnInit {
     this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
     this.frequencyAddForm=this.formBuilder.group(
       {
-        frequency:['',[Validators.required]],
+        frequency:['',[Validators.required,Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(8)]],
         active:['',[Validators.required]]
       }
     )
@@ -95,6 +95,7 @@ this._service.deleteFrequency(id).subscribe(
 }
 
 save() {
+  if(this.frequencyAddForm.valid){
 this.dataSavingProgress = true;
 this._service
 .createFrequency(this.frequencyAddForm.value).subscribe(data => {
@@ -107,7 +108,10 @@ error => {
   console.log(error);
   let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
   this.notificationService.showNoitfication(message, 'OK', 'error', null);
-}).add(()=>this.dataSavingProgress=false)
+}).add(()=>this.dataSavingProgress=false)}
+else{
+  this.notificationService.showNoitfication('invalid input', 'OK', 'error', () => {null});
+}
 }
 
 onSubmit() {
@@ -138,7 +142,5 @@ applyFilter(){
 }
 
 }
-// function add(arg0: () => boolean) {
-//   throw new Error('Function not implemented.');
-// }
+
 

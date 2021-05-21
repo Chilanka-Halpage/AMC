@@ -23,7 +23,9 @@ export class ListcategoryComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private route: ActivatedRoute,
     private authService: AuthenticationService) {}
-
+    public resultsLength = 0;
+    public isLoadingResults = true;
+    public isRateLimitReached = false;
     public categoryAddForm: FormGroup;
     public submitted = false;
     public searchKey: string;
@@ -61,6 +63,7 @@ export class ListcategoryComponent implements OnInit {
         this.listData = new MatTableDataSource(list);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
+        this.isLoadingResults = false;
       });
     this.categoryAddForm = this.formBuilder.group(
       {

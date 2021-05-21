@@ -17,10 +17,11 @@ import { LoginDetailsService } from '../data/login-details.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  userId : String
+  userId: String
   hide = true;
   private redirectURL: any;
   public imageSrc: string;
+  public showMessage = false;
   error: any;
   public isDesabled = false;
   isLoadingResults = false;
@@ -32,22 +33,26 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router,    
-    private dialog:MatDialog,
+    private router: Router,
+    private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
+    private _authservice: AuthenticationService,
     private imageService: ImageService,
-    public _authentication: AuthenticationService,
-    
     private loginDetailsService : LoginDetailsService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-
+    let params = this.activatedRoute.snapshot.queryParams;
+    if (params['redirectURL']) {
+      this.showMessage = true;
+      this.redirectURL = params['redirectURL'];
+    }
     this.loginForm = this.fb.group({
-    userId: ['', [Validators.required]],
-    password: ['', [Validators.required,
-                    Validators.minLength(8),]
-                  ]});
+      userId: ['', [Validators.required]],
+      password: ['', [Validators.required,
+      Validators.minLength(8),]
+      ]
+    });
   }
 
   logout() {
@@ -84,9 +89,6 @@ export class LoginComponent implements OnInit {
 
           }
           localStorage.setItem('currentUser', JSON.stringify(currentUser));
-          let params = this.activatedRoute.snapshot.queryParams;
-          if (params['redirectURL'])
-            this.redirectURL = params['redirectURL'];
           if (this.redirectURL) {
             this.router.navigateByUrl(this.redirectURL).catch(() => {
               this.navigatePage(response);
@@ -100,7 +102,7 @@ export class LoginComponent implements OnInit {
           this.isLoadingResults = false
         }
       );
-    }this.isDesabled = true; 
+    } this.isDesabled = true;
   }
 
   forgotpassword() {

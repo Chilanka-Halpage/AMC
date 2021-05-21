@@ -93,6 +93,6 @@ export class AllAmcReportComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['amc_no', 'start_date', 'client_name', 'contact_person', 'category_name', 'frequency',
-    'currency_name', 'exchage_rate', 'mtc_qty', 'total_value_lkr','active'];
+    'currency_name', 'exchange_rate', 'mtc_qty', 'total_value_lkr','active'];
 
 }

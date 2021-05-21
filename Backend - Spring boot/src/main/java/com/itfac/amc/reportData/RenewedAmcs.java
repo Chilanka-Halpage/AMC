@@ -12,7 +12,7 @@ public interface RenewedAmcs {
 	public int getmtc_qty();
 	public String getfrequency();
 	public String getcurrency_name();
-	public BigDecimal getexchage_rate();
+	public BigDecimal getexchange_rate();
 	public String getdepartment_name();
 	public BigDecimal gettotal_value_lkr();
 }
