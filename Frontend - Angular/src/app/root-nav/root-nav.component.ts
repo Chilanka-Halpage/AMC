@@ -85,9 +85,6 @@ export class RootNavComponent {
   ngOnInit(): void {
     this.loadselectdata()
     this.linkColor = document.getElementsByName('nav-link');
-    //this.notificationCount()
-    //this.getImage();
-    //this.imageSrc = this.homedetalis.Image(this._authentication.userId);
   }
   colorLink(event) {
     this.linkColor.forEach(element => element.classList.remove('active'))
@@ -100,7 +97,7 @@ export class RootNavComponent {
       elements[index].classList.remove('selected');
     }
     document.getElementById(id).classList.add('selected');
-    
+
   }
 
   ClientsDetailsFilter(event) {
@@ -166,39 +163,19 @@ export class RootNavComponent {
     this.updateIsRead()
   }
 
-  /* getImage(){
-    this.imageService.getImage(this.userId).subscribe(
-      Response =>{
-        this.imgSource = Response;
-      }
-    )
- }  */
+  loadselectdata() {
+    if (this._authentication.userId) {
+      let imageload = false, notificationLoad = false;
+      this.imageSrc = this.imageService.Image(this._authentication.userId);
 
+      this.notificationNo = this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
+        data => {
+          this.notificationNo = data;
+          this.isLoadingResults = false;
+          if (this.notificationNo == 0) { this.hidden = true; }
+          else { this.hidden = false; }
 
- /*notificationCount(){
-  this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
-    data => {
-      this.notificationNo = data;
-      if(this.notificationNo==0)
-      {this.hidden=true;}
-      else
-      {this.hidden=false;}
-    });
-  }*/
-loadselectdata(){
-  if(this._authentication.userId){
-  let imageload = false, notificationLoad = false;
-  this.imageSrc= this.imageService.Image(this._authentication.userId);
-
-  this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
-    data => {this.notificationNo = data;
-     this.isLoadingResults = false;
-      if(this.notificationNo==0)
-          {this.hidden=true;}
-      else
-         {this.hidden=false;}
-         
-      });
-}
-}
+        });
+    }
+  }
 }

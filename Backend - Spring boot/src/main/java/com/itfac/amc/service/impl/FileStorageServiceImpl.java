@@ -39,6 +39,9 @@ public class FileStorageServiceImpl implements FileStorageService{
 		Path filePath = Paths.get(fileStoragePath + "\\" + fileName);
 		String url;
 		try {
+			System.out.println("-------------------------------------------------------------------------------------------");
+			System.out.println(filePath);
+			System.out.println("-------------------------------------------------------------------------------------------");
 			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 			url = ServletUriComponentsBuilder.fromCurrentContextPath().path("amcSerial/download/").path(fileName)
 					.toUriString();
@@ -54,6 +57,10 @@ public class FileStorageServiceImpl implements FileStorageService{
 		Resource resource;
 		try {
 			resource = new UrlResource(path.toUri());
+			System.out.println("-------------------------------------------------------------------------------------------");
+			System.out.println(resource);
+			System.out.println(path);			
+			System.out.println("-------------------------------------------------------------------------------------------");
 		} catch (MalformedURLException e) {
 			throw new RuntimeException("Issue in reading the file", e);
 		}
