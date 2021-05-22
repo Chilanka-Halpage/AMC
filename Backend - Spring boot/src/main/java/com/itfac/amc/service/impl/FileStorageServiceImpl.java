@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.itfac.amc.service.FileStorageService;
 
 @Service
-public class FileStorageServiceImpl implements FileStorageService{
+public class FileStorageServiceImpl implements FileStorageService {
 	private Path fileStoragePath;
 	private String fileStorageLocation;
 
@@ -36,12 +36,9 @@ public class FileStorageServiceImpl implements FileStorageService{
 	@Override
 	public String storeFile(MultipartFile file, String amcSerilaNo) {
 		String fileName = StringUtils.cleanPath(amcSerilaNo + "-" + file.getOriginalFilename());
-		Path filePath = Paths.get(fileStoragePath + "\\" + fileName);
+		Path filePath = Paths.get(fileStoragePath + "/" + fileName);
 		String url;
 		try {
-			System.out.println("-------------------------------------------------------------------------------------------");
-			System.out.println(filePath);
-			System.out.println("-------------------------------------------------------------------------------------------");
 			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 			url = ServletUriComponentsBuilder.fromCurrentContextPath().path("amcSerial/download/").path(fileName)
 					.toUriString();
@@ -57,10 +54,6 @@ public class FileStorageServiceImpl implements FileStorageService{
 		Resource resource;
 		try {
 			resource = new UrlResource(path.toUri());
-			System.out.println("-------------------------------------------------------------------------------------------");
-			System.out.println(resource);
-			System.out.println(path);			
-			System.out.println("-------------------------------------------------------------------------------------------");
 		} catch (MalformedURLException e) {
 			throw new RuntimeException("Issue in reading the file", e);
 		}

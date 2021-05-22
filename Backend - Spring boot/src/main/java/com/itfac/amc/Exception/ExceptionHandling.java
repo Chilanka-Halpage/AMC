@@ -23,15 +23,15 @@ public class ExceptionHandling {
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
 	}
 	
-	@ExceptionHandler(FileNotFoundException.class)
-	public ResponseEntity<?> FileNotFoundExceptionHandler(Exception ex) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-	}
-	
-	@ExceptionHandler(JRException.class)
-	public ResponseEntity<?> JRExceptionHandler(Exception ex) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-	}
+//	@ExceptionHandler(FileNotFoundException.class)
+//	public ResponseEntity<?> FileNotFoundExceptionHandler(Exception ex) {
+//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+//	}
+//	
+//	@ExceptionHandler(JRException.class)
+//	public ResponseEntity<?> JRExceptionHandler(Exception ex) {
+//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+//	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
