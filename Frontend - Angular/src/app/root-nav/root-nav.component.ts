@@ -97,6 +97,11 @@ export class RootNavComponent {
 
   }
 
+  AllAMCDetailsFilter(event) {
+    this.colorLink(event)
+    this.dialog.open(AllAmcFilterComponent)
+  }
+
   ClientsDetailsFilter(event) {
     this.colorLink(event)
     this.dialog.open(ClientDetailsFilterComponent)

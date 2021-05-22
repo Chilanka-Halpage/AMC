@@ -77,7 +77,7 @@
             <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['user']" *ngIf="_authentication.role === 'ROLE_ADMIN'">New User</button>
             <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' " >Clients</button>
             <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' ">New client</button>
-            <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['loginDetails']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Login Details</button>
+            <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['logedDetails']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Login Details</button>
       </mat-expansion-panel>  
            <mat-expansion-panel>
             <mat-expansion-panel-header>
