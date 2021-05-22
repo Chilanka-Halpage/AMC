@@ -95,7 +95,7 @@ public class ProformaInvoice extends Auditable {
 	private Currency currency;
 	
 	@ManyToOne()
-	@JoinColumn(name = "tax_id", nullable = true, foreignKey = @ForeignKey(name = "proforma_fk6"))
+	@JoinColumn(name = "tax_id", foreignKey = @ForeignKey(name = "proforma_fk6"))
 	private Tax tax;
 
 }

@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 export class ImageService {
     constructor(private httpClient: HttpClient) { }
 
-    public baseUrl = environment.baseServiceUrl;;
+    public baseUrl = environment.baseServiceUrl;
 
     //Upload Image------------------------
     public uploadImage(formData: FormData): Observable<any> {

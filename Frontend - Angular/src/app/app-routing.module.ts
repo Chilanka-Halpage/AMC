@@ -91,8 +91,8 @@ const routes: Routes = [
   { path: 'allamcdetailsfilter', component: AllAmcFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'generatereport', component: GenerateReportComponent,canActivate: [AuthenticationGuard]},
   { path: 'taxlist', component:TaxListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'invoicelist/:amc_no',component:InvoiceListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
-  { path: 'createinvoice/:amc_no', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard,ClientGuard,AmccordinatorGuard]},
+  { path: 'invoicelist',component:InvoiceListComponent,canActivate: [AuthenticationGuard,ClientGuard]},
+  { path: 'createinvoice', component:CreateInvoiceComponent,canActivate: [AuthenticationGuard,ClientGuard,AmccordinatorGuard]},
   { path: 'allAmcReport/:date1/:date2', component: AllAmcReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater 
   { path: 'allAmcReport/:date1/:date2/:category', component: AllAmcReportComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},//admin,amc cordinater 
   { path: 'catogerylist', component:ListcategoryComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},

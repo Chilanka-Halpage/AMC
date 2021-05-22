@@ -78,25 +78,24 @@
                           <input type="text" matInput formControlName="amcNo" > 
                        </mat-form-field> 
                       </div>  
-                  <div formGroupName="currency">        
+                  <div>        
                     <mat-form-field appearance="outline" class="col pl-2">
                       <mat-label>Currency</mat-label>
-                      <input type="text" matInput formControlName="currencyId" > 
+                      <input type="text" matInput formControlName="currencyName" > 
                     </mat-form-field>
                   </div>
                   <div formGroupName="clientDepartment">
                     <mat-form-field appearance="outline" class="col pl-3">
                         <mat-label>deptId:</mat-label>
-                        <input type="number" matInput formControlName="deptId">
-                     <!--     {{deptName}}  need to edit -->
+                        <input type="text" matInput formControlName="deptName">
                     </mat-form-field> 
                   </div>                  
                   </div>
                   <div class="row px-0">
-                    <div formGroupName="category">
+                    <div >
                     <mat-form-field appearance="outline" class="col-12">
                       <mat-label>Category</mat-label>
-                      <input type="number" matInput formControlName="categoryId"> 
+                      <input type="text" matInput formControlName="categoryName"> 
                     </mat-form-field> 
                   </div> 
                   <div formGroupName="invoice">          

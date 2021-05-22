@@ -10,8 +10,7 @@ export class AuthenticationService {
 
   constructor(
     private _router: Router,
-  ) {
-  }
+  ) {}
 
   user(): any | null {
     const user = localStorage.getItem('currentUser');
@@ -59,7 +58,6 @@ export class AuthenticationService {
 
   logoutUser(){
    return localStorage.removeItem('currentUser');
-  
   }
 
   get username(): string | null {
@@ -75,6 +73,15 @@ export class AuthenticationService {
     const user = this.user();
     if (user) {
       return user.userId;
+    } else {
+      return null;
+    }
+  }
+
+  get imageSrc(): string | null {
+    const user = this.user();
+    if (user) {
+      return user.imageSrc;
     } else {
       return null;
     }

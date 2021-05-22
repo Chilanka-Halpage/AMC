@@ -33,7 +33,7 @@ export class TaxFComponent implements OnInit {
   addtaxForm = this.fb.group({
     taxName: ['', [Validators.required], [this.existTaxValidator()], blur],
     shortName: ['', [Validators.required]],
-    taxRate: ['', [Validators.required, Validators.max(999)]],
+    taxRate: ['', [Validators.required, Validators.max(999),Validators.pattern(/^[\d]{1,3}(\.[\d]{1,2})?$/)]],
     taxId: [''],
     savedOn: [''],
     savedIp: [''],

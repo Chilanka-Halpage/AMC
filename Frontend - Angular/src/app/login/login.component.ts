@@ -6,7 +6,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../alert/alert.component';
 import { environment } from 'src/environments/environment';
-import { HomedetailsService } from '../homedetails.service';
+import { ImageService } from '../data/image-service.service';
+import { LoginDetailsService } from '../data/login-details.service';
 
 @Component({
   selector: 'app-login',
@@ -19,14 +20,14 @@ export class LoginComponent implements OnInit {
   userId: String
   hide = true;
   private redirectURL: any;
+  public imageSrc: string;
   public showMessage = false;
   error: any;
   public isDesabled = false;
   isLoadingResults = false;
   isRateLimitReached = false;
   errorMessage = "Unknown Error"
-
-
+  
   private baseURL = environment.baseServiceUrl;
 
   constructor(
@@ -35,7 +36,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private _authservice: AuthenticationService,
+    public _authentication: AuthenticationService,
+    private imageService: ImageService,
+    private loginDetailsService : LoginDetailsService,
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +55,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get f() { return this.loginForm.controls; }
+  logout() {
+    this.loginDetailsService.logoutDetails().subscribe(
+      Responce =>{
+        this.router.navigate(['/login']);
+        window.location.reload()
+      }
+    )
+  }
 
   onLogin(): void {
 
@@ -68,13 +78,15 @@ export class LoginComponent implements OnInit {
     this.error = '';
     if (this.loginForm.valid) {
       this.isLoadingResults = true
-      this.http.post<any>(`${this.baseURL}authenticate`, this.loginForm.value).subscribe(
+      this.http.post<any>(`${this.baseURL}authenticate`,this.loginForm.value).subscribe(
         response => {
           const currentUser = {
             token: response.jwt,
             role: response.role,
             username: response.username,
-            userId: response.userId
+            userId: response.userId,
+            imageSrc: this.imageService.Image(response.userId)
+
           }
           localStorage.setItem('currentUser', JSON.stringify(currentUser));
           if (this.redirectURL) {

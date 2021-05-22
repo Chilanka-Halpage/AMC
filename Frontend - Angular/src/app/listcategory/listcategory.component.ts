@@ -63,6 +63,7 @@ export class ListcategoryComponent implements OnInit {
         this.listData = new MatTableDataSource(list);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
+        this.isLoadingResults = false;
       });
     this.categoryAddForm = this.formBuilder.group(
       {

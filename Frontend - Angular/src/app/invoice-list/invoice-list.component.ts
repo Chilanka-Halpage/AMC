@@ -21,6 +21,7 @@ export class InvoiceListComponent implements OnInit {
   private deptName: String;
   private deptId: number;
   private amc_no: number;
+  private serial: String
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public errorMessage = "Unknown Error"
@@ -39,6 +40,11 @@ export class InvoiceListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      let value = JSON.parse(params["data"]);
+      this.amc_no = value.amc;
+      this.serial = value.serial;
+    });
     this.getInvoice();
     this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
     this.route.queryParams.subscribe(params => {
@@ -49,7 +55,6 @@ export class InvoiceListComponent implements OnInit {
 }
 
   getInvoice() {
-    this.amc_no = this.route.snapshot.params['amc_no'];
     this.invoiceService.getinvoicebyAmcNo(this.amc_no).subscribe(data => {
       this.invoices = new MatTableDataSource(data);
       this.invoices.sort = this.sort;
@@ -89,7 +94,8 @@ export class InvoiceListComponent implements OnInit {
         "data": JSON.stringify({
           "id": this.deptId, 
           "amcno": this.amc_no,
-          "dname": this.deptName
+          "dname": this.deptName,
+          "serial": this.serial
         })
       }
     };

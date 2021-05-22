@@ -9,23 +9,21 @@
 <div class="pl-5">
 <h2>Over View</h2>  </div>
 <mat-grid-list cols="4" rowHeight="fit" style="height: 170px" gutterSize="40px" class=" mt-0 ml-5 mr-5">
-  <mat-grid-tile  class="content" >       
+  <mat-grid-tile  class="content" style="background-color: rgb(161, 199, 255)" >       
       <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">TOTAL AMCs</h1></mat-grid-tile-header>
       <h1 class="col align-left ml-3 mt-3" style="font-size: 40px">{{TotalAmc}}</h1>
       <mat-icon class=" mr-5 mb-5 pr-5">content_copy</mat-icon>
       <mat-grid-tile-footer style="height: 30px;" >
-        <span mat-menu-item (click)="gotoclientlist()" >See More</span>
       </mat-grid-tile-footer>
   </mat-grid-tile>
-  <mat-grid-tile class="content"> 
+  <mat-grid-tile class="content" style="background-color: rgb(60, 255, 174)" > 
     <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">ACTIVE AMCs</h1></mat-grid-tile-header>
     <h1 class="col align-left ml-3 mt-3" style="font-size: 40px;">{{ActiveAmcCount}}</h1>
     <mat-icon class=" mr-5 mb-5 pr-5">assignment</mat-icon>
     <mat-grid-tile-footer style="height: 30px;" >
-      <span mat-menu-item (click)="gotoclientlist()" >See More</span>
     </mat-grid-tile-footer>
   </mat-grid-tile>
-  <mat-grid-tile class="content"> 
+  <mat-grid-tile class="content" style="background-color: rgb(245, 168, 105)" > 
     <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">AMC Reminders</h1></mat-grid-tile-header>
     <h1 class="col align-left ml-3 mt-3" style="font-size: 40px;">{{AmcReminders}}</h1>
     <mat-icon class=" mr-5 mb-5 pr-5">update</mat-icon>
@@ -33,7 +31,7 @@
       <span mat-menu-item (click)="RenewalAmcsFilter()" >See More</span>
     </mat-grid-tile-footer>
   </mat-grid-tile>
-  <mat-grid-tile class="content">
+  <mat-grid-tile class="content" style="background-color: rgb(234, 248, 112)" >
     <mat-grid-tile-header style="background-color: transparent;"><h1 style="color: black;font-size: 15px;">TOTAL ACTIVE CLIENT</h1></mat-grid-tile-header>
     <h1 class="col align-left ml-3 mt-3" style="font-size: 40px;">{{TotalActiveClients}}</h1>
     <mat-icon class=" mr-5 mb-5 pr-5">person</mat-icon>
