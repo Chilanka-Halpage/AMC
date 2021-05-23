@@ -61,7 +61,6 @@ public class UserServiceImp implements UserService {
 		user.setPassword(encoder.encode(Password));
 		String Email = user.getEmail();
 		String UserId = user.getUserId();
-
 		try {
 			sentPasswordAndUserId(Password, Email, UserId);
 		} catch (UnsupportedEncodingException e) {

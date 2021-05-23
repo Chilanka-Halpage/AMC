@@ -27,7 +27,6 @@ public class NotificationController {
 		return notificationService.getNotification(userId);
 	}
 	
-	
 	//get notifications pageable
 	@GetMapping("/getNotificationsPageable/{userId}")
 	public List<Notification> getNotificationsPageable(Pageable pageable, @PathVariable(value = "userId") String userId){

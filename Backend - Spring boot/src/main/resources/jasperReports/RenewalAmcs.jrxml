@@ -34,35 +34,35 @@
 					<text><![CDATA[Epic Lanka]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="708" y="46" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="714" y="46" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Renewal AMCs]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="613" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="708" y="71" width="58" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[To:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="458" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="506" y="71" width="72" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[From:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="641" y="73" width="129" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<reportElement x="581" y="73" width="129" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{date1}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="797" y="73" width="123" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<reportElement x="770" y="73" width="123" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
 						<font size="12"/>
 					</textElement>
