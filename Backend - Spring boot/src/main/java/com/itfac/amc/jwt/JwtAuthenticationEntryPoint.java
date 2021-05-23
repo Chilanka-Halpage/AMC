@@ -29,7 +29,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 		// If yes then use it to create the response message else use the authException
 		if (exception != null) {
 
-			byte[] body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("error", exception.getMessage()));
+			byte[] body = new ObjectMapper().writeValueAsBytes(exception.getMessage());
 			response.getOutputStream().write(body);
 		} else {
 			if (authException.getCause() != null) {
@@ -38,7 +38,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 				message = authException.getMessage();
 			}
 
-			byte[] body = new ObjectMapper().writeValueAsBytes(Collections.singletonMap("error", message));
+			byte[] body = new ObjectMapper().writeValueAsBytes(message);
 
 			response.getOutputStream().write(body);
 		}

@@ -19,14 +19,17 @@ import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
 import com.itfac.amc.dto.addRecieptDto;
+import com.itfac.amc.entity.AmcHistory;
 import com.itfac.amc.entity.AmcMaster;
 import com.itfac.amc.entity.AmcProduct;
 import com.itfac.amc.entity.AmcSerial;
+import com.itfac.amc.repository.AmcHistoryRepository;
 import com.itfac.amc.repository.AmcMasterRepository;
 import com.itfac.amc.repository.AmcProductRepository;
 import com.itfac.amc.repository.AmcSerialRepository;
 import com.itfac.amc.service.AmcSerialService;
 import com.itfac.amc.service.FileStorageService;
+import com.itfac.amc.util.AuditorAwareImpl;
 
 @Service
 public class AmcSerialServiceImpl implements AmcSerialService {
@@ -39,6 +42,8 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 	AmcProductRepository amcProductRepository;
 	@Autowired
 	FileStorageService fileStorageService;
+	@Autowired
+	AmcHistoryRepository amcHistoryRepository;
 
 	@Override
 	@Transactional
@@ -116,6 +121,49 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 		AmcProduct amcProduct = amcProductRepository.findById(amcProdNo)
 				.orElseThrow(() -> new ResourceNotFoundException("Record for AMC Product Not Found"));
 		try {
+			
+			// -----------------------------------------------------------------
+			AmcHistory amcHistory = new AmcHistory();
+			Date currentDate = new Date();
+			String userId = new AuditorAwareImpl().getCurrentAuditor().orElse(null);
+			if (!frequency.equalsIgnoreCase(amcMaster.getFrequency())) {
+				amcHistory.setAmcNo(amcNo);
+				amcHistory.setDateTime(currentDate);
+				amcHistory.setFieldName("Frequency");
+				amcHistory.setNewValue(frequency);
+				amcHistory.setOldValue(amcMaster.getFrequency());
+				amcHistory.setUserId(userId);
+				amcHistoryRepository.save(amcHistory);
+			}
+			if (exchangeRate.compareTo(amcMaster.getExchangeRate()) != 0) {
+				amcHistory.setAmcNo(amcNo);
+				amcHistory.setDateTime(currentDate);
+				amcHistory.setFieldName("Exchange Rate");
+				amcHistory.setNewValue(exchangeRate.toString());
+				amcHistory.setOldValue(amcMaster.getExchangeRate().toString());
+				amcHistory.setUserId(userId);
+				amcHistoryRepository.save(amcHistory);
+			}
+			if (amcTotalValue.compareTo(amcMaster.getTotalValue())!= 0) {
+				amcHistory.setAmcNo(amcNo);
+				amcHistory.setDateTime(currentDate);
+				amcHistory.setFieldName("Total Value");
+				amcHistory.setNewValue(amcTotalValue.toString());
+				amcHistory.setOldValue(amcMaster.getTotalValue().toString());
+				amcHistory.setUserId(userId);
+				amcHistoryRepository.save(amcHistory);
+			}
+			if (amcTotalValueLkr.compareTo(amcMaster.getTotalValueLkr()) != 0) {
+				amcHistory.setAmcNo(amcNo);
+				amcHistory.setDateTime(currentDate);
+				amcHistory.setFieldName("Total Value Lkr");
+				amcHistory.setNewValue(amcTotalValue.toString());
+				amcHistory.setOldValue(amcMaster.getTotalValueLkr().toString());
+				amcHistory.setUserId(userId);
+				amcHistoryRepository.save(amcHistory);
+			}
+			// -----------------------------------------------------------------
+			
 			// Old AMC Serial's status updates into inactive
 			oldamcSerial.setActive(false);
 			amcSerialRepository.save(oldamcSerial);
