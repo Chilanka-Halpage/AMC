@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   public showMessage = false;
   error: any;
   public isDesabled = false;
-  isLoadingResults = false;
+  public isLoadingResults = false;
   isRateLimitReached = false;
   errorMessage = "Unknown Error"
 

@@ -1,12 +1,10 @@
 import { ClientDepartment } from './../../Model/client-department';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ActivatedRoute, Router, InitialNavigation, NavigationStart, NavigationExtras } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { ClientService } from 'src/app/shared/client.service';
-import { NotificationService } from 'src/app/shared/notification.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
@@ -32,6 +30,7 @@ export class DepartmentListComponent implements OnInit {
   public clientName: any;
   public dataSource: MatTableDataSource<ClientDepartment>;
   public resultsLength = 0;
+  public errorMessage = 'Unknown error'
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public isAuthorized = false;
@@ -74,6 +73,7 @@ export class DepartmentListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.resultsLength = this.dataSource.data.length;
     }, error => {
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
     })
@@ -88,6 +88,7 @@ export class DepartmentListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.resultsLength = this.dataSource.data.length;
     }, error => {
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
     })

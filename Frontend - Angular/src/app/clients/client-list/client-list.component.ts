@@ -78,7 +78,7 @@ export class ClientListComponent implements OnInit, AfterViewInit {
           return data.content;
         }),
         catchError( error => {
-          this.errorMessage = error;
+          this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
           this.isLoadingResults = false;
           // set flag to identify that errors ocuured
           this.isRateLimitReached = true;

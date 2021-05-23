@@ -2,6 +2,7 @@ package com.itfac.amc.service.impl;
 
 import java.math.BigDecimal;
 import java.time.Year;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,14 +15,17 @@ import com.itfac.amc.Exception.ResourceCreationFailedException;
 import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.dto.AmcMasterDto;
 import com.itfac.amc.dto.AmcMasterSubData;
+import com.itfac.amc.entity.AmcHistory;
 import com.itfac.amc.entity.AmcMaster;
 import com.itfac.amc.entity.AmcSerial;
 import com.itfac.amc.entity.Client;
+import com.itfac.amc.repository.AmcHistoryRepository;
 import com.itfac.amc.repository.AmcMasterRepository;
 import com.itfac.amc.repository.AmcSerialRepository;
 import com.itfac.amc.repository.ClientDepartmentRepository;
 import com.itfac.amc.repository.ClientRepository;
 import com.itfac.amc.service.AmcMasterService;
+import com.itfac.amc.util.AuditorAwareImpl;
 
 @Service
 public class AmcMasterServiceImpl implements AmcMasterService {
@@ -34,6 +38,8 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 	ClientRepository clientRepository;
 	@Autowired
 	ClientDepartmentRepository clientDepartmentRepository;
+	@Autowired
+	AmcHistoryRepository amcHistoryRepository;
 
 	@Override
 	@Transactional
@@ -60,7 +66,7 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 
 			return returnedAmc.getAmcNo();
 		} catch (Exception ex) {
-			throw new ResourceCreationFailedException("Cannot save data in the system", ex);
+			throw new ResourceCreationFailedException("Cannot save data in the system", ex.getCause());
 		}
 
 	}
@@ -91,6 +97,48 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 		AmcSerial amcSerial = amcSerialRepository.findById(amsSerialNo)
 				.orElseThrow(() -> new ResourceNotFoundException("Amc Serial No: " + amsSerialNo + " not found"));
 
+		// -----------------------------------------------------------------
+		AmcHistory amcHistory = new AmcHistory();
+		Date currentDate = new Date();
+		String userId = new AuditorAwareImpl().getCurrentAuditor().orElse(null);
+		if (!amc.getFrequency().equalsIgnoreCase(amcMaster.getFrequency())) {
+			amcHistory.setAmcNo(amcNo);
+			amcHistory.setDateTime(currentDate);
+			amcHistory.setFieldName("Frequency");
+			amcHistory.setNewValue(amcMaster.getFrequency());
+			amcHistory.setOldValue(amc.getFrequency());
+			amcHistory.setUserId(userId);
+			amcHistoryRepository.save(amcHistory);
+		}
+		if (amc.getExchangeRate().compareTo(amcMaster.getExchangeRate()) != 0) {
+			amcHistory.setAmcNo(amcNo);
+			amcHistory.setDateTime(currentDate);
+			amcHistory.setFieldName("Exchange Rate");
+			amcHistory.setNewValue(amcMaster.getExchangeRate().toString());
+			amcHistory.setOldValue(amc.getExchangeRate().toString());
+			amcHistory.setUserId(userId);
+			amcHistoryRepository.save(amcHistory);
+		}
+		if (amc.getTotalValue().compareTo(amcMaster.getTotalValue())!= 0) {
+			amcHistory.setAmcNo(amcNo);
+			amcHistory.setDateTime(currentDate);
+			amcHistory.setFieldName("Total Value");
+			amcHistory.setNewValue(amcMaster.getTotalValue().toString());
+			amcHistory.setOldValue(amc.getTotalValue().toString());
+			amcHistory.setUserId(userId);
+			amcHistoryRepository.save(amcHistory);
+		}
+		if (amc.getTotalValueLkr().compareTo(amcMaster.getTotalValueLkr()) != 0) {
+			amcHistory.setAmcNo(amcNo);
+			amcHistory.setDateTime(currentDate);
+			amcHistory.setFieldName("Total Value Lkr");
+			amcHistory.setNewValue(amcMaster.getTotalValueLkr().toString());
+			amcHistory.setOldValue(amc.getTotalValueLkr().toString());
+			amcHistory.setUserId(userId);
+			amcHistoryRepository.save(amcHistory);
+		}
+		// -----------------------------------------------------------------
+
 		amc.setStartDate(amcMaster.getStartDate());
 		amc.setActive(amcMaster.isActive());
 		amc.setTotalValue(amcMaster.getTotalValue());
@@ -109,8 +157,12 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 		String frequency = amcMaster.getFrequency();
 		amc.setFrequency(frequency);
 		amcSerial.setFrequency(frequency);
-		amcMasterRepository.save(amc);
-		amcSerialRepository.save(amcSerial);
+		try {
+			amcMasterRepository.save(amc);
+			amcSerialRepository.save(amcSerial);
+		} catch (Exception ex) {
+			throw new ResourceCreationFailedException("Error occrred while data are being updated", ex.getCause());
+		}
 	}
 
 	@Override

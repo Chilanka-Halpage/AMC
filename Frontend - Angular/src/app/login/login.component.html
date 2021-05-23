@@ -1,11 +1,15 @@
 
-<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+<!-- <div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
   <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   <div class="rate-limit-reached" *ngIf="isRateLimitReached">
       {{errorMessage}}
   </div>
+<<<<<<< HEAD
 </div>
 
+=======
+</div> -->
+>>>>>>> e4ddfd4bf9cab70da3d613b8dcd387c7bc228e03
 <body>
     <div class="container" id="container" >   
     <div class="form-container sign-in-container">
@@ -31,10 +35,10 @@
         </mat-form-field>
         </div>
         <a class="text-link" (click)="forgotpassword()">Forgot your password?</a>
-         <button  class="ghost"  mat-flat-button color="primary" (click)="onLogin()" >Login</button> 
+        <button class="ghost" mat-flat-button (click)="onLogin()" [disabled]="isLoadingResults"><span *ngIf="isLoadingResults" class="spinner-border spinner-border-sm mr-1"></span>Login</button>
        </form>
        <form  name="loginForm" [formGroup]="loginForm" *ngIf="_authentication.loggedIn()">
-         <h2>do you want to log out</h2>
+         <h2>Do you want to log out</h2>
         <button  class="ghost" (click) = "logout()">Logout</button>
         <h2 class="mt-3">or</h2>
         <h2>Go to Home</h2>

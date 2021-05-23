@@ -104,6 +104,12 @@ export class RootNavComponent {
       elements[index].classList.remove('selected');
     }
     document.getElementById(id).classList.add('selected');
+
+  }
+
+  AllAMCDetailsFilter(event) {
+    this.colorLink(event)
+    this.dialog.open(AllAmcFilterComponent)
   }
 
   ClientsDetailsFilter(event) {

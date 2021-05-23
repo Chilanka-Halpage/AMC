@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.itfac.amc.service.FileStorageService;
 
 @Service
-public class FileStorageServiceImpl implements FileStorageService{
+public class FileStorageServiceImpl implements FileStorageService {
 	private Path fileStoragePath;
 	private String fileStorageLocation;
 
@@ -36,7 +36,7 @@ public class FileStorageServiceImpl implements FileStorageService{
 	@Override
 	public String storeFile(MultipartFile file, String amcSerilaNo) {
 		String fileName = StringUtils.cleanPath(amcSerilaNo + "-" + file.getOriginalFilename());
-		Path filePath = Paths.get(fileStoragePath + "\\" + fileName);
+		Path filePath = Paths.get(fileStoragePath + "/" + fileName);
 		String url;
 		try {
 			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);

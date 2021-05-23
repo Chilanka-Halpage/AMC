@@ -113,18 +113,18 @@ export class AmcSerialComponent implements OnInit {
     this.amcMasterservice.getProduct().subscribe(response => {
       this.productList = response;
       this.isLoadingResults = ((productListLoad = true) && categoryListLoad) ? false : true;
-    }, error => {
+    }, (error) => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      this.errorMessage = error;
+      this.errorMessage = (error.status === 0) ? error.error : "Error in loading data";
     });
     this.amcMasterservice.getCategory().subscribe(response => {
       this.categoryList = response;
       this.isLoadingResults = ((categoryListLoad = true) && productListLoad) ? false : true;
-    }, error => {
+    }, (error) => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      this.errorMessage = error;
+      this.errorMessage = (error.status === 0) ? error.error : "Error in loading data";
     });
   }
 
@@ -152,6 +152,8 @@ export class AmcSerialComponent implements OnInit {
         },
         frequency: data.frequency
       })
+    }, error => {
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
     })
   }
 
@@ -172,7 +174,7 @@ export class AmcSerialComponent implements OnInit {
   }
 
   submitForm(): void {
-    if(!this.amcFile){
+    if (!this.amcFile) {
       this.amcFile = null;
       return;
     }
@@ -197,7 +199,7 @@ export class AmcSerialComponent implements OnInit {
           this.notificationService.showNoitfication(response, 'OK', 'success', () => this.router.navigate([`/clients/depts/${this.deptId}/amc-list`], navigationExtras));
         },
         error => {
-          let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.amcSerialProgress = false);
