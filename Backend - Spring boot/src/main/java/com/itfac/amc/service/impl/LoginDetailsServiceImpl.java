@@ -1,16 +1,20 @@
 package com.itfac.amc.service.impl;
 
 import java.nio.file.FileSystemException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.dto.logindetailsDTo;
 import com.itfac.amc.entity.Client;
 import com.itfac.amc.entity.Currency;
@@ -57,6 +61,22 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
 		System.out.println(ipAddress);
 		System.out.println(logoutDate);
 		loginDtailsRepository.updateLogoutDetails(ipAddress,logoutDate,userId);
+	}
+	
+	//logout details save when browser closed
+	@Scheduled(cron = "0 0 * * * *",zone = "Indian/Maldives")
+	public void logoutDetailsSave() {
+		List<LoginDetails> getLoginDetails= loginDtailsRepository.logoutdetailslist();
+		for (int i = 0; i < getLoginDetails.size(); i++) {
+			Date logedDate=getLoginDetails.get(i).getLogedTime();
+			String logoutIp=getLoginDetails.get(i).getLogedIp();
+			int logno = getLoginDetails.get(i).getLogno();
+			Date tokenExpireTime= DateUtils.addHours(logedDate, 1);
+			Date date = new Date();//today date and time
+			if(tokenExpireTime.before(date)) {
+			loginDtailsRepository.logoutDetailUpdate(logoutIp, tokenExpireTime, logno);
+			}
+		}
 	}
 
 	@Override

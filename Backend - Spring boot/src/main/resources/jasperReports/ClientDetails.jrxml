@@ -149,6 +149,82 @@
 			</staticText>
 		</band>
 	</columnHeader>
+	<detail>
+		<band height="40">
+			<textField textAdjust="StretchHeight">
+				<reportElement mode="Opaque" x="0" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="403061c4-bc35-4a99-b266-c3e6638ab38a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dc0d59-4e2d-42ab-aec3-abb79e62ca6d"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{user_id}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement mode="Opaque" x="80" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="478e8bca-53e7-4f40-b092-c9d2cd62f258">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f5dc0d59-4e2d-42ab-aec3-abb79e62ca6d"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{client_name}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement mode="Opaque" x="160" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="30e6f4d6-c1e6-472a-baf2-966128dad69e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="527abf0f-a370-40aa-b1c0-b743ae7bff60"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amc_no}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement mode="Opaque" x="240" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="5c2030f3-ca3e-4200-86f9-a9555a25d5bd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bad068e8-bdfc-4712-8abe-275fe6f51b96"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contact_person}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement mode="Opaque" x="320" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="7e85ebf9-1c78-42d8-93cf-73ea31cd3408">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="55b15126-8082-4f4e-9cad-04eba8699773"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contact_no}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement mode="Opaque" x="400" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="83c37a2c-5284-4eb0-95c9-92f15cbae8be">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5e90b6b1-e94a-4b79-a3db-0002b3c06db0"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="MM/dd/yyyy">
+				<reportElement mode="Opaque" x="480" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="c1e27979-0d66-4be8-8afd-85e786232622">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b356be95-e9bd-44e5-a657-7680af79c061"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{start_date}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement mode="Opaque" x="560" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="a7cbc7e8-d867-4940-9879-d1dd3a944c82">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9630fc95-03cb-4dbf-8ed1-6c10873a3a90"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{active}) ? "Active" : "Inactive"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
 	<columnFooter>
 		<band/>
 	</columnFooter>

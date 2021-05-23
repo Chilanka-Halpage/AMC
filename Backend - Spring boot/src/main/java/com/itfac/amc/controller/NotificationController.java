@@ -23,8 +23,15 @@ public class NotificationController {
 	private NotificationService notificationService;
 	
 	@GetMapping("/getNotification/{userId}")
-	public List<Notification> getNotification(Pageable pageable, @PathVariable(value = "userId") String userId){
-		return notificationService.getNotifications(pageable,userId);
+	public List<Notification> getNotification(@PathVariable(value = "userId") String userId){
+		return notificationService.getNotification(userId);
+	}
+	
+	
+	//get notifications pageable
+	@GetMapping("/getNotificationsPageable/{userId}")
+	public List<Notification> getNotificationsPageable(Pageable pageable, @PathVariable(value = "userId") String userId){
+		return notificationService.getNotificationsPageable(pageable,userId);
 	}
 	
 	@GetMapping("/getNotificationNo/{userId}")
