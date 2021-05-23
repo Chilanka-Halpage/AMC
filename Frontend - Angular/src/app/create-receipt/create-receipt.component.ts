@@ -1,17 +1,13 @@
-import { Invoice } from './../invoice';
-import { AmcMaster } from './../Model/amc-master.model';
-import { Category } from './../Model/category';
+
 import { PaymentService } from './../payment.service';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, ValidationErrors, Validators, FormGroup } from '@angular/forms';
-import { Router, CanActivate, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import { delay } from 'rxjs/internal/operators/delay';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { map } from 'rxjs/internal/operators/map';
-import { CompileShallowModuleMetadata } from '@angular/compiler';
-import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
 import { NotificationService } from '../shared/notification.service';
 
 @Component({
@@ -130,6 +126,7 @@ export class CreateReceiptComponent implements OnInit {
   
   calculate(): void{
     this.paymentService.calculateAmcValueByExRate(this.addReceiptForm)
+    this.paymentService.calculatebalance(this.addReceiptForm) 
   }
 
   createform(){

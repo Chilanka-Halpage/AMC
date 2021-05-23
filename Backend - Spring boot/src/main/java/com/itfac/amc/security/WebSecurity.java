@@ -58,6 +58,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/amcSerial/**").hasAnyRole("ADMIN", "AMC_COORDINATOR", "CLIENT")
 			.antMatchers("/amcHistory/**").hasAnyRole("ADMIN", "AMC_COORDINATOR", "CLIENT")
 			.antMatchers("/amcDueInvoice/deletedueinvoice/{id}").hasRole("ADMIN")
+			.antMatchers("/amcDueInvoice/finddueinvoiceclient/{id}").hasRole("CLIENT")
 			.antMatchers("/amcDueInvoice/**").hasAnyRole("ADMIN", "AMC_COORDINATOR", "ACCOUNTANT")
 			.antMatchers("/Currency/deleteCurrency/{id}").hasRole("ADMIN")
 			.antMatchers("/Currency/**").hasAnyRole("ADMIN", "AMC_COORDINATOR", "ACCOUNTANT")

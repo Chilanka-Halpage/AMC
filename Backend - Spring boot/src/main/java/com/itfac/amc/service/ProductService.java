@@ -21,4 +21,6 @@ public interface ProductService {
 
 	Product addProduct(Product product, HttpServletRequest httpServletRequest);
 
+	boolean doesProductExists(String productName);
+
 }

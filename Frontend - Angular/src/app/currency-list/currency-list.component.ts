@@ -74,7 +74,7 @@ export class CurrencyListComponent implements OnInit {
     this.notificationService.showNoitfication('Successfully delete', 'OK', 'success', () => {  this.getCurrency();  });
        
   },
-    error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. The currency Already in use'
+    error =>  { let message = (error.status === 400) ? error.error: 'Cannot proceed the request. please try again'
                 this.notificationService.showNoitfication(message, 'OK', 'error', null); }
     );
   
@@ -86,7 +86,7 @@ saveCurrency(){
   this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
   this.TaxSavingProgress = false;
  },
-    error => {  let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+    error => {  let message = (error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
     this.notificationService.showNoitfication(message, 'OK', 'error', null);}
     
     );
@@ -150,7 +150,7 @@ editCurrencyList(row) {
     this.notificationService.showNoitfication('Successfully edited', 'OK', 'success', () => { window.location.reload()});
     this.TaxSavingProgress = false;
    },
-      error => {  let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+      error => {  let message = (error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);}
       
       );

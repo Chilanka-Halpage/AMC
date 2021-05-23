@@ -31,5 +31,9 @@ export class ProductserviceService {
     return this.http.delete(`${this.baseURL}Product/deleteProduct/${id}`, { responseType : "text" as "json"});
   }
 
+  doesProductExists(productName: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseURL}Product/exists/${productName}`);
+  }
+
 
 }

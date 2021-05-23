@@ -105,9 +105,4 @@ export class JrReportDetailsService {
     });
   }
 
-  // downloadPdf(Date1, Date2, userId): Observable<Blob> {
-  //   return this.httpClient
-  //     .get(`${this.baseURL}jrReport/ClientDetailsJrReport/${Date1}/${Date2}/${userId}`, { responseType: 'blob' })
-  // }
-
 }

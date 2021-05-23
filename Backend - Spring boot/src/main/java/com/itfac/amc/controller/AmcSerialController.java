@@ -85,12 +85,11 @@ public class AmcSerialController {
 		mimeType = mimeType == null ? MediaType.APPLICATION_OCTET_STREAM_VALUE : mimeType;
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
-
 	}
 	
-	@GetMapping("get/recietde/{amc_No}")
-	public ResponseEntity<addRecieptDto> getdetalis(@PathVariable(value = "amc_No") String amcNo) {
-		addRecieptDto receiptde = amcSerialService.getdetalis(amcNo);
+	@GetMapping("get/recietde/{amc_serial}")
+	public ResponseEntity<addRecieptDto> getdetalis(@PathVariable(value = "amc_serial") String amcSNo) throws Exception{
+		addRecieptDto receiptde = amcSerialService.getdetalis(amcSNo);
 		return ResponseEntity.status(HttpStatus.OK).body(receiptde);
 	}
 }

@@ -61,10 +61,10 @@ public interface AmcMasterService {
 	
 	String countAmc();
 	
-	String countAmcByClient(String userId);
+	String countAmcByClient(String userId) throws ResourceNotFoundException;;
 	
-	String countActiveAmcByClient(String userId);
+	String countActiveAmcByClient(String userId) throws ResourceNotFoundException;;
 
-	List<AmcMasterDto> getAmcListByUserId(String userId);
+	List<AmcMasterDto> getAmcListByUserId(String userId) throws ResourceNotFoundException;;
 
 }
