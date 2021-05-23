@@ -34,8 +34,6 @@ export class RenewalAmcsReportComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.date1 = params.get('date1');
       this.date2 = params.get('date2');
-      console.log(this.date1);
-      console.log(this.date2)
       this.RenewalAmcsDetails(this.date1,this.date2);
   });
 }
@@ -47,8 +45,10 @@ export class RenewalAmcsReportComponent implements OnInit {
       this.isLoadingResults=false;
       this.resultsLength = this.renewalAmcs.data.length;
     },
-    error =>{
-      this.isRateLimitReached=true;
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults=false;
     })
   }
 
@@ -62,6 +62,7 @@ export class RenewalAmcsReportComponent implements OnInit {
     (error)=>{
       const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
       this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults=false;
     }
     )
   }

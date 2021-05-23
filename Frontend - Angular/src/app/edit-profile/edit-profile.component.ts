@@ -58,20 +58,6 @@ export class EditProfileComponent implements OnInit {
     email: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
   }
   )
-  // getErrorMessage() {
-  //   if (this.editProfileForm.value.email.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
-
-  //   return this.editProfileForm.value.email.hasError('email') ? 'Not a valid email' : '';
-  // }
-  // getErrorMessageContactNo() {
-  //   if (this.editProfileForm.value.contactNo.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
-
-  //   return this.editProfileForm.value.contactNo.hasError('email') ? 'Not a valid email' : '';
-  // }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.params.userId

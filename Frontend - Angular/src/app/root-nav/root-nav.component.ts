@@ -100,11 +100,6 @@ export class RootNavComponent {
     this.dialog.open(AllAmcFilterComponent)
   }
 
-  AllAMCDetailsFilter(event){
-    this.colorLink(event)
-    this.dialog.open(AllAmcFilterComponent)
-  }
-
   ClientsDetailsFilter(event) {
     this.colorLink(event)
     this.dialog.open(ClientDetailsFilterComponent)

@@ -10,10 +10,11 @@
     <div class="container div3">
       <!-- image -->
       <form action="">
-        <div style="height: 250px; width: 400px; background-image: url(../../assets/uploadImage.jpg);">
+        <div class="" style="height: 250px; width: 400px; background-color: rgb(179, 179, 179);"
+        >
         <image-cropper [imageChangedEvent]="imageChangedEvent" (imageCropped)="imageCropped($event)"
-          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" 
-          >
+          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" >
+          
           <!-- <mat-spinner *ngIf="savingImage"></mat-spinner> -->
           <mat-progress-bar *ngIf="savingImage" mode="determinate" value="40"></mat-progress-bar>
         </image-cropper>

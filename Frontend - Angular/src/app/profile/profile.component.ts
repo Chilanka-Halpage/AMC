@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   imgSource : String
   public isLoadingResults = true;
   public isRateLimitReached =false;
+  public imageSrc: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,13 +27,11 @@ export class ProfileComponent implements OnInit {
     private imageService: ImageService,
     private notificationService: NotificationService,
     ) { }
-    public imageSrc: string;
 
   ngOnInit(): void {
     this.userId=this.route.snapshot.params['userId']
     this.users=new Users();
     this.usersService.getUsersById(this.userId).subscribe(data =>{
-      console.log(data);
       this.users=data;
       this.imageSrc= this.imageService.Image(this.userId);
       this.isLoadingResults = false;
@@ -40,16 +39,8 @@ export class ProfileComponent implements OnInit {
     (error)=>{
       const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
       this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults = false;
     })
-    //get image--------------------
-    // this.imageService.getImage(this.userId).subscribe(
-    //   data =>{
-    //     this.imageSrc = data;
-    //     console.log("ssssssssss")
-    //     console.log(data)
-    //   },
-    // )
-    // this.imageSrc= this.imageService.Image(this.userId);
   }
 
   editprofile (userId: String){

@@ -66,11 +66,6 @@ export class JrReportDetailsService {
       });
   }
 
-  downloadPdf(Date1 ,Date2, userId): Observable<Blob> {
-    return this.httpClient
-              .get(`${this.baseURL}jrReport/ClientDetailsJrReport/${Date1}/${Date2}/${userId}`, { responseType:'blob' })
-  }
-
   //Payments Details jasper report
   PaymentsDetailsJrReport(Date1, Date2, category, userId): Observable<PaymentsDetails> {
     return this.httpClient.get<PaymentsDetails>(`${this.baseURL}jrReport/PaymentsJrReport/${Date1}/${Date2}/${category}/${userId}`,
@@ -110,9 +105,9 @@ export class JrReportDetailsService {
     });
   }
 
-  downloadPdf(Date1, Date2, userId): Observable<Blob> {
-    return this.httpClient
-      .get(`${this.baseURL}jrReport/ClientDetailsJrReport/${Date1}/${Date2}/${userId}`, { responseType: 'blob' })
-  }
+  // downloadPdf(Date1, Date2, userId): Observable<Blob> {
+  //   return this.httpClient
+  //     .get(`${this.baseURL}jrReport/ClientDetailsJrReport/${Date1}/${Date2}/${userId}`, { responseType: 'blob' })
+  // }
 
 }

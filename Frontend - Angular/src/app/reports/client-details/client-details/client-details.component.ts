@@ -75,17 +75,6 @@ ClientDetailsJrReport(){
   }
   )
 }
-
-JrReport() {
-  this.isLoadingResults = true;
-  this.jrReportDetailsService.downloadPdf(this.date1,this.date2,this._authentication.userId).subscribe(
- (response)=>{
-      this.isLoadingResults=false;
-      let file = new Blob([response], { type: 'application/pdf' });            
-      var fileURL = URL.createObjectURL(file);
-      window.open(fileURL);
-    })
-}
   
   viewPdf() {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
