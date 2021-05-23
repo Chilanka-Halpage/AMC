@@ -43,7 +43,8 @@ export class EditProfileComponent implements OnInit {
   }
   form = this.fb.group({
     current_password: ['', [Validators.required]],
-    password: ['', [Validators.required]],
+    password: ['', [Validators.required,
+      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?#&])[A-Za-z\d$@$!%#*?&].{8,}')]],
     confirm_password: ['', [Validators.required]]
   }, {
     validator: ConfirmedValidator('password', 'confirm_password')
@@ -61,20 +62,20 @@ export class EditProfileComponent implements OnInit {
     email: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
   }
   )
-  getErrorMessage() {
-    if (this.editProfileForm.value.email.hasError('required')) {
-      return 'You must enter a value';
-    }
+  // getErrorMessage() {
+  //   if (this.editProfileForm.value.email.hasError('required')) {
+  //     return 'You must enter a value';
+  //   }
 
-    return this.editProfileForm.value.email.hasError('email') ? 'Not a valid email' : '';
-  }
-  getErrorMessageContactNo() {
-    if (this.editProfileForm.value.contactNo.hasError('required')) {
-      return 'You must enter a value';
-    }
+  //   return this.editProfileForm.value.email.hasError('email') ? 'Not a valid email' : '';
+  // }
+  // getErrorMessageContactNo() {
+  //   if (this.editProfileForm.value.contactNo.hasError('required')) {
+  //     return 'You must enter a value';
+  //   }
 
-    return this.editProfileForm.value.contactNo.hasError('email') ? 'Not a valid email' : '';
-  }
+  //   return this.editProfileForm.value.contactNo.hasError('email') ? 'Not a valid email' : '';
+  // }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.params.userId
@@ -88,10 +89,13 @@ export class EditProfileComponent implements OnInit {
         this.isLoadingResults = false;
       }
     ),
-      error => console.error("error");
+      (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      }
   }
 
-  //edit contact no, email----------------------------------
+  //edit contact no and email
   onSubmit() {
     console.log(this.editProfileForm.value);
     this.usersService.updateUser(this.userId, this.editProfileForm.value).subscribe(
@@ -117,7 +121,8 @@ export class EditProfileComponent implements OnInit {
         }
       }, (error) => {
         console.log("error", error);
-        let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+        let message = (error.status === 501 || error.status === 0 || error.status===401 || error.status===403) ? error.error.message : 'Cannot proceed the request. Try again'
+        
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
       })
   }
@@ -139,7 +144,7 @@ export class EditProfileComponent implements OnInit {
       },
       (error) => {
         console.log("error", error);
-        let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+        let message = (error.status === 501 || error.status === 0 || error.status===401 || error.status===403) ? error.error.message : 'Cannot proceed the request. Try again'
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
       }
     );

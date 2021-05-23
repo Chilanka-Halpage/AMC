@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { ReportDetailsService } from 'src/app/data/report-details.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import {RenewedAmcs} from '../../data/RenewedAmcs/renewed-amcs'
 
@@ -23,7 +24,9 @@ public resultsLength = 0;
     private jrReportDetailsService: JrReportDetailsService,
     public _authentication: AuthenticationService,
     private reportDetailsService: ReportDetailsService,
-    private activatedRoute: ActivatedRoute,) { }
+    private activatedRoute: ActivatedRoute,
+    private notificationService: NotificationService,
+    ) { }
 
     date1
     date2
@@ -55,7 +58,9 @@ public resultsLength = 0;
       this.isLoadingResults=false;
       this.viewPdf()
     },
-      error => {console.log("Error!", error)
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
     }
     )
   }
@@ -66,6 +71,10 @@ public resultsLength = 0;
         let url = URL.createObjectURL(response);
         window.open(url, '_blank');
         URL.revokeObjectURL(url);
+      },
+      (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       });
   }
 
