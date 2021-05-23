@@ -159,7 +159,7 @@ export class AddClientComponent implements OnInit {
   // when department creation requset for existing client comes, set existing client data to form fields
   loadClientDataForNewDept(cid: number): void {
     this.clientForm.get('client').disable();
-    this.clientService.getClientByClientId(100).subscribe(response => {
+    this.clientService.getClientByClientId(cid).subscribe(response => {
       this.clientForm.patchValue({
         client: {
           clietnID: response.clientId,
@@ -171,9 +171,8 @@ export class AddClientComponent implements OnInit {
         }
       });
     }, (error) => {
-      console.log(error);
-      let message = (error.status===404)? error.error.message:'Cannot load client data. Try again'
-      this.notificationService.showNoitfication(message, 'OK', 'error', null);
+      const errMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
     });
   }
 
@@ -197,7 +196,7 @@ export class AddClientComponent implements OnInit {
           this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/amcMaster/new'], navigationExtras) });
         },
         (error) => {
-          let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
@@ -212,10 +211,10 @@ export class AddClientComponent implements OnInit {
       this.clientSavingProgress = true;
       this.clientService.saveDepartmentByClientId(this.clientId, this.clientForm.value).subscribe(
         response => {
-          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.locaton.back() });
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.router.navigate([`dept-list/${this.clientId}`]) });
         },
         (error) => {
-          let message = (error.status === 400)? 'Client not available to save department' : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
@@ -233,7 +232,7 @@ export class AddClientComponent implements OnInit {
           this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.navigateToClientList() });
         },
         (error) => {
-          let message = (error.status === 400)? 'Client not available to update' : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
@@ -247,12 +246,12 @@ export class AddClientComponent implements OnInit {
   updateDept() {
     if (this.clientForm.valid) {
       this.clientSavingProgress = true;
-      this.clientService.updateDepartment(this.clientForm.value, this.clientId, this.clientForm.value.deptId).subscribe(
+      this.clientService.updateDepartment(this.clientForm.value, 1000, this.clientForm.value.deptId).subscribe(
         response => {
-          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.locaton.back() });
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.router.navigate([`dept-list/${this.clientId}`]) });
         },
         (error) => {
-          let message = (error.status === 400)? 'Department not available to update' : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);

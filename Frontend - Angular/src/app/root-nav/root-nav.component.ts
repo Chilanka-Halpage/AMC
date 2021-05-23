@@ -68,9 +68,7 @@ export class RootNavComponent {
       }
     )
   }
-  logedin() {
-    this._authentication.loggedIn();
-  }
+
   gotolog(): void {
     this.router.navigate(['/login']);
   }
@@ -94,7 +92,12 @@ export class RootNavComponent {
       elements[index].classList.remove('selected');
     }
     document.getElementById(id).classList.add('selected');
-    
+
+  }
+
+  AllAMCDetailsFilter(event) {
+    this.colorLink(event)
+    this.dialog.open(AllAmcFilterComponent)
   }
 
   AllAMCDetailsFilter(event){
@@ -166,19 +169,13 @@ export class RootNavComponent {
   }
 
 loadselectdata(){
-  if(this._authentication.userId){
-  let imageload = false, notificationLoad = false;
-  this.imageSrc= this.imageService.Image(this._authentication.userId);
-
+    console.log("name")
   this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
     data => {this.notificationNo = data;
-     this.isLoadingResults = false;
       if(this.notificationNo==0)
           {this.hidden=true;}
       else
-         {this.hidden=false;}
-         
+         {this.hidden=false;}       
       });
-}
 }
 }

@@ -1,7 +1,8 @@
+import { Currency } from './../Model/currency.model';
 import { element } from 'protractor';
 import { InvoiceService } from './../invoice.service';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
@@ -29,6 +30,12 @@ export class CreateInvoiceComponent implements OnInit {
   public errorMessage = "Unknown Error"
   private deptId: number;
   private amc_no: String;
+  private currencyid: number;
+  private currencyName: String;
+  private deptName: String
+  private serial: String
+  
+  public addinvoiceForm: FormGroup;
   
   private invoiceForm$: Observable<any>;
   public isDesabled = false;
@@ -44,62 +51,34 @@ export class CreateInvoiceComponent implements OnInit {
     private paymentService: PaymentService,
   ) { }
 
-  addinvoiceForm = this.fb.group({
-    piNo:['',[Validators.required],[this.existInvoiceValidator()], blur],
-    piDate:['',[Validators.required]],
-    exchageRate:['',[Validators.required]],
-    totalTax:[''],
-    totalAmt:['',[Validators.required]],
-    totalAmtLkr:['',[Validators.required]],
-    remark:['',[Validators.required]],
-    taxApplicable:[''],
-    totalpayble:['',[Validators.required]],
-    totalpayblelkr:['',[Validators.required]],
-    cancel:[''],
-    cancelReason:[''],
-    clientDepartment:this.fb.group({
-      deptId:['']
-      }),
-      category:this.fb.group({
-      categoryId:['']
-      }),
-      amcMaster:this.fb.group({
-        amcNo:['']
-      }),
-      currency:this.fb.group({
-        currencyId:['']
-      }),
-      frequency:this.fb.group({
-        frequencyId:['']
-      }),
-      tax:this.fb.group({
-        taxId:[''],
-        taxRate:['']
-      })
-  })
-
   ngOnInit(): void {
-    this.loadSelectionData()
-    this.checkStatus()
-    this.calculate();
     this.amc_no = this.route.snapshot.params['amc_no'];
     this.route.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
       this.deptId = value.id;
-      this.addinvoiceForm.patchValue({ 
-        amcMaster:{ amcNo:this.amc_no },
-        clientDepartment:{deptId:this.deptId}
-       })
+      this.deptName = value.name;
+      this.amc_no = value.amc;
+      this.serial = value.serial;
     });
-    this.paymentService.getAMcSerialdetails(this.amc_no).subscribe(data=>{
-      this.addinvoiceForm.patchValue({ 
-        currency:{ currencyId:data.currency_id},
-        category:{ categoryId:data.category_id}
-       })
-       },
-    error => console.log(error));
+    this.getdetails()
+    this.createForm()
+    this.loadSelectionData()
+    this.checkStatus() 
+    this.calculate();
   }
-
+getdetails()
+{
+  this.paymentService.getAMcSerialdetails(this.serial).subscribe(data=>{
+     this.addinvoiceForm.patchValue({ 
+       currency:{currencyId:data.currency_id},    
+      currencyName:data.currency_name,
+      category:{ categoryId:data.category_id },
+      categoryName:data.category_name
+     }) 
+     },
+  error => console.log(error));
+  console.log(this.currencyid);
+}
   onSubmit(){
     console.log(this.addinvoiceForm.value);
     this.saveInvoice(); 
@@ -113,8 +92,7 @@ export class CreateInvoiceComponent implements OnInit {
     if(this.addinvoiceForm.valid){
     this.invoiceService.createInvoice(this.addinvoiceForm.value).subscribe(data =>{
       this.invoiceSavingProgress = true; 
-       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/invoicelist']) });
-       
+       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/adminhome']) });    
     },
       error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
                   this.notificationService.showNoitfication(message, 'OK', 'error', null); }
@@ -172,8 +150,8 @@ export class CreateInvoiceComponent implements OnInit {
   }
 
   calculate(): void{
-    this.invoiceService.calculateAmountValueByExRate(this.addinvoiceForm),
-    this.invoiceService.calculateTaxValueByTaxRate(this.addinvoiceForm) ,
+    this.invoiceService.calculateAmountValueByExRate(this.addinvoiceForm), 
+    this.invoiceService.calculateTaxValueByTaxRate(this.addinvoiceForm), 
     this.invoiceService.totalpayble(this.addinvoiceForm) 
   }
 
@@ -185,7 +163,47 @@ export class CreateInvoiceComponent implements OnInit {
      },
   error => console.log(error));
      }
-  
+
+     private createForm(): void {
+      this.addinvoiceForm = this.fb.group({
+    piNo:['',[Validators.required],[this.existInvoiceValidator()], blur],
+    piDate:['',[Validators.required]],
+    exchageRate:['',[Validators.required, Validators.pattern(/^[\d]{1,3}(\.[\d]{1,2})?$/)]],
+    totalTax:[''],
+    totalAmt:['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+    totalAmtLkr:['',[Validators.required]],
+    remark:['',[Validators.required]],
+    taxApplicable:[''],
+    totalpayble:['',[Validators.required]],
+    totalpayblelkr:['',[Validators.required]],
+    currencyName:['']  ,
+    categoryName:['',{ disabled: true}],
+    clientDepartment:this.fb.group({
+      deptId:[this.deptId], 
+      deptName:[{ value: this.deptName, disabled: true }] 
+      }),
+
+      category:this.fb.group({
+      categoryId:[''] 
+      }),
+
+      amcMaster:this.fb.group({
+        amcNo:[this.amc_no],
+      }),
+
+      currency:this.fb.group({
+        currencyId:['']
+         
+      }),
+      frequency:this.fb.group({
+        frequencyId:['',[Validators.required]]
+      }),
+      tax:this.fb.group({
+        taxId:[''],
+         taxRate:[''] 
+      })
+  })
+    }
 }
 
  

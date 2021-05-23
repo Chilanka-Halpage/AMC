@@ -123,12 +123,12 @@
 
                 <div class="d-flex flex-row-reverse my-0">
                     <button *ngIf="isCreate" type="submit" (click)="submitForm()" mat-raised-button color="primary"
-                        class="ml-1">
+                        class="ml-1" [disabled]="amcMasterProgress">
                         <span *ngIf="amcMasterProgress" class="spinner-border spinner-border-sm mr-1"></span>
                         Next
                     </button>
                     <button *ngIf="!isCreate" type="submit" (click)="saveChanges()" mat-raised-button color="primary"
-                        class="ml-1">
+                        class="ml-1" [disabled]="amcMasterProgress">
                         <span *ngIf="amcMasterProgress" class="spinner-border spinner-border-sm mr-1"></span>
                         Save Changes
                     </button>

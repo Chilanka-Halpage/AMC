@@ -2,6 +2,7 @@ package com.itfac.amc.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -86,32 +87,42 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 	@Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
 	public void checkdueInvoice() {	
 		
-		List<DueInvoicecheckDto> due = proformaInvoiceRepository. Proformainvoicecheck();
+		List<DueInvoicecheckDto> due = proformaInvoiceRepository.Proformainvoicecheck();
 		
 		for(int i=0; i<due.size();i++ ) {
+			
 			LocalDate piDate = due.get(i).getpi_date();
 			int frequency = due.get(i).getfrequency();
-			LocalDate Date2 = piDate.plusMonths(frequency);
-			System.out.println(Date2);
+		    LocalDate Date2 = piDate.plusMonths(frequency);
+		    String piNo = due.get(i).getpi_no();
+		    BigDecimal invoice_amount = due.get(i).gettotal_amount();
+		    int currencyId = due.get(i).getcurrency_id();
+		    String amcMasterno = due.get(i).getamc_no();
+		    BigDecimal invoice_balance = due.get(i).gettotal_payble_lkr();
 			
-			List<ProformaInvoiceDto> list = proformaInvoiceRepository.checkdueInvoice(Date2);
+		    Date date = new Date();		
+			Object LocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			System.out.println("check3");
 			
-			BigDecimal invoice_amount = list.get(i).gettotal_amount_lkr();
-			BigDecimal invoice_balance = list.get(i).gettotal_payble_lkr();
-			String amcMasterno = list.get(i).getamc_no();
-			int currencyId = list.get(i).getcurrency_id();
-			
-			AmcDueInvoice dueinvoice = new AmcDueInvoice();
-			
-			Date date = new Date();
-			dueinvoice.setDueDate(date);
-			dueinvoice.setInvoiceAmt(invoice_amount);
-			dueinvoice.setInvoicePaybleLkr(invoice_balance);
-			dueinvoice.getCurrency().setCurrencyId(currencyId);
-			dueinvoice.getAmcMaster().setAmcNo(amcMasterno);
-			
-		  	amcDueInvoiceRepositiory.save(dueinvoice);
-			
+			if( LocalDate == Date2 ) {
+				
+				System.out.println("check1");
+				
+				if(!proformaInvoiceRepository.checkdueInvoices(piNo,piDate,Date2)) {
+					
+					System.out.println("check2");
+				
+				AmcDueInvoice dueinvoice = new AmcDueInvoice();
+						
+				dueinvoice.setDueDate(date);
+				dueinvoice.setInvoiceAmt(invoice_amount);
+				dueinvoice.setInvoicePaybleLkr(invoice_balance);
+				dueinvoice.getCurrency().setCurrencyId(currencyId);
+				dueinvoice.getAmcMaster().setAmcNo(amcMasterno);
+				
+			  	amcDueInvoiceRepositiory.save(dueinvoice);
+				}
+			}
 		}
 	}
 }

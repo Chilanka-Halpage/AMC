@@ -28,5 +28,15 @@
     "name": "report_path",
     "type": "java.lang.String",
     "description": "A description for 'report_path'"
+  },
+  {
+    "name": "password-link",
+    "type": "java.lang.String",
+    "description": "A description for 'password-link'"
+  },
+  {
+    "name": "app.origin.url",
+    "type": "java.lang.String",
+    "description": "A description for 'app.origin.url'"
   }
 ]}

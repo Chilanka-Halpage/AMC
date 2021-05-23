@@ -21,7 +21,7 @@
       <mat-error *ngIf="addcurrencyForm.controls['currencyName'].touched && addcurrencyForm.controls['currencyName'].errors?.required">Name required </mat-error> 
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-12 col-md-auto">
-      <mat-label>Choose an option</mat-label>
+      <mat-label>Inactive</mat-label>
       <mat-select formControlName="active">
         <mat-option [value]=true>Active</mat-option>
         <mat-option [value]=false>Inactive</mat-option>
@@ -33,11 +33,13 @@
   </form>
  </mat-card>
  <br>
+ <mat-card class="background-color"> 
  <h2>Currency List</h2>
 <mat-form-field class="Filter">
   <mat-label>Filter By currency Name</mat-label>
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex.usd" #input>
 </mat-form-field>
+ 
     <table mat-table class="mat-elevation-z8, table table-striped table-hover" matSort [dataSource]="currencies">
       <ng-container matColumnDef="currencyId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear class="align-middle">Currency Id</th>
@@ -80,4 +82,5 @@
     <mat-paginator class="text-primary"  [length]="100"
      [pageSize]="10"[pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
      </mat-paginator> 
+    </mat-card> 
   </div>

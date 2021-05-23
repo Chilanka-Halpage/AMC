@@ -62,7 +62,7 @@ export class AmcMasterListComponent implements OnInit {
     }, error => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      if (error.status === 404) this.errorMessage = error.error.message;
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
     })
   }
 
@@ -75,7 +75,7 @@ export class AmcMasterListComponent implements OnInit {
     }, error => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      if (error.status === 404) this.errorMessage = error.error.message;
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
     })
   }
 

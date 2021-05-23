@@ -4,11 +4,7 @@ import { UsersService } from '../data/Users/users.service';
 import { Users } from '../data/Users/users'
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { error } from '@angular/compiler/src/util';
 import { ImageService } from '../data/image-service.service'
-import { from } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { NotificationService } from '../shared/notification.service';
 import { base64ToFile, ImageCroppedEvent } from 'ngx-image-cropper';

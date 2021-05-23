@@ -49,9 +49,10 @@
                </mat-form-field> 
               </div>
               <div class="row px-0">
-              <mat-checkbox formControlName="taxApplicable" class="col-1" (click)="Showtoggle()" >Tax Applicable</mat-checkbox>
+            <!--   <mat-checkbox formControlName="taxApplicable" class="col-1" (click)="Showtoggle()" >Tax Applicable</mat-checkbox> -->
+              <br>
               <div formGroupName="tax">
-              <mat-form-field appearance="outline" class="col-3 ml-5" *ngIf="showme">
+              <mat-form-field appearance="outline" class="col-6" >
                 <mat-label>Tax:</mat-label>    
                   <mat-select formControlName="taxId">
                     <mat-option *ngFor="let tax of taxList" [value]="tax.taxId" (click)="findtaxRate(tax.taxId)">
@@ -59,12 +60,12 @@
                     </mat-option>
                   </mat-select>         
               </mat-form-field> 
-              <mat-form-field appearance="outline" class="col-3" *ngIf="showme">
+              <mat-form-field appearance="outline" class="col-6">
                 <mat-label>tax Rate</mat-label>
                  <input type="number" matInput formControlName="taxRate" >     
               </mat-form-field> 
              </div>
-              <mat-form-field appearance="outline" class="col-3 mr-1" *ngIf="showme">
+              <mat-form-field appearance="outline" class="col-4">
                <mat-label>totalTax</mat-label>
                <input type="number" matInput formControlName="totalTax" >     
               </mat-form-field>  
@@ -79,7 +80,7 @@
                    <input type="number" matInput formControlName="totalpayblelkr">      
                </mat-form-field>  
               </div>
-               <br>
+           
                <h5>Other Details</h5>
                <mat-divider class="mat-divider"></mat-divider>
                <br/>
@@ -93,20 +94,19 @@
                  <div formGroupName="clientDepartment">
                    <mat-form-field appearance="outline" class="col-12">
                       <mat-label> Department Id:  </mat-label>
-                      <input type="text" matInput formControlName="deptId"> 
+                      <input type="text" matInput formControlName="deptName"> 
                    </mat-form-field> 
                  </div>     
-                 <div formGroupName="category" >    
-                    <mat-form-field appearance="outline" class="col pl-2">
+                 <div  >    
+                    <mat-form-field appearance="outline" class="col-12">
                       <mat-label>category</mat-label>
-                      <input type="text" matInput formControlName="categoryId">       
+                      <input type="text" matInput formControlName="categoryName">       
                     </mat-form-field> 
-                 </div> 
-                     
-                  <div formGroupName="currency" >    
-                      <mat-form-field appearance="outline" class="col pl-2">
+                 </div>                
+                  <div  >    
+                      <mat-form-field appearance="outline" class="col-12">
                       <mat-label> currency Id</mat-label>
-                      <input type="text" matInput formControlName="currencyId">
+                      <input type="text" matInput formControlName="currencyName">
                       </mat-form-field> 
                   </div>  
                  <div formGroupName="frequency" >    
