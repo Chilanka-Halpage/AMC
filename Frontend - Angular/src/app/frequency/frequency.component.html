@@ -25,11 +25,11 @@
         </mat-select>
       </mat-form-field>
 
-      <button type="submit" *ngIf="!edit" mat-flat-button color="primary" (click)="onSubmit()">
+      <button type="submit" *ngIf="!edit" mat-flat-button color="primary" (click)="onSubmit()" [disabled]="dataSavingProgress">
         <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
         Create</button>
 
-      <button *ngIf="edit" mat-flat-button type="submit" color="primary" (click)="onEdit()">
+      <button *ngIf="edit" mat-flat-button type="submit" color="primary" (click)="onEdit()" [disabled]="dataSavingProgress">
         <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
         Edit</button>
     </form>

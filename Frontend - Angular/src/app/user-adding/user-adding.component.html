@@ -24,6 +24,10 @@
                                 <mat-error *ngIf="addForm.get('uname').hasError('required')">
                                   user name is required
                                 </mat-error>
+                                <mat-error
+                                *ngIf="addForm.get('uname').touched && !addForm.get('uname').hasError('required') && addForm.get('uname').errors?.pattern">
+                                Required minimum 3 characters
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <br />
@@ -39,15 +43,20 @@
                                 <mat-option  value="ACCOUNTANT">ACCOUNTANT</mat-option>
                                 <mat-option  value="CLIENT">CLIENT</mat-option>
                             </mat-select>
+                            <mat-error *ngIf="addForm.get('role').hasError('required')">
+                              role is required
+                            </mat-error>
                         </mat-form-field>
   
                         <mat-form-field appearance="outline" class="col pl-2">
                           <mat-label>Active/Inactive</mat-label>
                           <mat-select formControlName="active">
                             <mat-option  value=true>Active</mat-option>
-                            
                             <mat-option  value=false>Inactive</mat-option>
                           </mat-select>
+                          <mat-error *ngIf="addForm.get('active').hasError('required')">
+                            This field is required
+                          </mat-error>
                         </mat-form-field>
   
                     </div>
@@ -55,14 +64,18 @@
                         <mat-form-field class="col" appearance="outline">
                           <mat-label>Enter your email</mat-label>
                           <input matInput placeholder="pat@example.com" formControlName="email" matInput required>
-                          
+                          <mat-error *ngIf="addForm.get('email').hasError('required')">
+                            email is required
+                          </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="row px-0" >
                       <mat-form-field class="col" appearance="outline">
                         <mat-label>Phone Number</mat-label>
                         <input matInput placeholder="+947123458976" formControlName="contactNo" matInput required>
-                        
+                        <mat-error *ngIf="addForm.get('contactNo').hasError('required')">
+                          Phone number is required
+                        </mat-error>
                       </mat-form-field>
                   </div>
                     
@@ -71,7 +84,7 @@
                 <div>
   
                     <div class="d-flex flex-row-reverse my-0">
-                        <button  (click)="onAdd()" type="submit" mat-raised-button color="primary" class="ml-1">
+                        <button  (click)="onAdd()" type="submit" mat-raised-button color="primary" [disabled]="userSavingProgress" class="ml-1">
                             <span *ngIf="userSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
                             submit
                         </button>

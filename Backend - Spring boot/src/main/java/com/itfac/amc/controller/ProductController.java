@@ -59,8 +59,12 @@ public class ProductController {
 
 	@PostMapping("AddProduct") 
 	public ResponseEntity<String> addProduct(@Validated(OnCreate.class) @RequestBody Product product,HttpServletRequest httpServletRequest) {
+		try {
 		productservice.addProduct(product,httpServletRequest);
 		return ResponseEntity.status(HttpStatus.OK).body("added successfull");
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 
 	}
 
@@ -68,6 +72,12 @@ public class ProductController {
 	public ResponseEntity<String> updateProduct(@PathVariable("id") int productId,@Validated(OnUpdate.class) @RequestBody Product product) {
 		productservice.updateProduct(product,productId);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");
+	}
+	
+	@GetMapping("exists/{name}")
+	public ResponseEntity<Boolean> existsProdcut(@PathVariable("name") String productName) {
+		boolean result = productservice.doesProductExists(productName);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("findActiveProduct")

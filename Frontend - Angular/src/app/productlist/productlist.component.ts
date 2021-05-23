@@ -1,10 +1,14 @@
 import { ProductserviceService } from './../productservice.service';
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { product } from '../product';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { delay } from 'rxjs/internal/operators/delay';
+import { map } from 'rxjs/internal/operators/map';
 import { ActivatedRoute,Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import {FormGroup,FormBuilder, Validators} from '@angular/forms';
+import {FormGroup,FormBuilder, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors} from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { NotificationService } from 'src/app/shared/notification.service';
@@ -16,6 +20,8 @@ import { AuthenticationService } from '../_helpers/authentication.service';
   styleUrls: ['./productlist.component.css']
 })
 export class ProductlistComponent implements OnInit {
+  public isDesabled= false;
+  
   constructor(
     private _service: ProductserviceService,
     private router: Router,
@@ -24,7 +30,10 @@ export class ProductlistComponent implements OnInit {
     private notificationService: NotificationService,
     private authService: AuthenticationService
     ) { }
-    public products: Observable<product[]>;
+    //public products: Observable<product[]>;
+   
+    private productForm$: Observable<any>;
+    public type: any;
     public productAddForm: FormGroup;
     public submitted = false;
     public edit=false;
@@ -58,13 +67,16 @@ export class ProductlistComponent implements OnInit {
   @ViewChild(MatPaginator) paginator:MatPaginator;
 
   ngOnInit() {
+    
     this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
+    
     this.productAddForm=this.formBuilder.group(
       {
-        productName:['',[Validators.required]],
+        productName:['',[Validators.required],[this.existTaxValidator()], blur],
         active:['',[Validators.required]]
       }
     )
+    this.checkStatus();
 
     this._service.getProductList().subscribe(
       list => {
@@ -137,5 +149,32 @@ export class ProductlistComponent implements OnInit {
 
   applyFilter(){
     this.listData.filter=this.searchKey.trim().toLowerCase();
+  }
+
+  private checkStatus(): void {
+    this.productForm$ = this.productAddForm.statusChanges;
+    this.productForm$.subscribe(response => {
+      if (response === 'PENDING') {
+        setTimeout(() => {
+          this.productAddForm.updateValueAndValidity();
+        }, 2000);
+      }
+    })
+  }
+
+  private existTaxValidator():AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!this.type) {
+        return of(control.value).pipe(
+          delay(500),
+          switchMap((productName: string) => this._service.doesProductExists(productName)),
+          map(response => {
+           this.isDesabled=response;
+            return response ? { productNameExists: true } : null
+          })
+        )
+      }
+      return of(null);
+    };
   }
 }
