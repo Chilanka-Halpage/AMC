@@ -144,7 +144,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	public ResponseEntity<String> RenewedAmcsJr(LocalDate Date1, LocalDate Date2, String userId)
 			throws FileNotFoundException, JRException {
 		List<RenewedAmcs> RenewedAmcs = amcSerialRepository.getRenewedAmcs(Date1, Date2);
-		File file = ResourceUtils.getFile("classpath:jasperReports/RenewedAmcs.jrxml");
+		File file = ResourceUtils.getFile("src/main/resources/jasperReports/RenewalAmcs.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(RenewedAmcs);
 		Map<String, Object> parameters = new HashMap<>();
