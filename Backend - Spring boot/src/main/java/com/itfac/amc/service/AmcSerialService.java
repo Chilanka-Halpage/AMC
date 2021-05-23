@@ -26,6 +26,6 @@ public interface AmcSerialService {
 	void renewAmc(HttpServletRequest request, String data, MultipartFile file, String amcNo, String amcSerialNo)
 			throws JsonMappingException, JsonProcessingException;
 	
-	addRecieptDto getdetalis(String amc_no);
+	addRecieptDto getdetalis(String amcS_no);
 
 }

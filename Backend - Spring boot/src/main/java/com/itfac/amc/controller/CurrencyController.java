@@ -28,8 +28,9 @@ public class CurrencyController {
 	Currencyservice currencyservice;
 
 	@GetMapping("findAllCurrency")
-	public List<Currency> getAllCurrency() {
-		return currencyservice.getAllCurrency();
+	public ResponseEntity<List<Currency>>  getAllCurrency() {
+		List<Currency> result =  currencyservice.getAllCurrency();
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("findCurrency/{id}")
@@ -48,7 +49,7 @@ public class CurrencyController {
 	          return ResponseEntity.ok().body("succesfully delete");
 	          }
 	   catch(Exception e) {
-		   return ResponseEntity.badRequest().body(e.getMessage());
+		   return ResponseEntity.badRequest().body(e.getMessage() + "can not delete");
 	   }
 	}
 
@@ -61,8 +62,9 @@ public class CurrencyController {
 	}
 
 	@GetMapping("/findactivecurrencies")
-	public List<Currency> getActivecurrencies() {
-		return currencyservice.getActivecurrencies();
+	public ResponseEntity<List<Currency>> getActivecurrencies() {
+		List<Currency> result = currencyservice.getActivecurrencies();
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("exists/{name}")

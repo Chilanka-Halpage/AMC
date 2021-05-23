@@ -148,8 +148,15 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 	}
 
 	@Override
-	public addRecieptDto getdetalis(String amc_no) {
-		return amcSerialRepository.getdetalis(amc_no);
+	public addRecieptDto getdetalis(String amcSNo) {
+		try {
+			return  amcSerialRepository.getdetalis(amcSNo);
+		}catch (Exception ex){
+			System.out.println(ex.getCause());
+			throw new ResourceNotFoundException(ex.getMessage());
+			
+		}
 	}
 
 }
+

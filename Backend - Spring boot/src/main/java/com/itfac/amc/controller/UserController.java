@@ -171,14 +171,15 @@ public class UserController {
 	}
 
 	@GetMapping("getlast7logdetails")
-	public List<logindetailsDTo> logindetailslist() {
-		return loginDetailsService.logindetailslist();
-	}	
+	public ResponseEntity<List<logindetailsDTo>> logindetailslist() {
+		List<logindetailsDTo> result = loginDetailsService.logindetailslist();
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	 }	
 
 	@GetMapping("getlast15logdetails/{userId}")
-	public List<LoginDetails> logindetailslistbyId(	@PathVariable("userId") String userId){
-		return loginDetailsService.logindetailslistbyId(userId);
-		
+	public ResponseEntity<List<LoginDetails>> logindetailslistbyId(	@PathVariable("userId") String userId){
+		List<LoginDetails> result = loginDetailsService.logindetailslistbyId(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}	
 
 	//logout details

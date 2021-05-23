@@ -66,29 +66,34 @@ public class AmcMasterController {
 		List<String> allAmc = amcService.getAllAmcNo(id);
 		return ResponseEntity.status(HttpStatus.OK).body(allAmc);
 	}
-
+	
 	@GetMapping("dashboard/activeAmcCount")
-	public String countActiveAmc() {
-		return amcService.countActiveAmc();
+	public ResponseEntity<String> countActiveAmc() {
+		String result = amcService.countActiveAmc();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("dashboard/inactiveAmcCount")
-	public String countInactiveAmc() {
-		return amcService.countInactiveAmc();
+	public ResponseEntity<String> countInactiveAmc() {
+		String result = amcService.countInactiveAmc();
+	    return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("dashboard/totalAmc")
-	public String countAmc() {
-		return amcService.countAmc();
+	public ResponseEntity<String> countAmc() {
+		String result =  amcService.countAmc();
+		 return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("dashboard/AmcCountforclient/{userId}")
-	public String countAmcByClient(@PathVariable("userId") String userId) {
-		return amcService.countAmcByClient(userId);
+	public ResponseEntity<String> countAmcByClient(@PathVariable("userId") String userId) {
+		String result = amcService.countAmcByClient(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("dashboard/AmcActiveCountforclient/{userId}")
-	public String countActiveAmcByClient(@PathVariable("userId") String userId) {
-		return amcService.countActiveAmcByClient(userId);
+	public ResponseEntity<String> countActiveAmcByClient(@PathVariable("userId") String userId) {
+		String result = amcService.countActiveAmcByClient(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 }
