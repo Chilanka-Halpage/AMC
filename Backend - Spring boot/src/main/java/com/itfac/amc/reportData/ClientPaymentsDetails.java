@@ -6,18 +6,14 @@ import java.util.Date;
 public interface ClientPaymentsDetails {
 	public String getamc_no(); 
 	public String getproduct_name(); 
-	public String getdepartment_name(); 
-	public String getamc_serial_no();
 	public String getcurrency_name(); 
-
-	public BigDecimal getexchage_rate();
-	public BigDecimal getexchange_rate();   
-
-	
-
+	public BigDecimal getexchange_rate();
 	public BigDecimal gettotal();
 	public BigDecimal getbalance();
 	public String getuser_id();
+	public String getamc_serial_no();
 	public Date getrec_date();
+	public String getdepartment_name();
 	public String getrec_no(); 
+	
 }

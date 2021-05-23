@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import {FullDetails} from '../../data/FullDetails/full-details';
 import { ReportDetailsService } from '../../data/report-details.service'
@@ -27,6 +28,7 @@ export class FullDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private reportDetailsService: ReportDetailsService,
     private datePipe: DatePipe,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -62,7 +64,9 @@ export class FullDetailsComponent implements OnInit {
       this.isLoadingResults=false;
       this.viewPdf();
     },
-      error => {console.log("Error!", error)
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
     });   
   }
 
@@ -72,6 +76,10 @@ export class FullDetailsComponent implements OnInit {
         let url = URL.createObjectURL(response);
         window.open(url, '_blank');
         URL.revokeObjectURL(url);
+      },
+      (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       });
   }
   displayedColumns: string[] = [    'amc_no', 'amc_serial_no','client_name','product_name', 'category_name' ,'mtc_start_date' ,

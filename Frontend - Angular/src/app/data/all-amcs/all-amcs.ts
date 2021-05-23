@@ -1,5 +1,6 @@
 export class AllAmcs {
     amc_no: String
+    amc_serial_no: String
     start_date: Date
     client_name: String
     contact_person: String

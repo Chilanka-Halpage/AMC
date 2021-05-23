@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { ReportDetailsService } from 'src/app/data/report-details.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import { ClientAmc } from '../../data/ClientAmc/client-amc';
 
@@ -24,11 +25,13 @@ export class ClientAmcComponent implements OnInit {
     public _authentication: AuthenticationService,
     private reportDetailsService: ReportDetailsService,
     private activatedRoute: ActivatedRoute,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
       this.cId = params.get('cId');
+      console.log("----");
       console.log(this.cId);
       this.ClientAmc(this.cId);
   });
@@ -52,7 +55,9 @@ export class ClientAmcComponent implements OnInit {
       this.isLoadingResults=false;
       this.viewPdf()
     },
-      error => {console.log("Error!", error)
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
     }
     )
   }
@@ -64,6 +69,9 @@ export class ClientAmcComponent implements OnInit {
         let url = URL.createObjectURL(response);
         window.open(url, '_blank');
         URL.revokeObjectURL(url);
+      },    (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       });
   }
   displayedColumns: string[] = ['amc_no','amc_serial_no', 'start_date', 'mtc_start_date','mtc_end_date',

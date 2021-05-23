@@ -20,7 +20,10 @@ import com.itfac.amc.reportData.NotificationView;
 public interface NotificationRepository  extends JpaRepository<Notification, Integer> {
 
 	@Query(value = "SELECT * FROM notification WHERE user_id= :user_id ORDER BY saved_date DESC", nativeQuery = true)
-	List<Notification> getNotifications(Pageable pageable, @Param("user_id") String user_id);
+	List<Notification> getNotification(@Param("user_id") String user_id);
+	
+	@Query(value = "SELECT * FROM notification WHERE user_id= :user_id ORDER BY saved_date DESC", nativeQuery = true)
+	List<Notification> getNotificationsPageable(Pageable pageable, @Param("user_id") String user_id);
 	
 	@Query(value = "SELECT count(*) FROM notification WHERE user_id=:user_id And is_read=true", nativeQuery = true)
 	 List<String> getNotificationNo(@Param("user_id") String user_id);

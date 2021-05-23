@@ -6,6 +6,7 @@ import { PaymentsDetails } from '../../data/PaymentsDetails/payments-details';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-payments-details',
@@ -27,6 +28,7 @@ category : String
     public _authentication: AuthenticationService,
     private allAmcsService: ReportDetailsService,
     private activatedRoute: ActivatedRoute,
+    private notificationService: NotificationService,
   ) { }
 
 
@@ -62,7 +64,9 @@ PaymentsDetailsJrReport(){
   this.isLoadingResults=false;
   this.viewPdf()
 },
-  error => {console.log("Error!", error)
+(error)=>{
+  const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+  this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
 });
 }
 viewPdf() {
@@ -71,6 +75,10 @@ viewPdf() {
       let url = URL.createObjectURL(response);
       window.open(url, '_blank');
       URL.revokeObjectURL(url);
+    },
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
     });
 }
 displayedColumns: string[] = ['amc_no', 'client_name', 'department_name', 'product_name','frequency','currency_name',

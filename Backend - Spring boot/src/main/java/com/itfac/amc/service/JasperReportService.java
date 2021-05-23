@@ -28,7 +28,7 @@ public interface JasperReportService {
 	//Full details report
 	public ResponseEntity<String> FullDetailsJr(LocalDate Date1,LocalDate Date2, String userId) throws JRException, IOException;
 	//client details
-	public byte[] ClientDetailsJr(LocalDate Date1,LocalDate Date2, String userId) throws FileNotFoundException, JRException, IOException;
+	public ResponseEntity<String> ClientDetailsJr(LocalDate Date1,LocalDate Date2, String userId) throws FileNotFoundException, JRException, IOException;
 	//Payments Report
 	public ResponseEntity<String> PaymentReportJr(LocalDate Date1,LocalDate Date2,String category, String userId) throws FileNotFoundException, JRException;
 	//AMC report for client
