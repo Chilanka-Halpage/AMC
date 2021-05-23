@@ -29,8 +29,9 @@ public class TaxController {
 	private TaxService taxService;
 
 	@GetMapping("/findalltaxes")
-	public List<Tax> getAllTax() {
-		return taxService.getAllTax();
+	public ResponseEntity<List<Tax>> getAllTax() {
+		List<Tax> result = taxService.getAllTax();
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@PostMapping("/add")
@@ -55,9 +56,9 @@ public class TaxController {
 	}
 
 	@GetMapping("/findactivetaxes")
-	public List<Tax> getActivetax() {
-		return taxService.getActiveTax();
-
+	public ResponseEntity<List<Tax>> getActivetax() {
+		List<Tax> result = taxService.getActiveTax();
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("exists/{name}")
@@ -72,7 +73,7 @@ public class TaxController {
 		       return ResponseEntity.ok().body("succesfully delete");
 		}
 		catch(Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.badRequest().body("can not delete the tax already in use");
 		}
 		
 	}

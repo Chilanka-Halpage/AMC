@@ -31,8 +31,9 @@ public class ProformaInvoiceController {
 	private ProformaInvoiceService proformaInvoiceService;
 
 	@GetMapping("/findAllInvoices")
-	public List<ProformaInvoiceDto> getAllProformaInvoice() {
-		return proformaInvoiceService.getAllProformaInvoice();
+	public ResponseEntity<List<ProformaInvoiceDto>> getAllProformaInvoice() {
+		List<ProformaInvoiceDto> result = proformaInvoiceService.getAllProformaInvoice();
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@PostMapping("/add")

@@ -92,7 +92,7 @@ public class JrReportController {
 
 	// Client Details Report
 	@GetMapping("/ClientDetailsJrReport/{Date1}/{Date2}/{userId}")
-	public byte[] ClientDetailsJr(
+	public ResponseEntity<String> ClientDetailsJr(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
 			@PathVariable(value = "userId") String userId) throws JRException, IOException {

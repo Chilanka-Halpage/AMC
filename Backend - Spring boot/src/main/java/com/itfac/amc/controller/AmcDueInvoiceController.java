@@ -62,5 +62,15 @@ public class AmcDueInvoiceController {
 	public List<DueInvoiceDto> settled() {
 		return amcDueInvoiceService.settled();
 	}
+	
+	@GetMapping("finddueinvoiceclient/{id}")
+	ResponseEntity<List<DueInvoiceDto>> getduebyClientId(@PathVariable("id") String id) {
+		List<DueInvoiceDto> dueinvoiceByIdd = amcDueInvoiceService.getduebyClientId(id);
+		if (dueinvoiceByIdd != null) {
+			return ResponseEntity.ok(dueinvoiceByIdd);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No dueinvoice with entered id " + id)
+				.body(dueinvoiceByIdd);
+	}
 
 }

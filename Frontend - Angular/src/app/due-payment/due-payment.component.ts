@@ -33,17 +33,26 @@ export class DuePaymentComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {
+
     this.getDuepayemt();
     this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
   }
 
   getDuepayemt(){
+    if(this._authentication.role == 'ROLE_CLIENT'){
+      this.duePaymentService.getDuePaymentclient(this._authentication.userId).subscribe(data =>{
+        this.duePayments = new MatTableDataSource(data); 
+        this.duePayments.sort = this.sort;  
+        this.duePayments.paginator = this.paginator;
+        this.isLoadingResults = false;
+      })
+    }else{
     this.duePaymentService.getDuepaymentList().subscribe(data =>{
     this.duePayments = new MatTableDataSource(data); 
     this.duePayments.sort = this.sort;  
     this.duePayments.paginator = this.paginator;
     this.isLoadingResults = false;
-    });
+    })}
   }
 
   deletedueinvoice(id: number){ console.log(id);

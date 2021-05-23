@@ -147,9 +147,18 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public List<Map<String, Object>> QuarterWiseRevenue(LocalDate date1, String category){
 		LocalDate date2 = date1.plusMonths(3);
-		LocalDate date3 = date2.plusMonths(3);
-		LocalDate date4 = date3.plusMonths(3);
-		LocalDate date5 = date4.plusMonths(3);
+		date2 = date2.minusDays(1);
+		LocalDate date3 = date1.plusMonths(6);
+		date3 = date3.minusDays(1);
+		LocalDate date4 = date1.plusMonths(9);
+		date4 = date4.minusDays(1);
+		LocalDate date5 = date1.plusMonths(12);
+		date5 = date5.minusDays(1);
+		System.out.println(date1);
+		System.out.println(date2);
+		System.out.println(date3);
+		System.out.println(date4);
+		System.out.println(date5);
 		if(category.equals("all")) {
 		BigDecimal q1 = getRevanue(date1,date2);
 		BigDecimal q2 = getRevanue(date2,date3);
@@ -201,6 +210,7 @@ public class ReportServiceImpl implements ReportService {
 			parameters.put("quarter3", q3);
 			parameters.put("quarter4", q4);
 			parameters.put("total", total);
+			parameters.put("date", date5);
 			List<Map<String, Object>> revenue=new ArrayList<>();
 			revenue.add(parameters);
 			return revenue;}

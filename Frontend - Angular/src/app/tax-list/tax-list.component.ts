@@ -52,7 +52,7 @@ export class TaxListComponent implements OnInit {
        this.notificationService.showNoitfication('Successfully delete', 'OK', 'success', () => {  this.getTax();  });
        
     },
-      error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. The Tax Already in use'
+      error =>  { let message = (error.status === 0 || error.status === 400) ? error.error : 'Cannot proceed the request. please try again'
                   this.notificationService.showNoitfication(message, 'OK', 'error', null); }
       );
   }

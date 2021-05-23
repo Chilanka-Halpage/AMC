@@ -17,6 +17,11 @@ export class DuePaymentService {
   getDuepaymentList(): Observable<any>{
     return this.HttpClient.get<any>(`${this.baseURL}amcDueInvoice/AllDueInvoice`);
   }
+
+  getDuePaymentclient(id: String): Observable<any>{
+    return this.HttpClient.get<any>(`${this.baseURL}amcDueInvoice/finddueinvoiceclient/${id}`);
+  }
+
   deletedueinvoice(id: number): Observable<Object>{
     return this.HttpClient.delete(`${this.baseURL}amcDueInvoice/deletedueinvoice/${id}`,{responseType:'text'})
   } 

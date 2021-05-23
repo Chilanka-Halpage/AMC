@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
 import { ReportDetailsService } from 'src/app/data/report-details.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
@@ -25,20 +26,25 @@ export class QuarterWiseRevenueReportComponent implements OnInit {
     private reportDetailsService: ReportDetailsService,
     private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe,
+    private notificationService: NotificationService,
   ) { }
 
   date1: any;
   date2: any;
-  //date=new Date();
   category: String
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
       this.date1 = params.get('date1');
-      this.date2 = this.datePipe.transform(this.date1 + 1 , "yyyy-MM-dd");
+      var d = new Date(this.date1);
+    var year = d.getFullYear();
+    var month = d.getMonth();
+    var day = d.getDate();
+    this.date2= new Date(year + 1, month, day -1);
+      //------------------
       this.category = params.get('category');
       console.log(this.date1); 
-      console.log(this.date2); 
+      //console.log(this.date2); 
       this.QuarterWiseRevenue(this.date1,this.category);
     });
   }
@@ -63,7 +69,9 @@ export class QuarterWiseRevenueReportComponent implements OnInit {
       this.isLoadingResults=false;
       this.viewPdf();
     },
-      error => {console.log("Error!", error)
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
     }
     )
   }
@@ -74,6 +82,10 @@ export class QuarterWiseRevenueReportComponent implements OnInit {
         let url = URL.createObjectURL(response);
         window.open(url, '_blank');
         URL.revokeObjectURL(url);
+      },
+      (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       });
   }
   displayedColumns: string[] = ['quarter1', 'quarter2', 'quarter3', 'quarter4', 'total'];

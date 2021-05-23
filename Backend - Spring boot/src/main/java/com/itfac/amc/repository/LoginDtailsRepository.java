@@ -2,6 +2,7 @@ package com.itfac.amc.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -34,6 +35,9 @@ public interface LoginDtailsRepository extends JpaRepository<LoginDetails, Integ
 	@Query(value = "Select * from  login_details where user_id=:user_id ORDER BY logno DESC LIMIT 15", nativeQuery = true)
 	List<LoginDetails> logindetailslistbyId(@Param("user_id") String userId);
 	
+	//save logout details when token expired
+	@Query(value = "select * from login_details where logout_datetime is null", nativeQuery = true)
+	List<LoginDetails> logoutdetailslist();
 
 	@Modifying
 	@Transactional
@@ -41,4 +45,14 @@ public interface LoginDtailsRepository extends JpaRepository<LoginDetails, Integ
 	void updateLogoutDetails(@Param("logout_ip") String logout_ip,
 			@Param("logout_datetime") Date logout_datetime,
 			@Param("user_id") String user_id);
+	
+	//update when close the browser
+	@Modifying
+	@Transactional
+	@Query(value = "update login_details set logout_ip= :logout_ip, logout_datetime = :logout_datetime Where logno = :logno", nativeQuery = true)
+	void logoutDetailUpdate(@Param("logout_ip") String logout_ip,
+			@Param("logout_datetime") Date logout_datetime,
+			@Param("logno") int logno);
+
+	//Optional<LoginDetails> findById(LoginDetails loginDetails);
 }
