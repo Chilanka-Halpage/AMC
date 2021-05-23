@@ -91,7 +91,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             <tr class="mat-row" *matNoDataRow >
-                <td *ngIf="resultsLength" class="mat-cell w-100" colspan="4">No data matching the filter "{{input.value}}"</td>
+                <td *ngIf="resultsLength" class="mat-cell w-100" colspan="4">No data matching the filter in this page. Please, try next page"{{input.value}}"</td>
             </tr>
         </table>
         <div class="font-italic d-flex justify-content-center" *ngIf="isLoadingResults">

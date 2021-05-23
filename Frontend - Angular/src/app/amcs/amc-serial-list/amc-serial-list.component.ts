@@ -1,4 +1,3 @@
-import { Currency } from './../../currency';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -70,8 +69,7 @@ export class AmcSerialListComponent implements OnInit {
     }, error => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      console.log(error);
-      this.errorMessage = error.error.message;
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
     })
   }
 

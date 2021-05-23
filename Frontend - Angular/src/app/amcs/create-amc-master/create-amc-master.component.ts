@@ -1,8 +1,5 @@
-import { FrequencyserviceService } from './../../frequencyservice.service';
-import { frequency } from './../../frequencyy';
 import { CurrencyService } from './../../currency.service';
 import { NotificationService } from './../../shared/notification.service';
-import { HttpClient } from '@angular/common/http';
 import { AmcMasterService } from './../../shared/amc-master.service';
 import { Frequency } from './../../Model/frequency';
 import { Currency } from './../../Model/currency.model';
@@ -43,13 +40,10 @@ export class CreateAmcMasterComponent implements OnInit {
     private amcMasterservice: AmcMasterService,
     private notificationService: NotificationService,
     private currencyService: CurrencyService,
-    private frequencyService: FrequencyserviceService,
     private elementRef: ElementRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private ngZone: NgZone,
-    private http: HttpClient,
-    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -94,18 +88,18 @@ export class CreateAmcMasterComponent implements OnInit {
     this.currencyService.getactiveCurrency().subscribe(response => {
       this.currencyList = response;
       this.isLoadingResults = ((currencListLoad = true) && frequencyListLoad) ? false : true;
-    }, error => {
+    }, (error) => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      this.errorMessage = error;
+      this.errorMessage = (error.status === 0) ? error.error : "Error in loading data";
     });
     this.amcMasterservice.getFrequency().subscribe(response => {
       this.frequencyList = response;
       this.isLoadingResults = ((frequencyListLoad = true) && currencListLoad) ? false : true;
-    }, error => {
+    }, (error) => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      this.errorMessage = error;
+      this.errorMessage = (error.status === 0) ? error.error : "Error in loading data";
     });
   }
 
@@ -134,9 +128,7 @@ export class CreateAmcMasterComponent implements OnInit {
       })
       this.isRateLimitReached = false;
     }, error => {
-      console.log(error);
-      this.errorMessage = error.error.message;
-
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
       this.isRateLimitReached = true;
     }).add(() => this.isLoadingResults = false);
   }
@@ -145,11 +137,9 @@ export class CreateAmcMasterComponent implements OnInit {
   saveChanges() {
     this.amcMasterProgress = true;
     this.amcMasterservice.updateAmcMaster(this.amcMasterForm.value, this.amcNo, this.amcSerialNo).subscribe(response => {
-      console.log(response);
-      this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.location.back() });
+      this.notificationService.showNoitfication(response, 'OK', 'success', () => { window.location.reload() });
     }, error => {
-      console.log(error);
-      let message = 'Cannot proceed the request. Try again'
+      let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);
     }).add(() => this.amcMasterProgress = false);;
   }
@@ -160,7 +150,6 @@ export class CreateAmcMasterComponent implements OnInit {
     if (this.amcMasterForm.valid) {
       this.amcMasterservice.saveAmcMaster(this.amcMasterForm.value, this.clientId).subscribe(
         response => {
-          console.log(response);
           let navigationExtras: NavigationExtras = {
             queryParams: {
               data: JSON.stringify({
@@ -174,7 +163,7 @@ export class CreateAmcMasterComponent implements OnInit {
           this.router.navigate(['/amc-serial/new'], navigationExtras);
         },
         error => {
-          let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 501 || error.status === 404) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.amcMasterProgress = false);

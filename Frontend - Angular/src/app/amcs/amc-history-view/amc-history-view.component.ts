@@ -38,7 +38,7 @@ export class AmcHistoryViewComponent implements OnInit {
       this.list = response;
       if(!this.list.length) this.isListEmpty = true;
     }, (error) => {
-      this.errorMessage = 'Cannot proceed the request.Try again';
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
       this.isRateLimitReached = true;
     }).add(() => this.isLoadingResults = false);
   }

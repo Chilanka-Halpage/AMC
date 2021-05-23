@@ -1,5 +1,3 @@
-import { frequency } from './../../frequencyy';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AmcMasterService, DateValidator } from 'src/app/shared/amc-master.service';
 import { Component, ElementRef, OnInit } from '@angular/core';
@@ -108,8 +106,8 @@ export class AmcRenewEditComponent implements OnInit {
       this.calculateValuByExRate();
       this.isLoadingResults = false;
       this.isRateLimitReached = false;
-    }, error => {
-      this.errorMessage = error.error.message;
+    }, (error) => {
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
     });
@@ -119,10 +117,10 @@ export class AmcRenewEditComponent implements OnInit {
     this.amcService.getFrequency().subscribe(response => {
       this.frequencyList = response;
       this.isLoadingResults = false;
-    }, error => {
+    }, (error) => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      this.errorMessage = error;
+      this.errorMessage = (error.status === 0) ? error.error : "Error in loading data";
     });
   }
 
@@ -146,7 +144,6 @@ export class AmcRenewEditComponent implements OnInit {
       const formData = new FormData();
       formData.append("data", JSON.stringify(this.amcFullDataForm.value));
       formData.append("file", this.amcFile);
-      console.log(formData);
       this.amcService.renewAmcByClientId(formData, this.data.amc_no, this.data.amc_serial_no).subscribe(response => {
         let navigationExtras: NavigationExtras = {
           queryParams: {
@@ -159,8 +156,7 @@ export class AmcRenewEditComponent implements OnInit {
         };
         this.notificationService.showNoitfication(response, 'OK', 'success', () => this.router.navigate([`/clients/depts/${this.data.client_dept_id}/amc-list`], navigationExtras));
       }, error => {
-        console.log(error);
-        let message = (error.status === 501) ? error.error : 'Cannot proceed the request. Try again'
+        let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
       }).add(() => this.registerStudentProgress = false);
     } else {
