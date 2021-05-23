@@ -13,7 +13,7 @@
 	<field name="rec_no" class="java.lang.String"/>
 	<field name="product_name" class="java.lang.String"/>
 	<field name="currency_name" class="java.lang.String"/>
-	<field name="exchage_rate" class="java.math.BigDecimal"/>
+	<field name="exchange_rate" class="java.math.BigDecimal"/>
 	<field name="total" class="java.math.BigDecimal"/>
 	<field name="balance" class="java.math.BigDecimal"/>
 	<background>
@@ -104,7 +104,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Exchage Rate]]></text>
+				<text><![CDATA[Exchange Rate]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="640" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="fe85a7bb-c51e-4cae-a0b4-1a83ab7cd660">
@@ -198,7 +198,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{exchage_rate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{exchange_rate}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="640" y="1" width="80" height="30" backcolor="#E0FFFF" uuid="c1e27979-0d66-4be8-8afd-85e786232622">

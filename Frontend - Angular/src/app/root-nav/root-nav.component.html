@@ -50,7 +50,7 @@
           <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['taxlist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Tax</button>
           <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['currencylist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Currency</button>
           <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['paymentHlist']"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment History</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['duepayment']"*ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT' || _authentication.role === 'ROLE_CLIENT'" >Due Payment</button>         
+          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['duepayment']" >Due Payment</button>         
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>

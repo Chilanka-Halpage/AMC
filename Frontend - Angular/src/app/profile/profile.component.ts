@@ -5,6 +5,7 @@ import {Users } from '../data/Users/users'
 import { UsersService } from '../data/Users/users.service';
 import {ImageService} from '../data/image-service.service';
 import { error } from 'selenium-webdriver';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +23,8 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private usersService: UsersService,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private notificationService: NotificationService,
     ) { }
     public imageSrc: string;
 
@@ -35,8 +37,9 @@ export class ProfileComponent implements OnInit {
       this.imageSrc= this.imageService.Image(this.userId);
       this.isLoadingResults = false;
     },
-    error=>{
-      console.log("not found",error);
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
     })
     //get image--------------------
     // this.imageService.getImage(this.userId).subscribe(

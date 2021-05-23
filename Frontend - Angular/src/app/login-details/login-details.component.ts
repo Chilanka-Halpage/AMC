@@ -7,6 +7,7 @@ import { merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { LoginDetailsService } from '../data/login-details.service';
 import { LoginDetails } from '../data/loginDetails/login-details';
+import { NotificationService } from '../shared/notification.service';
 import { AuthenticationService } from '../_helpers/authentication.service';
 
 @Component({
@@ -31,7 +32,8 @@ export class LoginDetailsComponent implements OnInit {
   constructor(
     private loginDetailsService: LoginDetailsService,
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -75,6 +77,10 @@ export class LoginDetailsComponent implements OnInit {
         })
       ).subscribe(response => {
         this.loginDetails = response;
+      },
+      (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       });
   }
 

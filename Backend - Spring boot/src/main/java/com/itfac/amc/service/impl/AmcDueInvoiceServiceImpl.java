@@ -49,5 +49,10 @@ public class AmcDueInvoiceServiceImpl implements AmcDueInvoiceService {
 		return amcDueInvoiceRepositiory.settled();
 	}
 
-	
+	@Override
+	public List<DueInvoiceDto> getduebyClientId(String user_id) {
+		
+		return amcDueInvoiceRepositiory.getduebyClientId(user_id);
+	}
+
 }

@@ -50,6 +50,12 @@ public class ProductServiceImp implements ProductService {
 		productt.setActive(product.isActive());
 	    productrepo.save(productt);
 	}
+	
+	@Override
+	public boolean doesProductExists(String productName) {
+	boolean	product= productrepo.existsByProductName(productName);
+	return product;
+	}
 
 	@Override
 	public List<Product> getActiveProduct() {

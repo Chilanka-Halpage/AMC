@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.itfac.amc.Exception.ResourceNotFoundException;
 import com.itfac.amc.entity.Currency;
 import com.itfac.amc.repository.CurrencyRepository;
 import com.itfac.amc.service.Currencyservice;
@@ -21,6 +22,9 @@ public class CurrencyserviseIml implements Currencyservice{
 	@Override
 	public List<Currency> getAllCurrency() {
 		List<Currency> findAllCurrency = currencyRepository.findAll();
+		if(findAllCurrency.isEmpty()) {
+			throw new ResourceNotFoundException("Not Data Found");
+		}
 		return findAllCurrency;
 	}
 	

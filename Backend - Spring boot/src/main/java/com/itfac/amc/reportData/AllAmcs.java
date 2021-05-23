@@ -16,4 +16,5 @@ public interface AllAmcs {
 	public int getmtc_qty();
 	public BigDecimal gettotal_value_lkr();
 	public boolean getactive();
+	public String getamc_serial_no();
 }

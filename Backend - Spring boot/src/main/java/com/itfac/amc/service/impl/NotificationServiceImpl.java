@@ -34,8 +34,13 @@ public class NotificationServiceImpl implements NotificationService{
 	UserRepository userRepository;
 	
 	@Override
-	public List<Notification> getNotifications(Pageable pageable,String user_id){
-		return notificationRepository.getNotifications(pageable,user_id);
+	public List<Notification> getNotification(String user_id){
+		return notificationRepository.getNotification(user_id);
+	}
+	
+	@Override
+	public List<Notification> getNotificationsPageable(Pageable pageable,String user_id){
+		return notificationRepository.getNotificationsPageable(pageable,user_id);
 	}
 	
 	@Override

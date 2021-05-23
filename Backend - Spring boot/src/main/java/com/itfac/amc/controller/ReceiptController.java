@@ -2,11 +2,8 @@ package com.itfac.amc.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,8 +32,9 @@ public class ReceiptController {
 	private ReceiptService receiptService;
 
 	@GetMapping("/findallreceipt")
-	public List<recieptDto> getAllReceipt() {
-		return receiptService.getAllReceipt();
+	public ResponseEntity<List<recieptDto>> getAllReceipt() {
+		List<recieptDto> result = receiptService.getAllReceipt();
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@PostMapping("/add")
@@ -63,13 +61,15 @@ public class ReceiptController {
 	}
 
 	@GetMapping("/dashboard/lastyearrevanue/{Date1}")
-	public List<BigDecimal> TotalrevanuelastYear(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1) {
-		return receiptService.TotalrevanuelastYear(Date1);
+	public ResponseEntity<List<BigDecimal>> TotalrevanuelastYear(@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1) {
+		List<BigDecimal> result = receiptService.TotalrevanuelastYear(Date1);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("findreceiptsforclient/{id}")
-	public List<clinetpaymentDto> getReceiptByClientId(@PathVariable("id") String userId) {
-		return receiptService.getReceiptbyClientId(userId);
+	public ResponseEntity<List<clinetpaymentDto>> getReceiptByClientId(@PathVariable("id") String userId) {
+		List<clinetpaymentDto> result = receiptService.getReceiptbyClientId(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
 	@GetMapping("exists/{recNo}")

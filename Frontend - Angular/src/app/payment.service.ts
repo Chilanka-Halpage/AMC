@@ -22,32 +22,47 @@ export class PaymentService {
   createReceipt(payment): Observable<Object>{
     return this.HttpClient.post(`${this.baseURL}receipt/add`,payment, {responseType : "text" as "json"});
   }
+
   getactiveCurrency(): Observable<any>{
     return this.HttpClient.get<any>(`${this.baseURL}Currency/findactivecurrencies`);
   }
+
   getCategory(): Observable<any>{
     return this.HttpClient.get<any>(`${this.baseURL}category/findAllCategory`)
   }
+
   getActiveInvoices(): Observable<any>{
     return this.HttpClient.get<any>(`${this.baseURL}invoice/activeinvoices`) 
   }
+
   doesReceiptExists(recNo: string): Observable<boolean> {
     return this.HttpClient.get<boolean>(`${this.baseURL}receipt/exists/${recNo}`);
   }
 
-  getAMcSerialdetails(amcNo: String): Observable<any> {
-    return this.HttpClient.get<any>(`${this.baseURL}amcSerial/get/recietde/${amcNo}`);
+  getAMcSerialdetails(amcSNo: String): Observable<any> {
+    return this.HttpClient.get<any>(`${this.baseURL}amcSerial/get/recietde/${amcSNo}`);
   }
   
   calculateAmcValueByExRate(form: FormGroup) {
     form.get('exchageRate').valueChanges.subscribe((value: number) => {
-      const total = form.get('totalLkr').value * value
-      form.patchValue({ total: total });
+      const totalLkr = form.get('total').value * value
+      form.patchValue({ totalLkr: totalLkr });
     });
-    form.get('totalLkr').valueChanges.subscribe((value: number) => {
-      const total = form.get('exchageRate').value * value;
-      form.patchValue({ total: total });
+    form.get('total').valueChanges.subscribe((value: number) => {
+      const totalLkr = form.get('exchageRate').value * value;
+      form.patchValue({ totalLkr: totalLkr });
     })
   }
+  
+   calculatebalance(form: FormGroup) {
+    form.get('exchageRate').valueChanges.subscribe((value: number) => {
+      const total = form.get('balance').value * value
+      form.patchValue({ balanceLkr: total });
+    });
+    form.get('balance').valueChanges.subscribe((value: number) => {
+      const total = form.get('exchageRate').value * value;
+      form.patchValue({ balanceLkr: total });
+    })
+  } 
 
 }

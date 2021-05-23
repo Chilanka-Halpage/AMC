@@ -10,6 +10,7 @@ import { JrReportDetailsService } from '../../data/jr-report-details.service'
 import { Users } from 'src/app/data/Users/users';
 import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 import { error } from '@angular/compiler/src/util';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-all-amc-report',
@@ -32,6 +33,7 @@ export class AllAmcReportComponent implements OnInit {
   constructor(
     private jrReportDetailsService: JrReportDetailsService,
     public _authentication: AuthenticationService,
+      private notificationService: NotificationService,
     private reportDetailsService: ReportDetailsService,
     //private allAmcsService: AllAmcsService,
     private activatedRoute: ActivatedRoute,
@@ -74,11 +76,14 @@ export class AllAmcReportComponent implements OnInit {
         console.log("success", Response)
         this.isLoadingResults=false;
         this.viewPdf()
-       // this.dialogRef.close();
-        //this.router.navigate(['allAmcReport',formatteddate1,formatteddate2,category]);
     },
-      error => {console.log("Error!", error)
+    error=>{
+    console.error();
     }
+    // (error)=>{
+    //   const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+    //   this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+    // }
     )
   }
 //-------------------------------------------
@@ -89,10 +94,18 @@ export class AllAmcReportComponent implements OnInit {
         let url = URL.createObjectURL(response);
         window.open(url, '_blank');
         URL.revokeObjectURL(url);
-      });
+      },
+      error=>{
+        console.log(error);
+      }
+      // (error)=>{
+      //   const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      //   this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      // }
+      );
   }
 
-  displayedColumns: string[] = ['amc_no', 'start_date', 'client_name', 'contact_person', 'category_name', 'frequency',
+  displayedColumns: string[] = ['amc_no', 'amc_serial_no', 'start_date', 'client_name', 'contact_person', 'category_name', 'frequency',
     'currency_name', 'exchange_rate', 'mtc_qty', 'total_value_lkr','active'];
 
 }

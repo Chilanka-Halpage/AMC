@@ -8,6 +8,7 @@ import { AlertComponent } from '../alert/alert.component';
 import { environment } from 'src/environments/environment';
 import { ImageService } from '../data/image-service.service';
 import { LoginDetailsService } from '../data/login-details.service';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   userId: String
+  notificationNo;
   hide = true;
   private redirectURL: any;
   public imageSrc: string;
@@ -27,7 +29,7 @@ export class LoginComponent implements OnInit {
   public isLoadingResults = false;
   isRateLimitReached = false;
   errorMessage = "Unknown Error"
-  
+
   private baseURL = environment.baseServiceUrl;
 
   constructor(
@@ -38,7 +40,8 @@ export class LoginComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public _authentication: AuthenticationService,
     private imageService: ImageService,
-    private loginDetailsService : LoginDetailsService,
+    private notificationService: NotificationService,
+    private loginDetailsService: LoginDetailsService,
   ) { }
 
   ngOnInit(): void {
@@ -57,12 +60,14 @@ export class LoginComponent implements OnInit {
 
   logout() {
     this.loginDetailsService.logoutDetails().subscribe(
-      Responce =>{
+      Responce => {
         this.router.navigate(['/login']);
         window.location.reload()
       }
     )
   }
+
+
 
   onLogin(): void {
 
@@ -78,15 +83,16 @@ export class LoginComponent implements OnInit {
     this.error = '';
     if (this.loginForm.valid) {
       this.isLoadingResults = true
-      this.http.post<any>(`${this.baseURL}authenticate`,this.loginForm.value).subscribe(
+      this.http.post<any>(`${this.baseURL}authenticate`, this.loginForm.value).subscribe(
         response => {
+
           const currentUser = {
             token: response.jwt,
             role: response.role,
             username: response.username,
             userId: response.userId,
-            imageSrc: this.imageService.Image(response.userId)
-
+            imageSrc: this.imageService.Image(response.userId),
+         
           }
           localStorage.setItem('currentUser', JSON.stringify(currentUser));
           if (this.redirectURL) {
@@ -96,11 +102,8 @@ export class LoginComponent implements OnInit {
           } else {
             this.navigatePage(response);
           }
-        }, error => {
-          this.error = error;
-          this.dialog.open(AlertComponent);
-          this.isLoadingResults = false
-        }
+        }, error =>  { let message = (error.status === 401 || error.status === 403) ? error.error: 'Cannot proceed the request. Try again'
+                  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
       );
     } this.isDesabled = true;
   }
@@ -117,6 +120,13 @@ export class LoginComponent implements OnInit {
     } else {
       this.dialog.open(AlertComponent);
     }
+  }
+
+  gotoadminhome(){
+    this.router.navigate(['/adminhome']);
+  }
+  gotoclienthome(){
+    this.router.navigate(['/clienthome']);
   }
 
 

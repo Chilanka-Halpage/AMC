@@ -82,6 +82,9 @@ export class NotificationComponent implements OnInit {
         console.log(data)
         this.isLoadingResults=false;
         this.resultsLength = this.notifications.data.length;
+      },
+      (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
       })
   }
 
