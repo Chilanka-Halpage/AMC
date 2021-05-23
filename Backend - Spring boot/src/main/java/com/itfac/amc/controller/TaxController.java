@@ -73,7 +73,7 @@ public class TaxController {
 		       return ResponseEntity.ok().body("succesfully delete");
 		}
 		catch(Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.badRequest().body("can not delete the tax already in use");
 		}
 		
 	}

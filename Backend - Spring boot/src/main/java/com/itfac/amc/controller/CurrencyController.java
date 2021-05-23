@@ -49,7 +49,7 @@ public class CurrencyController {
 	          return ResponseEntity.ok().body("succesfully delete");
 	          }
 	   catch(Exception e) {
-		   return ResponseEntity.badRequest().body(e.getMessage() + "can not delete");
+		   return ResponseEntity.badRequest().body("can not delete");
 	   }
 	}
 
