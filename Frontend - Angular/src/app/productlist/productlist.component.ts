@@ -1,7 +1,8 @@
 import { ProductserviceService } from './../productservice.service';
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { product } from '../product';
-import { Observable } from 'rxjs/internal/Observable';
+
+import { merge, Observable, of as observableOf } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { delay } from 'rxjs/internal/operators/delay';
@@ -13,6 +14,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthenticationService } from '../_helpers/authentication.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-productlist',
@@ -21,6 +23,7 @@ import { AuthenticationService } from '../_helpers/authentication.service';
 })
 export class ProductlistComponent implements OnInit {
   public isDesabled= false;
+  errorMessage: any;
   
   constructor(
     private _service: ProductserviceService,
@@ -84,7 +87,14 @@ export class ProductlistComponent implements OnInit {
        this.listData.sort= this.sort;
        this.listData.paginator=this.paginator;
        this.isLoadingResults = false;
-      });
+      }),
+      catchError( error => {
+        this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+        this.isLoadingResults = false;
+        // set flag to identify that errors ocuured
+        this.isRateLimitReached = true;
+        return observableOf([]);
+      })
   }
 
   editProductList(row) {
@@ -116,9 +126,8 @@ export class ProductlistComponent implements OnInit {
       this.dataSavingProgress = false;
       console.log(data) 
     }, 
-    error => {
-      console.log(error);
-      let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+    (error) => {
+      let message = (error.status === 0 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);
     }).add(()=>this.dataSavingProgress=false)
   }
@@ -135,12 +144,12 @@ export class ProductlistComponent implements OnInit {
         this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
         this.dataSavingProgress = false;
         console.log(result);
-      }, error => {
-        console.log(error);
-        let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
-        this.notificationService.showNoitfication(message, 'OK', 'error', null);
+      }, (error) => {
+        const errMessage = (error.status === 0 || error.status === 400 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       }).add(()=>this.dataSavingProgress=false)   
   }
+  
 
   onSearchClear(){
     this.searchKey="";
