@@ -40,7 +40,7 @@ export class TokenInterceptor implements HttpInterceptor {
               }
             );
           }
-          return throwError(err.message);
+          return throwError(err);
         }
         return throwError(err);
       }))

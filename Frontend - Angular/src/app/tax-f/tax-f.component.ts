@@ -51,7 +51,7 @@ export class TaxFComponent implements OnInit {
        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/taxlist']) });
        
     },
-      error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+      error =>  { let message = (error.status === 501) ? error.error : 'Cannot proceed the request. Try again'
                   this.notificationService.showNoitfication(message, 'OK', 'error', null); }
       );
     }else{

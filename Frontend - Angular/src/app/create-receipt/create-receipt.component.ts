@@ -130,6 +130,7 @@ export class CreateReceiptComponent implements OnInit {
   
   calculate(): void{
     this.paymentService.calculateAmcValueByExRate(this.addReceiptForm)
+    this.paymentService.calculatebalance(this.addReceiptForm) 
   }
 
   createform(){

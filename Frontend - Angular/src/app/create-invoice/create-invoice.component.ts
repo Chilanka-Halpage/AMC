@@ -77,7 +77,6 @@ getdetails()
      }) 
      },
   error => console.log(error));
-  console.log(this.currencyid);
 }
   onSubmit(){
     console.log(this.addinvoiceForm.value);
@@ -177,7 +176,7 @@ getdetails()
     totalpayble:['',[Validators.required]],
     totalpayblelkr:['',[Validators.required]],
     currencyName:['']  ,
-    categoryName:['',{ disabled: true}],
+    categoryName:[{value:'', disabled: true}],
     clientDepartment:this.fb.group({
       deptId:[this.deptId], 
       deptName:[{ value: this.deptName, disabled: true }] 

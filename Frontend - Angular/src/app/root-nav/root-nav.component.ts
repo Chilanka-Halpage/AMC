@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from './../_helpers/authentication.service';
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { from, Observable } from 'rxjs';
+import { Observable, interval, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AllAmcFilterComponent } from '../Filters/all-amc-filter/all-amc-filter.component'
@@ -39,6 +39,7 @@ export class RootNavComponent {
   errorMessage = "Unknown Error"
   imageload = false;
   notificationLoad = false;
+  private updateSubscription: Subscription; 
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -78,9 +79,20 @@ export class RootNavComponent {
   }
 
   ngOnInit(): void {
-    this.loadselectdata()
+
+    this.updateSubscription = interval(20000).subscribe(
+      (val) => { 
+        this.loadselectdata()
+    }
+  );
+   /*  setTimeout(()=>{                         
+      this.loadselectdata()
+      console.log("check2")
+    }, 100); */
+
     this.linkColor = document.getElementsByName('nav-link');
   }
+
   colorLink(event) {
     this.linkColor.forEach(element => element.classList.remove('active'))
     event.srcElement.classList.add('active');
@@ -92,7 +104,6 @@ export class RootNavComponent {
       elements[index].classList.remove('selected');
     }
     document.getElementById(id).classList.add('selected');
-    
   }
 
   ClientsDetailsFilter(event) {
@@ -159,13 +170,13 @@ export class RootNavComponent {
   }
 
 loadselectdata(){
-    console.log("name")
-  this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
+  if(this._authentication.userId!=null){
+    this.notificationNo=this.notificationService.getNotificationNo(this._authentication.userId).subscribe(
     data => {this.notificationNo = data;
       if(this.notificationNo==0)
           {this.hidden=true;}
       else
          {this.hidden=false;}       
-      });
+      });}
 }
 }
