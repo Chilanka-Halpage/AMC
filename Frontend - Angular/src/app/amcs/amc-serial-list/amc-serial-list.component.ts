@@ -1,4 +1,3 @@
-import { Currency } from './../../currency';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -70,8 +69,7 @@ export class AmcSerialListComponent implements OnInit {
     }, error => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      console.log(error);
-      this.errorMessage = error.error.message;
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
     })
   }
 
@@ -108,28 +106,32 @@ export class AmcSerialListComponent implements OnInit {
     this.router.navigate([`clients/amc-list/${row.amc_serial_no}/full`], navigationExtras);
   }
 
-  gotoinvoice(amc_no: String): void {
+  gotoinvoice(row: any): void {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        "data": JSON.stringify({
+          "data": JSON.stringify({
           "id": this.departmentId, 
-          "name": this.departmentName
+          "name": this.departmentName,  
+          "serial": row.amc_serial_no ,
+          "amc": row.amc_no,      
         })
       }
     };
-    this.router.navigate(['invoicelist',amc_no],navigationExtras);
+    this.router.navigate(['invoicelist'],navigationExtras);
   }
 
-  createinvoice(amc_no:String): void{
+  createinvoice(row: any): void{
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "data": JSON.stringify({
           "id": this.departmentId, 
-          "name": this.departmentName
+          "name": this.departmentName,
+          "serial": row.amc_serial_no,
+          "amc": row.amc_no,
         })
       }
     };
-    this.router.navigate(['createinvoice/',amc_no],navigationExtras);
+    this.router.navigate(['createinvoice'],navigationExtras);
   }
 
 }

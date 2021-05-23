@@ -1,7 +1,7 @@
 <div class="w-90 px-3">
   <br>
   <div class="" ><h2>Over View</h2>  </div>
-  <mat-grid-list cols="4" rowHeight="fit" style="height: 170px" gutterSize="40px" class=" m-5">
+  <mat-grid-list cols="4" rowHeight="fit" style="height: 170px" gutterSize="40px" class=" my-3">
     <mat-grid-tile  class="content" >       
         <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">TOTAL AMCs</h1></mat-grid-tile-header>
         <h1 class="col align-left ml-3 mt-3" style="font-size: 40px">{{amcCount}}</h1>
@@ -36,6 +36,8 @@
     </mat-grid-tile>
   </mat-grid-list>
     <br>
+    
+
   <h2>Your payment details</h2>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <table mat-table class="mat-elevation-z8, table table-striped table-hover mr-5" matSort [dataSource]="clientdetails">

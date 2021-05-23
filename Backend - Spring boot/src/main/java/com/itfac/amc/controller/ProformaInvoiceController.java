@@ -51,15 +51,6 @@ public class ProformaInvoiceController {
 			   return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	/*	@RequestMapping(method = RequestMethod.DELETE, value = "deleteCurrency/{id}")
-	public ResponseEntity<String> deleteCurrency(@PathVariable("id") int currencyId)throws Exception {
-	   try {	currencyservice.deleteCurrency(currencyId);
-	          return ResponseEntity.ok().body("succesfully delete");
-	          }
-	   catch(Exception e) {
-		   return ResponseEntity.badRequest().body(e.getMessage());
-	   }
-	}*/
 
 	@GetMapping("findinvoice/{id}")
 	ResponseEntity<Optional<ProformaInvoiceDto>> getProformaInvoiceById(@PathVariable("id") String piNo) {

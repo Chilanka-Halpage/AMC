@@ -53,7 +53,7 @@
             </div>
             <div class="row px-0 m-0" *ngIf="!(isExpired || isInactive)">
                 <mat-label class="col-6">Exchange Rate</mat-label>
-                <mat-label class="col-6">{{ data.exchage_rate }}</mat-label>
+                <mat-label class="col-6">{{ data.exchange_rate }}</mat-label>
             </div>
             <div class="row px-0 m-0" *ngIf="!(isExpired || isInactive)">
                 <mat-label class="col-6">Total Value</mat-label>
@@ -194,7 +194,7 @@
             <mat-divider class="mat-divider"></mat-divider>
             <br />
             <div *ngIf="data.contract_url;else elseBlock" class="d-flex justify-content-center">
-                <button type="button" (click)="redirect()" mat-raised-button color="warn" mat-button>View File</button>
+                <button type="button" (click)="getScannedCopy()" mat-raised-button color="warn" mat-button>View File</button>
             </div>
             <ng-template #elseBlock>
                 <mat-label class="d-flex justify-content-center">Not Available</mat-label>
