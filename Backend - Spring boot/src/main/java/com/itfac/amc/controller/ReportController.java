@@ -46,16 +46,7 @@ public class ReportController {
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
 		return reportService.getAllClientDetails(Date1, Date2);
 	}
-
-//	// All AMC details report
-//	@GetMapping("/AllAmcs/{Date1}/{Date2}")
-//	public List<AllAmcs> getAllAmc(
-//			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
-//			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2)
-//			throws FileNotFoundException, JRException {
-//		return reportService.getAllAmc(Date1, Date2);
-//	}
-//	
+	
 	// All AMC details category wise report
 	@GetMapping("/AllAmcs/{Date1}/{Date2}/{category}")
 	public List<AllAmcs> getAllAmcCtgWise(

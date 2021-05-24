@@ -46,8 +46,6 @@ export class AllAmcReportComponent implements OnInit {
       this.date1 = params.get('date1');
       this.date2 = params.get('date2');
       this.category = params.get('category')
-      console.log(this.date1);
-      console.log(this.date2)
       this.getAmcDetails(this.date1, this.date2, this.category);
     });
   }
@@ -59,8 +57,10 @@ export class AllAmcReportComponent implements OnInit {
         this.isLoadingResults=false;
         this.resultsLength = this.allAmcs.data.length;
       },
-      error =>{
-        this.isRateLimitReached=true;
+      (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+        this.isLoadingResults=false;
       })
   }
 
@@ -77,13 +77,11 @@ export class AllAmcReportComponent implements OnInit {
         this.isLoadingResults=false;
         this.viewPdf()
     },
-    error=>{
-    console.error();
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults=false;
     }
-    // (error)=>{
-    //   const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
-    //   this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
-    // }
     )
   }
 //-------------------------------------------
@@ -95,13 +93,10 @@ export class AllAmcReportComponent implements OnInit {
         window.open(url, '_blank');
         URL.revokeObjectURL(url);
       },
-      error=>{
-        console.log(error);
+      (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       }
-      // (error)=>{
-      //   const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
-      //   this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
-      // }
       );
   }
 

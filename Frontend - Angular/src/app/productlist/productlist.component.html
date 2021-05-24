@@ -7,6 +7,7 @@
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Product name</mat-label>
         <input matInput placeholder="Ex. AMC" formControlName="productName">
+        <mat-error *ngIf="productAddForm.get('productName').errors?.productNameExists">Product already exists </mat-error> 
         <mat-error *ngIf="productAddForm.get('productName').touched && productAddForm.get('productName').hasError('required')">
           product name is required
         </mat-error>
@@ -20,10 +21,10 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-flat-button color="primary" *ngIf="!edit" (click)="onSubmit()">
+      <button mat-flat-button color="primary" *ngIf="!edit" (click)="onSubmit()" [disabled]="isDesabled">
         <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
         create</button>
-      <button *ngIf="edit" mat-flat-button color="primary" (click)="onEdit()">
+      <button *ngIf="edit" mat-flat-button color="primary" (click)="onEdit()" [disabled]="dataSavingProgress">
         <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
         Edit</button>
       

@@ -13,4 +13,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> getActiveProduct();
 	
 	Product findByProductId(int productId);
+
+	boolean existsByProductName(String productName);
 }

@@ -67,7 +67,6 @@ public class NotificationServiceImpl implements NotificationService{
 	}
 	
 	//renewal notification
-	//@Scheduled(fixedRate = 20000)
 	@Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
 	public void renewalNotificationSave() {
 		List<RenewalAmcsNotificationDto> test1 = renewalNotification();

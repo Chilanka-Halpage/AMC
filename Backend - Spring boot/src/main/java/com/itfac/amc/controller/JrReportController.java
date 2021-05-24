@@ -36,15 +36,6 @@ public class JrReportController {
 	}
 
 	// All AMCs report
-	@GetMapping("/AllAmcsJrReport/{Date1}/{Date2}/{userId}")
-	public ResponseEntity<String> AllAmcsJr(
-			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
-			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2,
-			@PathVariable(value = "userId") String userId) throws FileNotFoundException, JRException {
-		return jasperReportService.AllAmcsJr(Date1, Date2, userId);
-	}
-
-	// All AMCs report
 	@GetMapping("/allAmcCtgWiseJr/{Date1}/{Date2}/{category}/{userId}")
 	public ResponseEntity<String> getAllAmcCtgWiseJr(
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,

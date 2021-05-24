@@ -43,8 +43,6 @@ export class QuarterWiseRevenueReportComponent implements OnInit {
     this.date2= new Date(year + 1, month, day -1);
       //------------------
       this.category = params.get('category');
-      console.log(this.date1); 
-      //console.log(this.date2); 
       this.QuarterWiseRevenue(this.date1,this.category);
     });
   }
@@ -52,13 +50,14 @@ export class QuarterWiseRevenueReportComponent implements OnInit {
   QuarterWiseRevenue(date1,category) {
     this.reportDetailsService.QuarterWiseRevenue(date1,category).subscribe(
       data => {
-        console.log(data);
         this.dataSource=new MatTableDataSource(data);
         this.isLoadingResults=false;
         this.resultsLength = this.dataSource.data.length;
       },
-      error =>{
-        this.isRateLimitReached=true;
+      (error)=>{
+        const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+        this.isLoadingResults=false;
       })
   }
 
@@ -72,6 +71,7 @@ export class QuarterWiseRevenueReportComponent implements OnInit {
     (error)=>{
       const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
       this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults=false;
     }
     )
   }

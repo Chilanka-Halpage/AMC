@@ -16,7 +16,7 @@ import { ClientPaymentDetails } from '../../data/ClientPaymentDetails/client-pay
 export class ClientPaymentDetailsComponent implements OnInit {
 
   clientPaymentDetails: MatTableDataSource<ClientPaymentDetails>;
-  cId;
+  cId : any;
   public isLoadingResults = true;
   public isRateLimitReached =false;
   public resultsLength = 0;
@@ -32,8 +32,6 @@ export class ClientPaymentDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
       this.cId = params.get('cId');
-      console.log("---");
-      console.log(this.cId);
       this.ClientPaymentDetails(this.cId);
   });
   }
@@ -44,8 +42,10 @@ export class ClientPaymentDetailsComponent implements OnInit {
       this.isLoadingResults=false;
       this.resultsLength = this.clientPaymentDetails.data.length;
     },
-    error =>{
-      this.isRateLimitReached=true;
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults=false;
     });
   }
 
@@ -59,6 +59,7 @@ export class ClientPaymentDetailsComponent implements OnInit {
     (error)=>{
       const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
       this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults=false;
     }
     )
   }
