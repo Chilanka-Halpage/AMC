@@ -49,15 +49,13 @@ public class CurrencyController {
 	          return ResponseEntity.ok().body("succesfully delete");
 	          }
 	   catch(Exception e) {
-		   return ResponseEntity.badRequest().body("can not delete");
+		   return ResponseEntity.badRequest().body("can not delete, Currency Already in use");
 	   }
 	}
 
 	@PostMapping("/add")
-	ResponseEntity<Currency> addCurrency(HttpServletRequest httpServletRequest, @RequestBody Currency currency)
-			throws Exception {
+	ResponseEntity<Currency> addCurrency(HttpServletRequest httpServletRequest, @RequestBody Currency currency)throws Exception {
 		Currency newCurrency = currencyservice.addCurrency(httpServletRequest, currency);
-		System.out.println(currency);
 		return ResponseEntity.ok(newCurrency);
 	}
 
