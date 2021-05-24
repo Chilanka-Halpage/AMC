@@ -43,7 +43,12 @@ export class TaxListComponent implements OnInit {
     this.taxes.sort = this.sort;
     this.taxes.paginator = this.paginator;
     this.isLoadingResults = false;
-    });
+    this.isRateLimitReached = false;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+    })
   }
   
   deleteTax(taxId: number){
@@ -52,7 +57,7 @@ export class TaxListComponent implements OnInit {
        this.notificationService.showNoitfication('Successfully delete', 'OK', 'success', () => {  this.getTax();  });
        
     },
-      error =>  { let message = (error.status === 0 || error.status === 400) ? error.error : 'Cannot proceed the request. please try again'
+      error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
                   this.notificationService.showNoitfication(message, 'OK', 'error', null); }
       );
   }
@@ -68,6 +73,4 @@ export class TaxListComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.taxes.filter = filterValue.trim().toLowerCase();
   }
-
-  
 }

@@ -66,25 +66,25 @@ export class CreateReceiptComponent implements OnInit {
         category:{ categoryId:data.category_id },
         categoryName:data.category_name
        })
-       console.log(data)
-       },
-    error => console.log(error));
-    console.log(this.deptname)
+      },error => {
+        let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+        this.notificationService.showNoitfication(message, 'OK', 'error', null);  
+      })
   }
 
   saveReceipt() {
     if(this.addReceiptForm.valid){
+      console.log(this.addReceiptForm)
     this.paymentService.createReceipt(this.addReceiptForm.value).subscribe(data => {
       this.ReceiptSavingProgress = true
       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {this.goTopaymentlist(); });  
-    },
-    error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
-                this.notificationService.showNoitfication(message, 'OK', 'error', null); }
-    );
-  }else{
-    this.ReceiptSavingProgress = false; 
-  }
-   
+     },
+     error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+     this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+    ); 
+      }else{
+    this.ReceiptSavingProgress = false;
+      }    
   }
 
   goTopaymentlist() {
@@ -145,8 +145,8 @@ export class CreateReceiptComponent implements OnInit {
       savedIp: [''],
       canceledBy: [''],
       canceledOn: [''],
-      currencyName:['']  ,
-      categoryName:[''],
+      currencyName:[{value:'', disabled: true}]  ,
+      categoryName:[{value:'', disabled: true}],
       amcMaster: this.fb.group({
         amcNo: [this.amc_no]
       }),
