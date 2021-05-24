@@ -13,7 +13,6 @@ import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { map } from 'rxjs/internal/operators/map';
 import { NotificationService } from '../shared/notification.service';
 import { Router } from '@angular/router';
-import { repeatWhen } from 'rxjs/operators';
 
 @Component({
   selector: 'app-currency-list',
@@ -32,8 +31,8 @@ export class CurrencyListComponent implements OnInit {
   private currencyForm$: Observable<any>;
   public isDesabled = false;
   public type: any;
-  public TaxSavingProgress = false;
-
+  public currencySavingProgress = false;
+  public currencyeditProgress = false;
 
   addcurrencyForm = this.fb.group({
     currencyName: ['', [Validators.required],[this.existTaxValidator()], blur],
@@ -66,17 +65,21 @@ export class CurrencyListComponent implements OnInit {
       this.currencies.sort = this.sort;  
       this.currencies.paginator = this.paginator;
       this.isLoadingResults = false;
-    });
+      this.isRateLimitReached = false;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+    })
   }
   deleteCurrency(currencyId: number){
-    console.log(currencyId);
   this.currencyService.deleteCurrency(currencyId).subscribe(data =>{
     this.notificationService.showNoitfication('Successfully delete', 'OK', 'success', () => {  this.getCurrency();  });
        
   },
-    error =>  { let message = (error.status === 400) ? error.error: 'Cannot proceed the request. please try again'
-                this.notificationService.showNoitfication(message, 'OK', 'error', null); }
-    );
+  error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+);
   
 }
 saveCurrency(){
@@ -84,20 +87,17 @@ saveCurrency(){
   this.currencyService.createCurrency(this.addcurrencyForm.value).subscribe(data =>{
   this.getCurrency();  
   this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
-  this.TaxSavingProgress = false;
+  this.currencySavingProgress = true;
  },
-    error => {  let message = (error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
-    this.notificationService.showNoitfication(message, 'OK', 'error', null);}
-    
-    );
-    
+ error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+ this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+); 
   }else{
-this.isDesabled = true;
+this.currencySavingProgress = false;
   }    
 }
 
 onSubmit(){
-  console.log(this.addcurrencyForm.value);
   this.saveCurrency();
 }
 
@@ -125,7 +125,6 @@ private checkStatus(): void {
   this.currencyForm$.subscribe(response => {
     if (response === 'PENDING') {
       setTimeout(() => {
-        console.log("gg");
         this.addcurrencyForm.updateValueAndValidity();
       }, 2000);
     }
@@ -135,27 +134,24 @@ private checkStatus(): void {
 editCurrencyList(row) {
   this.edit=true;
   this.currencyId=row.currencyId;
-  console.log(row);
   this.addcurrencyForm.patchValue({
   currencyName: row.currencyName,
   active: row.active,
   currencyId: row.currencyId
  }); 
- console.log(row.currencyId)
  }
  onEdit(){
     
     this.currencyService.updatecurrency(this.currencyId,this.addcurrencyForm.value).subscribe(data =>{
     this.getCurrency();  
     this.notificationService.showNoitfication('Successfully edited', 'OK', 'success', () => { window.location.reload()});
-    this.TaxSavingProgress = false;
+    this.currencyeditProgress = true;
    },
-      error => {  let message = (error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
+      error => {  let message = (error.status === 400 || error.status === 0 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);}
       
       );
-     
- }
 
 }
 
+}

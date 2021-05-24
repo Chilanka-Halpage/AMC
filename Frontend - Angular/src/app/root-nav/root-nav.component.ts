@@ -85,11 +85,6 @@ export class RootNavComponent {
         this.loadselectdata()
     }
   );
-   /*  setTimeout(()=>{                         
-      this.loadselectdata()
-      console.log("check2")
-    }, 100); */
-
     this.linkColor = document.getElementsByName('nav-link');
   }
 

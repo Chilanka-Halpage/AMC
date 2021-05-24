@@ -1,5 +1,4 @@
-import { Currency } from './../Model/currency.model';
-import { element } from 'protractor';
+import { error } from '@angular/compiler/src/util';
 import { InvoiceService } from './../invoice.service';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
@@ -41,6 +40,8 @@ export class CreateInvoiceComponent implements OnInit {
   public isDesabled = false;
   public type: any;
   public invoiceSavingProgress = false;
+  public taxgetProgress = false
+  public taxrateget = false
 
   constructor(
     private fb: FormBuilder,
@@ -62,21 +63,21 @@ export class CreateInvoiceComponent implements OnInit {
     });
     this.getdetails()
     this.createForm()
-    this.loadSelectionData()
     this.checkStatus() 
     this.calculate();
   }
-getdetails()
-{
+getdetails(){
   this.paymentService.getAMcSerialdetails(this.serial).subscribe(data=>{
      this.addinvoiceForm.patchValue({ 
-       currency:{currencyId:data.currency_id},    
+      currency:{currencyId:data.currency_id},    
       currencyName:data.currency_name,
       category:{ categoryId:data.category_id },
       categoryName:data.category_name
      }) 
-     },
-  error => console.log(error));
+    },error => {
+      let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+      this.notificationService.showNoitfication(message, 'OK', 'error', null);  
+    })
 }
   onSubmit(){
     console.log(this.addinvoiceForm.value);
@@ -92,40 +93,41 @@ getdetails()
     this.invoiceService.createInvoice(this.addinvoiceForm.value).subscribe(data =>{
       this.invoiceSavingProgress = true; 
        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/adminhome']) });    
-    },
-      error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
-                  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+      },
+      error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+      this.notificationService.showNoitfication(message, 'OK', 'error', null); }
       );
-    }
+    }  else{
+      this.invoiceSavingProgress = false;
+        }  
   }
 
-  private loadSelectionData() {
-    let frequencyListLoad = false;
-    let taxListLoad = false;
+  frequencyData() {
     this.invoiceService.getFrequency().subscribe(response => {
       this.frequencyList = response;
-      this.isLoadingResults = ((frequencyListLoad = true) && taxListLoad ) ? false : true;
     }, error => {
-      this.isLoadingResults = false;
-      this.isRateLimitReached = true;
-      this.errorMessage = error;
+      let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+      this.notificationService.showNoitfication(message, 'OK', 'error', null);
     });
-    this.invoiceService.findactiveTax().subscribe(response => {
-      this.taxList = response;
-      this.isLoadingResults = ((taxListLoad = true) && frequencyListLoad ) ? false : true;
-    }, error => {
-      this.isLoadingResults = false;
-      this.isRateLimitReached = true;
-      this.errorMessage = error;
-    });
+   
   }
-
+loadtax(){
+  this.invoiceService.findactiveTax().subscribe(response => {
+    this.taxList = response;
+    this.isLoadingResults = false;
+    this.isRateLimitReached = false;
+  }, error => {
+    this.isLoadingResults = false;
+    this.isRateLimitReached = true;
+    let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+    this.notificationService.showNoitfication(message, 'OK', 'error', null); 
+  })
+}
   private checkStatus(): void {
     this.invoiceForm$ = this.addinvoiceForm.statusChanges;
     this.invoiceForm$.subscribe(response => {
       if (response === 'PENDING') {
         setTimeout(() => {
-          console.log("gg");
           this.addinvoiceForm.updateValueAndValidity();
         }, 2000);
       }
@@ -159,8 +161,10 @@ getdetails()
     this.addinvoiceForm.patchValue({ 
       tax:{taxRate:data}
      })
-     },
-  error => console.log(error));
+     },error => {
+      let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+      this.notificationService.showNoitfication(message, 'OK', 'error', null);  
+    })
      }
 
      private createForm(): void {
@@ -175,7 +179,7 @@ getdetails()
     taxApplicable:[''],
     totalpayble:['',[Validators.required]],
     totalpayblelkr:['',[Validators.required]],
-    currencyName:['']  ,
+    currencyName:[{value:'', disabled: true}]  ,
     categoryName:[{value:'', disabled: true}],
     clientDepartment:this.fb.group({
       deptId:[this.deptId], 
@@ -199,7 +203,7 @@ getdetails()
       }),
       tax:this.fb.group({
         taxId:[''],
-         taxRate:[''] 
+         taxRate:[{value:'', disabled: true}] 
       })
   })
     }

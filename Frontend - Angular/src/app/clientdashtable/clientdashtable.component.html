@@ -1,3 +1,10 @@
+
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      {{errorMessage}}
+  </div>
+</div>
 <div class="w-90 px-3">
   <br>
   <div class="" ><h2>Over View</h2>  </div>
@@ -36,8 +43,6 @@
     </mat-grid-tile>
   </mat-grid-list>
     <br>
-    
-
   <h2>Your payment details</h2>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <table mat-table class="mat-elevation-z8, table table-striped table-hover mr-5" matSort [dataSource]="clientdetails">

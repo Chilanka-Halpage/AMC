@@ -59,10 +59,14 @@ export class InvoiceListComponent implements OnInit {
       this.invoices = new MatTableDataSource(data);
       this.invoices.sort = this.sort;
       this.invoices.paginator = this.paginator;
-      this.isLoadingResults = false;
       console.log(this.clientId);
-    },
-      error => console.log(error));
+      this.isLoadingResults = false;
+      this.isRateLimitReached = false;
+      }, error => {
+        this.isLoadingResults = false;
+        this.isRateLimitReached = true;
+        this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+      })
   }
 
   createinvoice(): void {

@@ -1,16 +1,17 @@
-
-<!-- <div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
-  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
-      {{errorMessage}}
-  </div>
-</div> -->
 <body>
     <div class="container" id="container" >   
     <div class="form-container sign-in-container">
       <form  name="loginForm" [formGroup]="loginForm" *ngIf="!_authentication.loggedIn()">
         <h1 style="margin-bottom: 50px;">Login</h1>
-        <div class="error-message mt-0" *ngIf="showMessage" >Token is expired</div>
+        <div class="alert alert-danger fade show" *ngIf="showMessage" >Token is expired
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        <div  *ngIf="isLoadingResults || isRateLimitReached">
+          <div class="alert alert-danger alert-dismissible fade show ml-4 mr-4" *ngIf="isRateLimitReached">
+              {{errorMessage}}
+               <!-- <button type="button" class="close" data-dismiss="alert">&times;</button>  -->
+          </div>
+        </div> 
         <div>
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>UserId</mat-label>
@@ -30,7 +31,7 @@
         </mat-form-field>
         </div>
         <a class="text-link" (click)="forgotpassword()">Forgot your password?</a>
-        <button class="ghost" mat-flat-button (click)="onLogin()" [disabled]="isLoadingResults"><span *ngIf="isLoadingResults" class="spinner-border spinner-border-sm mr-1"></span>Login</button>
+        <button class="ghost" mat-flat-button (click)="onLogin()" [disabled]="isLoadingResults"><span *ngIf="isLoadingResults" class="spinner-border spinner-border-sm mr-4"></span>Login</button>
        </form>
        <form  name="loginForm" [formGroup]="loginForm" *ngIf="_authentication.loggedIn()">
          <h2>Do you want to log out</h2>

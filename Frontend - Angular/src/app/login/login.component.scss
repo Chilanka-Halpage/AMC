@@ -40,7 +40,7 @@ form {
 }
 
 .container {
-	background-color: #6b6df5;
+	background-color:  #c389fa;
 	border-radius: 10px;
   	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.05);
@@ -170,5 +170,9 @@ button.ghost:active {
 button.ghost:focus {
 	outline: none;
 }
+
+button.ghost:hover {
+	transform: scale(0.97);
+  }
 
 

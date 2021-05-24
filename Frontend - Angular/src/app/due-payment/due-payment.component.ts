@@ -45,14 +45,25 @@ export class DuePaymentComponent implements OnInit {
         this.duePayments.sort = this.sort;  
         this.duePayments.paginator = this.paginator;
         this.isLoadingResults = false;
-      })
+        this.isRateLimitReached = false;
+        }, error => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = true;
+          this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+        })
     }else{
     this.duePaymentService.getDuepaymentList().subscribe(data =>{
     this.duePayments = new MatTableDataSource(data); 
     this.duePayments.sort = this.sort;  
     this.duePayments.paginator = this.paginator;
     this.isLoadingResults = false;
-    })}
+    this.isRateLimitReached = false;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+    })
+  }
   }
 
   deletedueinvoice(id: number){ console.log(id);

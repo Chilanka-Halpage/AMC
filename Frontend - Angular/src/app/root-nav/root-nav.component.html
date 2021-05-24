@@ -39,8 +39,8 @@
           <button mat-menu-item (click)="QuarterWiseReport($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Quarter Wise revenue</button>
           <button mat-menu-item (click)="FullDetailsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Full Details Report</button>      
         </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
+        <mat-expansion-panel >
+          <mat-expansion-panel-header >
             <mat-panel-title>
               <mat-icon>payment</mat-icon> <span class="button-text">Payment</span>
             </mat-panel-title>
@@ -52,7 +52,7 @@
           <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['paymentHlist']"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment History</button>
           <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['duepayment']" >Due Payment</button>         
         </mat-expansion-panel>
-        <mat-expansion-panel>
+        <mat-expansion-panel >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
@@ -67,8 +67,8 @@
           <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['frequency']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Frequency</button>
        </mat-expansion-panel>
        <mat-expansion-panel *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'" hideToggle>
-        <mat-expansion-panel-header>
-          <mat-panel-title [routerLink]="['productlist']" >
+        <mat-expansion-panel-header routerLinkActive="active-list-item">
+          <mat-panel-title [routerLink]="['productlist']"  >
             <mat-icon>store</mat-icon><span class="button-text">Product</span>
         </mat-panel-title>
         </mat-expansion-panel-header>
@@ -84,7 +84,7 @@
             <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' ">New client</button>
             <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['logedDetails']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Login Details</button>
       </mat-expansion-panel>  
-           <mat-expansion-panel hideToggle>
+           <mat-expansion-panel hideToggle routerLinkActive="active-list-item">
             <mat-expansion-panel-header>
               <mat-panel-title [routerLink]="['profile']" > 
                 <mat-icon>settings</mat-icon><span class="button-text">Setting</span>      
@@ -133,7 +133,7 @@
 </mat-sidenav-container>
 
  <mat-toolbar-row class="footer bg-primary" *ngIf="_authentication.loggedIn()">
-  <span class="example-spacer">Copyright © 2021 - Epic Technology Group. - All Rights Reserved. Concept, Design & Development by Web Lankan</span>
+  <span class="example-spacer">Copyright © 2021 - Epic Technology Group. - All Rights Reserved.</span>
 </mat-toolbar-row>   
 <!-- <footer class="page-footer font-small blue pt-4" style="background-color: rgb(107, 107, 255);">
   <div class="footer-copyright text-center py-3">Epic Lanka</div>

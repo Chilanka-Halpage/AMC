@@ -5,7 +5,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { HomedetailsService } from '../homedetails.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { subscribeOn } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -22,6 +21,9 @@ export class ClientdashtableComponent implements OnInit {
   amcreminder;
   date=new Date();
   id
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
 
   constructor( private homedetails: HomedetailsService,
                private _authservice: AuthenticationService,
@@ -45,7 +47,13 @@ export class ClientdashtableComponent implements OnInit {
       this.clientdetails = new MatTableDataSource(data);
       this.clientdetails.sort = this.sort;
       this.clientdetails.paginator = this.paginator;
-    });
+      this.isLoadingResults = false;
+      this.isRateLimitReached = false;
+      }, error => {
+        this.isLoadingResults = false;
+        this.isRateLimitReached = true;
+        this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+      })
   }
 
   getAmcCount(){
