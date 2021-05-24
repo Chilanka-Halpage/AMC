@@ -160,6 +160,7 @@ export class RootNavComponent {
       this.router.navigate(['/adminhome']);
     }
   }
+
   profilepage() {
     this.router.navigate([`/profile/${this._authentication.userId}`])
   }

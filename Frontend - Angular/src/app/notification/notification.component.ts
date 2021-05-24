@@ -22,6 +22,7 @@ export class NotificationComponent implements OnInit {
   public resultsLength = 0;
   public pagesize = 20;
   public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;

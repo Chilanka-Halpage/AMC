@@ -6,6 +6,7 @@ import { UsersService } from '../data/Users/users.service';
 import {ImageService} from '../data/image-service.service';
 import { error } from 'selenium-webdriver';
 import { NotificationService } from '../shared/notification.service';
+import { AuthenticationService } from '../_helpers/authentication.service';
 
 @Component({
   selector: 'app-profile',
@@ -26,14 +27,14 @@ export class ProfileComponent implements OnInit {
     private usersService: UsersService,
     private imageService: ImageService,
     private notificationService: NotificationService,
+    public _authentication: AuthenticationService,
     ) { }
 
   ngOnInit(): void {
-    this.userId=this.route.snapshot.params['userId']
     this.users=new Users();
-    this.usersService.getUsersById(this.userId).subscribe(data =>{
+    this.usersService.getUsersById(this._authentication.userId).subscribe(data =>{
       this.users=data;
-      this.imageSrc= this.imageService.Image(this.userId);
+      this.imageSrc= this.imageService.Image(this._authentication.userId);
       this.isLoadingResults = false;
     },
     (error)=>{
@@ -44,6 +45,6 @@ export class ProfileComponent implements OnInit {
   }
 
   editprofile (userId: String){
-    this.router.navigate(['editprofile',userId])
+    this.router.navigate(['editprofile',this._authentication.userId])
     }
 }
