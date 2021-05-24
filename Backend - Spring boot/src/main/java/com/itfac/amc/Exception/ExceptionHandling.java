@@ -1,6 +1,7 @@
 package com.itfac.amc.Exception;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +32,11 @@ public class ExceptionHandling {
 	@ExceptionHandler(JRException.class)
 	public ResponseEntity<?> JRExceptionHandler(Exception ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+	}
+	
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<?> IOException(Exception ex) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
