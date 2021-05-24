@@ -86,7 +86,7 @@ const routes: Routes = [
   { path: 'amcMaster/new', component: CreateAmcMasterComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'list', component: ListcategoryComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'reportslist', component: ReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'profile/:userId', component: ProfileComponent,canActivate: [AuthenticationGuard]},//all
+  { path: 'profile', component: ProfileComponent,canActivate: [AuthenticationGuard]},//all
   { path: 'editprofile/:userId', component: EditProfileComponent,canActivate: [AuthenticationGuard]},//all
   { path: 'allamcdetailsfilter', component: AllAmcFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'generatereport', component: GenerateReportComponent,canActivate: [AuthenticationGuard]},
