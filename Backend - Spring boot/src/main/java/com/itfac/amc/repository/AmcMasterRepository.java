@@ -35,8 +35,8 @@ public interface AmcMasterRepository extends JpaRepository<AmcMaster, String> {
 	@Query(value = "INSERT INTO amc_number_serial (amc_no, last_serial) VALUES (:amcNo,1)", nativeQuery = true)
 	void setAmcSerialNo(@Param("amcNo") String amcNo);
 
-	//getClientAmc--------------------------------------------
-	@Query(value = "select * from get_client_amc where amc_no= :amcNo", nativeQuery = true)
+	//getClientAmc mobile--------------------------------------------
+	@Query(value = "select * from get_client_amcs where amc_no= :amcNo", nativeQuery = true)
 	List<GetClientAmc> getClientAmcById(@Param("amcNo") String amc_no);
 
 	// get all amc no ---------------------------------------------

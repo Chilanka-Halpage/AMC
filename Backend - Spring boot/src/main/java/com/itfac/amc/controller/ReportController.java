@@ -123,11 +123,12 @@ public class ReportController {
 	}
 
 	// client invoice mobile-----------------------------------
-	@GetMapping("getinvoicereport/{amcno}")
-	ResponseEntity<List<GetInvoice>> getInvoice(@PathVariable("amcno") String id) throws Exception {
-		List<GetInvoice> invoice = reportService.getInvoiceById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(invoice);
-	}
+			@GetMapping("/client/getinvoicereport/{amcno}/{date}")
+			ResponseEntity<List<GetInvoice>> getInvoice(@PathVariable("amcno") String id, @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
+				List<GetInvoice> invoice = reportService.getInvoiceByIdAndDate(id,date);
+				return ResponseEntity.status(HttpStatus.OK).body(invoice);
+			}
+
 
 	// Quarter wise report
 	@GetMapping("/QuarterWiseRevenue/{Date1}/{category}")
