@@ -1,4 +1,3 @@
-import { User } from './../Model/user.model';
 import { Component, OnInit,ViewChild ,AfterViewInit} from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -6,8 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { UserserviceService } from '../userservice.service';
 import { NotificationService } from 'src/app/shared/notification.service';
-import { merge, Observable, of as observableOf } from 'rxjs';
-import { startWith, switchMap, map, catchError } from 'rxjs/operators';
+import { of as observableOf } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 
 
@@ -50,7 +49,14 @@ export class UserlistComponent implements OnInit {
           this.listData.paginator = this.paginator;
           this.isLoadingResults = false;
          }
-       )
+       ),
+       catchError( error => {
+        this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+        this.isLoadingResults = false;
+        // set flag to identify that errors ocuured
+        this.isRateLimitReached = true;
+        return observableOf([]);
+      })
 
 
       this. userEditForm=this.formBuilder.group(
@@ -67,40 +73,25 @@ export class UserlistComponent implements OnInit {
         (result)=>{
           this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
           this.dataSavingProgress = false;
-          console.log(result,"data update successfull")
-        }, error => {
-          console.log(error);
-          let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
-          this.notificationService.showNoitfication(message, 'OK', 'error', null);
+        },  (error) => {
+          const errMessage = (error.status === 0 || error.status === 400 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+          this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
         }).add(()=>this.dataSavingProgress=false)
       
       }
        
   editUserList(row) {
     this.isEdit=true;
-    //this.router.navigate(['userList',row.userId]);
     this.userId=row.userId;
     this.userEditForm.patchValue({
       role:row.role,
       active:row.active
     });  
    }
-  
-   deleteUserList(id: number) {
-    console.log(id);
-    this._service.deleteUser(id).subscribe(
-        data => {
-          console.log(data);
-        },
-        error => console.log(error));  
-  }
 
   addUser(){
     this.router.navigate(['user']);
   }
-  // reloadData(){
-  //   this.router.navigate(['userList'])
-  // }
 
   onSearchClear(){
     this.searchKey="";

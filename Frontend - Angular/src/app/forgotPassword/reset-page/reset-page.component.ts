@@ -56,11 +56,10 @@ export class ResetPageComponent implements OnInit {
           this.notificationService.showNoitfication('Reset change is successfull', 'OK', 'success', () => { this.navigateToLoginPage()});
           this.dataSavingProgress = false;
         },
-          error => {
-            console.log(error);
-            let message = (error.status === 200) ? error.error.message : 'Cannot proceed the request. Try again'
-            this.notificationService.showNoitfication(message, 'OK', 'error', null);
-          }).add(()=>this.dataSavingProgress=false)
+        (error) => {
+          let message = (error.status === 0 || error.status === 403 || error.status === 401 || error.status === 501 || error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
+          this.notificationService.showNoitfication(message, 'OK', 'error', null);
+        }).add(()=>this.dataSavingProgress=false)
         }
 
       navigateToLoginPage(){

@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Router, RouterLinkWithHref } from '@angular/router';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserserviceService } from '../userservice.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 
@@ -29,12 +29,7 @@ export class UserAddingComponent implements OnInit {
         active: ['',[Validators.required]],
         email: ['', [Validators.required,Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
         contactNo: ['',[Validators.required,Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
-
-
-      }
-
-    );
-
+      });
   }
 
   getErrorMessage() {
@@ -53,7 +48,7 @@ export class UserAddingComponent implements OnInit {
         this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.navigateTouserList()});
       },
       (error) => {
-        let message = (error.status === 501) ? error.error.message : 'User already exist.'
+        let message = (error.status === 0 || error.status === 403 || error.status === 401 || error.status === 501 || error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
       }
       ).add(() => this.userSavingProgress = false);
