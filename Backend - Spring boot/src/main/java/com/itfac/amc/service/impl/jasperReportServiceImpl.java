@@ -148,7 +148,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	public ResponseEntity<String> RenewalAmcsJr(LocalDate Date1, LocalDate Date2, String userId)
 			throws FileNotFoundException, JRException {
 		List<RenewalAmcs> RenewalAmcs = amcSerialRepository.getRenewalAmcs(Date1, Date2);
-		File file = ResourceUtils.getFile("classpath:jasperReports/RenewalAmcs.jrxml");
+		File file = ResourceUtils.getFile("src/main/resources/jasperReports/RenewalAmcs.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(RenewalAmcs);
 		Map<String, Object> parameters = new HashMap<>();
@@ -158,7 +158,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
 		createStoragePath();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"/" + userId + ".pdf");
 
 
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
@@ -169,7 +169,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	public ResponseEntity<String> RenewedAmcsJr(LocalDate Date1, LocalDate Date2, String userId)
 			throws FileNotFoundException, JRException {
 		List<RenewedAmcs> RenewedAmcs = amcSerialRepository.getRenewedAmcs(Date1, Date2);
-		File file = ResourceUtils.getFile("src/main/resources/jasperReports/RenewalAmcs.jrxml");
+		File file = ResourceUtils.getFile("src/main/resources/jasperReports/RenewedAmcs.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(RenewedAmcs);
 		Map<String, Object> parameters = new HashMap<>();
@@ -229,7 +229,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	public ResponseEntity<String> ClientDetailsJr(LocalDate Date1, LocalDate Date2, String userId)
 			throws FileNotFoundException, JRException {
 		List<ClientDetails> clientDetails = clientRepository.getAllClientDetails(Date1, Date2);
-		File file = ResourceUtils.getFile("classpath:jasperReports/ClientDetails.jrxml");
+		File file = ResourceUtils.getFile("app/src/main/resources/jasperReports/ClientDetails.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(clientDetails);
 		Map<String, Object> parameters = new HashMap<>();

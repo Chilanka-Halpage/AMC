@@ -68,7 +68,7 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 				amcSerialRepository.setAmcSerialNo(amcNo, lastSerialNo);
 
 				// save scanned copy of contract and get URL
-				String contractUrl = fileStorageService.storeFile(file, amcSerialNo);
+				String contractUrl = fileStorageService.upload(file, amcSerialNo);
 				amcSerial.setAmcSerialNo(amcSerialNo);
 				amcSerial.setContractUrl(contractUrl);
 				amcSerialRepository.save(amcSerial);

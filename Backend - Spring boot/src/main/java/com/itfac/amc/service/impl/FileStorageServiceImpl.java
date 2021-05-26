@@ -1,5 +1,6 @@
 package com.itfac.amc.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -7,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -15,10 +17,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.azure.storage.blob.BlobClientBuilder;
+import com.azure.storage.blob.models.BlobProperties;
 import com.itfac.amc.service.FileStorageService;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
+
+	@Autowired
+	BlobClientBuilder client;
 	private Path fileStoragePath;
 	private String fileStorageLocation;
 
@@ -64,4 +71,34 @@ public class FileStorageServiceImpl implements FileStorageService {
 			throw new RuntimeException("the file doesn't exist or not readable");
 		}
 	}
+
+	public String upload(MultipartFile file, String amcSerilaNo) {
+		if (file != null && file.getSize() > 0) {
+			try {
+				// implement your own file name logic.
+				String fileName = StringUtils.cleanPath(amcSerilaNo + "-" + file.getOriginalFilename());
+				client.blobName(fileName).buildClient().upload(file.getInputStream(), file.getSize());
+				String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("amcSerial/download/")
+						.path(fileName).toUriString();
+				return url;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public byte[] getFile(String name) {
+		try {
+			File temp = new File(name);
+			client.blobName(name).buildClient().downloadToFile(temp.getPath());
+			byte[] content = Files.readAllBytes(Paths.get(temp.getPath()));
+			temp.delete();
+			return content;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

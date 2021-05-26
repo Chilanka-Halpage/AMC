@@ -1,11 +1,13 @@
 package com.itfac.amc.controller;
 
 import java.io.IOException;
+import java.net.URLConnection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -75,20 +77,20 @@ public class AmcSerialController {
 
 	@GetMapping("/download/{fileName}")
 	ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-		Resource resource = fileStorageService.downloadFile(fileName);
+		byte[] data = fileStorageService.getFile(fileName);
+		ByteArrayResource resource = new ByteArrayResource(data);
 		String mimeType;
-		try {
-			mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-		} catch (IOException e) {
-			mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-		}
+		// mimeType =
+		// request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		mimeType = URLConnection.guessContentTypeFromName(fileName);
 		mimeType = mimeType == null ? MediaType.APPLICATION_OCTET_STREAM_VALUE : mimeType;
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
 	}
-	
+
 	@GetMapping("get/recietde/{amc_serial}")
-	public ResponseEntity<addRecieptDto> getdetalis(@PathVariable(value = "amc_serial") String amcSNo) throws Exception{
+	public ResponseEntity<addRecieptDto> getdetalis(@PathVariable(value = "amc_serial") String amcSNo)
+			throws Exception {
 		addRecieptDto receiptde = amcSerialService.getdetalis(amcSNo);
 		return ResponseEntity.status(HttpStatus.OK).body(receiptde);
 	}

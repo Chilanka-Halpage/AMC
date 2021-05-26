@@ -8,4 +8,8 @@ public interface FileStorageService {
 	String storeFile(MultipartFile file,  String amcSerilaNo);
 
 	Resource downloadFile(String fileName);
+	
+	public String upload(MultipartFile file, String amcSerilaNo);
+	
+	public byte[] getFile(String name);
 }
