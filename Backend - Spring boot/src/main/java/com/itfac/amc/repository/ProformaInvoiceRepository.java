@@ -54,5 +54,10 @@ public interface ProformaInvoiceRepository extends JpaRepository<ProformaInvoice
 	@Query(value = "SELECT EXISTS(select rec_no from receipt where pi_no = :piNo and rec_date BETWEEN :Date1 and :Date2) as truth", nativeQuery = true)
     boolean checkdueInvoices(@Param("piNo") String pi_no,@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
 	
+	
+	// getInvoice-------------------------------------------
+	@Query(value = "select * from get_invoices where amc_no= :amcNo and pi_date=:pi_date", nativeQuery = true)
+	List<GetInvoice> getInvoiceByIdAndDate(@Param("amcNo") String amc_no,@Param("pi_date") LocalDate pi_date);
+
 }
 

@@ -26,8 +26,8 @@ export class LoginComponent implements OnInit {
   public showMessage = false;
   error: any;
   public isDesabled = false;
-  public isLoadingResults = false;
-  isRateLimitReached = false;
+  public isLoadingResults = false
+  public isRateLimitReached = false;
   errorMessage = "Unknown Error"
 
   private baseURL = environment.baseServiceUrl;
@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public _authentication: AuthenticationService,
     private imageService: ImageService,
-    private notificationService: NotificationService,
     private loginDetailsService: LoginDetailsService,
   ) { }
 
@@ -66,9 +65,6 @@ export class LoginComponent implements OnInit {
       }
     )
   }
-
-
-
   onLogin(): void {
 
     /*
@@ -102,8 +98,12 @@ export class LoginComponent implements OnInit {
           } else {
             this.navigatePage(response);
           }
-        }, error =>  { let message = (error.status === 401 || error.status === 403) ? error.error: 'Cannot proceed the request. Try again'
-                  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+          this.isLoadingResults = true;
+          this.isRateLimitReached = false;
+        }, error => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = true;
+          this.errorMessage = (error.status === 0  || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data'; }
       );
     } this.isDesabled = true;
   }

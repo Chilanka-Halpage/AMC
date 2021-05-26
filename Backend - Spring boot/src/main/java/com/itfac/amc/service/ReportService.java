@@ -45,8 +45,8 @@ public interface ReportService {
 	public List<AllAmcs> getAllAmcCtgWise(LocalDate Date1, LocalDate Date2,String category);
 
 	List<GetClientAmc> getclientAmc(String amc_no) throws Exception;
-
-	List<GetInvoice> getInvoiceById(String amc_no) throws Exception;
+	
+	List<GetInvoice> getInvoiceByIdAndDate(String amc_no, LocalDate pi_date ) throws Exception;
 
 	BigDecimal getRevanue(LocalDate date1,LocalDate date2);
 	

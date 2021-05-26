@@ -17,7 +17,7 @@
                   <p>
                     Option selected: {{shoes.selectedOptions.selected[0]?.value}}
                   </p>
-                <button type="submit" mat-dialog-close mat-raised-button color="primary" [disabled]="RenewedAmcsFilter.get('num').errors?.required" RenewalAmcsFilter (click)="onSubmit()">Generate Report</button>
+                <button class="btn btn-primary" type="submit" mat-dialog-close mat-raised-button [disabled]="RenewedAmcsFilter.get('num').errors?.required" RenewalAmcsFilter (click)="onSubmit()">Generate Report</button>
             </form>
         </div>
     </div>

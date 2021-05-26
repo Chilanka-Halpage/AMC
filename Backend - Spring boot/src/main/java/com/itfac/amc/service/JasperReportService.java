@@ -15,8 +15,6 @@ import net.sf.jasperreports.engine.JRException;
 @Service
 public interface JasperReportService {	
 	public ResponseEntity<Resource> viewPdf(String userId, HttpServletRequest request)throws Exception;
-	//all amcs report
-	public ResponseEntity<String> AllAmcsJr( LocalDate Date1,LocalDate Date2, String userId) throws FileNotFoundException, JRException; 
 	//all amcs category wise report
 	public ResponseEntity<String> getAllAmcCtgWiseJr(LocalDate date1,LocalDate date2,String category, String userId) throws FileNotFoundException, JRException;
 	//renewal amcs report

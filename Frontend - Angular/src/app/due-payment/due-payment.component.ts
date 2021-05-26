@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-due-payment',
@@ -24,7 +25,8 @@ export class DuePaymentComponent implements OnInit {
   constructor(
     public duePaymentService: DuePaymentService,
     public router: Router,
-    public _authentication: AuthenticationService
+    public _authentication: AuthenticationService,
+    private notificationService: NotificationService
   ) { }
 
   displayedColumns:string[] = ['id','dueDate','invoiceAmt','amc_no','payblelkr','currency_id','Action'];
@@ -45,21 +47,36 @@ export class DuePaymentComponent implements OnInit {
         this.duePayments.sort = this.sort;  
         this.duePayments.paginator = this.paginator;
         this.isLoadingResults = false;
-      })
+        this.isRateLimitReached = false;
+        }, error => {
+          this.isLoadingResults = false;
+          this.isRateLimitReached = true;
+          this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+        })
     }else{
     this.duePaymentService.getDuepaymentList().subscribe(data =>{
     this.duePayments = new MatTableDataSource(data); 
     this.duePayments.sort = this.sort;  
     this.duePayments.paginator = this.paginator;
     this.isLoadingResults = false;
-    })}
+    this.isRateLimitReached = false;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+    })
+  }
   }
 
-  deletedueinvoice(id: number){ console.log(id);
+  deletedueinvoice(id: number){ 
   this.duePaymentService.deletedueinvoice(id).subscribe(data =>{
-    console.log(data);
-    this.getDuepayemt();
-  })
+    this.notificationService.showNoitfication('Successfully delete', 'OK', 'success', () => {  
+    this.getDuepayemt();  });
+       
+  },
+  error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+);
 }
 
   applyFilter(filterValue: string) {

@@ -48,5 +48,10 @@
     "name": "blob.connection-string",
     "type": "java.lang.String",
     "description": "A description for 'blob.connection-string'"
+  },
+  {
+    "name": "jr_location_path",
+    "type": "java.lang.String",
+    "description": "A description for 'jr_location_path'"
   }
 ]}

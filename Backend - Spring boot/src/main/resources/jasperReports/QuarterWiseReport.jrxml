@@ -29,35 +29,35 @@
 					<text><![CDATA[Epic Lanka]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="586" y="40" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="520" y="40" width="246" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
-					<text><![CDATA[Quarter Wise Report]]></text>
+					<text><![CDATA[Quarter Wise Revenue Report]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="600" y="71" width="36" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="604" y="71" width="36" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[To:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="390" y="71" width="68" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="400" y="71" width="68" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[From:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="133" y="71" width="72" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="136" y="71" width="72" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Category:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="469" y="73" width="131" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<reportElement x="473" y="73" width="131" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
 						<font size="12"/>
 					</textElement>
@@ -71,7 +71,7 @@
 					<textFieldExpression><![CDATA[$F{date5}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="211" y="73" width="132" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<reportElement x="212" y="73" width="208" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
 						<font size="12"/>
 					</textElement>

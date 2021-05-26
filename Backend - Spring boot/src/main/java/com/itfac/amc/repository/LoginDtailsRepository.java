@@ -21,10 +21,6 @@ import com.itfac.amc.reportData.viewLoginDetails;
 
 @Repository
 public interface LoginDtailsRepository extends JpaRepository<LoginDetails, Integer> {
-
-	//void updateLastLoginDateForUserByName(String userName);
-//	@Query(value = "Select u.user_id, u.uname, ld.loged_ip, ld.loged_datetime, ld.logout_ip,ld.logout_datetime from user u, login_details ld where u.user_id = ld.user_id;" , nativeQuery = true)
-//	List<viewLoginDetails> loginDetails(Pageable pageable);
 	
 	@Query(value = "Select * from viewlogindetails" , nativeQuery = true)
 	Page<viewLoginDetails> loginDetails(Pageable pageable);
@@ -54,5 +50,4 @@ public interface LoginDtailsRepository extends JpaRepository<LoginDetails, Integ
 			@Param("logout_datetime") Date logout_datetime,
 			@Param("logno") int logno);
 
-	//Optional<LoginDetails> findById(LoginDetails loginDetails);
 }

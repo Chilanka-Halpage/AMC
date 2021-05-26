@@ -86,7 +86,7 @@ const routes: Routes = [
   { path: 'amcMaster/new', component: CreateAmcMasterComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'list', component: ListcategoryComponent,canActivate: [AuthenticationGuard,ClientGuard,AccountantGuard]},
   { path: 'reportslist', component: ReportComponent,canActivate: [AuthenticationGuard]},
-  { path: 'profile/:userId', component: ProfileComponent,canActivate: [AuthenticationGuard]},//all
+  { path: 'profile', component: ProfileComponent,canActivate: [AuthenticationGuard]},//all
   { path: 'editprofile/:userId', component: EditProfileComponent,canActivate: [AuthenticationGuard]},//all
   { path: 'allamcdetailsfilter', component: AllAmcFilterComponent,canActivate: [AuthenticationGuard]},
   { path: 'generatereport', component: GenerateReportComponent,canActivate: [AuthenticationGuard]},
@@ -139,7 +139,7 @@ const routes: Routes = [
   { path: 'ResetPassword',component: ResetPageComponent},
   { path: 'userList/:id',component: UserlistComponent,canActivate: [AuthenticationGuard]},
   { path: 'notification/:userId', component: NotificationComponent,canActivate: [AuthenticationGuard]},//all
-  { path: 'clientPaymentReport/:userId', component: ClientPaymentDetailsComponent,canActivate: [AuthenticationGuard,AccountantGuard,AmccordinatorGuard] },//client
+  { path: 'clientPaymentReport/:cId', component: ClientPaymentDetailsComponent,canActivate: [AuthenticationGuard,AccountantGuard,AmccordinatorGuard] },//client
   { path: 'quarterWiseRevenueReport/:date1/:category', component: QuarterWiseRevenueReportComponent,canActivate: [AuthenticationGuard,ClientGuard]},//admin,amc cordinater,accountant
   { path: 'logedDetails', component:LoginDetailsComponent,canActivate: [AuthenticationGuard]},
   { path: 'edit-Invoice/:piNo',component: EditInvoiceComponent,canActivate: [AuthenticationGuard,AccountantGuard]}

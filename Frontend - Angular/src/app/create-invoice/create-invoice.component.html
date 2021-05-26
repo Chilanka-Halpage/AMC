@@ -52,7 +52,7 @@
             <!--   <mat-checkbox formControlName="taxApplicable" class="col-1" (click)="Showtoggle()" >Tax Applicable</mat-checkbox> -->
               <br>
               <div formGroupName="tax">
-              <mat-form-field appearance="outline" class="col-6" >
+              <mat-form-field appearance="outline" class="col-6" (click)="loadtax()">
                 <mat-label>Tax:</mat-label>    
                   <mat-select formControlName="taxId">
                     <mat-option *ngFor="let tax of taxList" [value]="tax.taxId" (click)="findtaxRate(tax.taxId)">
@@ -64,7 +64,10 @@
                 <mat-label>tax Rate</mat-label>
                  <input type="number" matInput formControlName="taxRate" >     
               </mat-form-field> 
-             </div>
+             </div> 
+             <div class="col-1 mt-3" *ngIf="isLoadingResults || isRateLimitReached">
+              <span  class="spinner-border spinner-border-sm mr-1" *ngIf="isRateLimitReached"></span>
+            </div>
               <mat-form-field appearance="outline" class="col-4">
                <mat-label>totalTax</mat-label>
                <input type="number" matInput formControlName="totalTax" >     
@@ -109,10 +112,10 @@
                       <input type="text" matInput formControlName="currencyName">
                       </mat-form-field> 
                   </div>  
-                 <div formGroupName="frequency" >    
+                 <div formGroupName="frequency" (click)="frequencyData()">    
                       <mat-form-field appearance="outline" class="col pl-3">
                       <mat-label>
-                      frequency Id</mat-label>
+                      frequency</mat-label>
                      <mat-select formControlName="frequencyId">
                       <mat-option *ngFor="let frequency of  frequencyList" [value]="frequency.frequencyId">
                           {{frequency.frequency}}
@@ -122,7 +125,7 @@
                  </div>  
                </div> 
                <div class="d-flex flex-row-reverse my-0">
-                <button class="btn btn-success mb-4" type="submit" [disabled]="isDesabled"> <span *ngIf="invoiceSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
+                <button class="btn btn-success mb-4" type="submit" [disabled]="invoiceSavingProgress"> <span *ngIf="invoiceSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
                </div>
               </form>
             </div>

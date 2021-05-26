@@ -55,14 +55,19 @@ public class jasperReportServiceImpl implements JasperReportService {
 	private ClientRepository clientRepository;
 
 	String storageDirectoryPath;
+	String reportLocationPath;
 
 	@Value("${report_path}")
 	public void setDirectoryPath(String storageDirectoryPath) {
 		this.storageDirectoryPath = storageDirectoryPath;
-
 	}
-	
-	void createStoragePath(){
+
+	@Value("${jr_location_path}")
+	public void setReportLocationPath(String reportLocationPath) {
+		this.reportLocationPath = reportLocationPath;
+	}
+
+	void createStoragePath() {
 		Path storageDirectory = Paths.get(storageDirectoryPath);
 		if (!Files.exists(storageDirectory)) {
 			try {
@@ -76,31 +81,11 @@ public class jasperReportServiceImpl implements JasperReportService {
 	// view pdf
 	@Override
 	public ResponseEntity<Resource> viewPdf(String userId, HttpServletRequest request) throws Exception {
-		File file = new File(storageDirectoryPath + "/" + userId + ".pdf");
+		File file = new File(storageDirectoryPath + userId + ".pdf");
 		Path path = Paths.get(file.getAbsolutePath());
 		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF)
 				.header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
-	}
-
-	// all amcs report
-	@Override
-	public ResponseEntity<String> AllAmcsJr(LocalDate Date1, LocalDate Date2, String userId)
-			throws FileNotFoundException, JRException {
-		List<AllAmcs> AllAmcs = amcSerialRepository.getAllAmc(Date1, Date2);
-		File file = ResourceUtils.getFile("classpath:jasperReports/AllAmcs.jrxml");
-		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(AllAmcs);
-		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("date1", Date1);
-		parameters.put("date2", Date2);
-		parameters.put("createdBy", "test");
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
-		createStoragePath();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
-
-		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
 	// all amcs category wise report
@@ -109,7 +94,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 			throws FileNotFoundException, JRException {
 		if (category.equals("all")) {
 			List<AllAmcs> AllAmcs = amcSerialRepository.getAllAmc(date1, date2);
-			File file = ResourceUtils.getFile("classpath:jasperReports/AllAmcs.jrxml");
+			File file = ResourceUtils.getFile(reportLocationPath + "AllAmcs.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(AllAmcs);
 			Map<String, Object> parameters = new HashMap<>();
@@ -118,15 +103,13 @@ public class jasperReportServiceImpl implements JasperReportService {
 			parameters.put("category", category);
 			parameters.put("createdBy", "test");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
-			Path storageDirectory = Paths.get(storageDirectoryPath);
 			createStoragePath();
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		} else {
 			List<AllAmcs> AllAmcs = amcSerialRepository.getAllAmcCtgWise(date1, date2, category);
-			File file = ResourceUtils.getFile("classpath:jasperReports/AllAmcs.jrxml");
+			File file = ResourceUtils.getFile(reportLocationPath + "AllAmcs.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(AllAmcs);
 			Map<String, Object> parameters = new HashMap<>();
@@ -135,10 +118,8 @@ public class jasperReportServiceImpl implements JasperReportService {
 			parameters.put("category", category);
 			parameters.put("createdBy", "test");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
 			createStoragePath();
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
-
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		}
 	}
@@ -148,7 +129,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	public ResponseEntity<String> RenewalAmcsJr(LocalDate Date1, LocalDate Date2, String userId)
 			throws FileNotFoundException, JRException {
 		List<RenewalAmcs> RenewalAmcs = amcSerialRepository.getRenewalAmcs(Date1, Date2);
-		File file = ResourceUtils.getFile("src/main/resources/jasperReports/RenewalAmcs.jrxml");
+		File file = ResourceUtils.getFile(reportLocationPath + "RenewalAmcs.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(RenewalAmcs);
 		Map<String, Object> parameters = new HashMap<>();
@@ -156,11 +137,8 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
 		createStoragePath();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"/" + userId + ".pdf");
-
-
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
@@ -169,7 +147,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	public ResponseEntity<String> RenewedAmcsJr(LocalDate Date1, LocalDate Date2, String userId)
 			throws FileNotFoundException, JRException {
 		List<RenewedAmcs> RenewedAmcs = amcSerialRepository.getRenewedAmcs(Date1, Date2);
-		File file = ResourceUtils.getFile("src/main/resources/jasperReports/RenewedAmcs.jrxml");
+		File file = ResourceUtils.getFile(reportLocationPath + "RenewedAmcs.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(RenewedAmcs);
 		Map<String, Object> parameters = new HashMap<>();
@@ -177,10 +155,8 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
 		createStoragePath();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
-
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
@@ -189,7 +165,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	public ResponseEntity<String> ExpiredAmcsJr(LocalDate Date1, LocalDate Date2, String userId)
 			throws FileNotFoundException, JRException {
 		List<ExpiredAmc> ExpiredAmcs = amcSerialRepository.getExpiredAmcs(Date1, Date2);
-		File file = ResourceUtils.getFile("classpath:jasperReports/ExpiredAmcs.jrxml");
+		File file = ResourceUtils.getFile(reportLocationPath + "ExpiredAmcs.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(ExpiredAmcs);
 		Map<String, Object> parameters = new HashMap<>();
@@ -197,10 +173,8 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
 		createStoragePath();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
-
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
@@ -209,7 +183,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	public ResponseEntity<String> FullDetailsJr(LocalDate Date1, LocalDate Date2, String userId)
 			throws JRException, IOException {
 		List<FullDetailsReport> fullDetailsReport = amcSerialRepository.getFullDetails(Date1, Date2);
-		File file = ResourceUtils.getFile("classpath:jasperReports/FullDetailsReport.jrxml");
+		File file = ResourceUtils.getFile(reportLocationPath + "FullDetailsReport.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(fullDetailsReport);
 		Map<String, Object> parameters = new HashMap<>();
@@ -217,10 +191,8 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("date2", Date2);
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
 		createStoragePath();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
-
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
@@ -229,7 +201,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 	public ResponseEntity<String> ClientDetailsJr(LocalDate Date1, LocalDate Date2, String userId)
 			throws FileNotFoundException, JRException {
 		List<ClientDetails> clientDetails = clientRepository.getAllClientDetails(Date1, Date2);
-		File file = ResourceUtils.getFile("app/src/main/resources/jasperReports/ClientDetails.jrxml");
+		File file = ResourceUtils.getFile(reportLocationPath + "ClientDetails.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(clientDetails);
 		Map<String, Object> parameters = new HashMap<>();
@@ -238,7 +210,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 		createStoragePath();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 
 	}
@@ -249,7 +221,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 			throws FileNotFoundException, JRException {
 		if (category.equals("all")) {
 			List<PaymentReport> paymentReports = amcSerialRepository.paymentsReport(date1, date2);
-			File file = ResourceUtils.getFile("classpath:jasperReports/PaymentReport.jrxml");
+			File file = ResourceUtils.getFile(reportLocationPath + "PaymentReport.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(paymentReports);
 			Map<String, Object> parameters = new HashMap<>();
@@ -258,14 +230,13 @@ public class jasperReportServiceImpl implements JasperReportService {
 			parameters.put("category", category);
 			parameters.put("createdBy", "Java");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
 			createStoragePath();
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		} else {
 			List<PaymentReport> paymentReports = amcSerialRepository.paymentsReportCtgWise(date1, date2, category);
-			File file = ResourceUtils.getFile("classpath:jasperReports/PaymentReport.jrxml");
+			File file = ResourceUtils.getFile(reportLocationPath + "PaymentReport.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(paymentReports);
 			Map<String, Object> parameters = new HashMap<>();
@@ -274,10 +245,8 @@ public class jasperReportServiceImpl implements JasperReportService {
 			parameters.put("category", category);
 			parameters.put("createdBy", "Java");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
 			createStoragePath();
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
-
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		}
 	}
@@ -286,16 +255,16 @@ public class jasperReportServiceImpl implements JasperReportService {
 	@Override
 	public ResponseEntity<String> ClientAmc(String userId) throws FileNotFoundException, JRException {
 		List<ClientAmc> paymentReports = amcSerialRepository.ClientAmcReport(userId);
-		File file = ResourceUtils.getFile("classpath:jasperReports/ClientAmc.jrxml");
+		File file = ResourceUtils.getFile(reportLocationPath + "ClientAmc.jrxml");
+		// File file =
+		// ResourceUtils.getFile("/src/main/resources/jasperReports/ClientAmc.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(paymentReports);
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
 		createStoragePath();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
-
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
@@ -303,15 +272,14 @@ public class jasperReportServiceImpl implements JasperReportService {
 	@Override
 	public ResponseEntity<String> ClientPaymentReport(String userId) throws FileNotFoundException, JRException {
 		List<ClientPaymentsDetails> paymentReports = amcSerialRepository.ClientPaymentsReport(userId);
-		File file = ResourceUtils.getFile("classpath:jasperReports/ClientPayment.jrxml");
+		File file = ResourceUtils.getFile(reportLocationPath + "ClientPayment.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(paymentReports);
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("createdBy", "Java");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
 		createStoragePath();
-		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 		return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 	}
 
@@ -326,12 +294,7 @@ public class jasperReportServiceImpl implements JasperReportService {
 		date4 = date4.minusDays(1);
 		LocalDate date5 = date1.plusMonths(12);
 		date5 = date5.minusDays(1);
-		System.out.println(date1);
-		System.out.println(date2);
-		System.out.println(date3);
-		System.out.println(date4);
-		System.out.println(date5);
-		if(category.equals("all")) {
+		if (category.equals("all")) {
 			BigDecimal q1 = amcSerialRepository.getRevanue(date1, date2);
 			BigDecimal q2 = amcSerialRepository.getRevanue(date2, date3);
 			BigDecimal q3 = amcSerialRepository.getRevanue(date3, date4);
@@ -362,15 +325,14 @@ public class jasperReportServiceImpl implements JasperReportService {
 			System.out.println(category);
 			List<Map<String, Object>> revenue = new ArrayList<>();
 			revenue.add(parameter);
-			File file = ResourceUtils.getFile("classpath:jasperReports/QuarterWiseReport.jrxml");
+			File file = ResourceUtils.getFile(reportLocationPath + "QuarterWiseReport.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(revenue);
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("createdBy", "Java");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 			createStoragePath();
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
-
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		} else {
 			BigDecimal q1 = amcSerialRepository.getRevanueCtgWise(date1, date2, category);
@@ -403,14 +365,14 @@ public class jasperReportServiceImpl implements JasperReportService {
 			System.out.println(category);
 			List<Map<String, Object>> revenue = new ArrayList<>();
 			revenue.add(parameter);
-			File file = ResourceUtils.getFile("classpath:jasperReports/QuarterWiseReport.jrxml");
+			File file = ResourceUtils.getFile(reportLocationPath + "QuarterWiseReport.jrxml");
 			JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(revenue);
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put("createdBy", "Java");
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 			createStoragePath();
-			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath +"\\" + userId + ".pdf");
+			JasperExportManager.exportReportToPdfFile(jasperPrint, storageDirectoryPath + userId + ".pdf");
 
 			return ResponseEntity.status(HttpStatus.OK).body("Report generated");
 		}

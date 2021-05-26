@@ -1,3 +1,9 @@
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      {{errorMessage}}
+  </div>
+</div>
 <div class=" div1">
     <h2 class="div3">Notifications</h2>
     <div class="conntainer-fluid div2">
@@ -24,9 +30,7 @@
             </ng-container>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
-          <div class="font-italic d-flex justify-content-center" *ngIf="isLoadingResults">
-            Loading data...
-        </div>
+
         <div class="font-italic d-flex justify-content-center"
                     *ngIf="!isLoadingResults && !resultsLength">
                     No data
@@ -34,6 +38,7 @@
         <br>
         <mat-paginator class="text-primary" [length]="resultsLength" [pageSize]="pagesize" showFirstLastButtons>
         </mat-paginator>
+        <br>
         </div>
       </div>
     </div>

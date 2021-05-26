@@ -22,6 +22,7 @@ export class NotificationComponent implements OnInit {
   public resultsLength = 0;
   public pagesize = 20;
   public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -31,6 +32,7 @@ export class NotificationComponent implements OnInit {
     private notificationService: NotificationService,
     public _authentication: AuthenticationService,
     private router: Router,
+    
   ) { }
 
   ngOnInit(): void {
@@ -79,12 +81,13 @@ export class NotificationComponent implements OnInit {
     this.notificationService.getNotification(this._authentication.userId).subscribe(
       data => {
         this.notifications = new MatTableDataSource(data);
-        console.log(data)
         this.isLoadingResults=false;
         this.resultsLength = this.notifications.data.length;
       },
       (error)=>{
         const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+        
+        this.isLoadingResults = false;
       })
   }
 

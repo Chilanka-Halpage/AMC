@@ -34,11 +34,6 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
 	public Page<viewLoginDetails> loginDetails(Pageable pageable) {
 		return loginDtailsRepository.loginDetails(pageable);
 	}
-	
-//	@Override
-//	public Page<LoginDetails> loginDetails(Pageable pageable) {
-//		return loginDtailsRepository.findAll(pageable);
-//	}
 
 
 	@Override
@@ -71,7 +66,7 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
 			Date logedDate=getLoginDetails.get(i).getLogedTime();
 			String logoutIp=getLoginDetails.get(i).getLogedIp();
 			int logno = getLoginDetails.get(i).getLogno();
-			Date tokenExpireTime= DateUtils.addHours(logedDate, 1);
+			Date tokenExpireTime= DateUtils.addHours(logedDate, 2);
 			Date date = new Date();//today date and time
 			if(tokenExpireTime.before(date)) {
 			loginDtailsRepository.logoutDetailUpdate(logoutIp, tokenExpireTime, logno);
