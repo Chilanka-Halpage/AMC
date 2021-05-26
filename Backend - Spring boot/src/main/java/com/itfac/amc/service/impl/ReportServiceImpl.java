@@ -131,10 +131,11 @@ public class ReportServiceImpl implements ReportService {
 	// client invoice mobile-----------------------------------
 
 	@Override
-	public List<GetInvoice> getInvoiceById(String amc_no) throws Exception {
-		List<GetInvoice> invoice = proformaInvoiceRepository.getInvoiceById(amc_no);
+	public List<GetInvoice> getInvoiceByIdAndDate(String amc_no, LocalDate pi_date) throws Exception {
+		List<GetInvoice> invoice = proformaInvoiceRepository.getInvoiceByIdAndDate(amc_no, pi_date);
 		return invoice;
 	}
+
 	
 	//Quarter wise report
 	public BigDecimal getRevanue(LocalDate date1, LocalDate date2) {

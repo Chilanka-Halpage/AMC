@@ -30,12 +30,11 @@ export class ProfileComponent implements OnInit {
     public _authentication: AuthenticationService,
     ) { }
 
-  ngOnInit(): void {/* 
-    this.userId=this.route.snapshot.params['userId']
-    this.users=new Users(); */
+  ngOnInit(): void {
+    this.users=new Users();
     this.usersService.getUsersById(this._authentication.userId).subscribe(data =>{
       this.users=data;
-      this.imageSrc= this.imageService.Image(this.userId);
+      this.imageSrc= this.imageService.Image(this._authentication.userId);
       this.isLoadingResults = false;
     },
     (error)=>{

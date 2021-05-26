@@ -7,7 +7,7 @@ public interface ClientAmc {
 	public String getamc_no();
 	public Date getstart_date();
 	public String getcategory_name();
-	public int getamc_product_no();
+	public String getproduct_name();
 	public String getproduct_description();
 	public String getdepartment_name();
 	public String getamc_serial_no();

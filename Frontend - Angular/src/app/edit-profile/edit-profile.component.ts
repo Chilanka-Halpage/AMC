@@ -24,6 +24,7 @@ export class EditProfileComponent implements OnInit {
   public isLoadingResults = true;
   public isRateLimitReached =false;
   public savingImage = false;
+  hideImage=true;
 
   constructor(
     private http: HttpClient,
@@ -75,6 +76,10 @@ export class EditProfileComponent implements OnInit {
         const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
         this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       }
+  }
+
+  imageHiding(){
+    this.hideImage=false;
   }
 
   //edit contact no and email

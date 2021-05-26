@@ -78,6 +78,6 @@ export class ClientAmcComponent implements OnInit {
       });
   }
   displayedColumns: string[] = ['amc_no','amc_serial_no', 'start_date', 'mtc_start_date','mtc_end_date',
-  'frequency','category_name','amc_product_no','department_name','product_description'];
+  'frequency','category_name','product_name','department_name','product_description'];
 
 }
