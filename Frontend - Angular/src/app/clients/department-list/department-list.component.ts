@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { ClientDepartment } from './../../Model/client-department';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -16,7 +17,7 @@ export class DepartmentListComponent implements OnInit {
   private clientId: number;
   public displayedColumns: string[] = [
     'departmentName',
-    'isActive',
+    'active',
     'email',
     'contactNo',
     'contactPerson',
@@ -109,6 +110,7 @@ export class DepartmentListComponent implements OnInit {
         data: JSON.stringify({
           type: '%DE3%',
           cid: this.clientId,
+          cname: this.clientName,
           data: row
         })
       }

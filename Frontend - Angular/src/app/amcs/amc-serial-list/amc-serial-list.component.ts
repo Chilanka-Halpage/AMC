@@ -15,12 +15,12 @@ import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 export class AmcSerialListComponent implements OnInit {
 
   displayedColumns: string[] = [
-    'amcNo',
-    'mtcStartDate',
-    'mtcEndDate',
+    'amc_no',
+    'mtc_start_date',
+    'mtc_end_date',
     'frequency',
-    'mtcValueForFrequencyLkr',
-    'isActive',
+    'mtc_amount_for_given_frequency_lkr',
+    'active',
     'action'
   ];
   private clientId: number;

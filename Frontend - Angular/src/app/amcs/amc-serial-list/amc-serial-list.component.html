@@ -20,17 +20,17 @@
     <div class="w-100 px-3">
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8, table table-striped table-hover">
 
-            <ng-container matColumnDef="amcNo">
+            <ng-container matColumnDef="amc_no">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> AMC No </th>
                 <td mat-cell *matCellDef="let element" class="align-middle"> {{element.amc_no}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="mtcStartDate">
+            <ng-container matColumnDef="mtc_start_date">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Mtc Start Date </th>
                 <td mat-cell *matCellDef="let element" class="align-middle"> {{element.mtc_start_date}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="mtcEndDate">
+            <ng-container matColumnDef="mtc_end_date">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Mtc End Date </th>
                 <td mat-cell *matCellDef="let element" class="align-middle"> {{element.mtc_end_date}} </td>
             </ng-container>
@@ -40,12 +40,12 @@
                 <td mat-cell *matCellDef="let element" class="align-middle"> {{element.frequency}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="mtcValueForFrequencyLkr">
-                <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Mtc Value For Frequency (Lkr) </th>
-                <td mat-cell *matCellDef="let element" class="align-middle"> {{element.mtc_amount_for_given_frequency_lkr}} </td>
+            <ng-container matColumnDef="mtc_amount_for_given_frequency_lkr">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle" [hidden]="isBlocked"> Mtc Value For Frequency (Lkr) </th>
+                <td mat-cell *matCellDef="let element" class="align-middle" [hidden]="isBlocked"> {{element.mtc_amount_for_given_frequency_lkr}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="isActive">
+            <ng-container matColumnDef="active">
                 <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Status </th>
                 <td mat-cell *matCellDef="let element" class="align-middle"> {{(element.active)? 'Active' : 'Inactive'}} </td>
             </ng-container>

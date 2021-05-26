@@ -14,6 +14,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class AddClientComponent implements OnInit {
   private clientId: number;
+  private cname: String;
   private data: any; // holds data for editing data whent editing request comes
   private clientForm$: Observable<any>;
   public clientForm: FormGroup;
@@ -30,8 +31,7 @@ export class AddClientComponent implements OnInit {
     private elementRef: ElementRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService,
-    private locaton: Location
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +44,7 @@ export class AddClientComponent implements OnInit {
         this.data = value.data;
         this.type = value.type;
         this.clientId = value.cid;
+        this.cname = value.cname;
         //set values to form fields for editing acootding to requset. Request can be either editing client or department data or creating new department 
         this.setForm(this.type);
       }
@@ -56,7 +57,7 @@ export class AddClientComponent implements OnInit {
       client: this.formBuilder.group({
         clientId: [''],
         clientName: ['', [Validators.required, Validators.pattern(/^.{3,}$/)], [this.clientExistsValidator()]],
-        contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
+        contactNo: ['', [Validators.required, Validators.pattern(/^((0[1-9][0-9]{8})|(\+[0-9]{1,3}[1-9][0-9]{8,}))$/)]],
         contactPerson: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s.]+$/)]],
         address: ['', [Validators.required]],
         active: [true]
@@ -246,9 +247,17 @@ export class AddClientComponent implements OnInit {
   updateDept() {
     if (this.clientForm.valid) {
       this.clientSavingProgress = true;
-      this.clientService.updateDepartment(this.clientForm.value, 1000, this.clientForm.value.deptId).subscribe(
+      this.clientService.updateDepartment(this.clientForm.value, this.clientId, this.clientForm.value.deptId).subscribe(
         response => {
-          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.router.navigate([`dept-list/${this.clientId}`]) });
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              "data": JSON.stringify({
+                "id": this.clientId,
+                "name": this.cname
+              })
+            }
+          };
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.router.navigate([`dept-list/${this.clientId}`],navigationExtras) });
         },
         (error) => {
           let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'

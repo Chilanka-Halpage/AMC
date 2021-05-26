@@ -22,13 +22,15 @@ export class AmcMasterListComponent implements OnInit {
     'isActive',
     'action'
   ];
-  clientId: number;
-  clientName: string;
-  dataSource: MatTableDataSource<AmcMaster>;
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  errorMessage = "Unknown Error"
+  private clientId: number;
+  public clientName: string;
+  public dataSource: MatTableDataSource<AmcMaster>;
+  public resultsLength = 0;
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+  public isBlocked = false;
+
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -43,6 +45,7 @@ export class AmcMasterListComponent implements OnInit {
   ngOnInit(): void {
     if (this.authService.role === 'ROLE_CLIENT') {
       this.loadAmcMasterListForClient(this.authService.userId);
+      this.isBlocked = true;
     } else {
       this.activatedRoute.queryParams.subscribe(params => {
         let value = JSON.parse(params["data"]);

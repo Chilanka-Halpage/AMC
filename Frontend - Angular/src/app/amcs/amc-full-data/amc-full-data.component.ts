@@ -16,6 +16,7 @@ export class AmcFullDataComponent implements OnInit {
   public clientName: string;
   public data: AmcData;
   public isLoadingResults = true;
+  public isLoadingScannedCopy = false;
   public isRateLimitReached = false;
   public errorMessage = "Unknown Error"
   public isAuthorized = false;
@@ -85,12 +86,15 @@ export class AmcFullDataComponent implements OnInit {
 
   //Download scanned copy of amc
   getScannedCopy(): void {
+    this.isLoadingScannedCopy = true;
     this.amcService.getAmcScannedCopy(this.data.contract_url).subscribe(response => {
+      this.isLoadingScannedCopy = false;
       let url = URL.createObjectURL(response);
       window.open(url, '_blank');
       URL.revokeObjectURL(url);
     },
       error => {
+        this.isLoadingScannedCopy = false;
         let message = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
       });
@@ -118,6 +122,7 @@ export class AmcFullDataComponent implements OnInit {
           dname: this.data.department_name,
           amcNo: this.data.amc_no,
           asno: this.data.amc_serial_no,
+          did: this.data.client_dept_id,
           type: "%u2%"
         })
       }

@@ -18,7 +18,8 @@
         <button (click)="onRenew()" type="button" mat-raised-button class="btn btn-info ml-1" *ngIf="!isBlocked">
             <mat-icon>add</mat-icon> Renew
         </button>
-        <button (click)="onEditGeneral()" type="button" mat-raised-button class="btn btn-danger ml-1" *ngIf="!isBlocked">
+        <button (click)="onEditGeneral()" type="button" mat-raised-button class="btn btn-danger ml-1"
+            *ngIf="!isBlocked">
             <mat-icon>create</mat-icon> Edit
         </button>
     </div>
@@ -194,7 +195,9 @@
             <mat-divider class="mat-divider"></mat-divider>
             <br />
             <div *ngIf="data.contract_url;else elseBlock" class="d-flex justify-content-center">
-                <button type="button" (click)="getScannedCopy()" mat-raised-button color="warn" mat-button>View File</button>
+                <button type="button" (click)="getScannedCopy()" mat-raised-button color="warn" mat-button
+                    [disabled]="isLoadingScannedCopy"><span *ngIf="isLoadingScannedCopy"
+                        class="spinner-border spinner-border-sm mr-1"></span>View File</button>
             </div>
             <ng-template #elseBlock>
                 <mat-label class="d-flex justify-content-center">Not Available</mat-label>

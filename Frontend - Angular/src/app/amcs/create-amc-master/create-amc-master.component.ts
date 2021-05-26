@@ -137,7 +137,16 @@ export class CreateAmcMasterComponent implements OnInit {
   saveChanges() {
     this.amcMasterProgress = true;
     this.amcMasterservice.updateAmcMaster(this.amcMasterForm.value, this.amcNo, this.amcSerialNo).subscribe(response => {
-      this.notificationService.showNoitfication(response, 'OK', 'success', () => { window.location.reload() });
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          data: JSON.stringify({
+            cname: this.clientName,
+            did: this.deptId,
+            dname: this.deptName
+          })
+        }
+      };
+      this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.router.navigate([`clients/depts/${this.deptId}/amc-list`],navigationExtras) });
     }, error => {
       let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);

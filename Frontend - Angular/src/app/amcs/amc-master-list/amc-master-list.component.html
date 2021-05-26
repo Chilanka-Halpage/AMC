@@ -31,8 +31,8 @@
             </ng-container>
 
             <ng-container matColumnDef="totalValueLkr">
-                <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Total Value (Lkr) </th>
-                <td mat-cell *matCellDef="let element" class="align-middle"> {{element.totalValueLkr}} </td>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle" [hidden]="isBlocked"> Total Value (Lkr) </th>
+                <td mat-cell *matCellDef="let element" class="align-middle" [hidden]="isBlocked"> {{element.totalValueLkr}} </td>
             </ng-container>
 
             <ng-container matColumnDef="isActive">
