@@ -185,7 +185,7 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 			lastSerialNo = (receivedLastSerialNo != null) ? (Integer.parseInt(receivedLastSerialNo)) + 1 : 1;
 			String renewesAmcSerialNo = amcNo + lastSerialNo;
 			amcSerialRepository.setAmcSerialNo(amcNo, lastSerialNo);
-			String contractUrl = fileStorageService.storeFile(file, renewesAmcSerialNo);
+			String contractUrl = fileStorageService.upload(file, renewesAmcSerialNo);
 			amcSerial.setAmcSerialNo(renewesAmcSerialNo);
 			amcSerial.setAmcMaster(amcMaster);
 			amcSerial.setContractUrl(contractUrl);
