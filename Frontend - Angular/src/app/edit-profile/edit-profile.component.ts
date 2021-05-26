@@ -24,6 +24,7 @@ export class EditProfileComponent implements OnInit {
   public isLoadingResults = true;
   public isRateLimitReached =false;
   public savingImage = false;
+  hideImage=true;
 
   constructor(
     private http: HttpClient,
@@ -58,20 +59,6 @@ export class EditProfileComponent implements OnInit {
     email: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
   }
   )
-  // getErrorMessage() {
-  //   if (this.editProfileForm.value.email.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
-
-  //   return this.editProfileForm.value.email.hasError('email') ? 'Not a valid email' : '';
-  // }
-  // getErrorMessageContactNo() {
-  //   if (this.editProfileForm.value.contactNo.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
-
-  //   return this.editProfileForm.value.contactNo.hasError('email') ? 'Not a valid email' : '';
-  // }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.params.userId
@@ -89,6 +76,10 @@ export class EditProfileComponent implements OnInit {
         const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
         this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       }
+  }
+
+  imageHiding(){
+    this.hideImage=false;
   }
 
   //edit contact no and email

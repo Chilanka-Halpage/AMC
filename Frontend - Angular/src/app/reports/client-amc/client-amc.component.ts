@@ -15,7 +15,7 @@ import { ClientAmc } from '../../data/ClientAmc/client-amc';
 export class ClientAmcComponent implements OnInit {
 
   clientAmc : MatTableDataSource<ClientAmc>;
-  cId : any
+  cId : any;
   public isLoadingResults = true;
   public isRateLimitReached =false;
   public resultsLength = 0;
@@ -43,8 +43,10 @@ export class ClientAmcComponent implements OnInit {
       this.isLoadingResults=false;
       this.resultsLength = this.clientAmc.data.length;
     },
-    error =>{
-      this.isRateLimitReached=true;
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults=false;
     });
   }
 
@@ -58,6 +60,7 @@ export class ClientAmcComponent implements OnInit {
     (error)=>{
       const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
       this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults=false;
     }
     )
   }
@@ -75,6 +78,6 @@ export class ClientAmcComponent implements OnInit {
       });
   }
   displayedColumns: string[] = ['amc_no','amc_serial_no', 'start_date', 'mtc_start_date','mtc_end_date',
-  'frequency','category_name','amc_product_no','department_name','product_description'];
+  'frequency','category_name','product_name','department_name','product_description'];
 
 }

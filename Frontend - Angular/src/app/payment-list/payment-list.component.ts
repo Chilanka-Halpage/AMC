@@ -34,7 +34,12 @@ export class PaymentListComponent implements OnInit {
        this.payments.sort = this.sort;
        this.payments.paginator = this.paginator;
        this.isLoadingResults = false;
-    });
+       this.isRateLimitReached = false;
+       }, error => {
+         this.isLoadingResults = false;
+         this.isRateLimitReached = true;
+         this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+       })
   }
 
   applyFilter(filterValue: string) {

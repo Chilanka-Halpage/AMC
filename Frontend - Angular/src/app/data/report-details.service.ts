@@ -67,6 +67,6 @@ export class ReportDetailsService {
 
   //Payment Report for client
   ClientPayment(userId): Observable<ClientPaymentDetails[]>{
-    return this.httpClient.get<ClientPaymentDetails[]>(`${this.baseURL}report/client/ClientAmc/${userId}`);
+    return this.httpClient.get<ClientPaymentDetails[]>(`${this.baseURL}report/client/ClientPaymentsReport/${userId}`);
   }
 }

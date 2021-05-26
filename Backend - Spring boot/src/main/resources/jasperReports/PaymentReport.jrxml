@@ -171,7 +171,7 @@
 				<text><![CDATA[Mtc Amount for given frequency(lkr)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="639" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
+				<reportElement mode="Opaque" x="640" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a12d9db6-5d8a-4f38-9dc6-871807718384"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -274,7 +274,7 @@
 				<textFieldExpression><![CDATA[$F{mtc_amount_for_given_frequency_lkr}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement mode="Opaque" x="639" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
+				<reportElement mode="Opaque" x="640" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a12d9db6-5d8a-4f38-9dc6-871807718384"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">

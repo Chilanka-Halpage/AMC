@@ -10,16 +10,16 @@
     <div class="container div3">
       <!-- image -->
       <form action="">
-        <div style="height: 250px; width: 400px; background-image: url(../../assets/uploadImage.jpg);">
+        <div class="" style="height: 300px; width: 400px; background-color: rgb(255, 255, 255);">
         <image-cropper [imageChangedEvent]="imageChangedEvent" (imageCropped)="imageCropped($event)"
-          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" 
-          >
+          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" >
           <!-- <mat-spinner *ngIf="savingImage"></mat-spinner> -->
           <mat-progress-bar *ngIf="savingImage" mode="determinate" value="40"></mat-progress-bar>
         </image-cropper>
+        <div *ngIf="hideImage" style="height: 250px; width: 400px;  background-image: url(../../assets/uploadImage.jpg);"></div>
       </div>
         <br>
-        <input type="file" (change)="fileChangeEvent($event)" />
+        <input type="file" (click)="imageHiding()" (change)="fileChangeEvent($event)" />
         <br>
         <button class="btn btn-primary mt-2" type="submit" (click)="performUpload()">Submit image</button>
       </form>

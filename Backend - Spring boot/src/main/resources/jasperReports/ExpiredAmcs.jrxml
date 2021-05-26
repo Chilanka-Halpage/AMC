@@ -45,14 +45,14 @@
 					<text><![CDATA[To:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="156" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
+					<reportElement x="161" y="71" width="180" height="20" forecolor="#FFFFFF" uuid="2b4c18bc-fdd4-407f-9694-4b66529d62ed"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[From:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="339" y="73" width="180" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
+					<reportElement x="344" y="73" width="180" height="20" forecolor="#FFFFFF" uuid="2ffdee1c-232f-415e-99fb-e70dc3ff9733"/>
 					<textElement textAlignment="Left">
 						<font size="12"/>
 					</textElement>

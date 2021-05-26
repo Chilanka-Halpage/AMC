@@ -37,8 +37,6 @@ category : String
       this.date1 = params.get('date1');
       this.date2 = params.get('date2');
       this.category = params.get('category');
-      console.log(this.date1);
-      console.log(this.date2)
       this.getPaymentDetails(this.date1,this.date2,this.category);
   });
 }
@@ -53,8 +51,10 @@ getPaymentDetails(date1,date2,category){
     this.isLoadingResults=false;
     this.resultsLength = this.paymentsDetails.data.length;
   },
-  error =>{
-    this.isRateLimitReached=true;
+  (error)=>{
+    const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+    this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+    this.isLoadingResults=false;
   })
 }
 PaymentsDetailsJrReport(){
@@ -67,6 +67,7 @@ PaymentsDetailsJrReport(){
 (error)=>{
   const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
   this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+  this.isLoadingResults=false;
 });
 }
 viewPdf() {

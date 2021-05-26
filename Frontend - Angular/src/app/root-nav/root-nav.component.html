@@ -10,12 +10,12 @@
     <mat-toolbar><img class="img-responsive" src="assets/epic.png" style="width: 80px; margin-left: 60px;"></mat-toolbar>
     <mat-nav-list>
         <mat-accordion >
-          <mat-expansion-panel hideToggle>
-            <mat-expansion-panel-header routerLinkActive="active-list-item"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">
-              <mat-panel-title routerLinkActive="active-list-item"  [routerLink]="['/adminhome']" >
-                <mat-icon>home</mat-icon><span class="button-text">Home</span>
+          <mat-expansion-panel hideToggle >
+             <mat-expansion-panel-header routerLinkActive="active-list-item" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">
+              <mat-panel-title  [routerLink]="['/adminhome']">
+                 <mat-icon>home</mat-icon><span class="button-text">Home</span> 
               </mat-panel-title>
-            </mat-expansion-panel-header>
+            </mat-expansion-panel-header> 
             <mat-expansion-panel-header routerLinkActive="active-list-item"*ngIf="_authentication.role === 'ROLE_CLIENT'" >
               <mat-panel-title routerLinkActive="active-list-item"  [routerLink]="['/clienthome']" >
                 <mat-icon>home</mat-icon><span class="button-text">Home</span>
@@ -23,52 +23,52 @@
             </mat-expansion-panel-header>
           </mat-expansion-panel>  
         <mat-expansion-panel>
-          <mat-expansion-panel-header (click)="colorLink2('mat-expansion-panel-header-1')">
+          <mat-expansion-panel-header >
             <mat-panel-title>
                <mat-icon>article</mat-icon> <span class="button-text">Reports</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <button mat-menu-item  (click)="AllAMCDetailsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">All AMC</button>
-          <button mat-menu-item  (click)="ClientsDetailsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">All client details</button>
-          <button mat-menu-item  (click)="RenewalAmcsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Renewal AMCs</button>
-          <button mat-menu-item  (click)="RenewedAmcsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Renewed AMCs</button>
-          <button mat-menu-item  (click)="ExpiredAmcsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Expired AMCs</button>
-          <button mat-menu-item  (click)="PaymentReportFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment Reports</button>    
-          <button mat-menu-item (click)="ClientPayment($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_CLIENT'">Payment Reports</button>
-          <button mat-menu-item (click)="ClientAmc($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_CLIENT'">AMC Reports</button>
-          <button mat-menu-item (click)="QuarterWiseReport($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Quarter Wise revenue</button>
-          <button mat-menu-item (click)="FullDetailsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Full Details Report</button>      
+          <button class="dropdown-item p-3"  (click)="AllAMCDetailsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">All AMC</button>
+          <button class="dropdown-item p-3"  (click)="ClientsDetailsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">All client details</button>
+          <button class="dropdown-item p-3"  (click)="RenewalAmcsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Renewal AMCs</button>
+          <button class="dropdown-item p-3" (click)="RenewedAmcsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Renewed AMCs</button>
+          <button class="dropdown-item p-3"  (click)="ExpiredAmcsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Expired AMCs</button>
+          <button class="dropdown-item p-3" (click)="PaymentReportFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment Reports</button>    
+          <button class="dropdown-item p-3" (click)="ClientPayment($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_CLIENT'">Payment Reports</button>
+          <button class="dropdown-item p-3" (click)="ClientAmc($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_CLIENT'">AMC Reports</button>
+          <button class="dropdown-item p-3" (click)="QuarterWiseReport($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Quarter Wise revenue</button>
+          <button class="dropdown-item p-3" (click)="FullDetailsFilter($event)" name="nav-link" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Full Details Report</button>      
         </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
+        <mat-expansion-panel >
+          <mat-expansion-panel-header >
             <mat-panel-title>
               <mat-icon>payment</mat-icon> <span class="button-text">Payment</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['/client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">New Receipt</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['/client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'" >Proforma Invoice</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['taxlist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Tax</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['currencylist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Currency</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['paymentHlist']"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment History</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['duepayment']" >Due Payment</button>         
+          <button (click)="colorLink($event)" name="nav-link"  class="dropdown-item p-3" [routerLink]="['/client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">New Receipt</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['/client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'" >Proforma Invoice</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['taxlist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Tax</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['currencylist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Currency</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['paymentHlist']"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment History</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['duepayment']" >Due Payment</button>         
         </mat-expansion-panel>
-        <mat-expansion-panel>
+        <mat-expansion-panel >
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Create New AMC </button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">AMC Renew</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['clients/'+ _authentication.userId +'/amc-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">AMC List</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['clients/'+ _authentication.userId +'/amc-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">AMC History</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['dept-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">Department List</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Category</button>
-          <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['frequency']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Frequency</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Create New AMC </button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">AMC Renew</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['clients/'+ _authentication.userId +'/amc-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">AMC List</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['clients/'+ _authentication.userId +'/amc-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">AMC History</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['dept-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">Department List</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Category</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['frequency']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Frequency</button>
        </mat-expansion-panel>
        <mat-expansion-panel *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'" hideToggle>
-        <mat-expansion-panel-header>
-          <mat-panel-title [routerLink]="['productlist']" >
+        <mat-expansion-panel-header routerLinkActive="active-list-item">
+          <mat-panel-title [routerLink]="['productlist']"  >
             <mat-icon>store</mat-icon><span class="button-text">Product</span>
         </mat-panel-title>
         </mat-expansion-panel-header>
@@ -79,14 +79,14 @@
             <mat-icon>supervisor_account</mat-icon><span class="button-text">Users</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
-            <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['user']" *ngIf="_authentication.role === 'ROLE_ADMIN'">New User</button>
-            <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' " >Clients</button>
-            <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' ">New client</button>
-            <button (click)="colorLink($event)" name="nav-link" mat-menu-item [routerLink]="['logedDetails']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Login Details</button>
+            <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['user']" *ngIf="_authentication.role === 'ROLE_ADMIN'">New User</button>
+            <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' " >Clients</button>
+            <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['client/new']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' ">New client</button>
+            <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['logedDetails']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Login Details</button>
       </mat-expansion-panel>  
-           <mat-expansion-panel hideToggle>
+           <mat-expansion-panel hideToggle routerLinkActive="active-list-item">
             <mat-expansion-panel-header>
-              <mat-panel-title (click)="profilepage()" > 
+              <mat-panel-title [routerLink]="['profile']" > 
                 <mat-icon>settings</mat-icon><span class="button-text">Setting</span>      
                </mat-panel-title>
             </mat-expansion-panel-header>
@@ -119,7 +119,7 @@
        <span class="button-text "   style="-webkit-text-fill-color:rgb(255, 255, 255)">{{ _authentication.name }}</span>
       </button>      
          <mat-menu #profile="matMenu">
-            <button mat-menu-item (click) = "profilepage()" >Profile</button>
+            <button mat-menu-item [routerLink]="['profile']" >Profile</button>
             <button mat-menu-item (click) = "logout()">Log Out</button> 
          </mat-menu>
     </mat-toolbar>
@@ -133,7 +133,7 @@
 </mat-sidenav-container>
 
  <mat-toolbar-row class="footer bg-primary" *ngIf="_authentication.loggedIn()">
-  <span class="example-spacer">Copyright © 2021 - Epic Technology Group. - All Rights Reserved. Concept, Design & Development by Web Lankan</span>
+  <span class="example-spacer">Copyright © 2021 - Epic Technology Group. - All Rights Reserved.</span>
 </mat-toolbar-row>   
 <!-- <footer class="page-footer font-small blue pt-4" style="background-color: rgb(107, 107, 255);">
   <div class="footer-copyright text-center py-3">Epic Lanka</div>

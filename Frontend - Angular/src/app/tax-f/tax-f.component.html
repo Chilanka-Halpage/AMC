@@ -23,17 +23,15 @@
       <mat-error *ngIf="!addtaxForm.controls['shortName'].valid"> Short Name required</mat-error> 
    </mat-form-field>
     <mat-form-field appearance="outline" class="col pl-2">
-       <mat-label>
-        Tax Rate:</mat-label>
+       <mat-label> Tax Rate:</mat-label>
         <input type="number" matInput formControlName="taxRate"> 
-        <mat-error *ngIf="!addtaxForm.controls['taxRate'].valid">less than 999</mat-error>   
-    </mat-form-field>     
+    </mat-form-field>           
    </div> 
    <div class="row px-0">
     <mat-checkbox formControlName="active" class="col-md-4" >Active Tax</mat-checkbox>
    </div>
    <div class="d-flex flex-row-reverse my-0">
-    <button class="btn btn-success mb-3" type="submit" [disabled]="isDesabled">  <span *ngIf="TaxSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
+    <button class="btn btn-success mb-3" type="submit" [disabled]="TaxSavingProgress">  <span *ngIf="TaxSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
    </div>
   </form>
 </div>
