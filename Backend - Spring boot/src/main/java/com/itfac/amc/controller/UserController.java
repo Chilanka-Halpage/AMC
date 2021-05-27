@@ -31,7 +31,7 @@ import com.itfac.amc.entity.User;
 import com.itfac.amc.reportData.viewLoginDetails;
 import com.itfac.amc.service.LoginDetailsService;
 import com.itfac.amc.service.UserService;
-import com.itfac.amc.service.impl.UserNotFoundException;
+import com.itfac.amc.Exception.UserNotFoundException;
 import com.itfac.amc.validation.OnCreate;
 import com.itfac.amc.validation.OnUpdate;
 
@@ -146,7 +146,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body("check email");
 
 		} catch (UserNotFoundException ex) {
-			return ResponseEntity.badRequest().body("invalid email");
+			return ResponseEntity.badRequest().body(ex.getMessage());
 		} catch (UnsupportedEncodingException | MessagingException e) {
 
 		}

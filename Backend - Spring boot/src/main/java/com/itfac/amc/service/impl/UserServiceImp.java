@@ -14,6 +14,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.itfac.amc.Exception.UserNotFoundException;
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.repository.UserRepository;
@@ -202,7 +204,7 @@ public class UserServiceImp implements UserService {
 		if (user != null) {
 			userRepository.updateResetToken(token, email);
 		} else {
-			throw new UserNotFoundException();
+			throw new UserNotFoundException("Invalid email !");
 		}
 	}
 	@Override
