@@ -14,7 +14,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="col-12 col-md-auto">
-        <mat-label>Inactive</mat-label>
+        <mat-label>Status</mat-label>
         <mat-select formControlName="active">
           <mat-option [value]=true>Active</mat-option>
           <mat-option [value]=false>Inactive</mat-option>
@@ -70,7 +70,7 @@
       </ng-container>
 
       <ng-container matColumnDef="active">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Active </th>
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Status </th>
         <td mat-cell *matCellDef="let element" class="px-2" class="align-middle"> {{(element.active)?"Active":"Inactive"}}</td>
       </ng-container>
 
