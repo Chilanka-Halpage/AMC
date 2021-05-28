@@ -29,7 +29,7 @@ export class DuePaymentComponent implements OnInit {
     private notificationService: NotificationService
   ) { }
 
-  displayedColumns:string[] = ['id','dueDate','invoiceAmt','amc_no','payblelkr','currency_id','Action'];
+  displayedColumns:string[] = ['id','due_date','invoice_amount','amc_no','invoice_payble_lkr','currency_id','Action'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

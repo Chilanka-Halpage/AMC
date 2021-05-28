@@ -22,7 +22,7 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
           </mat-expansion-panel>  
-        <mat-expansion-panel>
+        <mat-expansion-panel routerLinkActive="active-list-item">
           <mat-expansion-panel-header >
             <mat-panel-title>
                <mat-icon>article</mat-icon> <span class="button-text">Reports</span>
@@ -52,7 +52,7 @@
           <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['paymentHlist']"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment History</button>
           <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['duepayment']" >Due Payment</button>         
         </mat-expansion-panel>
-        <mat-expansion-panel >
+        <mat-expansion-panel routerLinkActive="active-list-item">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
@@ -73,7 +73,7 @@
         </mat-panel-title>
         </mat-expansion-panel-header>
       </mat-expansion-panel> 
-      <mat-expansion-panel *ngIf="_authentication.role === 'ROLE_ADMIN'">
+      <mat-expansion-panel *ngIf="_authentication.role === 'ROLE_ADMIN'" routerLinkActive="active-list-item">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>supervisor_account</mat-icon><span class="button-text">Users</span>
