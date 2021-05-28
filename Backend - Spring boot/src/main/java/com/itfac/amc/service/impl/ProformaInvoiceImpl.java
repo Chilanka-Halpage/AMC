@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import com.itfac.amc.dto.DueInvoicecheckDto;
 import com.itfac.amc.dto.ProformaInvoiceDto;
 import com.itfac.amc.entity.AmcDueInvoice;
+import com.itfac.amc.entity.AmcMaster;
+import com.itfac.amc.entity.Currency;
 import com.itfac.amc.entity.ProformaInvoice;
 import com.itfac.amc.repository.AmcDueInvoiceRepositiory;
 import com.itfac.amc.repository.ProformaInvoiceRepository;
@@ -28,7 +30,7 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 
 	@Autowired
 	private ProformaInvoiceRepository proformaInvoiceRepository;
-	
+
 	@Autowired
 	private AmcDueInvoiceRepositiory amcDueInvoiceRepositiory;
 
@@ -41,7 +43,7 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 	public void addProformaInvoice(HttpServletRequest httpServletRequest, ProformaInvoice proformaInvoice) {
 		String ipAddress = httpServletRequest.getRemoteAddr();
 		proformaInvoice.setSavedIp(ipAddress);
-	    proformaInvoiceRepository.save(proformaInvoice);
+		proformaInvoiceRepository.save(proformaInvoice);
 	}
 
 	@Override
@@ -75,7 +77,7 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 	@Override
 	public void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice) {
 		proformaInvoiceRepository.save(proformaInvoice);
-		
+
 	}
 
 	@Override
@@ -83,44 +85,50 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 		return proformaInvoiceRepository.existsById(piNo);
 	}
 
-	//@Scheduled(fixedRate = 20000)
-	@Scheduled(cron = "0 0 0 * * *",zone = "Indian/Maldives")
-	public void checkdueInvoice() {	
-		
+	// @Scheduled(fixedRate = 20000)
+	@Scheduled(cron = "0 0 0 * * *", zone = "Indian/Maldives")
+	public void checkdueInvoice() {
+
 		List<DueInvoicecheckDto> due = proformaInvoiceRepository.Proformainvoicecheck();
-		
-		for(int i=0; i<due.size();i++ ) {
-			
+
+		for (int i = 0; i < due.size(); i++) {
+
 			LocalDate piDate = due.get(i).getpi_date();
-			int frequency = due.get(i).getfrequency();
-		    LocalDate Date2 = piDate.plusMonths(frequency);
-		    String piNo = due.get(i).getpi_no();
-		    BigDecimal invoice_amount = due.get(i).gettotal_amount();
-		    int currencyId = due.get(i).getcurrency_id();
-		    String amcMasterno = due.get(i).getamc_no();
-		    BigDecimal invoice_balance = due.get(i).gettotal_payble_lkr();
-			
-		    Date date = new Date();		
-			Object LocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			System.out.println("check3");
-			
-			if( LocalDate == Date2 ) {
-				
-				System.out.println("check1");
-				
-				if(!proformaInvoiceRepository.checkdueInvoices(piNo,piDate,Date2)) {
-					
-					System.out.println("check2");
-				
-				AmcDueInvoice dueinvoice = new AmcDueInvoice();
-						
-				dueinvoice.setDueDate(date);
-				dueinvoice.setInvoiceAmt(invoice_amount);
-				dueinvoice.setInvoicePaybleLkr(invoice_balance);
-				dueinvoice.getCurrency().setCurrencyId(currencyId);
-				dueinvoice.getAmcMaster().setAmcNo(amcMasterno);
-				
-			  	amcDueInvoiceRepositiory.save(dueinvoice);
+			String frequency = due.get(i).getfrequency();
+			if (frequency.contains(" ")) {
+				frequency = frequency.substring(0, frequency.indexOf(" "));
+			}
+
+			LocalDate Date2 = piDate.plusMonths(Integer.valueOf(frequency));
+			String piNo = due.get(i).getpi_no();
+			BigDecimal invoice_amount = due.get(i).gettotal_amount();
+			int currencyId = due.get(i).getcurrency_id();
+			String amcMasterno = due.get(i).getamc_no();
+			BigDecimal invoice_balance = due.get(i).gettotal_payble_lkr();
+
+			Date date = new Date();
+			LocalDate Date1 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+			if (Date2.compareTo(Date1) == 0) {
+
+				if (proformaInvoiceRepository.checkdueInvoices(piNo, Date2, Date1) != null) {
+					System.out.println("");
+				} else {
+
+					AmcDueInvoice dueinvoice = new AmcDueInvoice();
+					Currency currency = new Currency();
+					currency.setCurrencyId(currencyId);
+					AmcMaster amcMaster = new AmcMaster();
+					amcMaster.setAmcNo(amcMasterno);
+
+					dueinvoice.setDueDate(date);
+					dueinvoice.setInvoiceAmt(invoice_amount);
+					dueinvoice.setInvoicePaybleLkr(invoice_balance);
+					System.out.println(invoice_balance);
+					dueinvoice.setCurrency(currency);
+					dueinvoice.setAmcMaster(amcMaster);
+
+					amcDueInvoiceRepositiory.save(dueinvoice);
 				}
 			}
 		}

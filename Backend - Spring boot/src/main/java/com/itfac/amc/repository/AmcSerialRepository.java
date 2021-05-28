@@ -93,7 +93,7 @@ public interface AmcSerialRepository extends JpaRepository<AmcSerial, String> {
 	BigDecimal getRevanueCtgWise(@Param("date1") LocalDate date1, @Param("date2") LocalDate date2,@Param("category") String category);
 
 	// renevel amc counnt for client home
-	@Query(value = "select count(*) from renewal_amc where user_id = :user_id and renewal BETWEEN :Date1 AND :Date2", nativeQuery = true)
+	@Query(value = "select count(*) from renewal_amc ra, client c where ra.client_name = c.client_name and c.user_id = :user_id and renewal BETWEEN :Date1 AND :Date2", nativeQuery = true)
 	String getRenewalAmc(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2, @Param("user_id") String user_id );
 	
 	//receipt detaisl

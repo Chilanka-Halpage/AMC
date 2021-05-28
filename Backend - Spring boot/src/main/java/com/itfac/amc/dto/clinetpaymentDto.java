@@ -9,7 +9,6 @@ public interface clinetpaymentDto {
 	String getpay_mode();
 	String getcategory_name();
     String getpi_no();
-    int getdept_id();
     int getclient_id();
     Date getrec_date();
 }
