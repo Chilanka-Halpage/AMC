@@ -14,6 +14,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.itfac.amc.Exception.UserNotFoundException;
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.repository.UserRepository;
@@ -64,10 +66,8 @@ public class UserServiceImp implements UserService {
 		try {
 			sentPasswordAndUserId(Password, Email, UserId);
 		} catch (UnsupportedEncodingException e) {
-			System.out.println(e);
 			e.printStackTrace();
 		} catch (MessagingException e) {
-			System.out.println(e);
 			e.printStackTrace();
 		}
 		String ipAddress = httpServletRequest.getRemoteAddr();
@@ -116,9 +116,7 @@ public class UserServiceImp implements UserService {
 
 		String generatedString = random.ints(leftLimit, rightLimit + 1).limit(targetStringLength)
 				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
-		
-
-		return generatedString.toUpperCase();
+		  return generatedString.toUpperCase();
 	}
 
 	public String ranString() {
@@ -128,7 +126,6 @@ public class UserServiceImp implements UserService {
 	@Override
 	public void updateUser(User user, String userId) {
 		 User userr=userRepository.findByUserId(userId);
-		// userr.setUserId(userId);
 		 userr.setRole(user.getRole());
 		 userr.setActive(user.isActive());
 		 userRepository.save(userr);
@@ -205,10 +202,9 @@ public class UserServiceImp implements UserService {
 
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
-			//user.setResetPasswordToken(token);
 			userRepository.updateResetToken(token, email);
 		} else {
-			throw new UserNotFoundException();
+			throw new UserNotFoundException("Invalid email !");
 		}
 	}
 	@Override
@@ -227,11 +223,7 @@ public class UserServiceImp implements UserService {
 		String encodedPassword = passwordEncoder.encode(newPassword);
 		String userId=user.getUserId();
 		userRepository.updatePassword(encodedPassword, userId);
-		//String resetPasswordToken=user.getResetPasswordToken();
-		//user.setPassword(encodedPassword);
-
-		//user.setResetPasswordToken(null);
-		//userRepository.save(user);
+		
 	}
 
 }

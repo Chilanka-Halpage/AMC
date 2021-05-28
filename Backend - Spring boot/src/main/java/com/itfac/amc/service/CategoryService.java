@@ -21,4 +21,6 @@ public interface CategoryService {
 
 	Category AddCategory(Category category, HttpServletRequest httpServletRequest);
 
+	boolean doesCategoryExists(String categoryName);
+
 }

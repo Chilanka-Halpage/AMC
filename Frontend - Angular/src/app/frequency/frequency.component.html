@@ -11,21 +11,21 @@
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Frequency</mat-label>
         <input matInput formControlName="frequency">
-        <mat-error
-          *ngIf="frequencyAddForm.get('frequency').touched && frequencyAddForm.get('frequency').hasError('required')">
+        <mat-error *ngIf="!edit && frequencyAddForm.get('frequency').errors?.frequencyNameExists">frequency already exists </mat-error> 
+        <mat-error *ngIf="!edit && frequencyAddForm.get('frequency').touched && frequencyAddForm.get('frequency').hasError('required')">
           frequency is required
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="col-12 col-md-auto">
-        <mat-label>Inactive</mat-label>
+        <mat-label>status</mat-label>
         <mat-select formControlName="active">
           <mat-option [value]=true>Active</mat-option>
           <mat-option [value]=false>Inactive</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <button type="submit" *ngIf="!edit" mat-flat-button color="primary" (click)="onSubmit()" [disabled]="dataSavingProgress">
+      <button type="submit" *ngIf="!edit" mat-flat-button color="primary" (click)="onSubmit()" [disabled]="isDesabled">
         <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
         Create</button>
 
@@ -73,7 +73,7 @@
       </ng-container>
 
       <ng-container matColumnDef="active">
-        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Active </th>
+        <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Status </th>
         <td mat-cell *matCellDef="let element" class="px-2" class="align-middle"> {{(element.active)?"Active":"Inactive"}} </td>
       </ng-container>
 

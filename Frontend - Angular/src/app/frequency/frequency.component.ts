@@ -1,12 +1,17 @@
 import { FrequencyserviceService } from './../frequencyservice.service';
 import { Component, OnInit,ViewChild } from '@angular/core';
-import { ActivatedRoute,Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import {FormGroup,FormBuilder, Validators} from '@angular/forms';
+import {FormGroup,FormBuilder, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors} from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { AuthenticationService } from '../_helpers/authentication.service';
+import { Observable, of as observableOf } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { delay } from 'rxjs/internal/operators/delay';
+import { map } from 'rxjs/internal/operators/map';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-frequency',
@@ -17,7 +22,6 @@ export class FrequencyComponent implements OnInit {
 
   constructor(
     private _service: FrequencyserviceService,
-    private router: Router,
     private formBuilder:FormBuilder,
     private notificationService: NotificationService,
     private authService: AuthenticationService) { }
@@ -37,6 +41,10 @@ export class FrequencyComponent implements OnInit {
     listData: MatTableDataSource<any>;
     frequencyId:number;
     public isAuthorized: boolean;
+    public isDesabled= false;
+    private frequencyForm$: Observable<any>;
+    public type: any;
+    public errorMessage: "Unknown Error";
 
   displayedColumns: string[] = [
     'id', 
@@ -56,10 +64,11 @@ export class FrequencyComponent implements OnInit {
     this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
     this.frequencyAddForm=this.formBuilder.group(
       {
-        frequency:['',[Validators.required,Validators.pattern('^[A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]+$'),Validators.minLength(8)]],
+        frequency:['',[Validators.required,Validators.pattern(/(^0?[1-9]$)|(^1[0-2]$)/)],[this.existTaxValidator()]],
         active:['',[Validators.required]]
       }
     )
+    this.checkStatus();
  
 this._service.getFrequencyList().subscribe(
   list => {
@@ -67,14 +76,20 @@ this._service.getFrequencyList().subscribe(
     this.listData.sort= this.sort;
     this.listData.paginator=this.paginator;
     this.isLoadingResults = false;
-  });
+  }),
+  catchError( error => {
+    this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+    this.isLoadingResults = false;
+    // set flag to identify that errors ocuured
+    this.isRateLimitReached = true;
+    return observableOf([]);
+  })
 
 }
 
 
 editFrequencyList(row) {
 this.edit=true;
-console.log(row);
 this.frequencyId=row.frequencyId;
 this.frequencyAddForm.patchValue({
 frequency: row.frequency,
@@ -83,14 +98,13 @@ active: row.active
 }
 
 deleteFrequencyList(id: number) {
-console.log(id);
 this._service.deleteFrequency(id).subscribe(
     data => {
       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()}); 
     },
-    error => {
-      console.log(error);
-      this.notificationService.showNoitfication('Cannot delete a parent row: a foreign key constraint fails !', 'OK', 'error', null);
+    (error) => {
+      let message = (error.status === 0 || error.status === 403 || error.status === 401 || error.status === 501 || error.status == 400) ? error.error : 'Cannot proceed the request. Try again'
+      this.notificationService.showNoitfication(message, 'OK', 'error', null);
     }).add(()=>this.dataSavingProgress=false);  
 }
 
@@ -101,14 +115,12 @@ this._service
 .createFrequency(this.frequencyAddForm.value).subscribe(data => {
   this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
   this.dataSavingProgress = false;
-  console.log(data)
  
 }, 
-error => {
-  console.log(error);
-  let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
-  this.notificationService.showNoitfication(message, 'OK', 'error', null);
-}).add(()=>this.dataSavingProgress=false)}
+  (error) => {
+    let message = (error.status === 0 || error.status === 403 || error.status === 401 || error.status === 501 || error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
+    this.notificationService.showNoitfication(message, 'OK', 'error', null);
+  }).add(()=>this.dataSavingProgress=false)}
 else{
   this.notificationService.showNoitfication('invalid input', 'OK', 'error', () => {null});
 }
@@ -120,17 +132,16 @@ this.save();
 }
 
 onEdit(){
+  
   this.dataSavingProgress = true;
   this._service.updateFrequency(this.frequencyId,this.frequencyAddForm.value).subscribe(
     (result)=>{
       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
       this.dataSavingProgress = false;
-    }, error => {
-    console.log(error);
-    let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
-    this.notificationService.showNoitfication(message, 'OK', 'error', null);
-  }).add(()=>this.dataSavingProgress=false)
-  
+    }, (error) => {
+      const errMessage = (error.status === 0 || error.status === 400 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+    }).add(()=>this.dataSavingProgress=false) 
 }
 onSearchClear(){
   this.searchKey="";
@@ -139,6 +150,34 @@ onSearchClear(){
 
 applyFilter(){
   this.listData.filter=this.searchKey.trim().toLowerCase();
+}
+
+
+private checkStatus(): void {
+  this.frequencyForm$ = this.frequencyAddForm.statusChanges;
+  this.frequencyForm$.subscribe(response => {
+    if (response === 'PENDING') {
+      setTimeout(() => {
+        this.frequencyAddForm.updateValueAndValidity();
+      }, 2000);
+    }
+  })
+}
+
+private existTaxValidator():AsyncValidatorFn {
+  return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    if (!this.type) {
+      return of(control.value).pipe(
+        delay(500),
+        switchMap((frequency: string) => this._service.doesFrequencyExists(frequency)),
+        map(response => {
+         this.isDesabled=response;
+          return response ? { frequencyNameExists: true } : null
+        })
+      )
+    }
+    return of(null);
+  };
 }
 
 }
