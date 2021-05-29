@@ -34,7 +34,7 @@ export class InvoiceListComponent implements OnInit {
               private notificationService: NotificationService,
               private route: ActivatedRoute) { }
 
-  displayedColumns: string[] = ['piNo', 'piDate', 'exchageRate', 'totalTax', 'totalAmt', 'totalAmtLkr','Saved By','remark', 'Action'];
+  displayedColumns: string[] = ['pi_no', 'pi_date', 'exchage_rate', 'total_tax', 'total_amount', 'total_amount_lkr','Saved By','remark', 'Action'];
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;

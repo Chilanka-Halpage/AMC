@@ -34,4 +34,5 @@ export class CurrencyService {
   updatecurrency(currencyId: number, currency): Observable<Object>{
     return this.HttpClient.put(`${this.baseURL}Currency/updateCurrency/${currencyId}`,currency)
    }
+   
 }

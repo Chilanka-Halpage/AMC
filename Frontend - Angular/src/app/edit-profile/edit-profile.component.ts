@@ -41,7 +41,7 @@ export class EditProfileComponent implements OnInit {
   form = this.fb.group({
     current_password: ['', [Validators.required]],
     password: ['', [Validators.required,
-      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?#&])[A-Za-z\d$@$!%#*?&].{8,}')]],
+      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!*?&~|/])[A-Za-z\d$@$!*?&~|/].{8,}')]],
     confirm_password: ['', [Validators.required]]
   }, {
     validator: ConfirmedValidator('password', 'confirm_password')
@@ -104,14 +104,15 @@ export class EditProfileComponent implements OnInit {
         console.log(Response)
         this.matchCurrentPassword = Response;
         if(Response==true){
-          this.notificationService.showNoitfication('Successfully done', 'OK', 'success',null);
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success',null);
         }
-      }, (error) => {
+      },
+      (error) => {
         console.log("error", error);
-        let message = (error.status === 501 || error.status === 0 || error.status===401 || error.status===403) ? error.error.message : 'Cannot proceed the request. Try again'
-        
+        let message = (error.status === 501 || error.status === 0 || error.status===401 || error.status===403) ? error.error : 'Cannot proceed the request. Try again'
         this.notificationService.showNoitfication(message, 'OK', 'error', null);
-      })
+      }
+      )
   }
 
   //upload image-----------------------------------

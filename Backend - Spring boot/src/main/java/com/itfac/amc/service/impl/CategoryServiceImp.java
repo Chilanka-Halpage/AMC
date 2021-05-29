@@ -19,7 +19,6 @@ public class CategoryServiceImp implements CategoryService {
 
 	@Override
 	public List<Category> getAllCategory() {
-
 		List<Category> findAllCategory = categoryrepo.findAll();
 		return findAllCategory;
 	}
@@ -48,6 +47,11 @@ public class CategoryServiceImp implements CategoryService {
 		categoryy.setCategoryName(category.getCategoryName());
 		categoryy.setActive(category.isActive());
 		categoryrepo.save(categoryy);
+	}
+	
+	@Override
+	public boolean doesCategoryExists(String categoryName) {
+	 return categoryrepo.existsByCategoryName(categoryName);
 	}
 
 	@Override

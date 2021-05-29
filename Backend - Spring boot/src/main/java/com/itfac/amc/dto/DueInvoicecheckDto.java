@@ -7,7 +7,7 @@ public interface DueInvoicecheckDto {
 
 	String getpi_no();
 	LocalDate getpi_date();
-	int getfrequency();
+	String getfrequency();
 	BigDecimal gettotal_amount();
 	BigDecimal gettotal_payble_lkr();
 	int getcurrency_id();

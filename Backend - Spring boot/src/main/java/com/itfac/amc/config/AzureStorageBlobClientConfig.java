@@ -8,6 +8,7 @@ import com.azure.storage.blob.BlobClientBuilder;
 
 @Configuration
 public class AzureStorageBlobClientConfig {
+
 	@Value("${blob.connection-string}")
 	String connectionString;
 
@@ -21,4 +22,5 @@ public class AzureStorageBlobClientConfig {
 		client.containerName(containerName);
 		return client;
 	}
+
 }

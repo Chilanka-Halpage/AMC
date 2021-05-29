@@ -60,16 +60,30 @@ public class CategoryController {
 
 	@PostMapping("AddCategory")
 	public ResponseEntity<String> AddCategory(@Validated(OnCreate.class) @RequestBody Category category,HttpServletRequest httpServletRequest) {
+		try {
 		categoryservice.AddCategory(category,httpServletRequest);
 		return ResponseEntity.status(HttpStatus.OK).body("added successfull");
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 
 	}
 
 	@PutMapping("UpdateCategory/{id}")
 	public ResponseEntity<String> updateCategory(@PathVariable("id") int categoryId,@Validated(OnUpdate.class) @RequestBody Category category) {
+		try {
 		category.setCategoryId(categoryId);
 		categoryservice.updateCategory(category,categoryId);
 		return ResponseEntity.status(HttpStatus.OK).body("update successfull");
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@GetMapping("exists/{name}")
+	public ResponseEntity<Boolean> existsCategory(@PathVariable("name") String categoryName) {
+		boolean result = categoryservice.doesCategoryExists(categoryName);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("findActiveCategoy")

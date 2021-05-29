@@ -2,7 +2,7 @@ import { error } from '@angular/compiler/src/util';
 import { InvoiceService } from './../invoice.service';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import { delay } from 'rxjs/internal/operators/delay';
@@ -92,7 +92,7 @@ getdetails(){
     if(this.addinvoiceForm.valid){
     this.invoiceService.createInvoice(this.addinvoiceForm.value).subscribe(data =>{
       this.invoiceSavingProgress = true; 
-       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/adminhome']) });    
+       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.invoicelist() });    
       },
       error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null); }
@@ -177,8 +177,8 @@ loadtax(){
     totalAmtLkr:['',[Validators.required]],
     remark:['',[Validators.required]],
     taxApplicable:[''],
-    totalpayble:['',[Validators.required]],
-    totalpayblelkr:['',[Validators.required]],
+    totalPayble:['',[Validators.required]],
+    totalPaybleLkr:['',[Validators.required]],
     currencyName:[{value:'', disabled: true}]  ,
     categoryName:[{value:'', disabled: true}],
     clientDepartment:this.fb.group({
@@ -206,6 +206,19 @@ loadtax(){
          taxRate:[{value:'', disabled: true}] 
       })
   })
+    }
+    invoicelist(): void{
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          "data": JSON.stringify({
+            "id": this.deptId, 
+            "name": this.deptName,  
+            "serial":  this.serial,
+            "amc":  this.amc_no
+          })
+        }
+      };
+      this.router.navigate(['invoicelist'],navigationExtras);
     }
 }
 

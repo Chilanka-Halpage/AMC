@@ -1,3 +1,4 @@
+import { frequency } from './frequencyy';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -32,7 +33,9 @@ export class FrequencyserviceService {
   deleteFrequency(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}frequency/deleteFrequency/${id}`, { responseType: 'text' as "json" });
   }
-  
+  doesFrequencyExists(frequency: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseURL}frequency/exists/${frequency}`);
+  }
   
 
 }

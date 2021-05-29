@@ -21,4 +21,8 @@ public interface FrequencyService {
 
 	Frequency addFrequency(Frequency frequency, HttpServletRequest httpServletRequest);
 
+	boolean doesFrequencyExists(String frequency);
+
+	Frequency getByFrequency(Frequency frequency);
+
 }

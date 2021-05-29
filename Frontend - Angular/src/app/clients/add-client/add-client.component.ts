@@ -240,7 +240,6 @@ export class AddClientComponent implements OnInit {
     } else {
       this.scrollToFirstInvalidControl();
     }
-
   }
 
   //send edited department data to the backend for saving changes

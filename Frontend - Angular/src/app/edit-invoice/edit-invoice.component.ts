@@ -19,7 +19,7 @@ export class EditInvoiceComponent implements OnInit {
               private route: ActivatedRoute,) { }
 
   addinvoiceForm = this.fb.group({
-    piNo: [''],
+    piNo: [{value:'', disabled: true}],
     piDate: [''],
     exchageRate: [''],
     totalTax: [''],

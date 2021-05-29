@@ -1,8 +1,6 @@
 import { ProductserviceService } from './../productservice.service';
 import { Component, OnInit,ViewChild } from '@angular/core';
-import { product } from '../product';
-
-import { merge, Observable, of as observableOf } from 'rxjs';
+import { Observable, of as observableOf } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { delay } from 'rxjs/internal/operators/delay';
@@ -22,19 +20,16 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./productlist.component.css']
 })
 export class ProductlistComponent implements OnInit {
-  public isDesabled= false;
-  errorMessage: any;
   
   constructor(
     private _service: ProductserviceService,
-    private router: Router,
     private formBuilder:FormBuilder,
-    private route: ActivatedRoute,
     private notificationService: NotificationService,
     private authService: AuthenticationService
     ) { }
-    //public products: Observable<product[]>;
-   
+    
+    public isDesabled= false;
+    public errorMessage: "Unknown Error";
     private productForm$: Observable<any>;
     public type: any;
     public productAddForm: FormGroup;
@@ -72,7 +67,6 @@ export class ProductlistComponent implements OnInit {
   ngOnInit() {
     
     this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
-    
     this.productAddForm=this.formBuilder.group(
       {
         productName:['',[Validators.required],[this.existTaxValidator()], blur],
@@ -100,7 +94,6 @@ export class ProductlistComponent implements OnInit {
   editProductList(row) {
     this.edit=true;
     this.productId=row.productId;
-    console.log(row);
     this.productAddForm.patchValue({
     productName: row.productName,
     active: row.active
@@ -113,31 +106,34 @@ export class ProductlistComponent implements OnInit {
         data => {
           this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});  
         },
-        error => {
-          console.log(error);
-          this.notificationService.showNoitfication('Cannot delete a parent row: a foreign key constraint fails !', 'OK', 'error', null);
+        (error) => {
+          let message = (error.status === 0 || error.status === 403 || error.status === 401 || error.status === 501 || error.status == 400) ? error.error : 'Cannot proceed the request. Try again'
+          this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }).add(()=>this.dataSavingProgress=false);
   }
   save() {
+    if(this.productAddForm.valid){
     this.dataSavingProgress = true;
     this._service
     .createProduct(this.productAddForm.value).subscribe(data => {
       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
       this.dataSavingProgress = false;
-      console.log(data) 
     }, 
     (error) => {
-      let message = (error.status === 0 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
+      let message = (error.status === 0 || error.status === 403 || error.status === 401 || error.status === 501 || error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);
-    }).add(()=>this.dataSavingProgress=false)
+    }).add(()=>this.dataSavingProgress=false)}
+    else{
+      this.notificationService.showNoitfication('invalid input', 'OK', 'error', () => {null});
+    }
   }
 
   onSubmit() {
-    console.log(this.productAddForm);
     this.submitted = true;
     this.save();    
   }
   onEdit(){
+   
     this.dataSavingProgress = true;
     this._service.updateProduct(this.productId,this. productAddForm.value).subscribe(
       (result)=>{
@@ -147,10 +143,10 @@ export class ProductlistComponent implements OnInit {
       }, (error) => {
         const errMessage = (error.status === 0 || error.status === 400 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
         this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
-      }).add(()=>this.dataSavingProgress=false)   
+      }).add(()=>this.dataSavingProgress=false) 
+     
   }
   
-
   onSearchClear(){
     this.searchKey="";
     this.applyFilter();

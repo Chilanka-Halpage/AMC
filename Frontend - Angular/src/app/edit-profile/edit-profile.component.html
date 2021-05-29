@@ -11,13 +11,14 @@
       <!-- image -->
       <form action="">
         <div class="" style="height: 300px; width: 400px; background-color: rgb(255, 255, 255);">
-        <image-cropper [imageChangedEvent]="imageChangedEvent" (imageCropped)="imageCropped($event)"
-          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" >
-          <!-- <mat-spinner *ngIf="savingImage"></mat-spinner> -->
-          <mat-progress-bar *ngIf="savingImage" mode="determinate" value="40"></mat-progress-bar>
-        </image-cropper>
-        <div *ngIf="hideImage" style="height: 250px; width: 400px;  background-image: url(../../assets/uploadImage.jpg);"></div>
-      </div>
+          <image-cropper [imageChangedEvent]="imageChangedEvent" (imageCropped)="imageCropped($event)"
+            (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+            <!-- <mat-spinner *ngIf="savingImage"></mat-spinner> -->
+            <mat-progress-bar *ngIf="savingImage" mode="determinate" value="40"></mat-progress-bar>
+          </image-cropper>
+          <div *ngIf="hideImage"
+            style="height: 250px; width: 400px;  background-image: url(../../assets/uploadImage.jpg);"></div>
+        </div>
         <br>
         <input type="file" (click)="imageHiding()" (change)="fileChangeEvent($event)" />
         <br>
@@ -33,24 +34,27 @@
           <mat-form-field appearance="outline" class="col-6">
             <mat-label>Enter Contact Number</mat-label>
             <input matInput placeholder="contact person number" formControlName="contactNo">
-            <mat-error *ngIf="editProfileForm.get('contactNo').touched && editProfileForm.get('contactNo').errors?.required">This field
+            <mat-error
+              *ngIf="editProfileForm.get('contactNo').touched && editProfileForm.get('contactNo').errors?.required">This
+              field
               is required
-          </mat-error>
-          <mat-error
-            *ngIf="editProfileForm.get('contactNo').touched && !editProfileForm.get('contactNo').errors?.required && editProfileForm.get('contactNo').errors?.pattern">
-                Invalid input
-          </mat-error>
+            </mat-error>
+            <mat-error
+              *ngIf="editProfileForm.get('contactNo').touched && !editProfileForm.get('contactNo').errors?.required && editProfileForm.get('contactNo').errors?.pattern">
+              Invalid input
+            </mat-error>
           </mat-form-field>
           <mat-form-field appearance="outline" class="col-6">
             <mat-label>Enter your email</mat-label>
             <input matInput placeholder="Ex. abc@example.com" formControlName="email">
-            <mat-error *ngIf="editProfileForm.get('email').touched && editProfileForm.get('email').errors?.required">This field
+            <mat-error *ngIf="editProfileForm.get('email').touched && editProfileForm.get('email').errors?.required">
+              This field
               is required
-          </mat-error>
-          <mat-error
-            *ngIf="editProfileForm.get('email').touched && !editProfileForm.get('email').errors?.required && editProfileForm.get('email').errors?.pattern">
-                Invalid input
-          </mat-error>
+            </mat-error>
+            <mat-error
+              *ngIf="editProfileForm.get('email').touched && !editProfileForm.get('email').errors?.required && editProfileForm.get('email').errors?.pattern">
+              Invalid input
+            </mat-error>
           </mat-form-field>
         </div>
         <br>
@@ -73,60 +77,61 @@
               <button mat-stroked-button color="primary" class="">{{panelOpenState ? 'Close' : 'Edit'}}</button>
             </mat-panel-description>
           </mat-expansion-panel-header>
-                <form [formGroup]="form">
-                  <div class="row">
-                  <mat-form-field appearance="outline" class="col-4">
-                    <mat-label>Current Password</mat-label>
-                    <input matInput [type]="hide1 ? 'password' : 'text'" formControlName="current_password">
-                    <mat-error *ngIf="f.current_password.touched && f.current_password.invalid">
-                      <mat-error *ngIf="f.current_password.errors.required">Password is required.</mat-error>
-                    </mat-error>
-                    <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
-                      [attr.aria-pressed]="hide1">
-                      <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                  </mat-form-field>
-                </div>
-                <div class="row">
-                  <mat-form-field appearance="outline" class="col-4">
-                    <mat-label>New Password</mat-label>
-                    <input matInput [type]="hide2 ? 'password' : 'text'" formControlName="password">
-                    <mat-error *ngIf="f.password.touched && f.password.invalid">
-                      <mat-error *ngIf="f.password.errors.required">Password is required.</mat-error>
-                    </mat-error>
-                    <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'"
-                      [attr.aria-pressed]="hide2">
-                      <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                  </mat-form-field>
-                  <mat-error class="col-6"
-                    *ngIf="form.get('password').touched && !form.get('password').errors?.required 
-                    && form.get('password').errors?.pattern">
-                        Password must be atleast 8 characters long and atleast contain one lowercase,
-                        one uppercase, one number ane special character!
+          <div class="container">
+            <form [formGroup]="form">
+              <div class="row">
+                <mat-form-field appearance="outline" class="col-4">
+                  <mat-label>Current Password</mat-label>
+                  <input matInput [type]="hide1 ? 'password' : 'text'" formControlName="current_password">
+                  <mat-error *ngIf="f.current_password.touched && f.current_password.invalid">
+                    <mat-error *ngIf="f.current_password.errors.required">Password is required.</mat-error>
                   </mat-error>
-                </div>
-                <div class="row">
-                  <mat-form-field appearance="outline" class="col-4">
-                    <mat-label>Confirm Password</mat-label>
-                    <input matInput [type]="hide3 ? 'password' : 'text'" formControlName="confirm_password">
-                    <mat-error *ngIf="f.confirm_password.touched && f.confirm_password.invalid">
-                      <mat-error *ngIf="f.confirm_password.errors.required">Password is required.</mat-error>
-                      <mat-error *ngIf="f.confirm_password.errors.confirmedValidator">Password and Confirm Password must
-                        be match.</mat-error>
-                    </mat-error>
-                    <button mat-icon-button matSuffix (click)="hide3 = !hide3" [attr.aria-label]="'Hide password'"
-                      [attr.aria-pressed]="hide3">
-                      <mat-icon>{{hide3 ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                  </mat-form-field>
-                </div>
-                  <br>
-                  <mat-error *ngIf="!matchCurrentPassword">Current password is incorrect</mat-error>
-                  <br>
-                  <button class="btn btn-primary" type="submit" (click)="SubmitPassword()"
-                    [disabled]="!form.valid">Submit</button>
-                </form>
+                  <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide1">
+                    <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline" class="col-4">
+                  <mat-label>New Password</mat-label>
+                  <input matInput [type]="hide2 ? 'password' : 'text'" formControlName="password">
+                  <mat-error *ngIf="f.password.touched && f.password.invalid">
+                    <mat-error *ngIf="f.password.errors.required">Password is required.</mat-error>
+                  </mat-error>
+                  <button mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide2">
+                    <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                </mat-form-field>
+                <mat-error class="col-6" *ngIf="form.get('password').touched && !form.get('password').errors?.required 
+                    && form.get('password').errors?.pattern">
+                  Password must be atleast 8 characters long and atleast contain one lowercase,
+                  one uppercase, one number and special character!
+                </mat-error>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="outline" class="col-4">
+                  <mat-label>Confirm New Password</mat-label>
+                  <input matInput [type]="hide3 ? 'password' : 'text'" formControlName="confirm_password">
+                  <mat-error *ngIf="f.confirm_password.touched && f.confirm_password.invalid">
+                    <mat-error *ngIf="f.confirm_password.errors.required">Password is required.</mat-error>
+                    <mat-error *ngIf="f.confirm_password.errors.confirmedValidator">Password and Confirm Password must
+                      be match.</mat-error>
+                  </mat-error>
+                  <button mat-icon-button matSuffix (click)="hide3 = !hide3" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide3">
+                    <mat-icon>{{hide3 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+              <br>
+              <mat-error *ngIf="!matchCurrentPassword">Current password is incorrect</mat-error>
+              <br>
+              <button class="btn btn-primary" type="submit" (click)="SubmitPassword()"
+                [disabled]="!form.valid">Submit</button>
+            </form>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

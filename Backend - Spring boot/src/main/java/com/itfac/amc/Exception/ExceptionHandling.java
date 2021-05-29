@@ -55,6 +55,11 @@ public class ExceptionHandling {
 	public ResponseEntity<Object> resourceNotFoundExceptionHandler(Exception ex) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<Object> UserNotFoundExceptionHandler(Exception ex) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	}
 
 	@ExceptionHandler(ResourceCreationFailedException.class)
 	public ResponseEntity<Object> resourceCreationFailedExceptionHandler(Exception ex) {

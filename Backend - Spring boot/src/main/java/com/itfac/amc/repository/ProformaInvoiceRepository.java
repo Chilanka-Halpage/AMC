@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.itfac.amc.dto.DueInvoicecheckDto;
 import com.itfac.amc.dto.ProformaInvoiceDto;
 import com.itfac.amc.entity.ProformaInvoice;
+import com.itfac.amc.entity.Receipt;
 import com.itfac.amc.reportData.GetInvoice;
 
 @Repository
@@ -44,15 +45,11 @@ public interface ProformaInvoiceRepository extends JpaRepository<ProformaInvoice
 	
 	boolean existsById(String piNo);
 	
-	//dueinvoice check--------------------------------------------
-	//@Query(value = "select * from proforma_invoice where pi_no not in (select pi_no from receipt where rec_date = :date)", nativeQuery = true)
-   // List<ProformaInvoiceDto> checkdueInvoice(@Param("date") LocalDate date);
-	
 	@Query(value = "SELECT p.pi_date,p.pi_no,p.total_amount,p.total_payble_lkr,p.currency_id,p.amc_no, f.frequency from proforma_invoice p, frequency f where p.frequency_id = f.frequency_id", nativeQuery = true)
 	List<DueInvoicecheckDto> Proformainvoicecheck();
     
-	@Query(value = "SELECT EXISTS(select rec_no from receipt where pi_no = :piNo and rec_date BETWEEN :Date1 and :Date2) as truth", nativeQuery = true)
-    boolean checkdueInvoices(@Param("piNo") String pi_no,@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
+	@Query(value = "select rec_no from receipt where pi_no = :piNo and rec_date BETWEEN :Date1 and :Date2", nativeQuery = true)
+    Receipt checkdueInvoices(@Param("piNo") String pi_no,@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
 	
 	
 	// getInvoice-------------------------------------------

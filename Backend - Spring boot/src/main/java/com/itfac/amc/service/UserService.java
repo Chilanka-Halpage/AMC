@@ -7,9 +7,11 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
+
+import com.itfac.amc.Exception.UserNotFoundException;
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
-import com.itfac.amc.service.impl.UserNotFoundException;
+
 
 public interface UserService {
 	Optional<User> getUserById(String id);
