@@ -50,7 +50,7 @@
           <th mat-header-cell *matHeaderCellDef class="align-middle">AMC Start Date</th>
           <td mat-cell *matCellDef="let element" class="align-middle"> {{element.start_date}} </td>
         </ng-container>
-           <ng-container matColumnDef="active">
+        <ng-container matColumnDef="active">
           <th mat-header-cell *matHeaderCellDef class="align-middle">Status</th>
           <td mat-cell *matCellDef="let element" class="align-middle"> {{(element.active)? 'Active' : 'Inactive'}} </td>
         </ng-container>

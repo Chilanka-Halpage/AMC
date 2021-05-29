@@ -90,5 +90,5 @@ ClientDetailsJrReport(){
   }
 
   displayedColumns: string[] = ['user_id', 'client_name', 'amc_no', 'contact_person', 'contact_no', 'address',
-    'start_date', 'active',];
+     'start_date','active',];
 }
