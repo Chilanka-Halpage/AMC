@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 	public void addProformaInvoice(HttpServletRequest httpServletRequest, ProformaInvoice proformaInvoice) {
 		String ipAddress = httpServletRequest.getRemoteAddr();
 		proformaInvoice.setSavedIp(ipAddress);
+		proformaInvoice.setPiDate(DateUtils.addMinutes(proformaInvoice.getPiDate(), 330));
 		proformaInvoiceRepository.save(proformaInvoice);
 	}
 
@@ -76,6 +78,7 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 
 	@Override
 	public void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice) {
+		proformaInvoice.setPiDate(DateUtils.addMinutes(proformaInvoice.getPiDate(), 330));
 		proformaInvoiceRepository.save(proformaInvoice);
 
 	}

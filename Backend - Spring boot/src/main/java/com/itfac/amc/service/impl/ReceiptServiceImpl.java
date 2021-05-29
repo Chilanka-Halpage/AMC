@@ -4,13 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +34,12 @@ public class ReceiptServiceImpl implements ReceiptService {
 	}
 
 	public void addReceipt(HttpServletRequest httpServletRequest, Receipt receipt) {
+		receipt.setRecDate(DateUtils.addMinutes(receipt.getRecDate(), 330));
 		receiptRepository.save(receipt);
 		BigDecimal total = receipt.getTotal();
 		String amcNo = receipt.getAmcMaster().getAmcNo();
 		int deptId = receipt.getClientDepartment().getDeptId();
 		int currencyId = receipt.getCurrency().getCurrencyId();
-		//String piNo = receipt.getInvoice().getPiNo();
 		notificationServiceImpl.paymentNotification(deptId, currencyId, total, amcNo);
 	}
 
