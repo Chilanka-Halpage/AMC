@@ -16,7 +16,7 @@
 	<field name="rec_date" class="java.sql.Date"/>
 	<field name="currency_name" class="java.lang.String"/>
 	<field name="exchange_rate" class="java.math.BigDecimal"/>
-	<field name="mtc_amount_for_given_frequency_lkr" class="java.math.BigDecimal"/>
+	<field name="balance_lkr" class="java.math.BigDecimal"/>
 	<field name="rec_no" class="java.lang.String"/>
 	<field name="pay_mode" class="java.lang.String"/>
 	<field name="total_lkr" class="java.math.BigDecimal"/>
@@ -168,7 +168,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Mtc Amount for given frequency(lkr)]]></text>
+				<text><![CDATA[Balance LKR]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="640" y="0" width="80" height="30" forecolor="#006699" backcolor="#E6E6E6" uuid="0556c639-75d1-406e-b72c-7f106cf81517">
@@ -237,7 +237,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
+			<textField textAdjust="StretchHeight" pattern="MM/dd/yyyy">
 				<reportElement mode="Opaque" x="320" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="7e85ebf9-1c78-42d8-93cf-73ea31cd3408">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="55b15126-8082-4f4e-9cad-04eba8699773"/>
 				</reportElement>
@@ -271,7 +271,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{mtc_amount_for_given_frequency_lkr}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{balance_lkr}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
 				<reportElement mode="Opaque" x="640" y="5" width="80" height="30" backcolor="#E0FFFF" uuid="29382876-2464-4ae2-afc4-85ef68e62439">

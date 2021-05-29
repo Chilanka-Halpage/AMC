@@ -1,8 +1,10 @@
 package com.itfac.amc.service.impl;
+
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.itfac.amc.dto.UserNameDto;
 import com.itfac.amc.entity.User;
 import com.itfac.amc.repository.UserRepository;
@@ -160,7 +163,10 @@ public class UserServiceImp implements UserService {
 	@Override
 	public Boolean updatePassword(String current_password,String userId,User user) {
 		User resultUser = getUser(userId);
-		//String encodedCurrentPassword = encoder.encode(current_password);
+		String text1="User#1234";
+		System.out.println("--------------------------------------------------------");
+		System.out.println(current_password);
+		//String current_p=user.getUser(current_password);
 		Boolean doPasswordsMatch = doPasswordsMatch(current_password, resultUser.getPassword());
 		if(doPasswordsMatch==true) {
 			String encodedPassword = encoder.encode(user.getPassword());
@@ -172,7 +178,7 @@ public class UserServiceImp implements UserService {
 			return false;
 		}
 	}
-	//
+	
 	   public Boolean doPasswordsMatch(String current_password,String encodedPassword) {
 	      return passwordEcorder.matches(current_password, encodedPassword);
 	   }

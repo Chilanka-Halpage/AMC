@@ -11,7 +11,7 @@ public interface ClientPaymentsDetails {
 	public BigDecimal gettotal();
 	public BigDecimal getbalance();
 	public String getuser_id();
-	public String getamc_serial_no();
+	public String getpay_mode();
 	public Date getrec_date();
 	public String getdepartment_name();
 	public String getrec_no(); 
