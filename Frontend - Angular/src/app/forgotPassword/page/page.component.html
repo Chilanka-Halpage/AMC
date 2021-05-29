@@ -1,25 +1,10 @@
 <div style="background-image: url(assets/fo.png); width: 100%; height: 90%; background-repeat: no-repeat;">
 
-<div class="container">
-  <div class="header">
-    <strong><h1>Forgot your <br>Password ?</h1></strong>
-  <form [formGroup]="emailAddForm">
-    <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Enter Your Email</mat-label>
-        <input matInput formControlName="email" placeholder="Ex: pm@gmail.com">
-        <mat-error *ngIf="emailAddForm.get('email').hasError('required')">
-          Email is required
-        </mat-error>
-      </mat-form-field><br><br>
-      <button type="button" mat-flat-button color="primary" (click)="onSubmit()">
-        <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
-        Sent Reset Password Link</button>
-    </form>
-  </div>
-</div>
-</div>
-
-
+  <div class="container">
+    <div class="header">
+      <strong>
+        <h1>Forgot your <br>Password ?</h1>
+      </strong>
       <form [formGroup]="emailAddForm">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Enter Your Email</mat-label>
@@ -33,7 +18,5 @@
           Sent Reset Password Link</button>
       </form>
     </div>
-    <!-- </mat-card-content>
-  </mat-card> -->
   </div>
 </div>
