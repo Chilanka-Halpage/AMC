@@ -8,7 +8,7 @@ public interface RenewalAmcs {
 	public String getamc_no();
 	public String getamc_serial_no(); 
 	public Date getrenewal();
-	public String getconatact_no();
+	public String getcontact_no();
 	public String getclient_name();
 	public String getcategory_name();
 	public String getfrequency();
