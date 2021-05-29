@@ -85,6 +85,6 @@ export class ExpiredAmcsReportComponent implements OnInit {
       });
   }
 
-  displayedColumns: string[] = [ 'amc_no','mtc_end_date','category_name','client_name','contact_no','frequency',
-    'invoice_amount','total_value_lkr',];
+  displayedColumns: string[] = [ 'amc_no','mtc_end_date','renewal','client_name','category_name','contact_no','frequency',
+                                  'total_value_lkr',];
 }
