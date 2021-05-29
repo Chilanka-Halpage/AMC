@@ -3,10 +3,10 @@ export class PaymentsDetails {
 	department_name: String
 	client_name: String
 	product_name: String
-	frequency: String
+	rec_date: Date
 	currency_name: String
 	exchage_rate: number
-	mtc_amount_for_given_frequency_lkr: number
+	balance_lkr: number
 	rec_no: String
 	pay_mode: String
 	total_lkr: number

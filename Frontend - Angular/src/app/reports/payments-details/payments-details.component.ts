@@ -82,6 +82,6 @@ viewPdf() {
       this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
     });
 }
-displayedColumns: string[] = ['amc_no', 'client_name', 'department_name', 'product_name','frequency','currency_name',
-'exchange_rate','mtc_amount_for_given_frequency_lkr','rec_no','pay_mode','total_lkr'];
+displayedColumns: string[] = ['amc_no', 'client_name', 'department_name', 'product_name','rec_date','currency_name',
+'exchange_rate','balance_lkr','rec_no','pay_mode','total_lkr'];
 }

@@ -76,6 +76,6 @@ export class ClientPaymentDetailsComponent implements OnInit {
         this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
       });
   }
-  displayedColumns: string[] = ['amc_no','amc_serial_no', 'department_name', 'rec_date','rec_no',
-  'product_name','currency_name','exchange_rate','total','balance'];
+  displayedColumns: string[] = ['amc_no', 'department_name', 'rec_date','rec_no',
+  'product_name','currency_name','exchange_rate','pay_mode','total','balance'];
 }

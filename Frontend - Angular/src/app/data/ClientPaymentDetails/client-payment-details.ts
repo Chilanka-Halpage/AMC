@@ -1,6 +1,6 @@
 export class ClientPaymentDetails {
     amc_no : String
-	amc_serial_no : String
+	pay_mode : String
 	department_name : String
 	rec_date : Date
 	rec_no : String
