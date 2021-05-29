@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,8 +56,14 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 				ObjectMapper objectMapper = new ObjectMapper();
 				AmcSerial amcSerial = objectMapper.readValue(amcSerialData, AmcSerial.class);
 				amcSerial.setAmcMaster(amcMaster);
+				amcSerial.setMtcStartDate(DateUtils.addMinutes(amcSerial.getMtcStartDate(), 330));
+				amcSerial.setMtcEndDate(DateUtils.addMinutes(amcSerial.getMtcEndDate(), 330));
+				amcSerial.setRenewalDate(DateUtils.addMinutes(amcSerial.getRenewalDate(), 330));
+				
 				AmcProduct amcProduct = amcSerial.getAmcProduct();
 				amcProduct.setAmcMaster(amcMaster);
+				amcProduct.setLifeStartDate(DateUtils.addMinutes(amcProduct.getLifeStartDate(), 330));
+				amcProduct.setLifeEndDate(DateUtils.addMinutes(amcProduct.getLifeEndDate(), 330));
 				amcProductRepository.save(amcProduct);
 
 				// calculate AMC serial no.
@@ -176,7 +183,7 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 			// Save updated AMC master in DB
 			amcMasterRepository.save(amcMaster);
 
-			amcProduct.setLifeEndDate(lifeEndDate);
+			amcProduct.setLifeEndDate(DateUtils.addMinutes(lifeEndDate, 330));
 			// save updated AMC product in DB
 			amcProductRepository.save(amcProduct);
 
@@ -188,6 +195,9 @@ public class AmcSerialServiceImpl implements AmcSerialService {
 			String contractUrl = fileStorageService.upload(file, renewesAmcSerialNo);
 			amcSerial.setAmcSerialNo(renewesAmcSerialNo);
 			amcSerial.setAmcMaster(amcMaster);
+			amcSerial.setMtcStartDate(DateUtils.addMinutes(amcSerial.getMtcStartDate(), 330));
+			amcSerial.setMtcEndDate(DateUtils.addMinutes(amcSerial.getMtcEndDate(), 330));
+			amcSerial.setRenewalDate(DateUtils.addMinutes(amcSerial.getRenewalDate(), 330));
 			amcSerial.setContractUrl(contractUrl);
 			amcSerialRepository.save(amcSerial);
 		} catch (Exception ex) {

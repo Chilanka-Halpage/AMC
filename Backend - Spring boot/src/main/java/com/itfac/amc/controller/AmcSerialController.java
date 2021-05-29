@@ -1,6 +1,5 @@
 package com.itfac.amc.controller;
 
-import java.io.IOException;
 import java.net.URLConnection;
 import java.util.List;
 

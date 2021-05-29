@@ -7,6 +7,9 @@ h2 {
   width: 100%;
 }
 
-
-
-
+@media screen and (max-width: 480px) {
+  .wrapper {
+    overflow: auto;
+    width: 100vw;
+  }
+}

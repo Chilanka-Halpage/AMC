@@ -35,27 +35,27 @@
   border-radius: 70%;
   margin-left: 30px;
   background-image: url(../../assets/backgroundimage.jpg);
-    background-size: cover;
+  background-size: cover;
 }
 
 ::ng-deep .width {
   width: 200px;
 }
 
-.footer{
- margin-bottom:0px;
- text-align: center;
- vertical-align:middle;
+.footer {
+  margin-bottom: 0px;
+  text-align: center;
+  vertical-align: middle;
 }
 
-.active{
+.active {
   color: #ffffff;
-  background-color: #0C5DF4;
+  background-color: #0c5df4;
 }
 
-.selected{
+.selected {
   color: #ffffff;
-  background-color:lightgray;
+  background-color: lightgray;
 }
 
 mat-panel-title {
@@ -65,6 +65,30 @@ mat-panel-title {
 
 .active-list-item {
   background-color: #a6b3ff !important;
+}
+@media screen and (max-width: 480px) {
+  .toolbar {
+    overflow: auto;
+    width: 100vw;
+  }
+  .text-white {
+    font-size: small;
+  }
+  .button-text {
+    padding-left: 0px;
+    margin-left: 0px;
+    font-size: small;
+  }
+  .avatar {
+    vertical-align: middle;
+    width: 35px;
+    height: 40px;
+    border-radius: 70%;
+    margin-left: 0px;
+    margin-right: 0px;
+    background-image: url(../../assets/backgroundimage.jpg);
+    background-size: cover;
+  }
 }
 
 /* button:hover{

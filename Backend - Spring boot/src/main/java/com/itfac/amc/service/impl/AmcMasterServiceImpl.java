@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,7 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 			int lastNo = (receivedLastNo != null) ? (Integer.parseInt(receivedLastNo)) + 1 : 1;
 			String amcNo = currentYear + lastNo;
 
+			amc.setStartDate(DateUtils.addMinutes(amc.getStartDate(), 330));
 			amc.setClient(client);
 			amc.setAmcNo(amcNo);
 			amc.setLastModifiedIp(ipAddress);
@@ -63,7 +65,6 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 			// update amc_number table by inserting new last_no
 			amcMasterRepository.setAmcNo(currentYear, lastNo);
 			AmcMaster returnedAmc = amcMasterRepository.save(amc);
-
 			return returnedAmc.getAmcNo();
 		} catch (Exception ex) {
 			throw new ResourceCreationFailedException("Cannot save data in the system", ex.getCause());
@@ -138,8 +139,8 @@ public class AmcMasterServiceImpl implements AmcMasterService {
 			amcHistoryRepository.save(amcHistory);
 		}
 		// -----------------------------------------------------------------
-
-		amc.setStartDate(amcMaster.getStartDate());
+		System.out.println(amcMaster.getStartDate());
+		amc.setStartDate(DateUtils.addMinutes(amcMaster.getStartDate(), 330));
 		amc.setActive(amcMaster.isActive());
 		amc.setTotalValue(amcMaster.getTotalValue());
 		amc.setTotalValueLkr(amcMaster.getTotalValueLkr());
