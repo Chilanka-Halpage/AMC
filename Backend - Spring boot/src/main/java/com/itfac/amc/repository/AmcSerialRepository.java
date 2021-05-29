@@ -43,7 +43,7 @@ public interface AmcSerialRepository extends JpaRepository<AmcSerial, String> {
 	Optional<AmcFullDataDto> getAmcFullDataByAmcSerialNo(@Param("amcSerialNo") String amcSerialNo);
 
 	// All AMCs details--------------------
-	@Query(value = "select * from get_all_amc where start_date BETWEEN :Date1 AND :Date2", nativeQuery = true)
+	@Query(value = "select * from get_all_amc where start_date BETWEEN :Date1 AND :Date2 AND active = true", nativeQuery = true)
 	List<AllAmcs> getAllAmc(@Param("Date1") LocalDate date1, @Param("Date2") LocalDate date2);
 	
 	// All AMCs details category wise--------------------
