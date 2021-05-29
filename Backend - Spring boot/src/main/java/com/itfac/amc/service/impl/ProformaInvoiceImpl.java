@@ -77,7 +77,6 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 	@Override
 	public void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice) {
 		proformaInvoiceRepository.save(proformaInvoice);
-
 	}
 
 	@Override
