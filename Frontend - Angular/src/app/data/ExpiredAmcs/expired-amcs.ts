@@ -5,6 +5,6 @@ export class ExpiredAmcs {
 	client_name : String
 	contact_no : String
 	frequency : String
-	invoice_amount : number
+	renewal : number
 	total_value_lkr : number
 }

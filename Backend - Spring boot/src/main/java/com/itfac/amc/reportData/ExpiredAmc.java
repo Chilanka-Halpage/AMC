@@ -10,7 +10,7 @@ public interface ExpiredAmc {
 	public String getclient_name();
 	public String getcontact_no();
 	public String getfrequency();
-	public BigDecimal getinvoice_amount();
+	public Date getrenewal();
 	public BigDecimal gettotal_value_lkr();
 	public Date getmtc_end_date();
 }
