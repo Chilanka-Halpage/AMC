@@ -31,7 +31,9 @@ export class CategoryserviceService {
   deleteCategory(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}category/deleteCategory/${id}`, { responseType: 'text' });
   }
-  
+  doesCategoryExists(categoryName: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseURL}category/exists/${categoryName}`);
+  }
   
 
 }

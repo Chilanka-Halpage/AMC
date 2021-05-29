@@ -14,5 +14,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>{
 	List<Category> getActiveCategory ();
 	
 	Category findByCategoryId(int categoryId);
+	
+	boolean existsByCategoryName(String categoryName);
 
 }

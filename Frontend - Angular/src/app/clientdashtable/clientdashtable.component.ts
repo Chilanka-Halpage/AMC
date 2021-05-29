@@ -29,7 +29,7 @@ export class ClientdashtableComponent implements OnInit {
                private _authservice: AuthenticationService,
                private datePipe: DatePipe,) { }
 
-  displayedColumns:string[] = ['recNo','recDate','payMode','balance','Category','pi_no'];
+  displayedColumns:string[] = ['rec_no','rec_date','payMode','balance','Category','pi_no'];
 
   @ViewChild(MatSort) sort: MatSort;  
   @ViewChild(MatPaginator) paginator: MatPaginator;

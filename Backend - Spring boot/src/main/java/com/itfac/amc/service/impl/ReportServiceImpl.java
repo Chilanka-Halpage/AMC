@@ -217,7 +217,7 @@ public class ReportServiceImpl implements ReportService {
 			return revenue;}
 		}
 
-	//renewel amc count
+	//renewel amc count for client
 	@Override
 	public String getRenewalAmc(LocalDate Date1, LocalDate Date2, String user_id) {
 		return  amcSerialRepository.getRenewalAmc(Date1, Date2, user_id);

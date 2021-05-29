@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-due-payment',
@@ -24,10 +25,11 @@ export class DuePaymentComponent implements OnInit {
   constructor(
     public duePaymentService: DuePaymentService,
     public router: Router,
-    public _authentication: AuthenticationService
+    public _authentication: AuthenticationService,
+    private notificationService: NotificationService
   ) { }
 
-  displayedColumns:string[] = ['id','dueDate','invoiceAmt','amc_no','payblelkr','currency_id','Action'];
+  displayedColumns:string[] = ['id','due_date','invoice_amount','amc_no','invoice_payble_lkr','currency_id','Action'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -66,11 +68,15 @@ export class DuePaymentComponent implements OnInit {
   }
   }
 
-  deletedueinvoice(id: number){ console.log(id);
+  deletedueinvoice(id: number){ 
   this.duePaymentService.deletedueinvoice(id).subscribe(data =>{
-    console.log(data);
-    this.getDuepayemt();
-  })
+    this.notificationService.showNoitfication('Successfully delete', 'OK', 'success', () => {  
+    this.getDuepayemt();  });
+       
+  },
+  error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+);
 }
 
   applyFilter(filterValue: string) {

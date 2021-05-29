@@ -77,16 +77,16 @@ getTaxRate(id: number): Observable<any>{
 }
 totalpayble(form: FormGroup){
   form.get('totalAmt').valueChanges.subscribe((value: number) => {
-    const totalpayble = form.get('totalTax').value + value
-    form.patchValue({ totalpayble: totalpayble });
-    const totalpayblelkr = form.get('exchageRate').value * totalpayble
-    form.patchValue({ totalpayblelkr: totalpayblelkr });
+    const totalPayble = form.get('totalTax').value + value
+    form.patchValue({ totalPayble: totalPayble });
+    const totalPayblelkr = form.get('exchageRate').value * totalPayble
+    form.patchValue({ totalPayblelkr: totalPayblelkr });
   });
   form.get('totalTax').valueChanges.subscribe((value: number) => {
-    const totalpayble = form.get('totalAmt').value + value;
-    form.patchValue({ totalpayble: totalpayble });
-    const totalpayblelkr = form.get('exchageRate').value * totalpayble
-    form.patchValue({ totalpayblelkr: totalpayblelkr });
+    const totalPayble = form.get('totalAmt').value + value;
+    form.patchValue({ totalPayble: totalPayble });
+    const totalPayblelkr = form.get('exchageRate').value * totalPayble
+    form.patchValue({ totalPaybleLkr: totalPayblelkr });
   })
 }
 

@@ -1,5 +1,6 @@
 package com.itfac.amc.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public interface DueInvoiceDto {
@@ -9,6 +10,6 @@ public interface DueInvoiceDto {
 	int getinvoice_amount();
 	String getamc_no();
 	int getcurrency_id();
-	int getinvoice_payble_lkr();
+	BigDecimal getinvoice_payble_lkr();
 	
 }

@@ -33,7 +33,7 @@ public interface ReceiptRepository extends JpaRepository<Receipt, String> {
 	BigDecimal TotalrevanuelastYear(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
     
 	//find detail by clientId
-	@Query(value = "SELECT r.rec_no,r.balance,r.pay_mode,c.category_name,r.pi_no,d.dept_id,t.client_id,r.rec_date from receipt r,client_department d,category c,client t  where r.client_dept_id = d.client_id and d.client_id = t.client_id and r.category_id = c.category_id and user_id = :client_id", nativeQuery = true)
+	@Query(value = "SELECT r.rec_no,r.balance,r.pay_mode,c.category_name,r.pi_no,t.client_id,r.rec_date from receipt r,amc_master am,category c,client t  where r.amc_no = am.amc_no and am.client_id = t.client_id and r.category_id = c.category_id and t.user_id = :client_id", nativeQuery = true)
 	List<clinetpaymentDto> getReceiptbyClientId( @Param("client_id") String user_id);
 
 	boolean existsById(String piNo);

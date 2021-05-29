@@ -166,10 +166,11 @@ public class ReportController {
 
 	// renewel amc for clinet
 	@GetMapping("/dashboard/RenewelAmccountC/{id}/{Date1}/{Date2}")
-	public String getRenewalAmc(
+	ResponseEntity<String> getRenewalAmc(
 			@PathVariable("id") String id,
 			@PathVariable(value = "Date1") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date1,
 			@PathVariable(value = "Date2") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate Date2) {
-		return reportService.getRenewalAmc(Date2, Date1, id);
+		String result = reportService.getRenewalAmc(Date2, Date1, id);
+	    return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 }

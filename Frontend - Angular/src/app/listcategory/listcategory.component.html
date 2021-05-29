@@ -7,20 +7,21 @@
       <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>Category name</mat-label>
         <input matInput placeholder="Ex. software" formControlName="categoryName">
-        <mat-error *ngIf="categoryAddForm.get('categoryName').touched && categoryAddForm.get('categoryName').hasError('required')">
+        <mat-error *ngIf="!edit && categoryAddForm.get('categoryName').errors?.categoryNameExists">category already exists </mat-error>
+        <mat-error *ngIf="!edit && categoryAddForm.get('categoryName').touched && categoryAddForm.get('categoryName').hasError('required')">
           category name is required
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="col-12 col-md-auto">
-        <mat-label>Inactive</mat-label>
+        <mat-label>Status</mat-label>
         <mat-select formControlName="active">
           <mat-option  [value]=true>Active</mat-option>
           <mat-option [value]=false>Inactive</mat-option>
         </mat-select>
       </mat-form-field>
       
-      <button *ngIf="!edit" mat-flat-button type="submit"  color="primary" (click)="onSubmit()" [disabled]="dataSavingProgress">
+      <button *ngIf="!edit" mat-flat-button type="submit"  color="primary" (click)="onSubmit()" [disabled]="isDesabled">
         <span *ngIf="dataSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
         Create</button>
       
@@ -67,7 +68,7 @@
       </ng-container>
 
       <ng-container matColumnDef="active">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Active </th>
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="align-middle"> Status </th>
           <td mat-cell *matCellDef="let element" class="px-2" class="align-middle"> {{(element.active)?"Active":"Inactive"}} </td>
       </ng-container>
 

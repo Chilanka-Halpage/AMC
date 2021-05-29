@@ -59,8 +59,14 @@ public class FrequencyController {
 
 	@PostMapping("AddFrequency")
 	public ResponseEntity<String> addFrequency(@Validated(OnCreate.class) @RequestBody Frequency frequency,HttpServletRequest httpServletRequest) {
+		Frequency frequencyy=frequencyservice.getByFrequency(frequency);
+		if(frequencyy == null) {
 		frequencyservice.addFrequency(frequency,httpServletRequest);
 		return ResponseEntity.status(HttpStatus.OK).body("added successfull"); 
+		}else {
+			return ResponseEntity.badRequest().body("Frequency already exist.");
+		}
+		
 	}
 
 	@PutMapping("updateFrequency/{id}")
@@ -68,6 +74,13 @@ public class FrequencyController {
 		 frequencyservice.updateFrequency(frequency,frequencyId);
 		 return ResponseEntity.status(HttpStatus.OK).body("update successfull");
 	}
+	
+	@GetMapping("exists/{name}")
+	public ResponseEntity<Boolean> existsFrequency(@PathVariable("name") String frequency) {
+		boolean result = frequencyservice.doesFrequencyExists(frequency);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+	
 	@GetMapping("findActiveFrequency")
 	public List<Frequency> getActiveFrequency() {
 		return frequencyservice.getActiveFrequency();

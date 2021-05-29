@@ -1,7 +1,6 @@
 package com.itfac.amc.service;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import com.itfac.amc.reportData.GetInvoice;
 import com.itfac.amc.reportData.PaymentReport;
 import com.itfac.amc.reportData.RenewalAmcs;
 import com.itfac.amc.reportData.RenewedAmcs;
-import com.itfac.amc.reportData.viewLoginDetails;
 
 public interface ReportService {
 

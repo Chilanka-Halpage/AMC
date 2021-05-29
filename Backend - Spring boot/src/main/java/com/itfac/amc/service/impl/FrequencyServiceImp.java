@@ -39,9 +39,16 @@ public class FrequencyServiceImp implements FrequencyService {
 
 	@Override
 	public Frequency addFrequency(Frequency frequency,HttpServletRequest httpServletRequest) {
+		String frequencyy= frequency.getFrequency();
+		frequency.setFrequency(frequencyy+" "+"months");
 		String ipAddress = httpServletRequest.getRemoteAddr();
 		frequency.setSavedIp(ipAddress);
 		return frequencyrepo.save(frequency);
+	}
+	@Override
+	public Frequency getByFrequency(Frequency frequency) {
+		String frequencyy= frequency.getFrequency();
+		return frequencyrepo.findByFrequency(frequencyy+" "+"months");
 	}
 
 	@Override
@@ -50,6 +57,12 @@ public class FrequencyServiceImp implements FrequencyService {
 		frequencyy.setFrequency(frequency.getFrequency());
 		frequencyy.setActive(frequency.isActive());
 		 frequencyrepo.save(frequencyy);
+	}
+	
+	@Override
+	public boolean doesFrequencyExists(String frequency) {
+	 return frequencyrepo.existsByFrequency(frequency);
+	
 	}
 
 	@Override

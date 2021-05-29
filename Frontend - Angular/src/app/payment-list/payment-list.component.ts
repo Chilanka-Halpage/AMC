@@ -1,5 +1,5 @@
 import { PaymentService } from './../payment.service';
-import { Router } from '@angular/router';
+import { Router, Data } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -21,7 +21,7 @@ export class PaymentListComponent implements OnInit {
 
   constructor(private paymentService: PaymentService , private Router: Router) { }
 
-  displayedColumns:string[] = ['recNo','recDate','exchageRate','payMode','client_dept','balance','totalLkr','balanceLkr','pi_no'];
+  displayedColumns:string[] = ['rec_no','rec_date','pi_no','exchage_rate','pay_mode','balance','total_lkr','balance_lkr'];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -46,5 +46,4 @@ export class PaymentListComponent implements OnInit {
     this.payments.filter = filterValue.trim().toLowerCase();
   }
     
-
 }

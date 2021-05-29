@@ -35,13 +35,10 @@ export class PageComponent implements OnInit {
     this._service.sentEmail(this.emailAddForm.value).subscribe(data => {
       this.notificationService.showNoitfication('We have sent reset password link to your email. Please check!', 'OK', 'success', () => { null});
       this.dataSavingProgress = false;
-      console.log(data);
-      console.log("check email");
       
     },
-    error => {
-      console.log(error);
-      let message = (error.status === 200) ? error.error.message : 'Cannot proceed the request. Try again'
+    (error) => {
+      let message = (error.status === 0 || error.status === 403 || error.status === 401 || error.status === 501 || error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);
     }).add(()=>this.dataSavingProgress=false)
 
