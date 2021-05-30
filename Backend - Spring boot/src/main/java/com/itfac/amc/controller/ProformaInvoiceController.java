@@ -42,6 +42,12 @@ public class ProformaInvoiceController {
 		proformaInvoiceService.addProformaInvoice(httpServletRequest, proformaInvoice);
 		return ResponseEntity.ok("Succesfully added");
 	}
+	
+	@PutMapping("/editinvoice/{id}")
+	ResponseEntity<String> updateAmcDueInvoice(HttpServletRequest httpServletRequest,@PathVariable("id") String piNo,@RequestBody ProformaInvoice proformaInvoice)throws Exception {
+		 proformaInvoiceService.updateProformainvoiceInvoice(httpServletRequest,piNo,proformaInvoice);	
+		return ResponseEntity.ok("Succesfully edited");	
+}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "deleteinvoice/{id}")
 	public ResponseEntity<String> deleteInvoice(@PathVariable("id") String piNo)throws Exception {
@@ -49,7 +55,7 @@ public class ProformaInvoiceController {
 		     return ResponseEntity.ok().body("succesfully delete");
 		}
 		 catch(Exception e) {
-			   return ResponseEntity.badRequest().body(e.getMessage());
+			 return ResponseEntity.badRequest().body("can not delete,The Invoice Already in use");
 		}
 	}
 
@@ -80,12 +86,6 @@ public class ProformaInvoiceController {
 			}
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).header("Des", "No invoice with entered amcNo " + amcNo)
 					.body(activeinvoice);
-	}
-	
-	@PutMapping("/editinvoice/{id}")
-		ResponseEntity<String> updateAmcDueInvoice(@RequestBody ProformaInvoice proformaInvoice)throws Exception {
-			 proformaInvoiceService.updateProformainvoiceInvoice(proformaInvoice);	
-			return ResponseEntity.ok("Succesfully edited");	
 	}
 	
 	@GetMapping("exists/{piNo}")
