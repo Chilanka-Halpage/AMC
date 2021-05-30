@@ -67,7 +67,7 @@ public interface AmcSerialRepository extends JpaRepository<AmcSerial, String> {
 	List<ExpiredAmc> getExpiredAmcs(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
 
 	// Full details report-------------------------------------
-	@Query(value = "select * from full_details_report where mtc_start_date BETWEEN :Date1 AND :Date2", nativeQuery = true)
+	@Query(value = "select * from full_details_report where mtc_start_date BETWEEN :Date1 AND :Date2  AND active = true", nativeQuery = true)
 	List<FullDetailsReport> getFullDetails(@Param("Date1") LocalDate Date1, @Param("Date2") LocalDate Date2);
 
 	// Payment Details report----------------------------------------

@@ -41,7 +41,7 @@ export class EditProfileComponent implements OnInit {
   form = this.fb.group({
     current_password: ['', [Validators.required]],
     password: ['', [Validators.required,
-      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!*?&~|/])[A-Za-z\d$@$!*?&~|/].{8,}')]],
+      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!*?&~|/][^/%#])[A-Za-z\d$@$!*?&~|/].{8,}')]],
     confirm_password: ['', [Validators.required]]
   }, {
     validator: ConfirmedValidator('password', 'confirm_password')
