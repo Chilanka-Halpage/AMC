@@ -65,7 +65,7 @@ export class AddClientComponent implements OnInit {
       deptId: [''],
       departmentName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s.]+$/)], [this.deptExistsValidator()]],
       email: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
-      contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
+      contactNo: ['', [Validators.required, Validators.pattern(/^((0[1-9][0-9]{8})|(\+[0-9]{1,3}[1-9][0-9]{8,}))$/)]],
       contactPerson: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s.]+$/)]],
       active: [true]
     });
