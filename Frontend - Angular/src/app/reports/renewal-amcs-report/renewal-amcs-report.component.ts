@@ -85,6 +85,6 @@ export class RenewalAmcsReportComponent implements OnInit {
     this.renewalAmcs.filter = filterValue.trim().toLowerCase();
   }
 
-  displayedColumns: string[] = [ 'amc_no','amc_serial_no','renewal','client_name','department_name','conatact_no',
+  displayedColumns: string[] = [ 'amc_no','amc_serial_no','renewal','client_name','department_name','contact_no',
   'category_name','frequency','currency_name','total_value_lkr','mtc_qty', ];
 }

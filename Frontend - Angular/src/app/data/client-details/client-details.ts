@@ -5,8 +5,7 @@ export class ClientDetails {
 	address :string
 	active :boolean
 	amc_no :string
-	start_date :Date
+	start_date : Date
     client_name : String
-
 }
 
