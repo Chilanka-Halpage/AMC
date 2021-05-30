@@ -46,7 +46,7 @@ export class AmcSerialListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN' || this.authService.role === 'ROLE_AMC_COORDINATOR') ? true : false;
     if (this.authService.role === 'ROLE_CLIENT')
       this.isBlocked = true;
     this.activatedRoute.queryParams.subscribe(params => {

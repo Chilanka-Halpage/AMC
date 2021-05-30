@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, Data } from '@angular/router';
 import { InvoiceService } from '../invoice.service';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-edit-invoice',
@@ -12,37 +13,39 @@ export class EditInvoiceComponent implements OnInit {
 
   piNo: number;
   showme:boolean=false;
+  public invoiceSavingProgress = false;
 
   constructor(private invoiceService: InvoiceService,
               private router: Router,
               private fb: FormBuilder,           
-              private route: ActivatedRoute,) { }
+              private route: ActivatedRoute,
+              private notificationService: NotificationService,) { }
 
   addinvoiceForm = this.fb.group({
     piNo: [{value:'', disabled: true}],
-    piDate: [''],
-    exchageRate: [''],
-    totalTax: [''],
-    totalAmt: [''],
-    totalAmtLkr: [''],
+    piDate: ['',[Validators.required]],
+    exchageRate: ['',[Validators.required]],
+    totalTax: ['',[Validators.required]],
+    totalAmt: ['',[Validators.required]],
+    totalAmtLkr: ['',[Validators.required]],
     remark: [''],
     taxApplicable: [''],
     cancel: [''],
     cancelReason: [''],
     clientDepartment: this.fb.group({
-      deptId: ['']
+      deptId: [{value:'', disabled: true}]
     }),
     category: this.fb.group({
-      categoryId: ['']
+      categoryId: [{value:'', disabled: true}]
     }),
     amcMaster: this.fb.group({
-      amcNo: ['']
+      amcNo: [{value:'', disabled: true}]
     }),
     currency: this.fb.group({
-      currencyId: ['']
+      currencyId: [{value:'', disabled: true}]
     }),
     frequency: this.fb.group({
-      frequencyId: ['']
+      frequencyId: [{value:'', disabled: true}]
     })
   })
 
@@ -59,10 +62,16 @@ export class EditInvoiceComponent implements OnInit {
         remark:data.remark,
         product:{ productId:data.product_id},
         currency:{ currencyId:data.currency_id},
-        amcSerial:{ amcSerialNo:data.amc_serialno}
+        amcSerial:{ amcSerialNo:data.amc_serialno},
+        clientDepartment:{deptId:data.client_dept_id},
+        category:{categoryId:data.category_id},
+        amcMaster:{amcNo:data.amc_no},
+        frequency:{frequencyId:data.frequency_id}
        })
        },
-    error => console.log(error));
+       error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+       this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+       );
   }
    
   Showtoggle(){
@@ -70,7 +79,21 @@ export class EditInvoiceComponent implements OnInit {
   }
 
   onSubmit(){
-
+    if(this.addinvoiceForm.valid){
+    this.invoiceSavingProgress = true;
+    this.invoiceService.updateInvoice(this.piNo,this.addinvoiceForm.value).subscribe(
+      data => {
+       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {  });
+       this.invoiceSavingProgress = false;
+    },
+    error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+    this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+    );
+    }
+      else{
+        this.invoiceSavingProgress = false;
+      }
+      
   }
 
 }

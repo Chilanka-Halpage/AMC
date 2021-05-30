@@ -80,7 +80,6 @@ getdetails(){
     })
 }
   onSubmit(){
-    console.log(this.addinvoiceForm.value);
     this.saveInvoice(); 
   }
 
