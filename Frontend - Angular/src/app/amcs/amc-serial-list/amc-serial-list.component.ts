@@ -33,6 +33,7 @@ export class AmcSerialListComponent implements OnInit {
   public isRateLimitReached = false;
   public errorMessage = "Unknown Error"
   public isBlocked = false;
+  public isAuthorized: boolean;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -45,6 +46,7 @@ export class AmcSerialListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
     if (this.authService.role === 'ROLE_CLIENT')
       this.isBlocked = true;
     this.activatedRoute.queryParams.subscribe(params => {

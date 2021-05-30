@@ -56,10 +56,10 @@
                     <button mat-icon-button color="accent" (click)="onSelect(element)" title="Full Data">
                         <mat-icon>description</mat-icon>
                     </button>
-                    <button mat-icon-button color="accent" (click)="gotoinvoice(element)" title="Invoice List">
+                    <button mat-icon-button color="accent" [hidden]="!isAuthorized" (click)="gotoinvoice(element)" title="Invoice List">
                         <mat-icon>view_list</mat-icon>
                     </button>
-                    <button mat-icon-button color="accent" (click)="createinvoice(element)" title="create invoice" >
+                    <button mat-icon-button color="accent" [hidden]="!isAuthorized" (click)="createinvoice(element)" title="create invoice" >
                         <mat-icon>add</mat-icon>
                     </button>
                 </td>

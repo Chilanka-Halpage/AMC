@@ -90,8 +90,9 @@ getdetails(){
 
   saveInvoice(){ 
     if(this.addinvoiceForm.valid){
+      this.invoiceSavingProgress = true;
     this.invoiceService.createInvoice(this.addinvoiceForm.value).subscribe(data =>{
-      this.invoiceSavingProgress = true; 
+      this.invoiceSavingProgress = false; 
        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.invoicelist() });    
       },
       error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
