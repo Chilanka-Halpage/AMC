@@ -26,7 +26,7 @@ public class ImageServiceImpl implements ImageService {
 		if(file!=null) {
 			try {
 				String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-				client.blobName(fileName).buildClient().upload(file.getInputStream(), file.getSize());
+				client.blobName(fileName).buildClient().upload(file.getInputStream(), file.getSize(),true);
 				return ResponseEntity.ok("Successfully saved");
 			} catch (Exception e) {
 				
