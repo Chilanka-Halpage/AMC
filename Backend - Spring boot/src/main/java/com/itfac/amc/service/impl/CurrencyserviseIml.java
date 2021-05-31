@@ -22,9 +22,6 @@ public class CurrencyserviseIml implements Currencyservice{
 	@Override
 	public List<Currency> getAllCurrency() {
 		List<Currency> findAllCurrency = currencyRepository.findAll();
-		if(findAllCurrency.isEmpty()) {
-			throw new ResourceNotFoundException("Not Data Found");
-		}
 		return findAllCurrency;
 	}
 	

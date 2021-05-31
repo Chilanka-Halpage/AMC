@@ -47,7 +47,8 @@ export class UpdateTaxComponent implements OnInit {
   onSubmit(){
     if(this.addtaxForm.valid){
    this.taxService.updatetax(this.taxId, this.tax).subscribe(
-     data => {this.TaxSavingProgress = true; 
+     data => {
+       this.TaxSavingProgress = true; 
       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/taxlist']) });
       
    },

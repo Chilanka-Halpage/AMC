@@ -64,7 +64,7 @@
               </mat-form-field>
               </div>
                <br>
-            <!--    <h6>Other Details</h6>
+                <h6>Other Details</h6>
                <mat-divider class="mat-divider"></mat-divider>
                <br/>
                <div class="row px-0">
@@ -100,8 +100,8 @@
                  </div>  
                </div> 
                <div class="d-flex flex-row-reverse my-0">
-                <button class="btn btn-success mb-4" type="submit">submit</button>
-               </div> -->
+                <button class="btn btn-success mb-4" type="submit" [disabled]="invoiceSavingProgress"> <span *ngIf="invoiceSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
+               </div> 
               </form>
             </div>
         </div>

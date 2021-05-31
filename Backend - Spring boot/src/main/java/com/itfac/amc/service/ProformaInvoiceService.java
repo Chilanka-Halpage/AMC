@@ -25,10 +25,10 @@ public interface ProformaInvoiceService {
 	
 	 List<ProformaInvoiceDto> getActiveinvoicesById(String amcNo);
 
-	void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice);
-
 	boolean doesInvoiceExists(String piNo);
 	
 	void checkdueInvoice();
+
+	void updateProformainvoiceInvoice(HttpServletRequest httpServletRequest, String piNo, ProformaInvoice proformaInvoice);
 
 }

@@ -83,7 +83,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.antMatchers("/invoice/totalamountpayble/{idname}").hasRole("CLIENT")
 			.antMatchers("/invoice/**").hasAnyRole("ADMIN", "AMC_COORDINATOR", "ACCOUNTANT")
 	     	.antMatchers("/receipt/findreceiptsforclient/{id}").hasRole("CLIENT")
-			.antMatchers("/receipt/findallreceipt").hasAnyRole("ADMIN", "AMC_COORDINATOR")
+			.antMatchers("/receipt/findallreceipt").hasAnyRole("ADMIN", "AMC_COORDINATOR","ACCOUNTANT")
 			.antMatchers("/receipt/getDate/{idname}").hasRole("CLIENT")
 			.antMatchers("/receipt/dashboard/**").hasAnyRole("ADMIN", "AMC_COORDINATOR", "ACCOUNTANT")
 			.antMatchers("/receipt/**").hasAnyRole("ADMIN", "ACCOUNTANT")
