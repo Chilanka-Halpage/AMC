@@ -75,8 +75,7 @@ export class FullDetailsComponent implements OnInit {
     this.jrReportDetailsService.viewPdf(this._authentication.userId).subscribe(
       response => {
         let url = URL.createObjectURL(response);
-        window.open(url, '_blank');
-        URL.revokeObjectURL(url);
+        window.open(url, '_blank')
       },
       (error)=>{
         const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
