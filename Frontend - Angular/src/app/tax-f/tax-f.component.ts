@@ -46,8 +46,9 @@ export class TaxFComponent implements OnInit {
 
   saveTax() {
     if(this.addtaxForm.valid){
-    this.taxService.createTax(this.addtaxForm.value).subscribe(data => {
       this.TaxSavingProgress = true; 
+    this.taxService.createTax(this.addtaxForm.value).subscribe(data => {
+      this.TaxSavingProgress = false; 
        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/taxlist']) });
        
     },

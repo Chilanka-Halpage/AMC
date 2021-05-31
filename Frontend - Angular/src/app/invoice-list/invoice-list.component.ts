@@ -40,13 +40,15 @@ export class InvoiceListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
+    
+    this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
     this.route.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
       this.amc_no = value.amc;
       this.serial = value.serial;
     });
     this.getInvoice();
-    this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
+    this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN' || this._authentication.role === 'ROLE_AMC_COORDINATOR') ? true : false;
     this.route.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
       this.deptName = value.name
@@ -59,7 +61,6 @@ export class InvoiceListComponent implements OnInit {
       this.invoices = new MatTableDataSource(data);
       this.invoices.sort = this.sort;
       this.invoices.paginator = this.paginator;
-      console.log(this.clientId);
       this.isLoadingResults = false;
       this.isRateLimitReached = false;
       }, error => {
@@ -82,9 +83,9 @@ export class InvoiceListComponent implements OnInit {
       this.notificationService.showNoitfication('Successfully delete', 'OK', 'success', () => {  this.getInvoice();  });
        
     },
-      error =>  { let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. The invoice Already in use'
-                  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
-      );
+  error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
+  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+);
     
   }
 

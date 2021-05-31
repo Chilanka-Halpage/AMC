@@ -74,9 +74,9 @@ export class CreateReceiptComponent implements OnInit {
 
   saveReceipt() {
     if(this.addReceiptForm.valid){
-      console.log(this.addReceiptForm)
-    this.paymentService.createReceipt(this.addReceiptForm.value).subscribe(data => {
       this.ReceiptSavingProgress = true
+    this.paymentService.createReceipt(this.addReceiptForm.value).subscribe(data => {
+      this.ReceiptSavingProgress = false
       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => {this.goTopaymentlist(); });  
      },
      error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'

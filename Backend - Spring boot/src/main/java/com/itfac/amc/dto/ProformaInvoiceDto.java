@@ -17,6 +17,7 @@ public interface ProformaInvoiceDto {
 	int getcategory_id();
 	int getcurrency_id();
 	int getclient_dept_id();
+	int getfrequency_id();
 	String getremark();
 	String getsaved_by();
 	BigDecimal gettotal_payble();

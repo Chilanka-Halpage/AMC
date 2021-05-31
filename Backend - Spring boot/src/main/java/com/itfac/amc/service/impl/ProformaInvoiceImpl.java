@@ -45,7 +45,7 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 		proformaInvoice.setSavedIp(ipAddress);
 		proformaInvoiceRepository.save(proformaInvoice);
 	}
-
+	
 	@Override
 	public void deleteInvoice(String piNo) {
 		proformaInvoiceRepository.deleteById(piNo);
@@ -72,12 +72,6 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 	public List<ProformaInvoiceDto> getActiveinvoicesById(String amcNo) {
 		List<ProformaInvoiceDto> proformaInvoice = proformaInvoiceRepository.getActiveinvoicesById(amcNo);
 		return proformaInvoice;
-	}
-
-	@Override
-	public void updateProformainvoiceInvoice(ProformaInvoice proformaInvoice) {
-		proformaInvoiceRepository.save(proformaInvoice);
-
 	}
 
 	@Override
@@ -133,4 +127,14 @@ public class ProformaInvoiceImpl implements ProformaInvoiceService {
 			}
 		}
 	}
+
+	@Override
+	public void updateProformainvoiceInvoice(HttpServletRequest httpServletRequest, String piNo,ProformaInvoice proformaInvoice) {	
+		String ipAddress = httpServletRequest.getRemoteAddr();
+		proformaInvoice.setSavedIp(ipAddress);
+		proformaInvoice.setPiNo(piNo);
+		proformaInvoiceRepository.save(proformaInvoice);
+	}
+	
+	
 }

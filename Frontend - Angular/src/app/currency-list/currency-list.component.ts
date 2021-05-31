@@ -59,6 +59,7 @@ export class CurrencyListComponent implements OnInit {
     this.checkStatus()
     this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
   }
+  
   getCurrency(){
     this.currencyService.getCurrencyList().subscribe(data =>{
       this.currencies = new MatTableDataSource(data);  
@@ -84,10 +85,11 @@ export class CurrencyListComponent implements OnInit {
 }
 saveCurrency(){
   if(this.addcurrencyForm.valid){
+  this.currencySavingProgress = true;
   this.currencyService.createCurrency(this.addcurrencyForm.value).subscribe(data =>{
   this.getCurrency();  
   this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
-  this.currencySavingProgress = true;
+  this.currencySavingProgress = false;
  },
  error =>  { let message = (error.status === 0 || error.status === 400  || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. please try again'
  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
@@ -141,16 +143,17 @@ editCurrencyList(row) {
  }); 
  }
  onEdit(){
-    
+  this.currencyeditProgress = true;
     this.currencyService.updatecurrency(this.currencyId,this.addcurrencyForm.value).subscribe(data =>{
     this.getCurrency();  
     this.notificationService.showNoitfication('Successfully edited', 'OK', 'success', () => { window.location.reload()});
-    this.currencyeditProgress = true;
+    this.currencyeditProgress = false;
    },
       error => {  let message = (error.status === 400 || error.status === 0 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
       this.notificationService.showNoitfication(message, 'OK', 'error', null);}
       
       );
+      this.currencyeditProgress = false;
 
 }
 

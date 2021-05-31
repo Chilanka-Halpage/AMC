@@ -53,7 +53,7 @@ public class ProductController {
 		return ResponseEntity.ok().body("delete done");
 		}
 		catch(Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.badRequest().body("can not delete since, already id use as a foriegn key.");
 		}
 	}
 
