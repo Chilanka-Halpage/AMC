@@ -8,10 +8,10 @@
 
 <div class="w-100">
   <br>
-  <mat-card class="background-color" *ngIf="_authentication.role === 'ROLE_ADMIN'">  
+  <mat-card class="background-color">  
       <strong><h2 *ngIf="!edit">Add Currency</h2></strong>
       <strong><h2 *ngIf="edit">Edit Currency</h2></strong>
-  <form [formGroup]="addcurrencyForm" *ngIf="_authentication.role === 'ROLE_ADMIN'">     
+  <form [formGroup]="addcurrencyForm">     
     <mat-form-field appearance="outline" class="example-full-width">
       <mat-label>Currency Name:</mat-label>
       <input type="text" matInput formControlName="currencyName" placeholder="Ex:USD">

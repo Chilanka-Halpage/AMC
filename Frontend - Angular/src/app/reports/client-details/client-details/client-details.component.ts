@@ -81,7 +81,6 @@ ClientDetailsJrReport(){
       response => {
         let url = URL.createObjectURL(response);
         window.open(url, '_blank');
-        URL.revokeObjectURL(url);
       },
       (error)=>{
         const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'

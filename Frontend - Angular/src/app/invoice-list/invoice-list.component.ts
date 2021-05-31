@@ -48,7 +48,7 @@ export class InvoiceListComponent implements OnInit {
       this.serial = value.serial;
     });
     this.getInvoice();
-    this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN' || this._authentication.role === 'ROLE_AMC_COORDINATOR') ? true : false;
+    this.isAuthorized = (this._authentication.role === 'ROLE_ADMIN') ? true : false;
     this.route.queryParams.subscribe(params => {
       let value = JSON.parse(params["data"]);
       this.deptName = value.name
