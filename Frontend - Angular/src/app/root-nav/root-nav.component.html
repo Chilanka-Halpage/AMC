@@ -48,11 +48,11 @@
           <button (click)="colorLink($event)" name="nav-link"  class="dropdown-item p-3" [routerLink]="['/client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">New Receipt</button>
           <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['/client-list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'" >Proforma Invoice</button>
           <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['taxlist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Tax</button>
-          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['currencylist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Currency</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['currencylist']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_ACCOUNTANT'">Currency</button>
           <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['paymentHlist']"  *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Payment History</button>
           <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['duepayment']" >Due Payment</button>         
         </mat-expansion-panel>
-        <mat-expansion-panel routerLinkActive="active-list-item">
+        <mat-expansion-panel routerLinkActive="active-list-item" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_CLIENT'">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>assignment</mat-icon> <span class="button-text">AMC</span>
@@ -63,10 +63,10 @@
           <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['clients/'+ _authentication.userId +'/amc-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">AMC List</button>
           <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['clients/'+ _authentication.userId +'/amc-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">AMC History</button>
           <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['dept-list']" *ngIf="_authentication.role === 'ROLE_CLIENT'">Department List</button>
-          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['list']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Category</button>
-          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['frequency']" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'">Frequency</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['list']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Category</button>
+          <button (click)="colorLink($event)" name="nav-link" class="dropdown-item p-3" [routerLink]="['frequency']" *ngIf="_authentication.role === 'ROLE_ADMIN'">Frequency</button>
        </mat-expansion-panel>
-       <mat-expansion-panel *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR'" hideToggle>
+       <mat-expansion-panel *ngIf="_authentication.role === 'ROLE_ADMIN'" hideToggle>
         <mat-expansion-panel-header routerLinkActive="active-list-item">
           <mat-panel-title [routerLink]="['productlist']"  >
             <mat-icon>store</mat-icon><span class="button-text">Product</span>
