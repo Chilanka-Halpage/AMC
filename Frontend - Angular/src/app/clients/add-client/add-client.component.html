@@ -11,9 +11,6 @@
     </div>
     <br />
     <div class="card">
-        <div class="card-header">
-            <h4>Client and department details form for new AMC</h4>
-        </div>
         <div class="card-body background-color">
             <form [formGroup]="clientForm">
                 <div formGroupName="client" *ngIf="type !='%DE3%'">
@@ -121,9 +118,9 @@
                                 field is required
                             </mat-error>
                             <mat-error
-                            *ngIf="departmentContactPerson.touched && !departmentContactPerson.errors?.required && departmentContactPerson.errors?.pattern">
-                            Invalid input
-                        </mat-error>
+                                *ngIf="departmentContactPerson.touched && !departmentContactPerson.errors?.required && departmentContactPerson.errors?.pattern">
+                                Invalid input
+                            </mat-error>
                         </mat-form-field>
 
                         <mat-form-field appearance="outline" class="col pl-2">
@@ -162,8 +159,8 @@
                 <div>
 
                     <div class="d-flex flex-row-reverse my-0">
-                        <button *ngIf="!type" (click)="createClient()" [disabled]="isDesabled || clientSavingProgress" type="submit"
-                            mat-raised-button color="primary" class="ml-1">
+                        <button *ngIf="!type" (click)="createClient()" [disabled]="isDesabled || clientSavingProgress"
+                            type="submit" mat-raised-button color="primary" class="ml-1">
                             <span *ngIf="clientSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
                             Save New Client
                         </button>
@@ -173,8 +170,9 @@
                             <span *ngIf="clientSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
                             Save Changes
                         </button>
-                        <button *ngIf="type==='%DC4%'" (click)="createDept()" [disabled]="isDesabled || clientSavingProgress" type="submit"
-                            mat-raised-button color="primary" class="ml-1">
+                        <button *ngIf="type==='%DC4%'" (click)="createDept()"
+                            [disabled]="isDesabled || clientSavingProgress" type="submit" mat-raised-button
+                            color="primary" class="ml-1">
                             <span *ngIf="clientSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>
                             Save New Department
                         </button>
