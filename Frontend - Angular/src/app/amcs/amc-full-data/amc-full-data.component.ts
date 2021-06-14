@@ -92,7 +92,6 @@ export class AmcFullDataComponent implements OnInit {
       this.isLoadingScannedCopy = false;
       let url = URL.createObjectURL(response);
       window.open(url, '_blank');
-      URL.revokeObjectURL(url);
     },
       error => {
         this.isLoadingScannedCopy = false;

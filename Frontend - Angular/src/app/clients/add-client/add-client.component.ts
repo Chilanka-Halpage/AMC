@@ -212,7 +212,15 @@ export class AddClientComponent implements OnInit {
       this.clientSavingProgress = true;
       this.clientService.saveDepartmentByClientId(this.clientId, this.clientForm.value).subscribe(
         response => {
-          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.router.navigate([`dept-list/${this.clientId}`]) });
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              "data": JSON.stringify({
+                "id": this.clientId,
+                "name": this.cname
+              })
+            }
+          };
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.router.navigate([`dept-list/${this.clientId}`],navigationExtras) });
         },
         (error) => {
           let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'

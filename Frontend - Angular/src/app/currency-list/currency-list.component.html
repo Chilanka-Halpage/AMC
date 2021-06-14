@@ -15,7 +15,7 @@
     <mat-form-field appearance="outline" class="example-full-width">
       <mat-label>Currency Name:</mat-label>
       <input type="text" matInput formControlName="currencyName" placeholder="Ex:USD">
-      <mat-error *ngIf="addcurrencyForm.controls['currencyName'].errors?.currencyNameExists && !edit" >Tax already exists </mat-error> 
+      <mat-error *ngIf="addcurrencyForm.controls['currencyName'].errors?.currencyNameExists && !edit" >Already exists </mat-error> 
       <mat-error *ngIf="addcurrencyForm.controls['currencyName'].touched && addcurrencyForm.controls['currencyName'].errors?.required">Name required </mat-error> 
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-12 col-md-auto">
