@@ -14,20 +14,19 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.itfac.amc.util.Auditable;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "proforma_invoice")
-public class ProformaInvoice {
+public class ProformaInvoice extends Auditable {
 	
 	@Id
-	@Column(name = "pi_no", length = 10)
+	@Column(name = "pi_no", length = 10,unique=true)
 	private String piNo;
 	
 	@Column(name = "pi_date", nullable = false)
@@ -54,14 +53,14 @@ public class ProformaInvoice {
 	@Column(name = "total_amount_lkr")
 	private BigDecimal totalAmtLkr;
 	
+	@Column(name = "total_payble")
+	private BigDecimal totalPayble;
+	
+	@Column(name = "total_payble_lkr")
+	private BigDecimal totalPaybleLkr;
+	
 	@Column(length = 100, nullable = false)
 	private String remark;
-	
-	@Column(name = "saved_by", length = 15)
-	private String savedBy;
-	
-	@Column(name = "saved_on")
-	private Date savedOn;
 	
 	@Column(name = "saved_ip", length = 20)
 	private String savedIp;
@@ -74,30 +73,26 @@ public class ProformaInvoice {
 	
 	@ManyToOne()
 	@JoinColumn(name = "frequency_id", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk1"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Frequency frequency;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_dept_id", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk2"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
 	private ClientDepartment clientDepartment;
 	
 	@ManyToOne()
 	@JoinColumn(name = "category_id", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk3"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Category category;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "amc_no", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk4"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
 	private AmcMaster amcMaster;
 	
 	@ManyToOne()
 	@JoinColumn(name = "currency_id", nullable = false, foreignKey = @ForeignKey(name = "proforma_fk5"))
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Currency currency;
-
 	
+	@ManyToOne()
+	@JoinColumn(name = "tax_id", foreignKey = @ForeignKey(name = "proforma_fk6"))
+	private Tax tax;
+
 }

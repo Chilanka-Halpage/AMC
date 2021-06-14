@@ -6,13 +6,13 @@
 </div>
 <div *ngIf="!isLoadingResults && !isRateLimitReached" class="container-xl background-color">
     <div class="col-6 pt-2 pb-3 my-0 ">
-        <h3 class="mar-h1 text-primary"><i>Renew AMC - {{ clientName }} <br /> Department {{ data.department_name }}</i>
-        </h3>
+        <h2 class="mar-h1"><i>Renew AMC - {{ clientName }} <br /> Department {{ data.department_name }}</i>
+        </h2>
     </div>
     <form [formGroup]="amcFullDataForm">
         <div class="row no-gutters">
             <div formGroupName="amcMaster" class="col-md-6 no-gutters amc-grid">
-                <h6 class="ml-2">AMC General Details</h6>
+                <h4 class="ml-2 text-primary">AMC General Details</h4>
                 <mat-divider class="mat-divider"></mat-divider>
                 <br />
                 <div class="row px-0 m-0">
@@ -39,8 +39,6 @@
                     <mat-label class="col-12">Categpry</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="text" matInput formControlName="categoryName">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
                 </div>
                 <div class="row px-0 m-0">
@@ -51,43 +49,53 @@
                                 {{frequency.frequency}}
                             </mat-option>
                         </mat-select>
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
+                        <mat-error *ngIf="frequency.touched && frequency.errors?.required">This field is required
+                        </mat-error>
                     </mat-form-field>
-                       
+
                 </div>
 
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Currency</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="text" matInput formControlName="currencyName">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Exchange Rate</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="exchangeRate">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="exchangeRate.errors?.required">This field is required
+                    </mat-error>
+                    <mat-error class="col-6" *ngIf="!exchangeRate.errors?.required && exchangeRate.errors?.pattern">Must
+                        be a positive number with maximum 3 intregal and 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Total Value</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="totalValue">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="totalValue.touched && totalValue.errors?.required">This field is
+                        required
+                    </mat-error>
+                    <mat-error class="col-6" *ngIf="!totalValue.errors?.required && totalValue.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Total Value (LKR)</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="totalValueLkr">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="totalValueLkr.touched && totalValueLkr.errors?.required">This field
+                        is
+                        required
+                    </mat-error>
+                    <mat-error class="col-6" *ngIf="!totalValueLkr.errors?.required && totalValueLkr.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 mt-2 m-0">
                     <mat-label class="col-12">Remark</mat-label>
@@ -99,7 +107,7 @@
                 </div>
             </div>
             <div class="col-md-6 no-gutters amc-grid">
-                <h6 class="ml-2">AMC Maintenance Details</h6>
+                <h4 class="ml-2 text-primary">AMC Maintenance Details</h4>
                 <mat-divider class="mat-divider"></mat-divider>
                 <br />
                 <div class="row px-0 m-0">
@@ -109,6 +117,12 @@
                         <mat-datepicker-toggle matSuffix [for]="mtc_start_date"></mat-datepicker-toggle>
                         <mat-datepicker #mtc_start_date></mat-datepicker>
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="mtcStartDate.touched && mtcStartDate.errors?.required">This field is
+                        required
+                    </mat-error>
+                    <mat-error class="col-6" *ngIf="!mtcStartDate.errors?.required && mtcStartDate.errors?.invalidDate">
+                        Inconsistency between this date and mtc end date
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc End Date</mat-label>
@@ -117,6 +131,12 @@
                         <mat-datepicker-toggle matSuffix [for]="mtc_end_date"></mat-datepicker-toggle>
                         <mat-datepicker #mtc_end_date></mat-datepicker>
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="mtcEndDate.touched && mtcEndDate.errors?.required">This field is
+                        required
+                    </mat-error>
+                    <mat-error class="col-6" *ngIf="!mtcEndDate.errors?.required && mtcStartDate.errors?.invalidDate">
+                        Inconsistency between this date and mtc start date
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Renewal Date</mat-label>
@@ -125,97 +145,154 @@
                         <mat-datepicker-toggle matSuffix [for]="renewal_date"></mat-datepicker-toggle>
                         <mat-datepicker #renewal_date></mat-datepicker>
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="renewalDate.touched && renewalDate.errors?.required">This field is
+                        required
+                    </mat-error>
+                    <mat-error class="col-6" *ngIf="!renewalDate.errors?.required && renewalDate.errors?.invalidDate">
+                        Inconsistency between this date and mtc end date
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc Quantity</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="mtcQty">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="mtcQty.touched && mtcQty.errors?.required">This field is required
+                    </mat-error>
+                    <mat-error class="col-6" *ngIf="!mtcQty.errors?.required && mtcQty.errors?.pattern">
+                        Must be a positive number less than 100
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc Amount For Given Annum</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
-                        <input id="mtcAmtPerAnnum" (change)="calculateLkr($event)" type="number" matInput formControlName="mtcAmtPerAnnum">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
+                        <input id="mtcAmtPerAnnum" (change)="calculateLkr($event)" type="number" matInput
+                            formControlName="mtcAmtPerAnnum">
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="mtcAmtPerAnnum.touched && mtcAmtPerAnnum.errors?.required">This
+                        field is required
+                    </mat-error>
+                    <mat-error class="col-6" *ngIf="!mtcAmtPerAnnum.errors?.required && mtcAmtPerAnnum.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc Amount For Given Annum (LKR)</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="mtcAmtPerAnnumLkr">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="mtcAmtPerAnnumLkr.touched && mtcAmtPerAnnumLkr.errors?.required">
+                        This field is
+                        required
+                    </mat-error>
+                    <mat-error class="col-6"
+                        *ngIf="!mtcAmtPerAnnumLkr.errors?.required && mtcAmtPerAnnumLkr.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc Amount Per Product</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
-                        <input id="mtcAmtPerProduct" (change)="calculateLkr($event)" type="number" matInput formControlName="mtcAmtPerProduct">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
+                        <input id="mtcAmtPerProduct" (change)="calculateLkr($event)" type="number" matInput
+                            formControlName="mtcAmtPerProduct">
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="mtcAmtPerProduct.touched && mtcAmtPerProduct.errors?.required">
+                        This field is required
+                    </mat-error>
+                    <mat-error class="col-6"
+                        *ngIf="!mtcAmtPerProduct.errors?.required && mtcAmtPerProduct.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc Amount Per Product (LKR)</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="mtcAmtPerProductLkr">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
+                    <mat-error class="col-6"
+                        *ngIf="mtcAmtPerProductLkr.touched && mtcAmtPerProductLkr.errors?.required">This
+                        field is required
+                    </mat-error>
+                    <mat-error class="col-6"
+                        *ngIf="!mtcAmtPerProductLkr.errors?.required && mtcAmtPerProductLkr.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc Amount For Given Frequency</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
-                        <input id="mtcAmtforfrequency" (change)="calculateLkr($event)" type="number" matInput formControlName="mtcAmtforfrequency">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
+                        <input id="mtcAmtforfrequency" (change)="calculateLkr($event)" type="number" matInput
+                            formControlName="mtcAmtforfrequency">
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="mtcAmtforfrequency.touched && mtcAmtforfrequency.errors?.required">
+                        This field is required
+                    </mat-error>
+                    <mat-error class="col-6"
+                        *ngIf="!mtcAmtforfrequency.errors?.required && mtcAmtforfrequency.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc Amount For Given Frequency (LKR)</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="mtcAmtforfrequencyLkr">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
+                    <mat-error class="col-6"
+                        *ngIf="mtcAmtforfrequencyLkr.touched && mtcAmtforfrequencyLkr.errors?.required">This
+                        field is required
+                    </mat-error>
+                    <mat-error class="col-6"
+                        *ngIf="!mtcAmtforfrequencyLkr.errors?.required && mtcAmtforfrequencyLkr.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc Amount For Given Frequency Per Item</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
-                        <input id="mtcAmtforfrequencyPerItem" (change)="calculateLkr($event)" type="number" matInput formControlName="mtcAmtforfrequencyPerItem">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
+                        <input id="mtcAmtforfrequencyPerItem" (change)="calculateLkr($event)" type="number" matInput
+                            formControlName="mtcAmtforfrequencyPerItem">
                     </mat-form-field>
+                    <mat-error class="col-6"
+                        *ngIf="mtcAmtforfrequencyPerItem.touched && mtcAmtforfrequencyPerItem.errors?.required">This
+                        field is required
+                    </mat-error>
+                    <mat-error class="col-6"
+                        *ngIf="!mtcAmtforfrequencyPerItem.errors?.required && mtcAmtforfrequencyPerItem.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Mtc Amount For Given Frequency Per Item (LKR)</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="mtcAmtforfrequencyPerItemLkr">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
+                    <mat-error class="col-6"
+                        *ngIf="mtcAmtforfrequencyPerItemLkr.touched && mtcAmtforfrequencyPerItemLkr.errors?.required">
+                        This field is required
+                    </mat-error>
+                    <mat-error class="col-6"
+                        *ngIf="!mtcAmtforfrequencyPerItemLkr.errors?.required && mtcAmtforfrequencyPerItemLkr.errors?.pattern">
+                        Must be a positive number with maximum 2 fractional digits
+                    </mat-error>
                 </div>
                 <div class="row px-0 mt-2 m-0">
                     <mat-label class="col-12">Remark</mat-label>
                     <textarea formControlName="remark" rows=3 class="col-8 background-color"></textarea>
+                    <mat-error *ngIf="remark.touched && remark.errors?.required">This field is required
+                    </mat-error>
                 </div>
             </div>
 
         </div>
         <div class="row no-gutters">
             <div formGroupName="amcProduct" class="col-md-6 no-gutters amc-grid">
-                <h6 class="ml-2">AMC Product Details</h6>
+                <h4 class="ml-2 text-primary">AMC Product Details</h4>
                 <mat-divider class="mat-divider"></mat-divider>
                 <br />
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Product Name</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="text" matInput formControlName="productName">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
                 </div>
                 <div class="row px-0 m-0">
@@ -233,37 +310,35 @@
                         <mat-datepicker-toggle matSuffix [for]="life_end_date"></mat-datepicker-toggle>
                         <mat-datepicker #life_end_date></mat-datepicker>
                     </mat-form-field>
+                    <mat-error class="col-6" *ngIf="lifeEndDate.touched && lifeEndDate.errors?.required">This field is
+                        required
+                    </mat-error>
+                    <mat-error class="col-6" *ngIf="!lifeEndDate.errors?.required && lifeEndDate.errors?.invalidDate">
+                        Inconsistency between this date and life start date
+                    </mat-error>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Price</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="price">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Quantity</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="quantity">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Sales Revenue</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="totalValue">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
                 </div>
                 <div class="row px-0 m-0">
                     <mat-label class="col-12">Sales Revenue (LKR)</mat-label>
                     <mat-form-field appearance="fill" class="col-6">
                         <input type="number" matInput formControlName="totalValueLkr">
-                        <!-- <mat-error *ngIf="contactPerson.touched && contactPerson.errors?.required">This field is required
-                        </mat-error> -->
                     </mat-form-field>
                 </div>
                 <div class="row px-0 mt-2 m-0">
@@ -271,18 +346,22 @@
                     <textarea formControlName="productDescription" rows=3 class="col-8 background-color"></textarea>
                 </div>
             </div>
-            <div class="col-md-6 no-gutters">
-                <h6 class="ml-2">Scanned Copy of Contract</h6>
+            <div id="invalidScannedCopy" class="col-md-6 no-gutters">
+                <h4 *ngIf="!(amcFile===null)" class="ml-2 text-primary">Scanned Copy of Contract</h4>
+                <h4 *ngIf="amcFile===null" class="ml-2 text-danger">Scanned Copy of Contract</h4>
                 <mat-divider class="mat-divider"></mat-divider>
                 <br />
                 <div>
                     <input type="file" (change)="onFileChanged($event)">
                 </div>
+                <div class="mt-3" *ngIf="amcFile===null">
+                    <mat-label class="error-message p-2">Scanned copy is required</mat-label>
+                </div>
             </div>
         </div>
         <div class="d-flex flex-row-reverse my-0 pb-4">
-            <button (click)="submitForm()" type="submit" mat-raised-button
-                color="primary" class="ml-1">
+            <button (click)="submitForm()" type="submit" mat-raised-button color="primary" class="ml-1"
+                [disabled]="registerStudentProgress">
                 <span *ngIf="registerStudentProgress" class="spinner-border spinner-border-sm mr-1"></span>
                 Renew
             </button>

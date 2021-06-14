@@ -6,11 +6,11 @@ import java.util.Date;
 public interface ExpiredAmc {
 
 	public String getamc_no();
-	public Date getdue_date();
 	public String getcategory_name();
 	public String getclient_name();
 	public String getcontact_no();
 	public String getfrequency();
-	public BigDecimal getinvoice_amt();
-	public BigDecimal gettotal_value();
+	public Date getrenewal();
+	public BigDecimal gettotal_value_lkr();
+	public Date getmtc_end_date();
 }

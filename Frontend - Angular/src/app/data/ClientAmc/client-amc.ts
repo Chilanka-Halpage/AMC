@@ -3,7 +3,7 @@ export class ClientAmc {
 	amc_no: String
 	start_date: Date
 	category_name: String
-	amc_product_no: number
+	product_name: String
 	product_description: String
 	department_name: String
 	amc_serial_no: String

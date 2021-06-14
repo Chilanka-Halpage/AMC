@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators,FormGroup, FormBuilder } from '@angular/forms';
-import { getMatTooltipInvalidPositionError } from '@angular/material/tooltip';
-import { disableDebugTools } from '@angular/platform-browser';
 import { ActivatedRoute,Router } from '@angular/router';
 import { UserserviceService } from '../userservice.service';
 
@@ -15,7 +13,10 @@ export class UpdateuserComponent implements OnInit {
 
   hide = true;
   alert:boolean=false;
-
+  private data: any;
+  //addForm:FormGroup;
+  
+  
   constructor(private fb:FormBuilder,private router:ActivatedRoute,private _service:UserserviceService,private _router: Router ) { }
   addForm=this.fb.group(
     {
@@ -24,27 +25,36 @@ export class UpdateuserComponent implements OnInit {
       role:new FormControl(),
       active:new FormControl(),
       email:new FormControl(),
-      password:new FormControl(),
       contactNo:new FormControl(),
     }
     );
    ngOnInit(): void {
-     this._service.getUser(this.router.snapshot.params.id).subscribe(
-       (result)=>{
-        this.addForm=new FormGroup(
-          {
-            userId: new FormControl(result['userId']),
-            uname:new FormControl(result['uname']),
-            role:new FormControl(result['role']),
-            active:new FormControl(result['active']),
-            email:new FormControl(result['email']),
-            password:new FormControl(result['password']),
-            contactNo:new FormControl(result['contactNo']),
+    //  this._service.getUser(this.router.snapshot.params.id).subscribe(
+    //    (result)=>{
+    //     this.addForm=new FormGroup(
+    //       {
+    //         userId: new FormControl(result['userId']),
+    //         uname:new FormControl(result['uname']),
+    //         role:new FormControl(result['role']),
+    //         active:new FormControl(result['active']),
+    //         email:new FormControl(result['email']),
+    //         contactNo:new FormControl(result['contactNo']),
       
-          }
-          )
-       }
-     )
+    //       }
+    //       )
+    //    }
+    //  )
+
+     this.addForm.patchValue({
+      user: {
+        userId: this.data.userId,
+        uname: this.data.uname,
+        role: this.data.role,
+        active:this.data.active,
+        email: this.data.email,
+        contactNo: this.data.contactNo
+      }
+    });
     }
 
 getErrorMessage() {
@@ -76,5 +86,8 @@ closeAlert(){
   this.alert=false;
   this.goList();
 
+}
+navigateTouserList(): void{
+  this._router.navigateByUrl('userList');
 }
 }

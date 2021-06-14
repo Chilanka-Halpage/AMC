@@ -1,10 +1,15 @@
-h3 {
+h2 {
   color: red;
-  font-style: italic;
 }
 
- .mat-form-field {
+.mat-form-field {
   font-size: 14px;
   width: 100%;
 }
 
+@media screen and (max-width: 480px) {
+  .wrapper {
+    overflow: auto;
+    width: 100vw;
+  }
+}

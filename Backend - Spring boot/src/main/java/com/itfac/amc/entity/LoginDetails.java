@@ -32,17 +32,17 @@ public class LoginDetails {
 	@Column(name = "loged_datetime", nullable = false)
 	private Date logedTime;
 	
-	@Column(name = "loged_ip", length = 20, nullable = false)
+	@Column(name = "loged_ip", length = 20)
 	private String logedIp;
 	
-	@Column(name = "logout_datetime", nullable = false)
+	@Column(name = "logout_datetime")
 	private Date logoutTime;
 	
-	@Column(name = "logout_ip", length = 20, nullable = false)
+	@Column(name = "logout_ip", length = 20)
 	private String logoutIp;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "client_id", nullable = false, foreignKey = @ForeignKey(name = "login_details_fk"))
+	@JoinColumn(name = "user_id", nullable = true, foreignKey = @ForeignKey(name = "login_details_fk"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private User user;

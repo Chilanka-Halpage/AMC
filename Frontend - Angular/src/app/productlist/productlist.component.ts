@@ -1,12 +1,18 @@
 import { ProductserviceService } from './../productservice.service';
 import { Component, OnInit,ViewChild } from '@angular/core';
-import { product } from '../product';
-import { Observable } from 'rxjs';
+import { Observable, of as observableOf } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { delay } from 'rxjs/internal/operators/delay';
+import { map } from 'rxjs/internal/operators/map';
 import { ActivatedRoute,Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import {FormGroup,FormControl,FormBuilder, Validators} from '@angular/forms';
+import {FormGroup,FormBuilder, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors} from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { AuthenticationService } from '../_helpers/authentication.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-productlist',
@@ -14,33 +20,34 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./productlist.component.css']
 })
 export class ProductlistComponent implements OnInit {
-
-  products: Observable<product[]>;
-  productAddForm: FormGroup;
-  submitted = false;
-  id: number;
-  showMe:boolean=false
-  showMe2:boolean=false
-  filterValue: string;
-  listData: MatTableDataSource<any>;
-  searchKey:string;
   
-  
-
-  
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-  pagesize = 20;
-  
-
   constructor(
-
     private _service: ProductserviceService,
-    private router: Router,
     private formBuilder:FormBuilder,
-    private route: ActivatedRoute
+    private notificationService: NotificationService,
+    private authService: AuthenticationService
     ) { }
+    
+    public isDesabled= false;
+    public errorMessage: "Unknown Error";
+    private productForm$: Observable<any>;
+    public type: any;
+    public productAddForm: FormGroup;
+    public submitted = false;
+    public edit=false;
+    public filterValue: string;
+    listData: MatTableDataSource<any>;
+    public searchKey:string;
+    public dataSavingProgress = false;
+    public resultsLength = 0;
+    public isLoadingResults = true;
+    public isRateLimitReached = false;
+    public popoverTitle = 'Delete Row';
+    public popoverMessage = 'Are you sure to want to Delete ?';
+    public confirmClicked = false;
+    public cancelClicked = false;
+    productId:number;
+    public isAuthorized: boolean;
 
   displayedColumns: string[] = [
     'id',
@@ -58,26 +65,35 @@ export class ProductlistComponent implements OnInit {
   @ViewChild(MatPaginator) paginator:MatPaginator;
 
   ngOnInit() {
-
+    
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
     this.productAddForm=this.formBuilder.group(
       {
-        productName:['',[Validators.required]],
+        productName:['',[Validators.required],[this.existTaxValidator()], blur],
         active:['',[Validators.required]]
       }
     )
+    this.checkStatus();
 
     this._service.getProductList().subscribe(
       list => {
        this.listData = new MatTableDataSource(list);
        this.listData.sort= this.sort;
        this.listData.paginator=this.paginator;
-        
-      });
+       this.isLoadingResults = false;
+      }),
+      catchError( error => {
+        this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+        this.isLoadingResults = false;
+        // set flag to identify that errors ocuured
+        this.isRateLimitReached = true;
+        return observableOf([]);
+      })
   }
-  
 
   editProductList(row) {
-    console.log(row);
+    this.edit=true;
+    this.productId=row.productId;
     this.productAddForm.patchValue({
     productName: row.productName,
     active: row.active
@@ -88,48 +104,49 @@ export class ProductlistComponent implements OnInit {
     this._service.deleteProduct(id)
       .subscribe(
         data => {
-          console.log(data);
-          
+          this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});  
         },
-        error => console.log(error));
+        (error) => {
+          let message = (error.status === 0 || error.status === 403 || error.status === 401 || error.status === 501 || error.status == 400) ? error.error : 'Cannot proceed the request. Try again'
+          this.notificationService.showNoitfication(message, 'OK', 'error', null);
+        }).add(()=>this.dataSavingProgress=false);
   }
-
- 
-
   save() {
+    if(this.productAddForm.valid){
+    this.dataSavingProgress = true;
     this._service
     .createProduct(this.productAddForm.value).subscribe(data => {
-      console.log(data)
-      this.showTag()
+      this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
+      this.dataSavingProgress = false;
     }, 
-    error => console.log(error));
+    (error) => {
+      let message = (error.status === 0 || error.status === 403 || error.status === 401 || error.status === 501 || error.status === 400) ? error.error : 'Cannot proceed the request. Try again'
+      this.notificationService.showNoitfication(message, 'OK', 'error', null);
+    }).add(()=>this.dataSavingProgress=false)}
+    else{
+      this.notificationService.showNoitfication('invalid input', 'OK', 'error', () => {null});
+    }
   }
 
   onSubmit() {
-    console.log(this.productAddForm);
     this.submitted = true;
     this.save();    
   }
-
- 
-
-  showTag(){
-    this.showMe=!this.showMe
-  }
-  showTag2(){
-    this.showMe2=!this.showMe2
-  }
-
   onEdit(){
-    this._service.updateProduct(this.route.snapshot.params.id,this. productAddForm.value).subscribe(
+   
+    this.dataSavingProgress = true;
+    this._service.updateProduct(this.productId,this. productAddForm.value).subscribe(
       (result)=>{
-        console.log(result,"data updated successfull")
-      }
-    )
-    this.showTag2()
+        this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { window.location.reload()});
+        this.dataSavingProgress = false;
+        console.log(result);
+      }, (error) => {
+        const errMessage = (error.status === 0 || error.status === 400 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+        this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      }).add(()=>this.dataSavingProgress=false) 
+     
   }
-
-
+  
   onSearchClear(){
     this.searchKey="";
     this.applyFilter();
@@ -139,5 +156,30 @@ export class ProductlistComponent implements OnInit {
     this.listData.filter=this.searchKey.trim().toLowerCase();
   }
 
+  private checkStatus(): void {
+    this.productForm$ = this.productAddForm.statusChanges;
+    this.productForm$.subscribe(response => {
+      if (response === 'PENDING') {
+        setTimeout(() => {
+          this.productAddForm.updateValueAndValidity();
+        }, 2000);
+      }
+    })
+  }
 
+  private existTaxValidator():AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!this.type) {
+        return of(control.value).pipe(
+          delay(500),
+          switchMap((productName: string) => this._service.doesProductExists(productName)),
+          map(response => {
+           this.isDesabled=response;
+            return response ? { productNameExists: true } : null
+          })
+        )
+      }
+      return of(null);
+    };
+  }
 }

@@ -1,17 +1,17 @@
 package com.itfac.amc.controller;
 
-import java.io.IOException;
+import java.net.URLConnection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,12 +24,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
+import com.itfac.amc.dto.addRecieptDto;
 import com.itfac.amc.service.AmcSerialService;
 import com.itfac.amc.service.FileStorageService;
 
 @RestController()
 @RequestMapping("amcSerial/")
-@CrossOrigin("*")
 public class AmcSerialController {
 
 	@Autowired
@@ -38,7 +38,7 @@ public class AmcSerialController {
 	@Autowired
 	FileStorageService fileStorageService;
 
-	@RequestMapping("add/{amcNo}")
+	@PostMapping("add/{amcNo}")
 	public ResponseEntity<String> addNewAmcSerial(@RequestParam("data") String amcSerial,
 			@RequestParam("file") MultipartFile file, @PathVariable(value = "amcNo") String amcNo)
 			throws JsonMappingException, JsonProcessingException {
@@ -46,10 +46,12 @@ public class AmcSerialController {
 		return ResponseEntity.status(HttpStatus.OK).body("Successfully Saved");
 	}
 
-	@PostMapping("renew/{amcNo}")
+	@PostMapping("renew/{amcNo}/{amcSerialNo}")
 	public ResponseEntity<String> renewAmc(HttpServletRequest request, @RequestParam("data") String data,
-			@RequestParam("file") MultipartFile file, @PathVariable(value = "amcNo") String amcNo) throws JsonMappingException, JsonProcessingException {
-		amcSerialService.renewAmc(request, data, file, amcNo);
+			@RequestParam("file") MultipartFile file, @PathVariable(value = "amcNo") String amcNo,
+			@PathVariable(value = "amcSerialNo") String amcSerialNo)
+			throws JsonMappingException, JsonProcessingException {
+		amcSerialService.renewAmc(request, data, file, amcNo, amcSerialNo);
 		return ResponseEntity.status(HttpStatus.OK).body(("Successfully Saved!"));
 	}
 
@@ -73,18 +75,22 @@ public class AmcSerialController {
 	}
 
 	@GetMapping("/download/{fileName}")
-	ResponseEntity<Resource> downLoadSingleFile(@PathVariable String fileName, HttpServletRequest request) {
-		Resource resource = fileStorageService.downloadFile(fileName);
+	ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+		byte[] data = fileStorageService.getFile(fileName);
+		ByteArrayResource resource = new ByteArrayResource(data);
 		String mimeType;
-		try {
-			mimeType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-		} catch (IOException e) {
-			mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
-		}
+		// mimeType =
+		// request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		mimeType = URLConnection.guessContentTypeFromName(fileName);
 		mimeType = mimeType == null ? MediaType.APPLICATION_OCTET_STREAM_VALUE : mimeType;
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
-
 	}
 
+	@GetMapping("get/recietde/{amc_serial}")
+	public ResponseEntity<addRecieptDto> getdetalis(@PathVariable(value = "amc_serial") String amcSNo)
+			throws Exception {
+		addRecieptDto receiptde = amcSerialService.getdetalis(amcSNo);
+		return ResponseEntity.status(HttpStatus.OK).body(receiptde);
+	}
 }

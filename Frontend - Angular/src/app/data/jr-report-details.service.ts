@@ -8,83 +8,101 @@ import { RenewalAmcs } from './RenewalAmcs/renewal-amcs';
 import { RenewedAmcs } from './RenewedAmcs/renewed-amcs';
 import { ClientAmc } from './ClientAmc/client-amc';
 import { ClientPaymentDetails } from './ClientPaymentDetails/client-payment-details'
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JrReportDetailsService {
 
-  private baseURL ="http://localhost:8080";
-  constructor( private httpClient: HttpClient ) { }
+  private baseURL = environment.baseServiceUrl;
+  constructor(private httpClient: HttpClient) { }
 
   //All AMCs jasper report
-  AllAmcPdfReport(Date1 ,Date2): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseURL}/AllAmcsJrReport/${Date1}/${Date2}`,
-    {
-      responseType : 'text' as 'json'
-    });
+  AllAmcPdfReport(date1, date2, category, userId): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseURL}jrReport/allAmcCtgWiseJr/${date1}/${date2}/${category}/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
   }
 
   //full details jasper report
-  FullDetailsJrReport(Date1 ,Date2): Observable<FullDetails>{
-    return this.httpClient.get<FullDetails>(`${this.baseURL}/FullDetailsJrReport/${Date1}/${Date2}`,
-    {
-      responseType : 'text' as 'json'
-    });
+  FullDetailsJrReport(Date1, Date2, userId): Observable<FullDetails> {
+    return this.httpClient.get<FullDetails>(`${this.baseURL}jrReport/FullDetailsJrReport/${Date1}/${Date2}/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
   }
 
   //Renewal Amcs jasper report
-  RenewalAmcsJrReport(Date1 ,Date2): Observable<RenewalAmcs>{
-    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}/RenewalAmcsJrReport/${Date1}/${Date2}`,
-    {
-      responseType : 'text' as 'json'
-    });
+  RenewalAmcsJrReport(Date1, Date2, userId): Observable<RenewalAmcs> {
+    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}jrReport/RenewalAmcsJrReport/${Date1}/${Date2}/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
   }
 
-  ExpiredAmcsJrReport(Date1 ,Date2): Observable<RenewalAmcs>{
-    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}/ExpiredAmcsJrReport/${Date1}/${Date2}`,
-    {
-      responseType : 'text' as 'json'
-    });
+  //Expired Amcs jasper report
+  ExpiredAmcsJrReport(Date1, Date2, userId): Observable<RenewalAmcs> {
+    return this.httpClient.get<RenewalAmcs>(`${this.baseURL}jrReport/ExpiredAmcsJrReport/${Date1}/${Date2}/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
   }
 
   //Renewed Amcs jasper report
-  RenewedAmcsJrReport(Date1 ,Date2): Observable<RenewedAmcs>{
-    return this.httpClient.get<RenewedAmcs>(`${this.baseURL}/RenewedAmcsJrReport/${Date1}/${Date2}`,
-    {
-      responseType : 'text' as 'json'
-    });
+  RenewedAmcsJrReport(Date1, Date2, userId): Observable<RenewedAmcs> {
+    return this.httpClient.get<RenewedAmcs>(`${this.baseURL}jrReport/RenewedAmcsJrReport/${Date1}/${Date2}/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
   }
 
   //Clients Details jasper report
-  ClientDetailsJrReport(Date1 ,Date2): Observable<ClientDetails>{
-    return this.httpClient.get<ClientDetails>(`${this.baseURL}/ClientDetailsJrReport/${Date1}/${Date2}`,
-    {
-      responseType : 'text' as 'json'
-    });
+  ClientDetailsJrReport(Date1, Date2, userId): Observable<ClientDetails> {
+    return this.httpClient.get<ClientDetails>(`${this.baseURL}jrReport/ClientDetailsJrReport/${Date1}/${Date2}/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
   }
 
   //Payments Details jasper report
-  PaymentsDetailsJrReport(Date1 ,Date2): Observable<PaymentsDetails>{
-    return this.httpClient.get<PaymentsDetails>(`${this.baseURL}/ClientDetailsJrReport/${Date1}/${Date2}`,
-    {
-      responseType : 'text' as 'json'
-    });
+  PaymentsDetailsJrReport(Date1, Date2, category, userId): Observable<PaymentsDetails> {
+    return this.httpClient.get<PaymentsDetails>(`${this.baseURL}jrReport/PaymentsJrReport/${Date1}/${Date2}/${category}/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
   }
 
   //Amc jasper report for client
-  ClientAmcJrReport(cId): Observable<ClientAmc>{
-    return this.httpClient.get<ClientAmc>(`${this.baseURL}/ClientDetailsJrReport/${cId}`,
-    {
-      responseType : 'text' as 'json'
-    });
+  ClientAmcJrReport(userId): Observable<ClientAmc> {
+    return this.httpClient.get<ClientAmc>(`${this.baseURL}jrReport/client/ClientAmcReport/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
   }
 
   //Payment Jasper report for client
-  ClientPaymentJrReport(cId): Observable<ClientPaymentDetails>{
-    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}/ClientPaymentsJrReport/${cId}`,
-    {
-      responseType : 'text' as 'json'
+  ClientPaymentJrReport(userId): Observable<ClientPaymentDetails> {
+    return this.httpClient.get<ClientPaymentDetails>(`${this.baseURL}jrReport/client/ClientPaymentsJrReport/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
+  }
+
+  //Quarter wise revenue report
+  QuarterWiseRevenueJrReport(date1, category, userId): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseURL}jrReport/QuarterWiseRevenueJrReport/${date1}/${category}/${userId}`,
+      {
+        responseType: 'text' as 'json'
+      });
+  }
+
+  //view pdf
+  viewPdf(userId): Observable<Blob> {
+    return this.httpClient.get(`${this.baseURL}jrReport/viewPdf/${userId}`, {
+      responseType: 'blob'
     });
   }
+
 }

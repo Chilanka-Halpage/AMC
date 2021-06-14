@@ -1,13 +1,10 @@
 import { NotificationService } from './../../shared/notification.service';
-import { Category } from './../../Model/category';
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { Currency } from 'src/app/Model/currency.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { AmcMasterService } from 'src/app/shared/amc-master.service';
+import { AmcMasterService, DateValidator } from 'src/app/shared/amc-master.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { take } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-amc-serial',
@@ -26,10 +23,10 @@ export class AmcSerialComponent implements OnInit {
   private deptId: number;
   private deptName: string;
   private amcNo: string;
-  private amcFile: File;
+  public amcFile: File;
   public isLoadingResults = true;
   public isRateLimitReached = false;
-  public errorMessage = "Unknown Error"
+  public errorMessage = "Unknown Error";
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,7 +35,6 @@ export class AmcSerialComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private ngZone: NgZone,
-    private http: HttpClient,
     private notificationService: NotificationService
   ) { }
 
@@ -80,30 +76,34 @@ export class AmcSerialComponent implements OnInit {
         lifeStartDate: ['', [Validators.required]],
         lifeEndDate: ['', [Validators.required]],
         productDescription: ['', [Validators.required]],
-        price: ['', [Validators.required]],
-        quantity: ['', [Validators.required]],
+        price: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+        quantity: ['', [Validators.required, Validators.pattern(/^[\d]{1,2}$/)]],
         exchangeRate: [''],
-        totalValue: ['', [Validators.required]],
-        totalValueLkr: ['', [Validators.required]]
+        totalValue: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+        totalValueLkr: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]]
+      }, {
+        validator: DateValidator('lifeStartDate', 'lifeEndDate')
       }),
       currency: this.formBuilder.group({
-        currencyId: [''],
+        currencyId: ['', [Validators.required]],
       }),
-      frequency: [''],
+      frequency: ['', [Validators.required]],
       mtcStartDate: ['', [Validators.required]],
       mtcEndDate: ['', [Validators.required]],
       renewalDate: ['', [Validators.required]],
-      mtcQty: ['', [Validators.required]],
-      mtcAmtPerAnnum: ['', [Validators.required]],
-      mtcAmtPerAnnumLkr: ['', [Validators.required]],
-      mtcAmtforfrequency: ['', [Validators.required]],
-      mtcAmtforfrequencyLkr: ['', [Validators.required]],
-      mtcAmtPerProduct: ['', [Validators.required]],
-      mtcAmtPerProductLkr: ['', [Validators.required]],
-      mtcAmtforfrequencyPerItem: ['', [Validators.required]],
-      mtcAmtforfrequencyPerItemLkr: ['', [Validators.required]],
+      mtcQty: ['', [Validators.required, Validators.pattern(/^[\d]{1,2}$/)]],
+      mtcAmtPerAnnum: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+      mtcAmtPerAnnumLkr: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+      mtcAmtforfrequency: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+      mtcAmtforfrequencyLkr: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+      mtcAmtPerProduct: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+      mtcAmtPerProductLkr: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+      mtcAmtforfrequencyPerItem: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
+      mtcAmtforfrequencyPerItemLkr: ['', [Validators.required, Validators.pattern(/^[\d]+(\.[\d]{1,2})?$/)]],
       active: ['true'],
       remark: ['', [Validators.required]]
+    }, {
+      validator: [DateValidator('mtcEndDate', 'renewalDate'), DateValidator('mtcStartDate', 'mtcEndDate')]
     });
   }
 
@@ -113,18 +113,18 @@ export class AmcSerialComponent implements OnInit {
     this.amcMasterservice.getProduct().subscribe(response => {
       this.productList = response;
       this.isLoadingResults = ((productListLoad = true) && categoryListLoad) ? false : true;
-    }, error => {
+    }, (error) => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      this.errorMessage = error;
+      this.errorMessage = (error.status === 0) ? error.error : "Error in loading data";
     });
     this.amcMasterservice.getCategory().subscribe(response => {
       this.categoryList = response;
       this.isLoadingResults = ((categoryListLoad = true) && productListLoad) ? false : true;
-    }, error => {
+    }, (error) => {
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      this.errorMessage = error;
+      this.errorMessage = (error.status === 0) ? error.error : "Error in loading data";
     });
   }
 
@@ -152,6 +152,8 @@ export class AmcSerialComponent implements OnInit {
         },
         frequency: data.frequency
       })
+    }, error => {
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
     })
   }
 
@@ -172,6 +174,10 @@ export class AmcSerialComponent implements OnInit {
   }
 
   submitForm(): void {
+    if (!this.amcFile) {
+      this.amcFile = null;
+      return;
+    }
     this.amcSerialProgress = true;
     if (this.amcSerialForm.valid) {
       const amcNo = this.amcSerialForm.get('amcMaster.amcNo').value;
@@ -190,10 +196,10 @@ export class AmcSerialComponent implements OnInit {
               })
             }
           };
-          this.router.navigate([`/clients/depts/${this.deptId}/amc-list`], navigationExtras);
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => this.router.navigate([`/clients/depts/${this.deptId}/amc-list`], navigationExtras));
         },
         error => {
-          let message = (error.status === 400) ? error.error.message : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.amcSerialProgress = false);
@@ -224,4 +230,78 @@ export class AmcSerialComponent implements OnInit {
     this.router.navigateByUrl('clientView');
   }
 
+  get product(): AbstractControl {
+    return this.amcSerialForm.get('amcProduct.product.productId');
+  }
+  get lifeStartDate(): AbstractControl {
+    return this.amcSerialForm.get('amcProduct.lifeStartDate');
+  }
+  get lifeEndDate(): AbstractControl {
+    return this.amcSerialForm.get('amcProduct.lifeEndDate');
+  }
+  get productDes(): AbstractControl {
+    return this.amcSerialForm.get('amcProduct.productDescription');
+  }
+  get price(): AbstractControl {
+    return this.amcSerialForm.get('amcProduct.price');
+  }
+  get quantity(): AbstractControl {
+    return this.amcSerialForm.get('amcProduct.quantity');
+  }
+  get exchangeRate(): AbstractControl {
+    return this.amcSerialForm.get('amcProduct.exchangeRate');
+  }
+  get salesValue(): AbstractControl {
+    return this.amcSerialForm.get('amcProduct.totalValue');
+  }
+  get salesValueLkr(): AbstractControl {
+    return this.amcSerialForm.get('amcProduct.totalValueLkr');
+  }
+  get frequency(): AbstractControl {
+    return this.amcSerialForm.get('frequency');
+  }
+  get category(): AbstractControl {
+    return this.amcSerialForm.get('category.categoryId');
+  }
+  get mtcStartDate(): AbstractControl {
+    return this.amcSerialForm.get('mtcStartDate');
+  }
+  get mtcEndDate(): AbstractControl {
+    return this.amcSerialForm.get('mtcEndDate');
+  }
+  get renewalDate(): AbstractControl {
+    return this.amcSerialForm.get('renewalDate');
+  }
+  get mtcQty(): AbstractControl {
+    return this.amcSerialForm.get('mtcQty');
+  }
+  get mtcAmtPerAnnum(): AbstractControl {
+    return this.amcSerialForm.get('mtcAmtPerAnnum');
+  }
+  get mtcAmtPerAnnumLkr(): AbstractControl {
+    return this.amcSerialForm.get('mtcAmtPerAnnumLkr');
+  }
+  get mtcAmtforfrequency(): AbstractControl {
+    return this.amcSerialForm.get('mtcAmtforfrequency');
+  }
+  get mtcAmtforfrequencyLkr(): AbstractControl {
+    return this.amcSerialForm.get('mtcAmtforfrequencyLkr');
+  }
+  get mtcAmtPerProduct(): AbstractControl {
+    return this.amcSerialForm.get('mtcAmtPerProduct');
+  }
+  get mtcAmtPerProductLkr(): AbstractControl {
+    return this.amcSerialForm.get('mtcAmtPerProductLkr');
+  }
+  get mtcAmtforfrequencyPerItem(): AbstractControl {
+    return this.amcSerialForm.get('mtcAmtforfrequencyPerItem');
+  }
+  get mtcAmtforfrequencyPerItemLkr(): AbstractControl {
+    return this.amcSerialForm.get('mtcAmtforfrequencyPerItemLkr');
+  }
+  get remark(): AbstractControl {
+    return this.amcSerialForm.get('remark');
+  }
+
 }
+

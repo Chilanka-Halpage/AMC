@@ -2,55 +2,42 @@
  
  <div class="container-md mb-4">
     <div class="jumbotron mb-3">
-       <h3>update Tax</h3>
+       <h2>update Tax</h2>
    </div>
-   <br>
-   <div class="card">
-    <div class="card-header">
-       <h5>General details form for new Invoice</h5>
-       <p class="mb-1">Fill out the details </p>
-   </div>
-   
-   <div class="container pt-3">
+      <br>
+   <div class=" container pt-3 card  background-color">
   <form [formGroup]="addtaxForm" (ngSubmit)="onSubmit()">
     <div class="row px-0">
       <mat-form-field appearance="outline" class="col-6">
         <mat-label>Tax Name:</mat-label>
-        <input type="text" matInput formControlName="taxName" [(ngModel)]="tax.taxName">  
+        <input type="text" matInput formControlName="taxName" [(ngModel)]="tax.taxName"   [readonly]>  
         <mat-error *ngIf="!addtaxForm.controls['taxName'].valid">
           Tax Name required
            </mat-error> 
       </mat-form-field>
     </div>
     <mat-divider class="mat-divider"></mat-divider>
-    <br>
-  
+      <br>  
     <div class="row px-0">
       <mat-form-field appearance="outline" class="col pr-2">
       <mat-label>
         Tax Short Name:  </mat-label>
         <input type="text" matInput formControlName="shortName" [(ngModel)]="tax.shortName"> 
-        <mat-error *ngIf="!addtaxForm.controls['shortName'].valid">
-          Short Name required
-           </mat-error> 
-     </mat-form-field>
-  
+        <mat-error *ngIf="!addtaxForm.controls['shortName'].touched"> Short Name required</mat-error> 
+     </mat-form-field> 
       <mat-form-field appearance="outline" class="col pl-2">
          <mat-label>
           Tax Rate:</mat-label>
-          <input type="number" matInput formControlName="taxRate" [(ngModel)]="tax.taxRate">  
-          <mat-error *ngIf="!addtaxForm.controls['taxRate'].valid">
-            less than 999
-          </mat-error>   
+          <input type="number" matInput formControlName="taxRate" [(ngModel)]="tax.taxRate"> 
+          <mat-error *ngIf="!addtaxForm.controls['shortName'].touched">Tax Rate required</mat-error> 
       </mat-form-field>  
      </div> 
      <div class="row px-0">
       <mat-checkbox formControlName="active" [(ngModel)]="tax.active" class="col-md-4">Active Tax</mat-checkbox>
      </div>
      <div class="d-flex flex-row-reverse my-0">
-      <button class="btn btn-success mb-3" type="submit">submit</button>
+      <button class="btn btn-success mb-3" type="submit"><span *ngIf="TaxSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
      </div>
     </form>
-  </div>
   </div>
   </div>

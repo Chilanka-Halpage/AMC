@@ -36,9 +36,6 @@ table {
 .mat-card{
    
     margin: 5em auto;
-    
-    
-
 }
 
 .example-full-width {
@@ -50,4 +47,8 @@ table {
 .example-form-field{
   font-size: 14px;
   width: 100%;
+}
+
+h2{
+  color: red;
 }

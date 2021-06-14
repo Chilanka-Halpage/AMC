@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "heroku-postbuild": "ng build --prod && npm install -g http-server-spa",
+    "start": "http-server-spa dist/my-app index.html $PORT",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -23,9 +24,12 @@
     "@angular/platform-browser-dynamic": "~10.0.9",
     "@angular/router": "~10.0.9",
     "@ng-bootstrap/ng-bootstrap": "^8.0.0",
+    "angular-confirmation-popover": "^6.0.0",
     "bootstrap": "^4.6.0",
     "chart.js": "^2.9.4",
-    "jquery": "^3.5.1",
+    "file-saver": "^2.0.5",
+    "jquery": "^3.6.0",
+    "ngx-image-cropper": "^3.3.5",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

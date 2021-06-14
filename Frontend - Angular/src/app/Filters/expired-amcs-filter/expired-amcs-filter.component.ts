@@ -1,7 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { JrReportDetailsService } from 'src/app/data/jr-report-details.service';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
   selector: 'app-expired-amcs-filter',
@@ -11,16 +14,23 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ExpiredAmcsFilterComponent implements OnInit {
 
   date=new Date();
+  isLoadingResults ;
 
   constructor(
+    public _authentication: AuthenticationService,
+    private jrReportDetailsService:JrReportDetailsService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private datePipe: DatePipe,) { }
+    private datePipe: DatePipe,
+    public dialogRef: MatDialogRef<ExpiredAmcsFilterComponent>
+    ) { }
 
     expiredAmcsFilter = this.fb.group({
       date1: [''],
       date2: ['']
+    },{
+      validator: ConfirmedValidator('date1', 'date2')
     });
   ngOnInit(): void {
   }
@@ -29,8 +39,24 @@ export class ExpiredAmcsFilterComponent implements OnInit {
     let date2 = this.expiredAmcsFilter.value.date2;
      let formatteddate1 = this.datePipe.transform(date1, "yyyy-MM-dd");
      let formatteddate2 = this.datePipe.transform(date2, "yyyy-MM-dd");
-    
-    this.router.navigate(['expiredAmcs',formatteddate1,formatteddate2]);
+      this.router.navigate(['expiredAmcs',formatteddate1,formatteddate2]);
+}
+get f(){
+  return this.expiredAmcsFilter.controls;
+}
+}
+export function ConfirmedValidator(fromDate: string, toDate: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[fromDate];
+    const matchingControl = formGroup.controls[toDate];
+    if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+      return;
+    }
+    if (control.value > matchingControl.value) {
+      matchingControl.setErrors({ confirmedValidator: true });
+      control.setErrors({ confirmedValidator: true });
+    } else {
+      matchingControl.setErrors(null);
+    }
   }
-
 }

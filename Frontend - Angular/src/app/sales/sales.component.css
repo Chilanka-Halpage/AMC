@@ -1,0 +1,10 @@
+.example-card {
+    height: 400px;
+    width: 700px;
+    border-radius: 5px;
+    background: transparent;
+    align-items: center;
+  }
+  .container {
+    position: relative;
+  }

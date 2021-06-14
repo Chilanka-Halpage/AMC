@@ -12,9 +12,9 @@ public interface AllAmcs {
 	public String getcategory_name();
 	public String getfrequency();
 	public String getcurrency_name();
-	public BigDecimal getexchage_rate();
+	public BigDecimal getexchange_rate();
 	public int getmtc_qty();
-	public BigDecimal gettotal_value();
+	public BigDecimal gettotal_value_lkr();
 	public boolean getactive();
-	//--------------------------------------------------
+	public String getamc_serial_no();
 }

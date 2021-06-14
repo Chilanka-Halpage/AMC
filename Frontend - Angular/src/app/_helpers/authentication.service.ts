@@ -6,10 +6,11 @@ import {Injectable} from '@angular/core';
 })
 export class AuthenticationService {
 
+  static userId: any;
+
   constructor(
-    private _router: Router
-  ) {
-  }
+    private _router: Router,
+  ) {}
 
   user(): any | null {
     const user = localStorage.getItem('currentUser');
@@ -33,7 +34,7 @@ export class AuthenticationService {
     }
   }
 
-   get role(): string | null {
+  get role(): string | null {
     const user = this.user();
     if (user) {
       return user.role;
@@ -41,6 +42,15 @@ export class AuthenticationService {
       return null;
     }
   } 
+
+  get name(): string | null {
+    const user = this.user();
+    if (user) {
+      return user.username;
+    } else {
+      return null;
+    }
+  }
 
   loggedIn(): boolean {
     return !!localStorage.getItem('currentUser');
@@ -59,16 +69,22 @@ export class AuthenticationService {
     }
   }
 
- /*  get token(): string | null {
-    try {
-      const user = localStorage.getItem('currentUser');
-      if (user) {
-        return JSON.parse(user).token;
-      } else {
-        return null;
-      }
-    } catch (Exception) {
+  get userId(): string | null{
+    const user = this.user();
+    if (user) {
+      return user.userId;
+    } else {
       return null;
-    } 
-  }*/
+    }
+  }
+
+  get imageSrc(): string | null {
+    const user = this.user();
+    if (user) {
+      return user.imageSrc;
+    } else {
+      return null;
+    }
+  }
+    
 }

@@ -7,13 +7,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { startWith, switchMap, map, catchError } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css']
 })
-export class ClientListComponent implements AfterViewInit {
+export class ClientListComponent implements OnInit, AfterViewInit {
   public displayedColumns: string[] = [
     'clientName',
     'active',
@@ -34,14 +35,20 @@ export class ClientListComponent implements AfterViewInit {
   public errorMessage = "Unknown Error"
   public pagesize = 20;
   public filterValue: string;
+  public isAuthorized: boolean;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private clientService: ClientService,
-    private router: Router
+    private router: Router,
+    private authService: AuthenticationService
   ) { }
+
+  ngOnInit(): void {
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
+  }
 
   ngAfterViewInit(): void {
     this.loadingClientData();
@@ -70,7 +77,8 @@ export class ClientListComponent implements AfterViewInit {
 
           return data.content;
         }),
-        catchError(() => {
+        catchError( error => {
+          this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
           this.isLoadingResults = false;
           // set flag to identify that errors ocuured
           this.isRateLimitReached = true;

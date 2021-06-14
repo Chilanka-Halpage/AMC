@@ -1,12 +1,12 @@
+import { map } from 'rxjs/operators';
 import { ClientDepartment } from './../../Model/client-department';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ActivatedRoute, Router, InitialNavigation, NavigationStart, NavigationExtras } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { ClientService } from 'src/app/shared/client.service';
-import { NotificationService } from 'src/app/shared/notification.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_helpers/authentication.service';
 
 @Component({
   selector: 'app-department-list',
@@ -14,9 +14,10 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./department-list.component.css']
 })
 export class DepartmentListComponent implements OnInit {
-  displayedColumns: string[] = [
+  private clientId: number;
+  public displayedColumns: string[] = [
     'departmentName',
-    'isActive',
+    'active',
     'email',
     'contactNo',
     'contactPerson',
@@ -27,13 +28,14 @@ export class DepartmentListComponent implements OnInit {
     'lastModifiedIp',
     'action'
   ];
-  clientId: number;
-  clientName: any;
-  dataSource: MatTableDataSource<ClientDepartment>;
-  resultsLength = 0;
-  isLoadingResults = true;
-  isRateLimitReached = false;
-
+  public clientName: any;
+  public dataSource: MatTableDataSource<ClientDepartment>;
+  public resultsLength = 0;
+  public errorMessage = 'Unknown error'
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public isAuthorized = false;
+  public isBlocked = false;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -41,15 +43,22 @@ export class DepartmentListComponent implements OnInit {
     private clientService: ClientService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      let value = JSON.parse(params["data"]);
-      this.clientId = value.id;
-      this.clientName = value.name;
-      this.loadDeptList(this.clientId);
-    });
+    this.isAuthorized = (this.authService.role === 'ROLE_ADMIN') ? true : false;
+    if (this.authService.role === 'ROLE_CLIENT') {
+      this.isBlocked = true;
+      this.loadDeptListForClient(this.authService.userId);
+    } else {
+      this.activatedRoute.queryParams.subscribe(params => {
+        let value = JSON.parse(params["data"]);
+        this.clientId = value.id;
+        this.clientName = value.name;
+        this.loadDeptList(this.clientId);
+      });
+    }
   }
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -65,16 +74,31 @@ export class DepartmentListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.resultsLength = this.dataSource.data.length;
     }, error => {
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
       this.isLoadingResults = false;
       this.isRateLimitReached = true;
-      console.log(error);
+    })
+  }
+
+  loadDeptListForClient(userId: string): void {
+    this.isLoadingResults = true;
+    this.clientService.getDepartmentsByUserId(userId).subscribe(response => {
+      this.isLoadingResults = false;
+      this.dataSource = new MatTableDataSource(response);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.resultsLength = this.dataSource.data.length;
+    }, error => {
+      this.errorMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
     })
   }
 
   onCreate(): void {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        data: JSON.stringify({type: '%DC4%'})
+        data: JSON.stringify({ type: '%DC4%' })
       }
     };
     this.router.navigate(['client/' + this.clientId + '/dept/new'], navigationExtras);
@@ -86,6 +110,7 @@ export class DepartmentListComponent implements OnInit {
         data: JSON.stringify({
           type: '%DE3%',
           cid: this.clientId,
+          cname: this.clientName,
           data: row
         })
       }
@@ -112,9 +137,10 @@ export class DepartmentListComponent implements OnInit {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         "data": JSON.stringify({
-          "cname": this.clientName,
-          "did": row.deptId,
-          "dname": row.departmentName
+          cid: this.clientId,
+          cname: this.clientName,
+          did: row.deptId,
+          dname: row.departmentName
         })
       }
     };

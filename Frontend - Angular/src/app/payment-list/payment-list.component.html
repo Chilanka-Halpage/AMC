@@ -1,55 +1,48 @@
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      {{errorMessage}}
+  </div>
+</div>
 <div class="w-100 px-3">  
+  <br>
   <h2>Payment History</h2> 
-  
   <mat-form-field class="Filter">
     <mat-label>Filter By </mat-label>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Ex.recNo" #input>
   </mat-form-field>
-
   <table mat-table class="mat-elevation-z8, table table-striped table-hover" matSort [dataSource]="payments">
-    <ng-container matColumnDef="recNo">
+    <ng-container matColumnDef="rec_no">
       <th mat-header-cell *matHeaderCellDef class="align-middle" mat-sort-header>recNo</th>
       <td mat-cell *matCellDef="let element" class="align-middle">{{element.rec_no}}</td>
     </ng-container>     
-    <ng-container matColumnDef="recDate">
+    <ng-container matColumnDef="pi_no">
+      <th mat-header-cell *matHeaderCellDef class="align-middle" mat-sort-header>pi_no</th>
+      <td mat-cell *matCellDef="let element" class="align-middle">{{element.pi_no}}</td>
+    </ng-container> 
+    <ng-container matColumnDef="rec_date">
       <th mat-header-cell *matHeaderCellDef class="align-middle" mat-sort-header>recDate</th>
       <td mat-cell *matCellDef="let element" class="align-middle">{{element.rec_date}}</td>
     </ng-container>
-    <ng-container matColumnDef="exchageRate">
+    <ng-container matColumnDef="exchage_rate">
       <th mat-header-cell *matHeaderCellDef class="align-middle" mat-sort-header>exchageRate</th>
       <td mat-cell *matCellDef="let element" class="align-middle">{{element.exchage_rate}}</td>
     </ng-container>
-    <ng-container matColumnDef="payMode">
+    <ng-container matColumnDef="pay_mode">
       <th mat-header-cell *matHeaderCellDef class="align-middle">payMode</th>
       <td mat-cell *matCellDef="let element" class="align-middle">{{element.pay_mode}}</td>
-    </ng-container>
-    <ng-container matColumnDef="client_dept">
-      <th mat-header-cell *matHeaderCellDef class="align-middle" mat-sort-header>client_dept</th>
-      <td mat-cell *matCellDef="let element" class="align-middle">{{element.client_dept_id}}</td>
     </ng-container>
     <ng-container matColumnDef="balance">
       <th mat-header-cell *matHeaderCellDef class="align-middle" mat-sort-header>balance</th>
       <td mat-cell *matCellDef="let element" class="align-middle">{{element.balance}}</td>
     </ng-container> 
-    <ng-container matColumnDef="totalLkr">
+    <ng-container matColumnDef="total_lkr">
       <th mat-header-cell *matHeaderCellDef class="align-middle" mat-sort-header>totalLkr</th>
       <td mat-cell *matCellDef="let element" class="align-middle">{{element.total_lkr}}</td>
     </ng-container> 
-    <ng-container matColumnDef="balanceLkr">
+    <ng-container matColumnDef="balance_lkr">
       <th mat-header-cell *matHeaderCellDef class="align-middle" mat-sort-header>balanceLkr</th>
       <td mat-cell *matCellDef="let element" class="align-middle">{{element.balance_lkr}}</td>
-    </ng-container> 
-    <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef class="align-middle">Category</th>
-      <td mat-cell *matCellDef="let element" class="align-middle">{{element.category_id}}</td>
-    </ng-container> 
-    <ng-container matColumnDef="Currency">
-      <th mat-header-cell *matHeaderCellDef class="align-middle">Currency</th>
-      <td mat-cell *matCellDef="let element" class="align-middle">{{element.currency_id}}</td>
-    </ng-container>
-    <ng-container matColumnDef="pi_no">
-      <th mat-header-cell *matHeaderCellDef class="align-middle">pi_no</th>
-      <td mat-cell *matCellDef="let element" class="align-middle">{{element.pi_no}}</td>
     </ng-container>   
     <tr mat-header-row class="p-3 mb-2 bg-primary text-white"  *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -58,15 +51,3 @@
      [pageSize]="10"[pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
      </mat-paginator> 
   </div>
-
-<!--   recNo: string;
-  recDate: number;
-  exchageRate: string;
-  payMode: string;
-  total: number;
-  balance: number;
-  totalLkr: number;
-  balanceLkr: number;
-  savedBy: string;
-  savedOn: number;
-  savedIp: string; -->

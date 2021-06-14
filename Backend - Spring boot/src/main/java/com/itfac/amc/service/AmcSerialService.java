@@ -10,6 +10,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.itfac.amc.dto.AmcFullDataDto;
 import com.itfac.amc.dto.AmcSerialDto;
+import com.itfac.amc.dto.addRecieptDto;
+import com.itfac.amc.dto.recieptDto;
 
 public interface AmcSerialService {
 	void addAmcSerialByAmcNo(String amcSerialData, MultipartFile file, String amcNo)
@@ -21,8 +23,9 @@ public interface AmcSerialService {
 
 	AmcFullDataDto getAmcFullDataByAmcSerialNo(String amcSerialNo);
 
-	void renewAmc(HttpServletRequest request, String data, MultipartFile file, String amcNo)
+	void renewAmc(HttpServletRequest request, String data, MultipartFile file, String amcNo, String amcSerialNo)
 			throws JsonMappingException, JsonProcessingException;
-
+	
+	addRecieptDto getdetalis(String amcS_no);
 
 }

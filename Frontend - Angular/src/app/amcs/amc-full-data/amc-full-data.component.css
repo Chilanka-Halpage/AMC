@@ -1,3 +1,6 @@
+h2 {
+    color: red;
+  }
 .amc-grid div :first-child {
     color: black;
 }

@@ -3,6 +3,8 @@ package com.itfac.amc.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,6 @@ public class CategoryServiceImp implements CategoryService {
 
 	@Override
 	public List<Category> getAllCategory() {
-
 		List<Category> findAllCategory = categoryrepo.findAll();
 		return findAllCategory;
 	}
@@ -34,13 +35,28 @@ public class CategoryServiceImp implements CategoryService {
 	}
 
 	@Override
-	public Category AddCategory(Category category) {
+	public Category AddCategory(Category category,HttpServletRequest httpServletRequest) {
+		String ipAddress = httpServletRequest.getRemoteAddr();
+		category.setSavedIp(ipAddress);
 		return categoryrepo.save(category);
 	}
 
 	@Override
-	public Category updateCategory(Category category) {
-		return categoryrepo.save(category);
+	public void updateCategory(Category category,int categoryId) {
+		Category categoryy=categoryrepo.findByCategoryId(categoryId);
+		categoryy.setCategoryName(category.getCategoryName());
+		categoryy.setActive(category.isActive());
+		categoryrepo.save(categoryy);
+	}
+	
+	@Override
+	public boolean doesCategoryExists(String categoryName) {
+	 return categoryrepo.existsByCategoryName(categoryName);
+	}
+
+	@Override
+	public List<Category> getActiveCategory() {
+		return categoryrepo.getActiveCategory();
 	}
 
 }

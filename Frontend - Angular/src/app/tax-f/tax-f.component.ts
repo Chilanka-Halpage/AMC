@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {FormGroup,FormControl,FormBuilder, Validators} from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { TaxService } from '../tax.service';
-import { Router } from '@angular/router';
+import { Router,NavigationExtras } from '@angular/router';
 import { Tax } from './../tax';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { delay } from 'rxjs/internal/operators/delay';
+import { map } from 'rxjs/internal/operators/map';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-tax-f',
@@ -15,15 +21,19 @@ export class TaxFComponent implements OnInit {
     private fb: FormBuilder,
     private taxService: TaxService,
     private router: Router,
+    private notificationService: NotificationService,
   ) { }
 
-  tax: Tax = new Tax();
   taxId: number;
+  private taxForm$: Observable<any>;
+  public isDesabled = false;
+  public type: any;
+  public TaxSavingProgress = false;
 
   addtaxForm = this.fb.group({
-    taxName: ['',[Validators.required]],
-    shortName: ['',[Validators.required]],
-    taxRate: ['', [Validators.required, Validators.max(999)]],
+    taxName: ['', [Validators.required], [this.existTaxValidator()], blur],
+    shortName: ['', [Validators.required]],
+    taxRate: ['',[Validators.required,Validators.max(999), Validators.pattern(/^[\d]{1,3}(\.[\d]{1,2})?$/)]],
     taxId: [''],
     savedOn: [''],
     savedIp: [''],
@@ -31,21 +41,55 @@ export class TaxFComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.checkStatus()
   }
 
-  saveTax(){
-    this.taxService.createTax(this.tax).subscribe(data =>{
-      console.log(data);
-    this.goToTaxList();  
-   },
-      error => console.log(error));    
+  saveTax() {
+    if(this.addtaxForm.valid){
+      this.TaxSavingProgress = true; 
+    this.taxService.createTax(this.addtaxForm.value).subscribe(data => {
+      this.TaxSavingProgress = false; 
+       this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/taxlist']) });
+       
+    },
+      error =>  { let message = (error.status === 0 || error.status === 400 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
+                  this.notificationService.showNoitfication(message, 'OK', 'error', null); }
+      );
+    }else{
+      this.TaxSavingProgress = false; 
+    }
   }
-  goToTaxList(){
-      this.router.navigate(['/taxlist']);
+  goToTaxList() {
+    this.router.navigate(['/taxlist']);
   }
-  onSubmit(){
-    console.log(this.addtaxForm.value);
+  onSubmit() {
     this.saveTax();
+  }
+  private checkStatus(): void {
+    this.taxForm$ = this.addtaxForm.statusChanges;
+    this.taxForm$.subscribe(response => {
+      if (response === 'PENDING') {
+        setTimeout(() => {
+          this.addtaxForm.updateValueAndValidity();
+        }, 2000);
+      }
+    })
+  }
+
+  private existTaxValidator():AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!this.type) {
+        return of(control.value).pipe(
+          delay(500),
+          switchMap((taxName: string) => this.taxService.doesTaxExists(taxName)),
+          map(response => {
+            this.isDesabled = response;
+            return response ? { taxNameExists: true } : null
+          })
+        )
+      }
+      return of(null);
+    };
   }
 }
 

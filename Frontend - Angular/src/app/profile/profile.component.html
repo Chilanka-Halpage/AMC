@@ -1,32 +1,45 @@
-<div class="container-fluid div1">
-  <h2 class="div3">Profile</h2>
-  <div class="conntainer-fluid div2">
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+    Unknown Error
+  </div>
+</div>
+<div class="container-fluid div1 background-color">
+  <!-- <h2 class="div3">Profile</h2> -->
+  <div class="conntainer-fluid background-color">
     <div class="container div3">
-      <div class="container" id="div1">
-        <br><br>
-        <div class="container">
-          <img src="{{imageSrc}}" alt="image" class="middle rounded-circle img-thumbnail img"><br><br>
-        </div>
-        <mat-grid-list cols="2" rowHeight="150px">
-          <mat-grid-tile>
-            <div>
-              <mat-label> <b>Name:</b></mat-label><br>
-              <mat-label> <b>User Id:</b></mat-label><br>
-              <mat-label> <b>Contact Number:</b></mat-label><br>
-              <mat-label> <b>Email:</b></mat-label>
-            </div>
-          </mat-grid-tile>
-          <mat-grid-tile>
-            <div>
-              <mat-label>{{users.uname}}</mat-label><br>
-              <mat-label>{{users.userId}}</mat-label><br>
-              <mat-label>{{users.contactNo}}</mat-label><br>
-              <mat-label>{{users.email}}</mat-label>
-            </div>
-          </mat-grid-tile>
-        </mat-grid-list>
+      <div class="container align-middle" id="div1">
+        <table style="margin-top: 100px; margin-left :100px;">
+          <tr>
+            <td rowspan="8" style="width: 350px;"><img src="{{imageSrc}}" class="middle rounded-circle img-thumbnail img" 
+              style="background-image: url(../../assets/backgroundimage1.jpg);" alt="..."></td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr style="height: 10px;">
+            <td><h1>{{users.uname}}</h1></td>
+          </tr>
+          <tr style="height: 20px;">
+            <td ><h3>ID : {{users.userId}}</h3></td>
+          </tr>
+          
+          <tr>
+            <td><h4>Contact No : {{users.contactNo}}</h4> </td>
+          </tr>
+          <tr>
+            <td><h4>Email : {{users.email}}</h4></td>
+          </tr>
+          <tr>
+            <td><button (click)="editprofile(users.userId)" class="btn btn-primary">Edit Profile</button></td>
+          </tr>
+        </table>
         <br>
-        <button (click)="editprofile(users.userId)" class="btn btn-primary">Edit Profile</button>
+        
       </div>
     </div>
   </div>

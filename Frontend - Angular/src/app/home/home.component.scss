@@ -1,18 +1,35 @@
-.dashboard-card{
-    height: 100px;
-    width: 80%;
+
+
+head{
+  margin-left: 20px;
 }
-.mat-h1{
-   margin: 20px;
+
+
+.chart-container {
+  width: 95%;
+  height:85%
 }
-.value{
-    color: red;
+.content{
+  border-radius: 10px;
+  background-color: rgba(219, 220, 243, 0.781);
+  box-shadow: rgba(50, 50, 93, 0.1) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.1) 0px 18px 36px -18px inset;
 }
-.revanue{
-    width: 500px;
-    margin: 30px;
+
+.content:hover{
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
 }
-.dashboard-card:hover{
-    box-shadow: 2px 2px 4px 1px rgba(0,0,0,0.8);
+.text{
+  text-align: left;
+}
+
+.mat-icon {
+  font-size: 70px;
+  color: rgb(49, 49, 49);
   }
-  
+
+ .card{
+  background-color: transparent; 
+ }
+ .table{
+  background-color: transparent;
+ }

@@ -1,10 +1,13 @@
 export class ClientPaymentDetails {
     amc_no : String
+	pay_mode : String
+	department_name : String
+	rec_date : Date
+	rec_no : String
 	product_name : String
-	frequency : String
     currency_name :String
-	exchage_rate : number
+	exchange_rate : number
 	total : number
-	total_lkr : number
-	client_id : String
+	balance : number
+	user_id : String
 }

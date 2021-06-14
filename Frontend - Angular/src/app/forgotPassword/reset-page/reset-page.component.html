@@ -1,0 +1,45 @@
+<div style="background-image: url(assets/password.png); width: 100%; height: 90%; background-repeat: no-repeat;">
+
+  <div class="container">
+<mat-card>
+  <mat-card-header>
+  </mat-card-header>
+    <mat-card-content>
+        <div class="header">
+    <h2>Reset Your Password</h2>
+        </div>
+        <div>
+          <p>password must be atleast 8 characters long and atleast contain one lower case,one upper case,one number and one special character.
+            common keyboard pattern are not recommended !
+          </p>
+        </div>
+    <form name="addForm" [formGroup]="passwordAddForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Enter New Password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="passwordOne">
+        <mat-error *ngIf="passwordAddForm.get('passwordOne').hasError('required')">
+          Password is required and must have at least 8 characters!
+        </mat-error>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput [type]="hide1 ? 'password' : 'text'" formControlName="passwordTwo">
+        <mat-error *ngIf="passwordAddForm.get('passwordTwo').touched && passwordAddForm.get('passwordTwo').invalid">
+        <mat-error *ngIf="passwordAddForm.get('passwordTwo').hasError('required')">Confirm Password is required !</mat-error>
+         <mat-error *ngIf="passwordAddForm.get('passwordTwo').errors.confirmedValidator">Password and Confirm Password must be match.</mat-error>
+      </mat-error>
+        <button mat-icon-button matSuffix (click)="hide1 = !hide1" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide1">
+        <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <br>
+      <button type="button" mat-flat-button color="primary" (click)="ResetPassword(passwordAddForm)" [disabled]="!passwordAddForm.valid">Verify</button>
+    </form>
+    </mat-card-content>
+</mat-card>
+</div>
+</div>

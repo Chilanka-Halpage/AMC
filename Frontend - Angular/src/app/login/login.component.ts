@@ -1,9 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms'
-import {HttpClient} from '@angular/common/http';
-import {Router} from '@angular/router';
+import { AuthenticationService } from './../_helpers/authentication.service';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../alert/alert.component';
+import { environment } from 'src/environments/environment';
+import { ImageService } from '../data/image-service.service';
+import { LoginDetailsService } from '../data/login-details.service';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -12,24 +17,56 @@ import { AlertComponent } from '../alert/alert.component';
 })
 export class LoginComponent implements OnInit {
 
-  hide = false;
+  loginForm: FormGroup;
+  userId: String
+  notificationNo;
+  hide = true;
+  private redirectURL: any;
+  public imageSrc: string;
+  public showMessage = false;
   error: any;
+  public isDesabled = false;
+  public isLoadingResults = false
+  public isRateLimitReached = false;
+  errorMessage = "Unknown Error"
 
-  loginForm: FormGroup = this.fb.group({
-    userId: ['', [Validators.required]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
-  });
+  private baseURL = environment.baseServiceUrl;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router,    
-    private dialog:MatDialog,
-  ) {}
+    private router: Router,
+    private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
+    public _authentication: AuthenticationService,
+    private imageService: ImageService,
+    private loginDetailsService: LoginDetailsService,
+  ) { }
 
   ngOnInit(): void {
+    let params = this.activatedRoute.snapshot.queryParams;
+    if (params['redirectURL']) {
+      this.showMessage = true;
+      this.redirectURL = params['redirectURL'];
+    }
+    this.loginForm = this.fb.group({
+      userId: ['', [Validators.required]],
+      password: ['', [Validators.required,
+      Validators.minLength(8),]
+      ]
+    });
+  }
+
+  logout() {
+    this.loginDetailsService.logoutDetails().subscribe(
+      Responce => {
+        this.router.navigate(['/login']);
+        window.location.reload()
+      }
+    )
   }
   onLogin(): void {
+
     /*
     response {
       status: true if login successful, false if login unsuccessful,
@@ -38,29 +75,61 @@ export class LoginComponent implements OnInit {
       role: admin/user
     }
     */
+
     this.error = '';
     if (this.loginForm.valid) {
-      this.http.post<any>('http://localhost:8080/authenticate', this.loginForm.value).subscribe(
+      this.isLoadingResults = true
+      this.http.post<any>(`${this.baseURL}authenticate`, this.loginForm.value).subscribe(
         response => {
-            
-            const currentUser = {
-              token: response.jwt,
-              role: response.role
-            }
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-             if (response.role == "ROLE_admin") {
-              this.router.navigate(['/home']);
-              console.log(response)
-             } else {
-               this.router.navigate(['/dashboard']);
-             }
+
+          const currentUser = {
+            token: response.jwt,
+            role: response.role,
+            username: response.username,
+            userId: response.userId,
+            imageSrc: this.imageService.Image(response.userId),
+         
+          }
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          if (this.redirectURL) {
+            this.router.navigateByUrl(this.redirectURL).catch(() => {
+              this.navigatePage(response);
+            })
+          } else {
+            this.navigatePage(response);
+          }
+          this.isLoadingResults = true;
+          this.isRateLimitReached = false;
         }, error => {
-          this.error = error;
-          console.error(error);
-          this.dialog.open(AlertComponent);
-        }
+          this.isLoadingResults = false;
+          this.isRateLimitReached = true;
+          this.errorMessage = (error.status === 0  || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data'; }
       );
-    }
-    console.log(this.loginForm.value);
+    } this.isDesabled = true;
   }
+
+  forgotpassword() {
+    this.router.navigate(['login/forgetPassword'])
+  }
+
+  navigatePage(response: any) {
+    if (response.role == "ROLE_ADMIN" || response.role == "ROLE_AMC_COORDINATOR" || response.role == "ROLE_ACCOUNTANT") {
+      this.router.navigate(['/adminhome']);
+    } else if (response.role == "ROLE_CLIENT") {
+      this.router.navigate(['/clienthome']);
+    } else {
+      this.dialog.open(AlertComponent);
+    }
+  }
+
+  gotoadminhome(){
+    this.router.navigate(['/adminhome']);
+  }
+  gotoclienthome(){
+    this.router.navigate(['/clienthome']);
+  }
+
+
 }
+
+

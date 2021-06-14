@@ -16,8 +16,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 @Data
@@ -38,7 +36,6 @@ public class ProformaInvoiceTaxDetails {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pi_no", nullable = false, foreignKey = @ForeignKey(name = "proforma_tax_fk1"))
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
 	private ProformaInvoice invoice;
 	
 	@ManyToOne()

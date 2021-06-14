@@ -1,7 +1,79 @@
-<p>clientdashtable works!</p>
-<mat-form-field appearance="outline">
-    <mat-label>Outline form field</mat-label>
-    <input matInput placeholder="Placeholder">
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
+
+<div class="loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  <div class="rate-limit-reached" *ngIf="isRateLimitReached">
+      {{errorMessage}}
+  </div>
+</div>
+<div class="w-90 px-3">
+  <br>
+  <div class="" ><h2>Over View</h2>  </div>
+  <mat-grid-list cols="4" rowHeight="fit" style="height: 170px" gutterSize="40px" class=" my-3">
+    <mat-grid-tile  class="content"  style="background-color: rgb(161, 199, 255)">       
+        <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">TOTAL AMCs</h1></mat-grid-tile-header>
+        <h1 class="col align-left ml-3 mt-3" style="font-size: 40px">{{amcCount}}</h1>
+        <mat-icon class=" mr-5 mb-5 pr-5">content_copy</mat-icon>
+        <mat-grid-tile-footer style="height: 30px;" >
+          
+        </mat-grid-tile-footer>
+    </mat-grid-tile>
+    <mat-grid-tile class="content" style="background-color: rgb(60, 255, 174)"> 
+      <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">ACTIVE AMCs</h1></mat-grid-tile-header>
+      <h1 class="col align-left ml-3 mt-3" style="font-size: 40px;">{{Activeamc}}</h1>
+      <mat-icon class=" mr-5 mb-5 pr-5">assignment</mat-icon>
+      <mat-grid-tile-footer style="height: 30px;" >
+        
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+    <mat-grid-tile class="content" style="background-color: rgb(245, 168, 105)"> 
+      <mat-grid-tile-header style="background-color: transparent"><h1 style="color: black;font-size: 15px;">AMC Reminders</h1></mat-grid-tile-header>
+      <h1 class="col align-left ml-3 mt-3" style="font-size: 40px;">{{amcreminder}}</h1>
+      <mat-icon class=" mr-5 mb-5 pr-5">update</mat-icon>
+      <mat-grid-tile-footer style="height: 30px;">
+        
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+    <mat-grid-tile class="content" style="background-color: rgb(234, 248, 112)">
+      <mat-grid-tile-header style="background-color: transparent;"><h1 style="color: black;font-size: 15px;">Departments</h1></mat-grid-tile-header>
+      <h1 class="col align-left ml-3 mt-3" style="font-size: 40px;">{{department}}</h1>
+      <mat-icon class=" mr-5 mb-5 pr-5">home</mat-icon>
+      <mat-grid-tile-footer style="height: 30px;" >
+       
+      </mat-grid-tile-footer>
+    </mat-grid-tile>
+  </mat-grid-list>
+    <br>
+  <h2>Your payment details</h2>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <table mat-table class="mat-elevation-z8, table table-striped table-hover mr-5" matSort [dataSource]="clientdetails">
+    <ng-container matColumnDef="rec_no">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-middle">recNo</th>
+      <td mat-cell *matCellDef="let element" class="align-middle">{{element.rec_no}}</td>
+    </ng-container>     
+    <ng-container matColumnDef="rec_date" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-middle">recDate</th>
+      <td mat-cell *matCellDef="let element" class="align-middle">{{element.rec_date}}</td>
+    </ng-container>
+    <ng-container matColumnDef="payMode">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-middle">payMode</th>
+      <td mat-cell *matCellDef="let element" class="align-middle">{{element.pay_mode}}</td>
+    </ng-container>
+    <ng-container matColumnDef="balance">
+      <th mat-header-cell *matHeaderCellDef  mat-sort-header class="align-middle">balance</th>
+      <td mat-cell *matCellDef="let element" class="align-middle">{{element.balance}}</td>
+    </ng-container>
+    <ng-container matColumnDef="Category">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-middle">Category</th>
+      <td mat-cell *matCellDef="let element" class="align-middle">{{element.category_name}}</td>
+    </ng-container>
+    <ng-container matColumnDef="pi_no">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-middle">pi_no</th>
+      <td mat-cell *matCellDef="let element" class="align-middle">{{element.pi_no}}</td>
+    </ng-container>
+    <tr mat-header-row class="p-3 mb-2 bg-primary text-white"  *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>  
+
+
+      
+    

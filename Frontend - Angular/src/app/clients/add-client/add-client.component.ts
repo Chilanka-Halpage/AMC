@@ -14,6 +14,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class AddClientComponent implements OnInit {
   private clientId: number;
+  private cname: String;
   private data: any; // holds data for editing data whent editing request comes
   private clientForm$: Observable<any>;
   public clientForm: FormGroup;
@@ -30,8 +31,7 @@ export class AddClientComponent implements OnInit {
     private elementRef: ElementRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService,
-    private locaton: Location
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +44,7 @@ export class AddClientComponent implements OnInit {
         this.data = value.data;
         this.type = value.type;
         this.clientId = value.cid;
+        this.cname = value.cname;
         //set values to form fields for editing acootding to requset. Request can be either editing client or department data or creating new department 
         this.setForm(this.type);
       }
@@ -55,17 +56,17 @@ export class AddClientComponent implements OnInit {
     this.clientForm = this.formBuilder.group({
       client: this.formBuilder.group({
         clientId: [''],
-        clientName: ['', [Validators.required], [this.clientExistsValidator()], blur],
-        contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
-        contactPerson: ['', [Validators.required]],
+        clientName: ['', [Validators.required, Validators.pattern(/^.{3,}$/)], [this.clientExistsValidator()]],
+        contactNo: ['', [Validators.required, Validators.pattern(/^((0[1-9][0-9]{8})|(\+[0-9]{1,3}[1-9][0-9]{8,}))$/)]],
+        contactPerson: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s.]+$/)]],
         address: ['', [Validators.required]],
         active: [true]
       }),
       deptId: [''],
-      departmentName: ['', Validators.required, [this.deptExistsValidator()], blur],
+      departmentName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s.]+$/)], [this.deptExistsValidator()]],
       email: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)]],
-      contactNo: ['', [Validators.required, Validators.pattern(/^(0[1-9][0-9]{8})|(\+94[1-9][0-9]{8})$/)]],
-      contactPerson: ['', [Validators.required]],
+      contactNo: ['', [Validators.required, Validators.pattern(/^((0[1-9][0-9]{8})|(\+[0-9]{1,3}[1-9][0-9]{8,}))$/)]],
+      contactPerson: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s.]+$/)]],
       active: [true]
     });
   }
@@ -145,6 +146,7 @@ export class AddClientComponent implements OnInit {
 
   // when department edit requset comes, set department data to form fields
   loadDeptData(): void {
+    this.clientForm.get('client').disable();
     this.clientForm.patchValue({
       deptId: this.data.deptId,
       departmentName: this.data.departmentName,
@@ -153,7 +155,6 @@ export class AddClientComponent implements OnInit {
       contactPerson: this.data.contactPerson,
       active: this.data.active
     });
-    this.clientForm.controls['client'].setErrors(null);
   }
 
   // when department creation requset for existing client comes, set existing client data to form fields
@@ -170,9 +171,9 @@ export class AddClientComponent implements OnInit {
           active: response.active
         }
       });
-    }, () => {
-      let message = 'Cannot proceed the request. Try again'
-      this.notificationService.showNoitfication(message, 'OK', 'error', null);
+    }, (error) => {
+      const errMessage = (error.status === 0 || error.status === 404 || error.status === 403 || error.status === 401) ? error.error : 'Error in loading data';
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
     });
   }
 
@@ -196,7 +197,7 @@ export class AddClientComponent implements OnInit {
           this.notificationService.showNoitfication('Successfully done', 'OK', 'success', () => { this.router.navigate(['/amcMaster/new'], navigationExtras) });
         },
         (error) => {
-          let message = (error.status === 501) ? error.error.message : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
@@ -211,10 +212,18 @@ export class AddClientComponent implements OnInit {
       this.clientSavingProgress = true;
       this.clientService.saveDepartmentByClientId(this.clientId, this.clientForm.value).subscribe(
         response => {
-          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.locaton.back() });
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              "data": JSON.stringify({
+                "id": this.clientId,
+                "name": this.cname
+              })
+            }
+          };
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.router.navigate([`dept-list/${this.clientId}`],navigationExtras) });
         },
         (error) => {
-          let message = (error.status === 400)? 'Client not available to save department' : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
@@ -232,27 +241,33 @@ export class AddClientComponent implements OnInit {
           this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.navigateToClientList() });
         },
         (error) => {
-          let message = (error.status === 400)? 'Client not available to update' : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
     } else {
       this.scrollToFirstInvalidControl();
     }
-
   }
 
   //send edited department data to the backend for saving changes
   updateDept() {
-    this.clientForm.controls['client'].setErrors(null);
-    if (true) {
+    if (this.clientForm.valid) {
       this.clientSavingProgress = true;
       this.clientService.updateDepartment(this.clientForm.value, this.clientId, this.clientForm.value.deptId).subscribe(
         response => {
-          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.locaton.back() });
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              "data": JSON.stringify({
+                "id": this.clientId,
+                "name": this.cname
+              })
+            }
+          };
+          this.notificationService.showNoitfication(response, 'OK', 'success', () => { this.router.navigate([`dept-list/${this.clientId}`],navigationExtras) });
         },
         (error) => {
-          let message = (error.status === 400)? 'Department not available to update' : 'Cannot proceed the request. Try again'
+          let message = (error.status === 0 || error.status === 404 || error.status === 501 || error.status === 403 || error.status === 401) ? error.error : 'Cannot proceed the request. Try again'
           this.notificationService.showNoitfication(message, 'OK', 'error', null);
         }
       ).add(() => this.clientSavingProgress = false);
@@ -267,7 +282,6 @@ export class AddClientComponent implements OnInit {
     this.clientForm$.subscribe(response => {
       if (response === 'PENDING') {
         setTimeout(() => {
-          console.log("gg");
           this.clientForm.updateValueAndValidity();
         }, 2000);
       }
@@ -304,7 +318,7 @@ export class AddClientComponent implements OnInit {
     return this.clientForm.get('client.contactPerson');
   }
   get clientAddress(): AbstractControl {
-    return this.clientForm.get('client').get('address');
+    return this.clientForm.get('client.address');
   }
   get departmentName(): AbstractControl {
     return this.clientForm.get('departmentName');

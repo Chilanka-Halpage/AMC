@@ -1,9 +1,12 @@
 
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <div style="background-color: rgb(255, 255, 255);">
   <div class="container" class="class1">
     <div>
       <h2>All AMC Details Report</h2>
-      <form [formGroup]="allAmcFilter" (ngSubmit)="onSubmit()">
+      <form [formGroup]="allAmcFilter" >
         <b>From Date:</b>
         <div>
           <mat-form-field appearance="outline">
@@ -11,9 +14,9 @@
             <input matInput [matDatepicker]="picker1" formControlName="date1" required>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
+            <mat-error *ngIf="allAmcFilter.get('date1').hasError('required')">from date is required</mat-error>
           </mat-form-field>
         </div>
-      <br>
         <b>To date:</b>
         <div>
           <mat-form-field appearance="outline">
@@ -21,10 +24,28 @@
             <input matInput [matDatepicker]="picker2" formControlName="date2" required>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
-          </mat-form-field>
+            <mat-error *ngIf="allAmcFilter.get('date2').hasError('required')">to date is required</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="f.date2.invalid">
+              <mat-error *ngIf="f.date2.errors.confirmedValidator"><h5>"From date" should be before than "to date".</h5></mat-error> 
+             </mat-error>
+            </div>
+           <b>Category:</b>
+           <div>
+          <mat-form-field appearance="outline" class="col-15 col-md-auto">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category" required>
+                <mat-option value="all">All</mat-option>
+                <mat-option *ngFor="let category of categoryList" [value]="category.categoryName">
+                    {{category.categoryName}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="allAmcFilter.get('category').hasError('required')">Category is required</mat-error>
+        </mat-form-field>
         </div>
-
-        <button type="submit" mat-raised-button color="primary" mat-dialog-close>Generate Report</button>
-      </form>
+        <br>
+        <button class="btn btn-primary" mat-dialog-close type="submit" [disabled]="!allAmcFilter.valid" (click)="onSubmit()">Generate Report</button>
+    </form>
     </div>
+  </div>
   </div>

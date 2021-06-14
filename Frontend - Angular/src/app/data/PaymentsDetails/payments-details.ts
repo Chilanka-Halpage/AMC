@@ -1,13 +1,13 @@
 export class PaymentsDetails {
     amc_no: String
-	client_id: String
+	department_name: String
 	client_name: String
 	product_name: String
-	frequency: String
+	rec_date: Date
 	currency_name: String
 	exchage_rate: number
-	mtc_amount_per_product: number
-	mtc_amount_per_product_lkr: number
-	total: number
+	balance_lkr: number
+	rec_no: String
+	pay_mode: String
 	total_lkr: number
 }

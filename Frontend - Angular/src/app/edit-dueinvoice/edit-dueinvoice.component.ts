@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DuePaymentService } from '../due-payment.service';
-import { dateInputsHaveChanged } from '@angular/material/datepicker/datepicker-input-base';
 
 @Component({
   selector: 'app-edit-dueinvoice',
@@ -11,9 +10,15 @@ import { dateInputsHaveChanged } from '@angular/material/datepicker/datepicker-i
   styleUrls: ['./edit-dueinvoice.component.scss']
 })
 export class EditDueinvoiceComponent implements OnInit {
-
-  duePayment: DuePayment = new DuePayment();
+/* 
+  duePayment: DuePayment = new DuePayment(); */
   id: number;
+  productList = [];
+  currencyList = [];
+  public isLoadingResults = true;
+  public isRateLimitReached = false;
+  public errorMessage = "Unknown Error"
+
 
   constructor(
     private fb: FormBuilder,
@@ -28,41 +33,32 @@ export class EditDueinvoiceComponent implements OnInit {
     invoiceBalance: ['', [Validators.required]],
     savedOn: [''],
     savedIp: [''],
-    active: [''],
+    settle: [''],
     id:[''],
     amcMaster:this.fb.group({
       amcNo:['']
-    }),
-    amcSerial:this.fb.group({
-      amcSerialNo:['']
-    }),
-    product:this.fb.group({
-      productId:['']
     }),
     currency:this.fb.group({
       currencyId:['']
     })
   })
 
-/* need to edit */
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.duePaymentService.getdueinvoicebyid(this.id).subscribe(data=>{
       this.adddueinvoiceForm.patchValue({ 
         id:data.id,
         dueDate:data.due_date, 
-        invoiceBalance:data.invoice_balance,
+        invoiceBalance:data.invoice_payble_lkr,
         invoiceAmt:data.invoice_amount,
         amcMaster:{ amcNo:data.amc_no},
-        product:{ productId:data.product_id},
         currency:{ currencyId:data.currency_id},
-        amcSerial:{ amcSerialNo:data.amc_serialno}
        })
        },
     error => console.log(error));
+    this.loadSelectionData()
   }
 
-  /* need to edit */
   onSubmit(){
     this.duePaymentService.updatedueinvoice(this.id, this.adddueinvoiceForm.value).subscribe(
       data => {
@@ -74,5 +70,25 @@ export class EditDueinvoiceComponent implements OnInit {
    gotoDuepayemtlist(){
     this.router.navigate(['/duepayment']);
    }
+
+   private loadSelectionData() {
+    let currencyListLoad = false, productListLoad = false;
+    this.duePaymentService.getactiveCurrency().subscribe(response => {
+      this.currencyList = response;
+      this.isLoadingResults = ((currencyListLoad = true) && productListLoad) ? false : true;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
+    });
+    this.duePaymentService.getProduct().subscribe(response => {
+      this.productList = response;
+      this.isLoadingResults = ((productListLoad = true) && currencyListLoad) ? false : true;
+    }, error => {
+      this.isLoadingResults = false;
+      this.isRateLimitReached = true;
+      this.errorMessage = error;
+    });
+  }
 
 }

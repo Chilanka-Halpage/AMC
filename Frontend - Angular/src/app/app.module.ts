@@ -1,17 +1,12 @@
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
+import { AccountantGuard } from './_helpers/accountant.guard';
+import { AmccordinatorGuard } from './_helpers/amccordinator.guard';
 import { MessageComponent } from './message/message.component';
-
-//---------
 import { AmcMasterService } from './shared/amc-master.service';
 import { ClientService } from './shared/client.service';
-import { SharedAmcService } from './shared/shared-amc.service';
 import { AddClientComponent } from './clients/add-client/add-client.component';
 import { MaterialModule } from './material/material.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
+import { ErrorHandler, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -27,39 +22,25 @@ import { HomeComponent } from './home/home.component';
 import { ProformaInvoiceComponent } from './proforma-invoice/proforma-invoice.component';
 import { SettingComponent } from './setting/setting.component';
 import { ReportsComponent } from './reports/reports.component';
-import { DashComponent } from './dash/dash.component';
 import { ListcategoryComponent } from './listcategory/listcategory.component'
 import { CategoryserviceService } from './categoryservice.service';
-import { MatInputModule } from '@angular/material/input';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
 //--------------
 
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ReportComponent } from './report/report.component';
 import { GenerateReportComponent } from './generate-report/generate-report.component';
-import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatSelectModule } from '@angular/material/select';
 import { AllAmcFilterComponent } from './Filters/all-amc-filter/all-amc-filter.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { AllAmcReportComponent } from './Reports/all-amc-report/all-amc-report.component';
+import { AllAmcReportComponent } from './reports/all-amc-report/all-amc-report.component';
 import { ClientDetailsFilterComponent } from './Filters/client-details-filter/client-details-filter.component';
 import { AllClientsDetailsFilterComponent } from './Filters/all-clients-details-filter/all-clients-details-filter.component';
-import { AllClientsDetailsReportComponent } from './Reports/all-clients-details-report/all-clients-details-report.component';
-import { UsersFilterComponent } from './Filters/users-filter/users-filter.component';
-
+import { AllClientsDetailsReportComponent } from './reports/all-clients-details-report/all-clients-details-report.component';
 import { AllAmcsService } from './data/all-amcs/all-amcs.service';
-//-------------------------
 import { AuthenticationGuard } from './_helpers/authentication.guard';
+import { ClientGuard } from './_helpers/client.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { MatCardModule } from '@angular/material/card';
 import { LoginComponent } from './login/login.component';
 import { TokenInterceptor } from './_helpers/token.interceptor';
 import { TaxListComponent } from './tax-list/tax-list.component';
@@ -105,7 +86,23 @@ import { AmcSerialListComponent } from './amcs/amc-serial-list/amc-serial-list.c
 import { AmcFullDataComponent } from './amcs/amc-full-data/amc-full-data.component';
 import { AmcRenewEditComponent } from './amcs/amc-renew-edit/amc-renew-edit.component';
 import { NotifierComponent } from './notifier/notifier.component';
+import { AmcHistoryViewComponent } from './amcs/amc-history-view/amc-history-view.component';
 
+import { RevalueComponent } from './revalue/revalue.component';
+import { SalesComponent } from './sales/sales.component';
+import { AMCStatusComponent } from './amcstatus/amcstatus.component';
+import { LogDetailsComponent } from './log-details/log-details.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { ResetPageComponent } from './forgotPassword/reset-page/reset-page.component';
+import { PageComponent } from './forgotPassword/page/page.component';
+import { PageserviceService } from './pageservice.service';
+import { UpdateuserComponent } from './updateuser/updateuser.component';
+import { NotificationComponent } from './notification/notification.component';
+import { LoginDetailsComponent } from './login-details/login-details.component';
+import { QuarterWiseReportComponent } from './Filters/quarter-wise-report/quarter-wise-report.component';
+import { QuarterWiseRevenueReportComponent } from './reports/quarter-wise-report/quarter-wise-revenue-report.component';
+import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -115,7 +112,6 @@ import { NotifierComponent } from './notifier/notifier.component';
     ProformaInvoiceComponent,
     SettingComponent,
     ReportsComponent,
-    DashComponent,
     AppComponent,
     AddClientComponent,
     ClientListComponent,
@@ -136,7 +132,6 @@ import { NotifierComponent } from './notifier/notifier.component';
     ClientDetailsFilterComponent,
     AllClientsDetailsFilterComponent,
     AllClientsDetailsReportComponent,
-    UsersFilterComponent,
     TaxListComponent,
     InvoiceListComponent,
     CreateInvoiceComponent,
@@ -181,7 +176,21 @@ import { NotifierComponent } from './notifier/notifier.component';
     AmcSerialListComponent,
     AmcFullDataComponent,
     AmcRenewEditComponent,
-    NotifierComponent
+    NotifierComponent,
+    AmcHistoryViewComponent,
+    RevalueComponent,
+    SalesComponent,
+    AMCStatusComponent,
+    LogDetailsComponent,
+    ClientdashtableComponent,
+    PageComponent,
+    ResetPageComponent,
+    UpdateuserComponent,
+    NotificationComponent,
+    LoginDetailsComponent,
+    QuarterWiseReportComponent,
+    QuarterWiseRevenueReportComponent,
+    EditInvoiceComponent,
   ],
   imports: [
     BrowserModule,
@@ -202,18 +211,25 @@ import { NotifierComponent } from './notifier/notifier.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ImageCropperModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger', 
+    })
   ],
   providers: [
     ClientService,
     AmcMasterService,
-    SharedAmcService,
     CategoryserviceService,
     AllAmcsService,
     UserserviceService,
     FrequencyserviceService,
     ProductserviceService,
     NotificationService,
+    AmccordinatorGuard,
+    AccountantGuard,
+    PageserviceService,
     AuthenticationGuard,
+    ClientGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

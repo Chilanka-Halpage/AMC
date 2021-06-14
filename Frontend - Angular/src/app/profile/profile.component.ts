@@ -3,7 +3,10 @@ import { from } from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router'
 import {Users } from '../data/Users/users'
 import { UsersService } from '../data/Users/users.service';
-import {ImageService} from '../data/image-service.service'
+import {ImageService} from '../data/image-service.service';
+import { error } from 'selenium-webdriver';
+import { NotificationService } from '../shared/notification.service';
+import { AuthenticationService } from '../_helpers/authentication.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,31 +17,34 @@ export class ProfileComponent implements OnInit {
   userId : String
   users: Users
   imgSource : String
+  public isLoadingResults = true;
+  public isRateLimitReached =false;
+  public imageSrc: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private usersService: UsersService,
-    private imageService: ImageService) { }
-    public imageSrc: string;
+    private imageService: ImageService,
+    private notificationService: NotificationService,
+    public _authentication: AuthenticationService,
+    ) { }
 
   ngOnInit(): void {
-    this.userId=this.route.snapshot.params['userId']
     this.users=new Users();
-    this.usersService.getUsersById(this.userId).subscribe(data =>{
-      console.log(data);
+    this.usersService.getUsersById(this._authentication.userId).subscribe(data =>{
       this.users=data;
+      this.imageSrc= this.imageService.Image(this._authentication.userId);
+      this.isLoadingResults = false;
+    },
+    (error)=>{
+      const errMessage =(error.status === 0 || error.status===401 || error.status===403)?error.error : 'Cannot proceed the request. try again!'
+      this.notificationService.showNoitfication(errMessage, 'OK', 'error', null);
+      this.isLoadingResults = false;
     })
-    //get image--------------------
-    this.imageService.getImage(this.userId).subscribe(
-      Response =>{
-        this.imgSource = Response;
-      }
-    )
-    this.imageSrc= this.imageService.Image(this.userId);
   }
 
   editprofile (userId: String){
-    this.router.navigate(['editprofile',userId])
+    this.router.navigate(['editprofile',this._authentication.userId])
     }
 }

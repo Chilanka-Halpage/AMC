@@ -1,11 +1,13 @@
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 <div style="background-color: rgb(255, 255, 255);">
     <div class="container" class="class1">
         <div>
             <h2>Renewal AMCs Details Report</h2>
-            <form action="" [formGroup]="RenewalAmcsFilter" (ngSubmit)="onSubmit()">
-                <mat-selection-list #shoes [multiple]="false" formControlName="num">
-                  <mat-divider></mat-divider>
-                    <mat-list-option [value]="1">within one month</mat-list-option>
+            <form action="" [formGroup]="RenewalAmcsFilter">
+                <mat-selection-list #months [multiple]="false" formControlName="num" required>
+                    <mat-list-option [value]="1" >within one month</mat-list-option>
                     <mat-divider></mat-divider>
                     <mat-list-option [value]="2" >within two month</mat-list-option>
                     <mat-divider></mat-divider>
@@ -13,9 +15,9 @@
                   </mat-selection-list>
                   <br>
                   <p>
-                    Option selected: {{shoes.selectedOptions.selected[0]?.value}}
+                    Option selected: {{months.selectedOptions.selected[0]?.value}}
                   </p>
-                <button type="submit" mat-raised-button color="primary" mat-dialog-close>Generate Report</button>
+                <button class="btn btn-primary" type="submit" mat-dialog-close mat-raised-button [disabled]="RenewalAmcsFilter.get('num').errors?.required" (click)="onSubmit()">Generate Report</button>
             </form>
         </div>
     </div>

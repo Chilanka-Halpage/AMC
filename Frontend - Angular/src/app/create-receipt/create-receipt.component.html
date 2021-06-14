@@ -1,56 +1,53 @@
 <div class="container-md mb-4">
     
     <div class="jumbotron mb-3">
-        <h3>Add Receipt</h3>
+        <h2>Create Receipt</h2>
+        <p>New Receipt and Payment details</p>
     </div>
-    <br>
-    <div class="card">
-        <div class="card-header">
-          <div class="col-6">
-            <h5>General details for Receipt</h5>
-            <p class="mb-1">Fill out the details </p>
-          </div>
-            <div class="d-flex flex-row-reverse my-0 py-3 pr-2">  
-            <button mat-button class="btn btn-success mr-3" (click)="goTopaymentlist()" >History</button>
-            </div>
-        
-        </div>
+    <div class="d-flex flex-row-reverse my-0 py-3 ">  
+      <button  mat-raised-button class="btn btn-primary mr-2" (click)="goTopaymentlist()" >History</button>
+      </div>
+    <div class="card background-color">      
         <div class="container pt-3">
-            <h6>Receipt Details</h6>
+            <h5>Receipt Details</h5>
             <mat-divider class="mat-divider"></mat-divider>
             <br/>
             <form [formGroup]="addReceiptForm" (ngSubmit)="onSubmit()">
                 <div class="row px-0">
                     <mat-form-field appearance="outline" class="col-6">
                       <mat-label>recNo:</mat-label>
-                      <input type="text" matInput formControlName="recNo" >   
+                      <input type="text" matInput formControlName="recNo" >  
+                      <mat-error *ngIf="addReceiptForm.controls['recNo'].errors?.receiptExists">recNo already exists </mat-error> 
+                      <mat-error *ngIf="addReceiptForm.controls['recNo'].touched && addReceiptForm.controls['recNo'].errors?.required">recNo required </mat-error> 
                     </mat-form-field>             
                       <mat-form-field appearance="outline"  class="col pl-2">
                         <mat-label>recDate</mat-label>
-                        <input matInput formControlName="recDate" [matDatepicker]="start_date" />
+                        <input matInput formControlName="recDate" [matDatepicker]="start_date" />                       
+                      <mat-error *ngIf="addReceiptForm.controls['recDate'].touched">Rec Date required </mat-error>                  
                         <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
                         <mat-datepicker #start_date></mat-datepicker>
                     </mat-form-field>
                   </div>
                   <div class="row px-0">
                     <mat-form-field appearance="outline" class="col-6">
-                      <mat-label>exchageRate:</mat-label>
-                      <input type="number" matInput formControlName="exchageRate" >   
+                      <mat-label>paymode:</mat-label>
+                      <input type="text" matInput formControlName="payMode">   
+                    
                     </mat-form-field>             
                     <mat-form-field appearance="outline" class="col pl-2">
                         <mat-label>description:</mat-label>
                         <input type="text" matInput formControlName="description">   
-                      </mat-form-field>
+                    </mat-form-field>
                   </div>
                   <br>
                   <div class="row px-0">
                     <mat-form-field appearance="outline" class="col-4">
-                      <mat-label>paymode:</mat-label>
-                      <input type="text" matInput formControlName="payMode">   
+                      <mat-label>exchageRate:</mat-label>
+                      <input type="number" matInput formControlName="exchageRate" >   
                     </mat-form-field>             
                     <mat-form-field appearance="outline" class="col pl-2">
-                        <mat-label>total:</mat-label>
-                        <input type="number" matInput formControlName="total" >   
+                      <mat-label>total:</mat-label>
+                      <input type="text" matInput formControlName="total" >   
                     </mat-form-field>
                     <mat-form-field appearance="outline" class="col pl-2">
                         <mat-label>balance:</mat-label>
@@ -59,24 +56,17 @@
                   </div>
                   <br>
                   <div class="row px-0">
-                    <mat-form-field appearance="outline" class="col-6">
+                    <mat-form-field appearance="outline" class="col-6">                    
                       <mat-label>totalLkr:</mat-label>
-                      <input type="text" matInput formControlName="totalLkr" >   
+                      <input type="number" matInput formControlName="totalLkr" >  
                     </mat-form-field>             
                     <mat-form-field appearance="outline" class="col pl-2">
                         <mat-label>balanceLkr:</mat-label>
                         <input type="number" matInput formControlName="balanceLkr" >   
                     </mat-form-field>                  
                   </div>
-                  <div class="row px-0">
-                    <mat-checkbox formControlName="cancel" class="col-md-4" (click)="Showtoggle()">cancel or not</mat-checkbox>                 
-                    <mat-form-field *ngIf="showme" class="col-md-8">
-                    <mat-label>cancel reason</mat-label>
-                    <input matInput formControlName="cancelReason">
-                  </mat-form-field>
-                  </div>
                   <br>
-                  <h6>Other Details</h6>
+                  <h5>Other Details</h5>
                  <!--  details for joined tables -->
                   <mat-divider class="mat-divider"></mat-divider>
                   <br />
@@ -88,35 +78,35 @@
                           <input type="text" matInput formControlName="amcNo" > 
                        </mat-form-field> 
                       </div>  
-                  <div formGroupName="currency">        
+                  <div>        
                     <mat-form-field appearance="outline" class="col pl-2">
-                        <mat-label>currencyId:</mat-label>
-                        <input type="number" matInput formControlName="currencyId" >   
+                      <mat-label>Currency</mat-label>
+                      <input type="text" matInput formControlName="currencyName" > 
                     </mat-form-field>
                   </div>
                   <div formGroupName="clientDepartment">
                     <mat-form-field appearance="outline" class="col pl-3">
                         <mat-label>deptId:</mat-label>
-                        <input type="number" matInput formControlName="deptId" >   
+                        <input type="text" matInput formControlName="deptName">
                     </mat-form-field> 
                   </div>                  
                   </div>
                   <div class="row px-0">
-                    <div formGroupName="category">
+                    <div >
                     <mat-form-field appearance="outline" class="col-12">
-                      <mat-label> categoryId</mat-label>
-                      <input type="text" matInput formControlName="categoryId">   
+                      <mat-label>Category</mat-label>
+                      <input type="text" matInput formControlName="categoryName"> 
                     </mat-form-field> 
                   </div> 
                   <div formGroupName="invoice">          
                     <mat-form-field appearance="outline" class="col-12">
-                        <mat-label> piNo:</mat-label>
-                        <input type="number" matInput formControlName="piNo" >   
+                      <mat-label>Invoice No</mat-label>
+                      <input type="text" matInput formControlName="piNo" > 
                     </mat-form-field>  
                   </div>          
                   </div>
                   <div class="d-flex flex-row-reverse my-0">
-                    <button class="btn btn-success mb-3" type="submit">submit</button>
+                    <button class="btn btn-success mb-3" type="submit" [disabled]="ReceiptSavingProgress"><span *ngIf="ReceiptSavingProgress" class="spinner-border spinner-border-sm mr-1"></span>submit</button>
                    </div>
             </form>
         </div>    

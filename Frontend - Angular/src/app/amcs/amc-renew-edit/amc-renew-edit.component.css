@@ -1,8 +1,17 @@
-.amc-grid div :first-child, textarea {
-    color: darkred;
+h2 {
+  color: red;
 }
 .amc-grid {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+}
+mat-form-field{
+  color: darkred
+}
+mat-form-field :disabled, textarea{
+  color: red
+}
+mat-label{
+  color: blue;
 }
 
 .loading-shade {
@@ -22,4 +31,9 @@
     color: #980000;
     max-width: 360px;
     text-align: center;
+  }
+
+  .error-message{
+    background: red;
+    color: white;
   }

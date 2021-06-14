@@ -1,52 +1,55 @@
-<section>
-<mat-card>
-    <mat-card-content>
-      
-      <div class="header">
-        <h1><b>LOGIN</b></h1>
-      </div>
-      <!-- <mat-grid-list cols="2" rowHeight="250px">
-        <mat-grid-tile ><img class="image"width="250px" height="150px" src="assets/epic-lanka-logo.png"></mat-grid-tile>
-        <mat-grid-tile > -->
-      <form (ngSubmit)="onLogin()" name="loginForm" [formGroup]="loginForm">
-       
-        <div class="UserIdInput">
+<body>
+    <div class="container" id="container" >   
+    <div class="form-container sign-in-container">
+      <form  name="loginForm" [formGroup]="loginForm" *ngIf="!_authentication.loggedIn()">
+        <h1 style="margin-bottom: 50px;">Login</h1>
+        <div class="alert alert-danger fade show" *ngIf="showMessage" >Token is expired
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        <div  *ngIf="isLoadingResults || isRateLimitReached">
+          <div class="alert alert-danger alert-dismissible fade show ml-4 mr-4" *ngIf="isRateLimitReached">
+              {{errorMessage}}
+               <!-- <button type="button" class="close" data-dismiss="alert">&times;</button>  -->
+          </div>
+        </div> 
+        <div>
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>UserId</mat-label>
-            <input
-              formControlName="userId"
-              matInput
-              placeholder="Enter UserId" required/>
-            <mat-error *ngIf="!loginForm.controls['userId'].valid">
-                UserId is required
-              </mat-error>
+            <input formControlName="userId" matInput placeholder="Enter UserId" required />
+            <mat-error *ngIf="!loginForm.controls['userId'].valid"> UserId is required </mat-error>
           </mat-form-field>
         </div>
-        <div >
-          
-          <mat-form-field class="full-width" appearance="outline"  style="margin-top: 15px;">
-            <mat-label>Password</mat-label>
-            <input formControlName="password" matInput [type]=" hide ? 'password' : 'text'" required />
-            <!-- <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
-            [attr.aria-pressed]="hide"> <mat-icon>visibility</mat-icon>
-        </button> -->
-        <mat-error *ngIf="!loginForm.controls['password'].valid">
-            Password is required
-          </mat-error>
+        <div>  
+          <mat-form-field class="full-width" appearance="outline" >
+          <mat-label>Password</mat-label>
+          <button style="vertical-align: middle;" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <input formControlName="password" matInput [type]=" hide ? 'password' : 'text'" required />
+         <mat-error *ngIf="loginForm.controls['password'].errors?.required ">Password is required</mat-error>
+         <mat-error *ngIf="!loginForm.controls['password'].valid && loginForm.controls['password'].touched">Password must be at least 8 characters</mat-error>            
         </mat-form-field>
-     
-          <a class="text-link" class="aLink" routerLink="">Forgot Password?</a>
-            
         </div>
-        <div class="button">
-        <button mat-flat-button color="primary" style="border-radius:10px; width : 10em;" >Login</button> 
-       </div>
-      
-      </form>
-   <!--  </mat-grid-tile>
- 
-    </mat-grid-list> -->
-      <br>    
-    </mat-card-content>
-  </mat-card>
-</section>
+        <a class="text-link" (click)="forgotpassword()">Forgot your password?</a>
+        <button class="ghost" mat-flat-button (click)="onLogin()" [disabled]="isLoadingResults"><span *ngIf="isLoadingResults" class="spinner-border spinner-border-sm mr-4"></span>Login</button>
+       </form>
+       <form  name="loginForm" [formGroup]="loginForm" *ngIf="_authentication.loggedIn()">
+         <h2>Do you want to log out</h2>
+        <button  class="ghost" (click) = "logout()">Logout</button>
+        <h2 class="mt-3">or</h2>
+        <h2>Go to Home</h2>
+        <button  class="ghost" (click) = "gotoadminhome()" *ngIf="_authentication.role === 'ROLE_ADMIN' || _authentication.role === 'ROLE_AMC_COORDINATOR' || _authentication.role === 'ROLE_ACCOUNTANT'">Home</button>
+        <button  class="ghost" (click) = "gotoclienthome()" *ngIf="_authentication.role === 'ROLE_CLIENT'">Home</button>
+       </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-right">
+          <h1 style="margin-bottom: 55px;" *ngIf="!_authentication.loggedIn()">Welcome Back!</h1>
+          <img class="img-responsive" src="assets/epic.png" style="width: 200px; margin-bottom: 150px;">
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
+    
